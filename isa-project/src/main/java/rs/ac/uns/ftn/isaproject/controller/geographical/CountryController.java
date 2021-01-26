@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rs.ac.uns.ftn.isaproject.model.geographical.Country;
+import rs.ac.uns.ftn.isaproject.dto.geographical.CountryDTO;
+import rs.ac.uns.ftn.isaproject.mapper.CountryMapper;
 import rs.ac.uns.ftn.isaproject.service.geographical.CountryService;
 
 
@@ -23,9 +24,8 @@ public class CountryController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Collection<Country>> findAll(){
-		Collection<Country> countries =  countryService.findAll();
-		
+	public ResponseEntity<Collection<CountryDTO>> findAll(){
+		Collection<CountryDTO> countries = CountryMapper.toCountryDTOs(countryService.findAll());
 		return new ResponseEntity<>(countries, HttpStatus.OK);
 	}
 	
