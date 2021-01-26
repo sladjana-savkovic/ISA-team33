@@ -24,3 +24,28 @@ insert into dermatologist (id, name, surname, email, password) values (nextval('
 
 insert into dermatologist_pharmacies (dermatologist_id,pharmacies_id) values (2,1);
 insert into dermatologist_pharmacies (dermatologist_id,pharmacies_id) values (2,2);
+
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (1, 'Amoksicilin', 1, 1, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (2, 'Cefaleksin', 1, 2, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (3, 'Brufen', 0, 0, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (4, 'Probiotik Forte', 3, 3, 'Hemofarm');
+
+insert into drug_pharmacy (drug_id,pharmacy_id) values (1,1);
+insert into drug_pharmacy (drug_id,pharmacy_id) values (2,1);
+insert into drug_pharmacy (drug_id,pharmacy_id) values (3,1);
+insert into drug_pharmacy (drug_id,pharmacy_id) values (1,2);
+insert into drug_pharmacy (drug_id,pharmacy_id) values (2,2);
+
+insert into ingredient (id, name) values (1, 'Paracetamol');
+insert into ingredient (id, name) values (2, 'Mg');
+insert into ingredient (id, name) values (3, 'Fiziološki rastvor');
+insert into ingredient (id, name) values (4, 'Etanol');
+
+insert into drug_ingredient (drug_id, ingredient_id) values (1,1);
+insert into drug_ingredient (drug_id, ingredient_id) values (1,2);
+insert into drug_ingredient (drug_id, ingredient_id) values (2,1);
+insert into drug_ingredient (drug_id, ingredient_id) values (2,3);
+insert into drug_ingredient (drug_id, ingredient_id) values (3,1);
+insert into drug_ingredient (drug_id, ingredient_id) values (3,3);
+insert into drug_ingredient (drug_id, ingredient_id) values (4,1);
+insert into drug_ingredient (drug_id, ingredient_id) values (4,4);
