@@ -16,6 +16,9 @@ public class Doctor extends User{
 	@Column(unique=false, nullable=false)
 	private TypeOfDoctor typeOfDoctor;
 	
+	@Column(unique=false, nullable=true)
+	private double averagePrice;
+	
 	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<WorkingTime> workingTimes = new HashSet<WorkingTime>();
 	

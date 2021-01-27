@@ -13,15 +13,15 @@ insert into city (id,name,country_id) values (5,'Zagreb',4);
 insert into city (id,name,country_id) values (6,'Skoplje',5);
 insert into city (id,name,country_id) values (7,'Ljubljana',6);
 
-insert into pharmacy (id, name, city_id) values (1,'Janković',1);
-insert into pharmacy (id, name, city_id) values (2,'Pharma',2);
-insert into pharmacy (id, name, city_id) values (3,'Betty',2);
-insert into pharmacy (id, name, city_id) values (4,'Crvena apoteka',3);
+insert into pharmacy (id, name, average_price, city_id) values (1,'Janković', 4.5, 1);
+insert into pharmacy (id, name, average_price, city_id) values (2,'Pharma', 5.0, 2);
+insert into pharmacy (id, name, average_price, city_id) values (3,'Betty',3.7, 2);
+insert into pharmacy (id, name, average_price, city_id) values (4,'Crvena apoteka', 4.8, 3);
 
-insert into doctor (id, name, surname, email, password, type_of_doctor,city_id) 
-					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234',0,1);
-insert into doctor (id, name, surname, email, password,type_of_doctor,city_id) 
-					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234',1,2);
+insert into doctor (id, name, surname, email, password, average_price, type_of_doctor,city_id) 
+					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234', 4.8, 0,1);
+insert into doctor (id, name, surname, email, password, average_price, type_of_doctor,city_id) 
+					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234',3.9, 1,2);
 					   
 insert into patient(id, name, surname, email, password,city_id,penalty) 
 					values (nextval('users_seq'),'Pera','Perić','pera.peric@gmail.com','pera1234',1,0);
@@ -120,9 +120,9 @@ insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','16:00:00',2,1);
 
-insert into vacation_request(id,start_date,end_date,is_confirmed,reason_for_rejection,doctor_id)
-				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',true,null,1);
-insert into vacation_request(id,start_date,end_date,is_confirmed,reason_for_rejection,doctor_id)
-				values (nextval('vacation_seq'),'2021-01-25','2021-02-25',false,'Nemamo dovoljno radnog kapaciteta',2);
-insert into vacation_request(id,start_date,end_date,is_confirmed,reason_for_rejection,doctor_id)
-				values (nextval('vacation_seq'),'2021-03-01','2021-03-10',false,'Nemamo dovoljno radnog kapaciteta',2);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id)
+				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',0,null,1);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id)
+				values (nextval('vacation_seq'),'2021-01-25','2021-02-25',1,'Nemamo dovoljno radnog kapaciteta.',2);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id)
+				values (nextval('vacation_seq'),'2021-03-01','2021-03-10',1,'U tom periodu imate zakazane termine.',2);

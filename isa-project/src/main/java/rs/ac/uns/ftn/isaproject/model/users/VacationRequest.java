@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import rs.ac.uns.ftn.isaproject.model.enums.VacationRequestStatus;
+
 @Entity
 public class VacationRequest {
 
@@ -27,7 +29,7 @@ public class VacationRequest {
 	private LocalDate endDate;
 	
 	@Column(unique=false, nullable=false)
-	private boolean isConfirmed;
+	private VacationRequestStatus status;
 	
 	@Column(unique=false, nullable=true)
 	private String reasonForRejection;

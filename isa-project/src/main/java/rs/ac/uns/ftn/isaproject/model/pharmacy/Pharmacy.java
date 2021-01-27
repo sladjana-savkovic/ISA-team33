@@ -25,6 +25,9 @@ public class Pharmacy {
 	@Column(unique = false, nullable = false)
 	private String name;
 	
+	@Column(unique=false, nullable=true)
+	private double averagePrice;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
