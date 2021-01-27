@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-public class Offer {
+public class DrugOffer {
 
 	@Id
 	@SequenceGenerator(name = "offersSeqGen", sequenceName = "offersSeq", initialValue = 1, allocationSize = 1)
