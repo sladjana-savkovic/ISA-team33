@@ -31,4 +31,45 @@ public class Offer {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private PharmacyOrder pharmacyOrder;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public boolean isAccepted() {
+		return isAccepted;
+	}
+
+	public void setAccepted(boolean isAccepted) {
+		this.isAccepted = isAccepted;
+	}
+
+	public LocalDate getLimitDate() {
+		return limitDate;
+	}
+
+	public void setLimitDate(LocalDate limitDate) {
+		this.limitDate = limitDate;
+	}
+
+	public PharmacyOrder getPharmacyOrder() {
+		return pharmacyOrder;
+	}
+
+	public void setPharmacyOrder(PharmacyOrder pharmacyOrder) {
+		this.pharmacyOrder = pharmacyOrder;
+	}
+	
 }

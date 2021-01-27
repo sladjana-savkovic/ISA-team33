@@ -94,8 +94,8 @@ insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),12,2);
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),45,1);
 
-insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2021-02-02');
-insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2021-03-03');
+insert into pharmacy_order (id, limit_date, is_finished) values (nextval('orders_seq'), '2021-01-31', true);
+insert into pharmacy_order (id, limit_date, is_finished) values (nextval('orders_seq'), '2021-03-03', false);
 
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);

@@ -25,6 +25,9 @@ public class PharmacyOrder {
 	@Column(unique=false, nullable=false)
 	private LocalDate limitDate;
 	
+	@Column(unique=false, nullable=false)
+	private boolean isFinished;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<OrderedDrug> orderedDrugs = new HashSet<OrderedDrug>();
 
