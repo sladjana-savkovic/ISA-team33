@@ -92,3 +92,14 @@ insert into examination_therapies (examination_id,therapies_id) values (1,1);
 insert into examination_therapies (examination_id,therapies_id) values (1,2);
 insert into examination_therapies (examination_id,therapies_id) values (2,3);
 insert into examination_therapies (examination_id,therapies_id) values (3,4);
+
+insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),33,1);
+insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),12,2);
+insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),45,1);
+
+insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2020-02-02');
+insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2020-03-03');
+
+insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
+insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);
+insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (2, 3);

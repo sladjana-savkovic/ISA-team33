@@ -10,7 +10,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 @Entity
 public class PharmacyAdministrator extends User{
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Pharmacy pharmacy;
 
 	public Pharmacy getPharmacy() {

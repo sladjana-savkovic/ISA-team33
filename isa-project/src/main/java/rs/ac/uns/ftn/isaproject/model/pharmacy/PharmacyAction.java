@@ -33,7 +33,7 @@ public class PharmacyAction {
 	@Column(unique=false, nullable=false)
 	private LocalDate endDate;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Pharmacy pharmacy;
 
 	public PharmacyAction() {}
