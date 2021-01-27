@@ -3,14 +3,17 @@ package rs.ac.uns.ftn.isaproject.model.pharmacy;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrug;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrugsForm;
@@ -19,7 +22,8 @@ import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrugsForm;
 public class Drug {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "drugsSeqGen", sequenceName = "drugsSeq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "drugsSeqGen")
 	private int id;
 	
 	@Column(unique = false, nullable = false)
@@ -34,12 +38,10 @@ public class Drug {
 	@Column(unique = false, nullable = false)
 	private String producer;
 
-	@ManyToMany
-	@JoinTable(name = "drug_pharmacy", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacy_id", referencedColumnName = "id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 	
-	@ManyToMany
-	@JoinTable(name = "drug_ingredient", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 
 	public Drug() {}

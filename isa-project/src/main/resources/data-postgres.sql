@@ -27,30 +27,31 @@ insert into doctor (id, name, surname, email, password,type_of_doctor) values
 insert into doctor_pharmacies (doctor_id,pharmacies_id) values (2,1);
 insert into doctor_pharmacies (doctor_id,pharmacies_id) values (2,2);
 
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (1, 'Amoksicilin', 1, 1, 'Hemofarm');
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (2, 'Cefaleksin', 1, 2, 'Hemofarm');
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (3, 'Brufen', 0, 0, 'Hemofarm');
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (4, 'Probiotik Forte', 3, 3, 'Hemofarm');
 
-insert into drug_pharmacy (drug_id,pharmacy_id) values (1,1);
-insert into drug_pharmacy (drug_id,pharmacy_id) values (2,1);
-insert into drug_pharmacy (drug_id,pharmacy_id) values (3,1);
-insert into drug_pharmacy (drug_id,pharmacy_id) values (1,2);
-insert into drug_pharmacy (drug_id,pharmacy_id) values (2,2);
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Amoksicilin', 1, 1, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Cefaleksin', 1, 2, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Brufen', 0, 0, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm');
+
+insert into drug_pharmacies (drug_id,pharmacies_id) values (1,1);
+insert into drug_pharmacies (drug_id,pharmacies_id) values (2,1);
+insert into drug_pharmacies (drug_id,pharmacies_id) values (3,1);
+insert into drug_pharmacies (drug_id,pharmacies_id) values (1,2);
+insert into drug_pharmacies (drug_id,pharmacies_id) values (2,2);
 
 insert into ingredient (id, name) values (1, 'Paracetamol');
 insert into ingredient (id, name) values (2, 'Mg');
 insert into ingredient (id, name) values (3, 'Fiziološki rastvor');
 insert into ingredient (id, name) values (4, 'Etanol');
 
-insert into drug_ingredient (drug_id, ingredient_id) values (1,1);
-insert into drug_ingredient (drug_id, ingredient_id) values (1,2);
-insert into drug_ingredient (drug_id, ingredient_id) values (2,1);
-insert into drug_ingredient (drug_id, ingredient_id) values (2,3);
-insert into drug_ingredient (drug_id, ingredient_id) values (3,1);
-insert into drug_ingredient (drug_id, ingredient_id) values (3,3);
-insert into drug_ingredient (drug_id, ingredient_id) values (4,1);
-insert into drug_ingredient (drug_id, ingredient_id) values (4,4);
+insert into drug_ingredients (drug_id, ingredients_id) values (1,1);
+insert into drug_ingredients (drug_id, ingredients_id) values (1,2);
+insert into drug_ingredients (drug_id, ingredients_id) values (2,1);
+insert into drug_ingredients (drug_id, ingredients_id) values (2,3);
+insert into drug_ingredients (drug_id, ingredients_id) values (3,1);
+insert into drug_ingredients (drug_id, ingredients_id) values (3,3);
+insert into drug_ingredients (drug_id, ingredients_id) values (4,1);
+insert into drug_ingredients (drug_id, ingredients_id) values (4,4);
 
 insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pharmacy_id) 
 					values (nextval('examinations_seq'),'2020-12-30 12:00:00','Upala pluća',0,1,1);
@@ -61,3 +62,11 @@ insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,ph
 					values (nextval('examinations_seq'),'2020-11-16 13:00:00','Koristiti redovno propisanu terapiju',1,2,2);
 insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pharmacy_id) 
 					values (nextval('examinations_seq'),'2020-12-03 15:30:00','Popiti jos jednu dozu lijekova',1,2,1);
+					
+insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id) values 
+					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234',1);
+insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id) values 
+					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234',2);
+
+insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2020-02-20', 'Popust na pensionere', '2020-01-31', 1);
+insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2020-03-01', 'Februarski popust', '2020-02-01', 1);
