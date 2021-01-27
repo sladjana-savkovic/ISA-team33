@@ -75,8 +75,8 @@ insert into pharmacy_administrator (id, name, surname, email, password, pharmacy
 insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id) values 
 					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234',2);
 
-insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2020-02-20', 'Popust na pensionere', '2020-01-31', 1);
-insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2020-03-01', 'Februarski popust', '2020-02-01', 1);
+insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2021-02-20', 'Popust na pensionere', '2021-01-31', 1);
+insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2021-03-01', 'Februarski popust', '2021-02-01', 1);
 
 insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,patient_id,pharmacy_id) 
 					values (nextval('examinations_seq'),'2020-12-30 12:00:00','Upala pluća',0,1,3,1);
@@ -94,8 +94,8 @@ insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),12,2);
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),45,1);
 
-insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2020-02-02');
-insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2020-03-03');
+insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2021-02-02');
+insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2021-03-03');
 
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);
@@ -105,3 +105,7 @@ insert into therapy (id, duration, drug_id,examination_id) values (nextval('ther
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 1);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 8, 4, 3);
 
+insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-15', 22000, 1);
+insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1);
+insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-22', 54000, 2);
+insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-17', 56000, 2);
