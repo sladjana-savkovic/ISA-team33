@@ -29,7 +29,7 @@ public class PharmacyOrder {
 	private boolean isFinished;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<OrderedDrug> orderedDrugs = new HashSet<OrderedDrug>();
+	private Set<DrugQuantity> orderedDrugs = new HashSet<DrugQuantity>();
 
 	public int getId() {
 		return id;
@@ -47,11 +47,11 @@ public class PharmacyOrder {
 		this.limitDate = limitDate;
 	}
 
-	public Set<OrderedDrug> getOrderedDrugs() {
+	public Set<DrugQuantity> getOrderedDrugs() {
 		return orderedDrugs;
 	}
 
-	public void setOrderedDrugs(Set<OrderedDrug> orderedDrugs) {
+	public void setOrderedDrugs(Set<DrugQuantity> orderedDrugs) {
 		this.orderedDrugs = orderedDrugs;
 	}
 	

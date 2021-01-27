@@ -11,12 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import rs.ac.uns.ftn.isaproject.model.enums.PurposeOfDrugQuantity;
+
 @Entity
-public class OrderedDrug {
+public class DrugQuantity {
 
 	@Id
-	@SequenceGenerator(name = "orderdrugsSeqGen", sequenceName = "orderdrugsSeq", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderdrugsSeqGen")
+	@SequenceGenerator(name = "drugquantitiesSeqGen", sequenceName = "drugquantitiesSeq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "drugquantitiesSeqGen")
 	private int id;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
@@ -24,6 +26,9 @@ public class OrderedDrug {
 	
 	@Column(unique=false, nullable=false)
 	private int quantity;
+	
+	@Column(unique=false, nullable=false)
+	private PurposeOfDrugQuantity purpose;
 
 	public int getId() {
 		return id;

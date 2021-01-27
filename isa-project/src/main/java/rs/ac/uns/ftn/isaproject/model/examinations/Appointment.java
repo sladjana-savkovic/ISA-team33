@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.isaproject.model.examinations;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,13 +27,10 @@ public class Appointment {
 	private TypeOfAppointment typeOfAppointment;
 	
 	@Column(unique=false, nullable=false)
-	private LocalDate date;
+	private LocalDateTime startTime;
 	
 	@Column(unique=false, nullable=false)
-	private LocalTime startTime;
-	
-	@Column(unique=false, nullable=false)
-	private LocalTime endTime;
+	private LocalDateTime endTime;
 	
 	@Column(unique=false, nullable=false)
 	private double price;
