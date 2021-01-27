@@ -16,13 +16,6 @@ class Ingredient {
 	@Column(unique = false, nullable = false)
 	private String name;
 	
-	public Ingredient() {}
-	
-	public Ingredient(int id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
 
 	public int getId() {
 		return id;
