@@ -109,3 +109,10 @@ insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) 
 insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1);
 insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-22', 54000, 2);
 insert into offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-17', 56000, 2);
+
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 350, 1, 1);
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 370, 1, 1);
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 340, 2, 1);
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 770, 1, 2);
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 1650, 1, 3);
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 150, 1, 4);
