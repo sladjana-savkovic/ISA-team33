@@ -6,5 +6,5 @@ public enum TypeOfDrug {
 	Antiseptic,
 	Probiotic,
 	Antipyretic,
-	Analgesics
+	Analgetics
 }

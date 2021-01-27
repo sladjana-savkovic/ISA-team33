@@ -18,12 +18,14 @@ insert into pharmacy (id, name, city_id) values (2,'Pharma',2);
 insert into pharmacy (id, name, city_id) values (3,'Betty',2);
 insert into pharmacy (id, name, city_id) values (4,'Crvena apoteka',3);
 
-insert into pharmacist (id, name, surname, email, password,pharmacy_id) values 
+insert into doctor (id, name, surname, email, password, type_of_doctor) values 
+						(nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234',0);
+insert into doctor (id, name, surname, email, password,type_of_doctor) values 
 					   (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234',1);
-insert into dermatologist (id, name, surname, email, password) values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234');
+	
 
-insert into dermatologist_pharmacies (dermatologist_id,pharmacies_id) values (2,1);
-insert into dermatologist_pharmacies (dermatologist_id,pharmacies_id) values (2,2);
+insert into doctor_pharmacies (doctor_id,pharmacies_id) values (2,1);
+insert into doctor_pharmacies (doctor_id,pharmacies_id) values (2,2);
 
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (1, 'Amoksicilin', 1, 1, 'Hemofarm');
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (2, 'Cefaleksin', 1, 2, 'Hemofarm');
@@ -50,10 +52,12 @@ insert into drug_ingredient (drug_id, ingredient_id) values (3,3);
 insert into drug_ingredient (drug_id, ingredient_id) values (4,1);
 insert into drug_ingredient (drug_id, ingredient_id) values (4,4);
 
-insert into examination (id,date_time,diagnosis,dermatologist_id) values (nextval('examinations_seq'),'2020-12-30 12:00:00','Upala pluća',2);
-insert into examination (id,date_time,diagnosis,dermatologist_id) values (nextval('examinations_seq'),'2021-01-13 07:30:00','Glavobolja',2);
-
-insert into consultation (id,date_time,diagnosis,pharmacist_id) 
-	values (nextval('examinations_seq'),'2020-11-16 13:00:00','Koristiti redovno propisanu terapiju',1);
-insert into consultation (id,date_time,diagnosis,pharmacist_id) 
-	values (nextval('examinations_seq'),'2020-12-03 15:30:00','Popiti jos jednu dozu lijekova',1);
+insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pharmacy_id) 
+					values (nextval('examinations_seq'),'2020-12-30 12:00:00','Upala pluća',0,1,1);
+insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pharmacy_id) 
+					values (nextval('examinations_seq'),'2021-01-13 07:30:00','Glavobolja',0,1,2);
+			
+insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pharmacy_id) 
+					values (nextval('examinations_seq'),'2020-11-16 13:00:00','Koristiti redovno propisanu terapiju',1,2,2);
+insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pharmacy_id) 
+					values (nextval('examinations_seq'),'2020-12-03 15:30:00','Popiti jos jednu dozu lijekova',1,2,1);
