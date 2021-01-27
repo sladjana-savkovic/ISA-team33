@@ -26,5 +26,5 @@ public class Therapy {
 	private Drug drug;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-	private Examination examination;
+	private ExaminationReport examination;
 }

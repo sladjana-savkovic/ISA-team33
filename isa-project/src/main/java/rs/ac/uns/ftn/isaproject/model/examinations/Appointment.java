@@ -1,8 +1,7 @@
 package rs.ac.uns.ftn.isaproject.model.examinations;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,29 +10,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import rs.ac.uns.ftn.isaproject.model.enums.TypeOfExamination;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfAppointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
 
 @Entity
-public class Examination{
-	
+public class Appointment {
+
 	@Id
-	@SequenceGenerator(name = "examinationsSeqGen", sequenceName = "examinationsSeq", initialValue = 1, allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "examinationsSeqGen")
+	@SequenceGenerator(name = "appointmentsSeqGen", sequenceName = "appointmentsSeq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointmentsSeqGen")
 	private int id;
+
+	@Column(unique=false, nullable=false)
+	private TypeOfAppointment typeOfAppointment;
 	
 	@Column(unique=false, nullable=false)
-	private LocalDateTime dateTime;
+	private LocalDate date;
 	
 	@Column(unique=false, nullable=false)
-	private String diagnosis;
+	private LocalTime startTime;
 	
 	@Column(unique=false, nullable=false)
-	private TypeOfExamination typeOfExamination;
+	private LocalTime endTime;
+	
+	@Column(unique=false, nullable=false)
+	private double price;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private Doctor doctor;
@@ -43,8 +47,4 @@ public class Examination{
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private Patient patient;
-	
-	@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Therapy> therapies = new HashSet<Therapy>();
-	
 }

@@ -1,4 +1,4 @@
-insert into country (id,name) values (1,'Srbija');
+/*insert into country (id,name) values (1,'Srbija');
 insert into country (id,name) values (2,'BiH');
 insert into country (id,name) values (3,'Crna Gora');
 insert into country (id,name) values (4,'Hrvatska');
@@ -115,4 +115,4 @@ insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) va
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 340, 2, 1);
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 770, 1, 2);
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 1650, 1, 3);
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 150, 1, 4);
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 150, 1, 4);*/

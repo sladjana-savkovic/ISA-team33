@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
-import rs.ac.uns.ftn.isaproject.model.examinations.Examination;
+import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 
 @Entity
@@ -22,5 +22,5 @@ public class Doctor extends User{
 	private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 	
 	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Examination> examinations = new HashSet<Examination>();
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 }
