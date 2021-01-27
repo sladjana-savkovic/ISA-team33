@@ -20,7 +20,7 @@ public class City {
 	@Column(unique = false, nullable = false)
 	private String name;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Country country;
 	
 
