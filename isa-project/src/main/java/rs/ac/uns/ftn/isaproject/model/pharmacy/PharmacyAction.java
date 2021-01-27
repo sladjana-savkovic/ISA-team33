@@ -36,16 +36,6 @@ public class PharmacyAction {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Pharmacy pharmacy;
 
-	public PharmacyAction() {}
-	
-	public PharmacyAction(int id, String name, String description, LocalDate startDate, LocalDate endDate) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
 
 	public int getId() {
 		return id;

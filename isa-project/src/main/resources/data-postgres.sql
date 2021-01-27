@@ -38,6 +38,8 @@ insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Brufen', 0, 0, 'Hemofarm');
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm');
 
+insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (1,3);
+
 insert into drug_pharmacies (drug_id,pharmacies_id) values (1,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (2,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (3,1);
@@ -88,11 +90,6 @@ insert into examination (id,date_time,diagnosis,type_of_examination,doctor_id,pa
 insert into patient_allergies (patient_id,allergies_id) values (3,1);
 insert into patient_allergies (patient_id,allergies_id) values (4,2);
 
-insert into examination_therapies (examination_id,therapies_id) values (1,1);
-insert into examination_therapies (examination_id,therapies_id) values (1,2);
-insert into examination_therapies (examination_id,therapies_id) values (2,3);
-insert into examination_therapies (examination_id,therapies_id) values (3,4);
-
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),33,1);
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),12,2);
 insert into ordered_drug (id, quantity, drug_id) values (nextval('orderdrugs_seq'),45,1);
@@ -103,3 +100,8 @@ insert into pharmacy_order (id, limit_date) values (nextval('orders_seq'), '2020
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (2, 3);
+
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 1);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 1);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 8, 4, 3);
+

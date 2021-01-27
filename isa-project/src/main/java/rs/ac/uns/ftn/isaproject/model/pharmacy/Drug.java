@@ -2,7 +2,6 @@ package rs.ac.uns.ftn.isaproject.model.pharmacy;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -43,17 +40,10 @@ public class Drug {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Ingredient> ingredients = new HashSet<Ingredient>();
-
-	public Drug() {}
 	
-	public Drug(int id, String name, TypeOfDrug typeOfDrug, TypeOfDrugsForm typeOfDrugsForm, String producer) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.typeOfDrug = typeOfDrug;
-		this.typeOfDrugsForm = typeOfDrugsForm;
-		this.producer = producer;
-	}
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Drug> substituteDrugs = new HashSet<Drug>();
+	
 
 	public int getId() {
 		return id;
@@ -110,6 +100,13 @@ public class Drug {
 	public void setIngredients(Set<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
-	
+
+	public Set<Drug> getSubstituteDrugs() {
+		return substituteDrugs;
+	}
+
+	public void setSubstituteDrugs(Set<Drug> substituteDrugs) {
+		this.substituteDrugs = substituteDrugs;
+	}
 	
 }
