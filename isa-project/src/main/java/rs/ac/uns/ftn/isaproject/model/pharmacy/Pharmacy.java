@@ -18,6 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.PharmacyAdministrator;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import rs.ac.uns.ftn.isaproject.model.geographical.City;
+import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 
 @Entity
 public class Pharmacy {
@@ -29,11 +33,14 @@ public class Pharmacy {
 	@Column(unique = false, nullable = false)
 	private String name;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Drug> drugs = new HashSet<Drug>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Doctor> doctors = new HashSet<Doctor>();
 	
 	public Pharmacy() {}
 
