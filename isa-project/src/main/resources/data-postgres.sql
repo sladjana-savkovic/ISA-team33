@@ -49,3 +49,11 @@ insert into drug_ingredient (drug_id, ingredient_id) values (3,1);
 insert into drug_ingredient (drug_id, ingredient_id) values (3,3);
 insert into drug_ingredient (drug_id, ingredient_id) values (4,1);
 insert into drug_ingredient (drug_id, ingredient_id) values (4,4);
+
+insert into examination (id,date_time,diagnosis,dermatologist_id) values (nextval('examinations_seq'),'2020-12-30 12:00:00','Upala pluća',2);
+insert into examination (id,date_time,diagnosis,dermatologist_id) values (nextval('examinations_seq'),'2021-01-13 07:30:00','Glavobolja',2);
+
+insert into consultation (id,date_time,diagnosis,pharmacist_id) 
+	values (nextval('examinations_seq'),'2020-11-16 13:00:00','Koristiti redovno propisanu terapiju',1);
+insert into consultation (id,date_time,diagnosis,pharmacist_id) 
+	values (nextval('examinations_seq'),'2020-12-03 15:30:00','Popiti jos jednu dozu lijekova',1);
