@@ -16,10 +16,4 @@ public class PatientController {
 		this.patientService = patientService;
 	}
 	
-	/*@GetMapping("/examined/{id}")
-	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllExaminedByDoctor(@PathVariable int id){
-		Collection<ExaminedPatientDTO> examinedPatientDTOs = 
-				ExaminedPatientMapper.toExaminedPatientDTOs(patientService.findAllExaminedByDoctor(id));
-		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinedPatientDTOs,HttpStatus.OK);
-	}*/
 }
