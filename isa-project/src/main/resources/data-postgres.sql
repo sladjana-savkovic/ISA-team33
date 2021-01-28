@@ -114,9 +114,9 @@ insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) va
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 1650, 1, 3);
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 150, 1, 4);
 
-insert into drug_reservation (id,date_limit,is_done,patient_id) values (nextval('reservation_seq'),'2020-12-30 12:00:00',true,3);
-insert into drug_reservation (id,date_limit,is_done,patient_id) values (nextval('reservation_seq'),'2021-01-03 15:00:00',true,4);
-insert into drug_reservation (id,date_limit,is_done,patient_id) values (nextval('reservation_seq'),'2021-01-30 12:00:00',false,3);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id) values (nextval('reservation_seq'),'2020-12-30 12:00:00',true,3,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id) values (nextval('reservation_seq'),'2021-01-03 15:00:00',true,4,2);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id) values (nextval('reservation_seq'),'2021-01-30 12:00:00',false,3,1);
 
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','12:00:00',1,1);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);
