@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 
 @Service
-public class PharmacyOrderServiceImpl implements PharmacyActionService{
+public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 
 	private PharmacyOrderRepository pharmacyOrderRepository;
 	
