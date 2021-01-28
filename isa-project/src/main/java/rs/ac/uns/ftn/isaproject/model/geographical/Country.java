@@ -43,12 +43,5 @@ public class Country {
 		this.name = name;
 	}
 
-	public Set<City> getExams() {
-		return cities;
-	}
-
-	public void setExams(Set<City> exams) {
-		this.cities = exams;
-	}
 	
 }
