@@ -83,4 +83,6 @@ public class PharmacyAction {
 		this.pharmacy = pharmacy;
 	}
 	
+	public PharmacyAction() {}
+	
 }
