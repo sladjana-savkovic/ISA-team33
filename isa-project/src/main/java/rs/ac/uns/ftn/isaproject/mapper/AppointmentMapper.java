@@ -1,22 +1,21 @@
 package rs.ac.uns.ftn.isaproject.mapper;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
 public class AppointmentMapper {
 
-	public static Set<AppointmentDTO> toAppointmentDTOs(Set<Appointment> appointments){
+	public static Collection<AppointmentDTO> toAppointmentDTOs(Collection<Appointment> appointments){
 		
-		Set<AppointmentDTO> appointmentDTOs = new HashSet<AppointmentDTO>();
+		Collection<AppointmentDTO> appointmentDTOs = new ArrayList<>();
 		
 		for(Appointment a:appointments) {
 			
 			appointmentDTOs.add(new AppointmentDTO(a.getId(), a.getTypeOfAppointment().toString(), a.getStartTime().toString(), a.getEndTime().toString(), a.getPrice(), a.getPharmacy().getId()));
 		}
-		
 		return appointmentDTOs;
 	}
 }

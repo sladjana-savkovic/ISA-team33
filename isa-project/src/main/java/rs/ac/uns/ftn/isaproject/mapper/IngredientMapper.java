@@ -1,16 +1,16 @@
 package rs.ac.uns.ftn.isaproject.mapper;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import rs.ac.uns.ftn.isaproject.dto.IngredientDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Ingredient;
 
 public class IngredientMapper {
 
-	public static Set<IngredientDTO> toIngredientDTOs(Set<Ingredient> ingredients){
+	public static Collection<IngredientDTO> toIngredientDTOs(Collection<Ingredient> ingredients){
 		
-		Set<IngredientDTO> ingredientDTOs = new HashSet<IngredientDTO>();
+		Collection<IngredientDTO> ingredientDTOs = new ArrayList<>();
 		
 		for(Ingredient i:ingredients) {
 			ingredientDTOs.add(new IngredientDTO(i.getId(), i.getName()));

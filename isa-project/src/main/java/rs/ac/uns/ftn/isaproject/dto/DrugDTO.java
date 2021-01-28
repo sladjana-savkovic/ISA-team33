@@ -1,6 +1,6 @@
 package rs.ac.uns.ftn.isaproject.dto;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class DrugDTO {
 
@@ -9,11 +9,11 @@ public class DrugDTO {
 	public String typeOfDrug;
 	public String typeOfDrugsForm;
 	public String producer;
-	public Set<IngredientDTO> ingredients;
+	public Collection<IngredientDTO> ingredients;
 	
 	public DrugDTO() {}
 	
-	public DrugDTO(int id, String name, String typeOfDrug, String typeOfDrugsForm, String producer, Set<IngredientDTO> ingredientDTOs) {
+	public DrugDTO(int id, String name, String typeOfDrug, String typeOfDrugsForm, String producer, Collection<IngredientDTO> ingredientDTOs) {
 		super();
 		this.id = id;
 		this.name = name;

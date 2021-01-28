@@ -1,6 +1,6 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
+import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
+import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyService;
@@ -38,9 +40,10 @@ public class PharmacyController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		Set<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(pharmacy.getDrugs());
-		Set<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(pharmacy.getAppointments());
-		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), drugDTOs, appointmentDTOs);
+		Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(pharmacy.getDrugs());
+		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(pharmacy.getAppointments());
+		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(pharmacy.getDoctors());
+		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), drugDTOs, appointmentDTOs, doctorDTOs);
 		
 		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
 	}

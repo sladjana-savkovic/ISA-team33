@@ -1,7 +1,7 @@
 package rs.ac.uns.ftn.isaproject.mapper;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.IngredientDTO;
@@ -9,12 +9,12 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 
 public class DrugMapper {
 
-	public static Set<DrugDTO> toDrugDTOs(Set<Drug> drugs){
+	public static Collection<DrugDTO> toDrugDTOs(Collection<Drug> drugs){
 		
-		Set<DrugDTO> drugDTOs = new HashSet<DrugDTO>();
+		Collection<DrugDTO> drugDTOs = new ArrayList<>();
 		
 		for(Drug d:drugs) {
-			Set<IngredientDTO> ingredients = IngredientMapper.toIngredientDTOs(d.getIngredients());
+			Collection<IngredientDTO> ingredients = IngredientMapper.toIngredientDTOs(d.getIngredients());
 			drugDTOs.add(new DrugDTO(d.getId(), d.getName(), d.getTypeOfDrug().toString(), d.getTypeOfDrugsForm().toString(), d.getProducer(), ingredients));
 		}
 		
