@@ -18,15 +18,15 @@ insert into pharmacy (id, name, average_grade, city_id, address) values (nextval
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Betty',3.7, 2,'Gavrila Principa 8' );
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Crvena apoteka', 4.8, 3, 'Cara Lazara 23');
 
-insert into doctor (id, name, surname, email, password, average_price, type_of_doctor,city_id) 
-					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234', 4.8, 0,1);
-insert into doctor (id, name, surname, email, password, average_price, type_of_doctor,city_id) 
-					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234',3.9, 1,2);
+insert into doctor (id, name, surname, email, password, average_grade, type_of_doctor,city_id,address,date_of_birth) 
+					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234', 4.8, 0,1,'Tolstojeva 12','1970-12-12');
+insert into doctor (id, name, surname, email, password, average_grade, type_of_doctor,city_id,address,date_of_birth) 
+					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234',3.9, 1,2,'Balzakova 23','1982-01-10');
 					   
-insert into patient(id, name, surname, email, password,city_id,penalty) 
-					values (nextval('users_seq'),'Pera','Perić','pera.peric@gmail.com','pera1234',1,0);
-insert into patient(id, name, surname, email, password,city_id,penalty) 
-					values (nextval('users_seq'),'Ana','Anić','ana.anic@gmail.com','ana1234',1,1);
+insert into patient(id, name, surname, email, password,city_id,penalty,address,date_of_birth) 
+					values (nextval('users_seq'),'Pera','Perić','pera.peric@gmail.com','pera1234',1,0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, email, password,city_id,penalty,address,date_of_birth) 
+					values (nextval('users_seq'),'Ana','Anić','ana.anic@gmail.com','ana1234',1,1,'Maksima Gorkog 4','1957-03-05');
 
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Amoksicilin', 1, 1, 'Hemofarm');
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Cefaleksin', 1, 2, 'Hemofarm');
@@ -55,10 +55,10 @@ insert into drug_ingredients (drug_id, ingredients_id) values (3,3);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,1);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,4);
 					
-insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id) values 
-					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234',1);
-insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id) values 
-					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234',2);
+insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id,address,date_of_birth) values 
+					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234',1,'Miloša Obilića 13','1973-05-10');
+insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id,address,date_of_birth) values 
+					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234',2,'Zmaj Jovina 5','1980-05-08');
 
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2021-02-20', 'Popust na pensionere', '2021-01-31', 1);
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2021-03-01', 'Februarski popust', '2021-02-01', 1);

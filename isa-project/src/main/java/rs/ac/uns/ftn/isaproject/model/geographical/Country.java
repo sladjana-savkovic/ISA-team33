@@ -25,7 +25,6 @@ public class Country {
 	
 	@OneToMany(mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<City> cities = new HashSet<City>();
-	
 
 	public int getId() {
 		return id;
@@ -43,5 +42,4 @@ public class Country {
 		this.name = name;
 	}
 
-	
 }
