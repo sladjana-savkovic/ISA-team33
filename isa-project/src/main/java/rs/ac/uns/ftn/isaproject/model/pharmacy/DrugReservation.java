@@ -31,4 +31,56 @@ public class DrugReservation {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Drug drug;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private Pharmacy pharmacy;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public LocalDateTime getDateLimit() {
+		return dateLimit;
+	}
+
+	public void setDateLimit(LocalDateTime dateLimit) {
+		this.dateLimit = dateLimit;
+	}
+
+	public boolean isDone() {
+		return isDone;
+	}
+
+	public void setDone(boolean isDone) {
+		this.isDone = isDone;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+
+	public Drug getDrug() {
+		return drug;
+	}
+
+	public void setDrug(Drug drug) {
+		this.drug = drug;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+	
 }
