@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.AddVacationRequestDTO;
 import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
 
@@ -24,7 +23,12 @@ public class VacationRequestController {
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> Add(@RequestBody AddVacationRequestDTO vacationRequestDTO){
-		vacationService.Add(vacationRequestDTO);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+		try {
+			vacationService.Add(vacationRequestDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }
