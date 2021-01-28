@@ -72,6 +72,8 @@ insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor
 					values (nextval('appointments_seq'),'2020-11-16 13:00:00','2020-11-16 13:30:00',1,800,2,1,3);
 insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
 					values (nextval('appointments_seq'),'2020-12-03 15:30:00','2020-12-03 16:00:00',1,800,2,3,4);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
+					values (nextval('appointments_seq'),'2021-02-03 09:30:00','2021-01-13 10:00:00',0,800,1,2,4);
 
 insert into examination_report (id,diagnosis,appointment_id) 
 					values (nextval('examinations_seq'),'Upala pluća',1);
