@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
@@ -27,8 +28,13 @@ public class DoctorController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<DoctorDTO> findOneById(@PathVariable int id) {
-		DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
-		return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
+		try {
+			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
+			return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PutMapping(consumes = "application/json")

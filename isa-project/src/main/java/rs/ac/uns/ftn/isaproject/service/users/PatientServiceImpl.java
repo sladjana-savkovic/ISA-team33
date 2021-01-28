@@ -13,4 +13,23 @@ public class PatientServiceImpl implements PatientService {
 	public PatientServiceImpl(PatientRepository patientRepository) {
 		this.patientRepository = patientRepository;
 	}
+
+	/*@Override
+	public Collection<Patient> findAllExaminedByDoctor(int doctorId) {
+		Collection<Patient> patients = patientRepository.findAllPatients();
+		Collection<Patient> examinedPatients = new ArrayList<>();
+		
+		for (Patient patient : patients) {
+			Collection<ExaminationReport> examinationReports = patient.getExaminationReports();
+			
+			for (ExaminationReport report : examinationReports) {
+				if(report.getAppointment().getDoctor().getId() == doctorId) {
+					examinedPatients.add(patient);
+					break;
+				}
+			}
+		}
+		
+		return examinedPatients;
+	}*/
 }

@@ -29,5 +29,37 @@ public class ExaminationReport{
 	
 	@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Therapy> therapies = new HashSet<Therapy>();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
+	public String getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(String diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+
+	public Set<Therapy> getTherapies() {
+		return therapies;
+	}
+
+	public void setTherapies(Set<Therapy> therapies) {
+		this.therapies = therapies;
+	}
 	
 }
