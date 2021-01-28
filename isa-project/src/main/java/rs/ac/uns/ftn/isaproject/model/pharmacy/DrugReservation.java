@@ -31,6 +31,9 @@ public class DrugReservation {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Drug drug;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private Pharmacy pharmacy;
 
 	public int getId() {
 		return id;
@@ -70,6 +73,14 @@ public class DrugReservation {
 
 	public void setDrug(Drug drug) {
 		this.drug = drug;
+	}
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
 	}
 	
 }

@@ -46,6 +46,7 @@ public class Pharmacy {
 	private Set<Drug> drugs = new HashSet<Drug>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "doctor_pharmacies", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 	
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

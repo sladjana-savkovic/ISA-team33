@@ -1,12 +1,11 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,15 +24,20 @@ public class DrugReservationController {
 		this.drugReservationService = drugReservationService;
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<DrugReservationDTO> getOne(@PathVariable int id){
+	@GetMapping("/{id}/doctor/{doctorId}")
+	public ResponseEntity<DrugReservationDTO> searchOne(@PathVariable int id,@PathVariable int doctorId){
 		try {
-			DrugReservationDTO drugReservationDTO = DrugReservationMapper.toDrugReservationDTO(drugReservationService.getOne(id));
+			DrugReservationDTO drugReservationDTO = DrugReservationMapper.toDrugReservationDTO(drugReservationService.searchOne(id,doctorId));
 			return new ResponseEntity<DrugReservationDTO>(drugReservationDTO,HttpStatus.OK);
 		}
-		catch(EntityNotFoundException exception){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
+		catch(Exception exception){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Void> completeReservation(@PathVariable int id){
+		drugReservationService.completeReservation(id);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 }
