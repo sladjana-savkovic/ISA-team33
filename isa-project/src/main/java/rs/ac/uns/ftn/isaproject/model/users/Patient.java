@@ -14,6 +14,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 @Entity
 public class Patient extends User {
 	
+
 	@Column(unique=false, nullable=false)
 	private int penalty;
 
@@ -22,4 +23,5 @@ public class Patient extends User {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Drug> allergies = new HashSet<Drug>();
+	
 }

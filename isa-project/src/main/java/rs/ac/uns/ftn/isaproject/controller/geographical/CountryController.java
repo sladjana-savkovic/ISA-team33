@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rs.ac.uns.ftn.isaproject.dto.geographical.CountryDTO;
+import rs.ac.uns.ftn.isaproject.dto.CountryDTO;
 import rs.ac.uns.ftn.isaproject.mapper.CountryMapper;
 import rs.ac.uns.ftn.isaproject.service.geographical.CountryService;
 

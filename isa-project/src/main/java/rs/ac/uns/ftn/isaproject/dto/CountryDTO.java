@@ -1,4 +1,4 @@
-package rs.ac.uns.ftn.isaproject.dto.geographical;
+package rs.ac.uns.ftn.isaproject.dto;
 
 public class CountryDTO {
 

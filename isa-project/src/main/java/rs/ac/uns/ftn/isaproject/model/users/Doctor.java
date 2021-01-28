@@ -17,7 +17,7 @@ public class Doctor extends User{
 	private TypeOfDoctor typeOfDoctor;
 	
 	@Column(unique=false, nullable=true)
-	private double averagePrice;
+	private double averageGrade;
 	
 	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<WorkingTime> workingTimes = new HashSet<WorkingTime>();
@@ -27,4 +27,46 @@ public class Doctor extends User{
 	
 	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<VacationRequest> approvedVacations = new HashSet<VacationRequest>();
+	
+
+	public TypeOfDoctor getTypeOfDoctor() {
+		return typeOfDoctor;
+	}
+
+	public void setTypeOfDoctor(TypeOfDoctor typeOfDoctor) {
+		this.typeOfDoctor = typeOfDoctor;
+	}
+
+	public double getAverageGrade() {
+		return averageGrade;
+	}
+
+	public void setAverageGrade(double averageGrade) {
+		this.averageGrade = averageGrade;
+	}
+
+	public Set<WorkingTime> getWorkingTimes() {
+		return workingTimes;
+	}
+
+	public void setWorkingTimes(Set<WorkingTime> workingTimes) {
+		this.workingTimes = workingTimes;
+	}
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public Set<VacationRequest> getApprovedVacations() {
+		return approvedVacations;
+	}
+
+	public void setApprovedVacations(Set<VacationRequest> approvedVacations) {
+		this.approvedVacations = approvedVacations;
+	}
+	
 }

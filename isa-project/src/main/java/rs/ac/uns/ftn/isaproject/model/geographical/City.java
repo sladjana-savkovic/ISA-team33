@@ -23,7 +23,7 @@ public class City {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Country country;
 	
-
+	
 	public int getId() {
 		return id;
 	}

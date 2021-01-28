@@ -4,5 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
-
 }
