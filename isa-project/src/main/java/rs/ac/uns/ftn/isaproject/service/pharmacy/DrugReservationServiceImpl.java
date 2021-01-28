@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
-import rs.ac.uns.ftn.isaproject.model.users.Doctor;
-import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugReservationRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
 

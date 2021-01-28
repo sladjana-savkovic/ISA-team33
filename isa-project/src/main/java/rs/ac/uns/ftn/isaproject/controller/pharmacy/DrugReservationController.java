@@ -37,7 +37,12 @@ public class DrugReservationController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> completeReservation(@PathVariable int id){
-		drugReservationService.completeReservation(id);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		try {
+			drugReservationService.completeReservation(id);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception exception) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }
