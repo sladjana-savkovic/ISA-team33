@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +35,27 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 		vacationRequest.setStatus(VacationRequestStatus.Created);
 		
 		vacationRepository.save(vacationRequest);
+	}
+
+	@Override
+	public void acceptRequest(int id) {
+		VacationRequest vacationRequest = vacationRepository.getOne(id);
+		vacationRequest.setStatus(VacationRequestStatus.Confirmed);
+		
+		vacationRepository.save(vacationRequest);
+	}
+
+	@Override
+	public void rejectRequest(int id, String reason) {
+		VacationRequest vacationRequest = vacationRepository.getOne(id);
+		vacationRequest.setStatus(VacationRequestStatus.Rejected);
+		vacationRequest.setReasonForRejection(reason);
+		
+		vacationRepository.save(vacationRequest);
+	}
+
+	@Override
+	public Collection<VacationRequest> findByPharmacyId(int id) {
+		return vacationRepository.findByPharmacyId(id);
 	}
 }

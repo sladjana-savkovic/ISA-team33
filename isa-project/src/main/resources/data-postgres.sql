@@ -134,12 +134,12 @@ insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','16:00:00',2,1);
 
-insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id)
-				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',0,null,1);
-insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id)
-				values (nextval('vacation_seq'),'2021-01-25','2021-02-25',1,'Nemamo dovoljno radnog kapaciteta.',2);
-insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id)
-				values (nextval('vacation_seq'),'2021-03-01','2021-03-10',1,'U tom periodu imate zakazane termine.',2);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
+				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',0,null,1,1);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
+				values (nextval('vacation_seq'),'2021-01-25','2021-02-25',1,'Nemamo dovoljno radnog kapaciteta.',1,2);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
+				values (nextval('vacation_seq'),'2021-03-01','2021-03-10',1,'U tom periodu imate zakazane termine.',2,1);
 				
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,1);
