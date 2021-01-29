@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import rs.ac.uns.ftn.isaproject.model.enums.VacationRequestStatus;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 
 @Entity
 public class VacationRequest {
@@ -36,6 +37,9 @@ public class VacationRequest {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private Doctor doctor;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+	private Pharmacy pharmacy;
 
 	public int getId() {
 		return id;
@@ -84,5 +88,13 @@ public class VacationRequest {
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
-	
+
+	public Pharmacy getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Pharmacy pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+
 }
