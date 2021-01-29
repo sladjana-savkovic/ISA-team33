@@ -12,7 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+
+import rs.ac.uns.ftn.isaproject.model.users.PharmacyAdministrator;
 
 @Entity
 public class PharmacyOrder {
@@ -30,6 +33,9 @@ public class PharmacyOrder {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DrugQuantity> orderedDrugs = new HashSet<DrugQuantity>();
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private PharmacyAdministrator pharmacyAdministrator;
 
 	public int getId() {
 		return id;
@@ -53,6 +59,22 @@ public class PharmacyOrder {
 
 	public void setOrderedDrugs(Set<DrugQuantity> orderedDrugs) {
 		this.orderedDrugs = orderedDrugs;
+	}
+
+	public boolean isFinished() {
+		return isFinished;
+	}
+
+	public void setFinished(boolean isFinished) {
+		this.isFinished = isFinished;
+	}
+
+	public PharmacyAdministrator getPharmacyAdministrator() {
+		return pharmacyAdministrator;
+	}
+
+	public void setPharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator) {
+		this.pharmacyAdministrator = pharmacyAdministrator;
 	}
 	
 }
