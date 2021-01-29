@@ -23,7 +23,7 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 	}
 
 	@Override
-	public void Add(AddVacationRequestDTO vacationRequestDTO) {
+	public void add(AddVacationRequestDTO vacationRequestDTO) {
 		VacationRequest vacationRequest = new VacationRequest();
 		Doctor doctor = doctorRepository.getOne(vacationRequestDTO.doctorId);
 		
