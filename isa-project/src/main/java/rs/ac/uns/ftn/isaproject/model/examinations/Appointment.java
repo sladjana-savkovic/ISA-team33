@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+
+import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfAppointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
@@ -25,6 +27,9 @@ public class Appointment {
 
 	@Column(unique=false, nullable=false)
 	private TypeOfAppointment typeOfAppointment;
+	
+	@Column(unique=false, nullable=false)
+	private AppointmentStatus status;
 	
 	@Column(unique=false, nullable=false)
 	private LocalDateTime startTime;
@@ -106,6 +111,14 @@ public class Appointment {
 
 	public void setPatient(Patient patient) {
 		this.patient = patient;
+	}
+
+	public AppointmentStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AppointmentStatus status) {
+		this.status = status;
 	}
 	
 }

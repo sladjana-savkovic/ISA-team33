@@ -64,16 +64,24 @@ insert into pharmacy_action (id, description, end_date, name, start_date, pharma
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2021-03-01', 'Februarski popust', '2021-02-01', 1);
 
 
-insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
-					values (nextval('appointments_seq'),'2020-12-30 12:00:00','2020-12-30 12:30:00',0,600,1,1,3);
-insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
-					values (nextval('appointments_seq'),'2021-01-13 07:30:00','2021-01-13 08:00:00',0,600,1,2,4);
-insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
-					values (nextval('appointments_seq'),'2020-11-16 13:00:00','2020-11-16 13:30:00',1,800,2,1,3);
-insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
-					values (nextval('appointments_seq'),'2020-12-03 15:30:00','2020-12-03 16:00:00',1,800,2,3,4);
-insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id)
-					values (nextval('appointments_seq'),'2021-02-03 09:30:00','2021-01-13 10:00:00',0,800,1,2,4);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2020-12-30 12:00:00','2020-12-30 12:30:00',0,600,1,1,3,3);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2021-01-13 07:30:00','2021-01-13 08:00:00',0,600,1,2,4,3);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2020-11-16 13:00:00','2020-11-16 13:30:00',1,800,2,1,3,3);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2020-12-03 15:30:00','2020-12-03 16:00:00',1,800,2,3,4,3);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2021-02-03 09:30:00','2021-01-13 10:00:00',0,800,1,2,4,0);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2020-12-03 07:30:00','2020-12-03 8:00:00',0,1000,1,2,3,0);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2021-02-03 11:30:00','2021-01-13 12:00:00',0,800,1,2,4,4);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2021-02-20 09:30:00','2021-02-20 10:00:00',0,800,1,2,3,1);
+insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
+					values (nextval('appointments_seq'),'2021-01-05 09:30:00','2020-01-05 10:00:00',0,800,1,2,4,2);
 
 insert into examination_report (id,diagnosis,appointment_id) 
 					values (nextval('examinations_seq'),'Upala pluća',1);
