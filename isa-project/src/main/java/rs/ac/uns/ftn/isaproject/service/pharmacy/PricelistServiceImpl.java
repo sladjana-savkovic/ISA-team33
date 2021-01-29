@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,7 @@ public class PricelistServiceImpl implements PricelistService {
 		pricelist.setEndDate(pricelistDTO.endDate);
 		pricelist.setDrug(drug);
 		pricelist.setPharmacy(pharmacy);
+		pricelist.setCreationDate(LocalDate.now());
 
 		pricelistRepository.save(pricelist);
 		

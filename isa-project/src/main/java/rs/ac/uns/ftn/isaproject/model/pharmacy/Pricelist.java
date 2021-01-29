@@ -27,6 +27,9 @@ public class Pricelist {
 	private LocalDate endDate;
 	
 	@Column(unique=false, nullable=false)
+	private LocalDate creationDate;
+	
+	@Column(unique=false, nullable=false)
 	private double price;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
@@ -81,6 +84,14 @@ public class Pricelist {
 
 	public void setDrug(Drug drug) {
 		this.drug = drug;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 }
