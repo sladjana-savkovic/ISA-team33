@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import rs.ac.uns.ftn.isaproject.dto.CityDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
-import rs.ac.uns.ftn.isaproject.mapper.CityMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyOrderService;
