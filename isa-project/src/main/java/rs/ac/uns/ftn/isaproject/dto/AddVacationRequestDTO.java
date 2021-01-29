@@ -7,4 +7,5 @@ public class AddVacationRequestDTO {
 	public int doctorId;
 	public LocalDate startDate;
 	public LocalDate endDate;
+	public int pharmacyId;
 }

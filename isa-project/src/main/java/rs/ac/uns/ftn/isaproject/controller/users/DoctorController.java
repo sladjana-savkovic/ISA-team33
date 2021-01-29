@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import java.util.Collection;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.DoctorPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
 
@@ -48,4 +51,16 @@ public class DoctorController {
 		doctorService.updatePassword(id,value);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	@GetMapping("/{id}/pharmacies")
+	public ResponseEntity<Collection<DoctorPharmacyDTO>> doctorPharmacies(@PathVariable int id){
+		try {
+			Collection<DoctorPharmacyDTO> doctorPharmacyDTOs = DoctorMapper.toDoctorPharmacyDTOs(doctorService.getOne(id));
+			return new ResponseEntity<Collection<DoctorPharmacyDTO>>(doctorPharmacyDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 }
