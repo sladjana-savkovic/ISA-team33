@@ -22,9 +22,9 @@ public class VacationRequestController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Void> Add(@RequestBody AddVacationRequestDTO vacationRequestDTO){
+	public ResponseEntity<Void> add(@RequestBody AddVacationRequestDTO vacationRequestDTO){
 		try {
-			vacationService.Add(vacationRequestDTO);
+			vacationService.add(vacationRequestDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {

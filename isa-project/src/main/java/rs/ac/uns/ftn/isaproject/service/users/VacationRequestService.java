@@ -4,5 +4,5 @@ import rs.ac.uns.ftn.isaproject.dto.AddVacationRequestDTO;
 
 public interface VacationRequestService {
 
-	void Add(AddVacationRequestDTO vacationRequestDTO);
+	void add(AddVacationRequestDTO vacationRequestDTO);
 }
