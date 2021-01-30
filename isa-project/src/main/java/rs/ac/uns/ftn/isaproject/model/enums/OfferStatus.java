@@ -4,6 +4,6 @@ public enum OfferStatus {
 
 	Accepted,
 	Rejected,
-	waiting
+	Waiting
 	
 }
