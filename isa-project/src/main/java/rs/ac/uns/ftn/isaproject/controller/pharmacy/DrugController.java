@@ -23,6 +23,40 @@ public class DrugController {
 		this.drugService = drugService;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("/pharmacy/{id}")
 	public ResponseEntity<Collection<DrugDTO>> findAllByPharmacyId(@PathVariable int id){
 		try {

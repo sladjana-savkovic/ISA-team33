@@ -22,6 +22,42 @@ public class DrugServiceImpl implements DrugService{
 		this.drugRepository = drugRepository;
 		this.ingredientRepository = ingredientRepository;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public Collection<Drug> findAllByPharmacyId(int id) {
