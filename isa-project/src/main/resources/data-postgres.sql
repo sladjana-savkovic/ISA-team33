@@ -55,10 +55,10 @@ insert into drug_ingredients (drug_id, ingredients_id) values (3,3);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,1);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,4);
 					
-insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id,address,date_of_birth) values 
-					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234',1,'Miloša Obilića 13','1973-05-10');
-insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id,address,date_of_birth) values 
-					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234',2,'Zmaj Jovina 5','1980-05-08');
+insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234',1,'Miloša Obilića 13','1973-05-10',3);
+insert into pharmacy_administrator (id, name, surname, email, password, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234',2,'Zmaj Jovina 5','1980-05-08',2);
 
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2021-02-20', 'Popust na pensionere', '2021-01-31', 1);
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2021-03-01', 'Februarski popust', '2021-02-01', 1);
