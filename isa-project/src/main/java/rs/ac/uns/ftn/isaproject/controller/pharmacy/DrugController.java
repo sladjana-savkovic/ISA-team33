@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugService;
 
 @RestController
@@ -24,39 +26,6 @@ public class DrugController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@GetMapping("/pharmacy/{id}")
 	public ResponseEntity<Collection<DrugDTO>> findAllByPharmacyId(@PathVariable int id){
 		try {
@@ -66,4 +35,15 @@ public class DrugController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@PostMapping(consumes = "application/json")
+	public ResponseEntity<Void> add(@RequestBody DrugDTO drugDTO) {
+		try {
+			drugService.add(drugDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }
