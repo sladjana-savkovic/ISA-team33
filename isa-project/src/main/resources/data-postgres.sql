@@ -119,7 +119,7 @@ insert into therapy (id, duration, drug_id,examination_id) values (nextval('ther
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 8, 4, 3);
 
 insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-15', 22000, 1, 8, 1);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1, 8, 0);
+insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1, 8, 2);
 insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-22', 54000, 2, 8, 2);
 insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-17', 56000, 2, 8, 2);
 
@@ -159,5 +159,8 @@ insert into system_administrator (id, name, surname, email, password, telephone,
 					   (nextval('users_seq'),'Nikola','Nikolić','nikolan@gmail.com','1234nikola', '0632547777','Zmaj Jovina 12','1985-05-10', true);
 
 
+insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 1);
+insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 2);
+insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 3);
 					   
 					   

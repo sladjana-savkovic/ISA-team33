@@ -6,9 +6,11 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantity;
 
 
 @Entity
@@ -17,4 +19,6 @@ public class Supplier extends User{
 	@OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DrugOffer> drugOffers = new HashSet<DrugOffer>();
 
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<DrugQuantity> drugsInStore = new HashSet<DrugQuantity>();
 }
