@@ -1,8 +1,14 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
@@ -45,5 +51,36 @@ public class DoctorServiceImpl implements DoctorService {
 		Doctor doctor = doctorRepository.getOne(id);
 		doctor.setPassword(password);
 		doctorRepository.save(doctor);
+	}
+
+	@Override
+	public Collection<Doctor> findByPharmacyId(int id) {
+		return doctorRepository.findByPharmacyId(id);
+	}
+	
+	public Collection<Doctor> searchDoctors(SearchDoctorDTO searchDoctorDTO){
+		Collection<Doctor> doctors = findByPharmacyId(searchDoctorDTO.pharmacyId);
+		Collection<Doctor> searchedDoctors = new ArrayList<Doctor>();
+		for(Doctor d:doctors) {
+			if(d.getName().toLowerCase().contains(searchDoctorDTO.name.toLowerCase()) || d.getSurname().toLowerCase().contains(searchDoctorDTO.surname.toLowerCase())) {
+				searchedDoctors.add(d);
+			}
+		}
+		return searchedDoctors;
+		
+	}
+
+	@Override
+	public Collection<Doctor> filterDoctors(FilterDoctorDTO filterDoctorDTO) {
+		Collection<Doctor> doctors = findByPharmacyId(filterDoctorDTO.pharmacyId);
+		Collection<Doctor> filteredDoctors = new ArrayList<Doctor>();
+		
+		for(Doctor d:doctors) {
+			if(d.getAverageGrade() == filterDoctorDTO.grade || d.getTypeOfDoctor() == filterDoctorDTO.typeOfDoctor) {
+				filteredDoctors.add(d);
+			}
+		}
+		
+		return filteredDoctors;
 	}
 }
