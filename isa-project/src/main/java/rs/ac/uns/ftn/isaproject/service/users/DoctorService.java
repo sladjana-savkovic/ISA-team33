@@ -5,6 +5,7 @@ import java.util.Collection;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 
 public interface DoctorService {
@@ -13,6 +14,6 @@ public interface DoctorService {
 	void updateInfo(DoctorDTO doctorDTO);
 	void updatePassword(int id, String password);
 	Collection<Doctor> findByPharmacyId(int id);
-	Collection<Doctor> searchDoctors(SearchDoctorDTO searchDoctorDTO);
-	Collection<Doctor> filterDoctors(FilterDoctorDTO filterDoctorDTO);
+	Collection<ViewSearchedDoctorDTO> searchDoctors(SearchDoctorDTO searchDoctorDTO);
+	Collection<ViewSearchedDoctorDTO> filterDoctors(FilterDoctorDTO filterDoctorDTO);
 }

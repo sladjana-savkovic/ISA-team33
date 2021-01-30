@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
@@ -58,11 +59,11 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 	
 	@Override
-	public Collection<Doctor> searchDoctors(SearchDoctorDTO searchDoctorDTO){
-		Collection<Doctor> doctors = searchDoctorDTO.doctors;
-		Collection<Doctor> searchedDoctors = new ArrayList<Doctor>();
-		for(Doctor d:doctors) {
-			if(d.getName().toLowerCase().contains(searchDoctorDTO.name.toLowerCase()) || d.getSurname().toLowerCase().contains(searchDoctorDTO.surname.toLowerCase())) {
+	public Collection<ViewSearchedDoctorDTO> searchDoctors(SearchDoctorDTO searchDoctorDTO){
+		Collection<ViewSearchedDoctorDTO> doctors = searchDoctorDTO.doctors;
+		Collection<ViewSearchedDoctorDTO> searchedDoctors = new ArrayList<ViewSearchedDoctorDTO>();
+		for(ViewSearchedDoctorDTO d:doctors) {
+			if(d.name.toLowerCase().contains(searchDoctorDTO.name.toLowerCase()) || d.surname.toLowerCase().contains(searchDoctorDTO.surname.toLowerCase())) {
 				searchedDoctors.add(d);
 			}
 		}
@@ -71,12 +72,12 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public Collection<Doctor> filterDoctors(FilterDoctorDTO filterDoctorDTO) {
-		Collection<Doctor> doctors = filterDoctorDTO.doctors;
-		Collection<Doctor> filteredDoctors = new ArrayList<Doctor>();
+	public Collection<ViewSearchedDoctorDTO> filterDoctors(FilterDoctorDTO filterDoctorDTO) {
+		Collection<ViewSearchedDoctorDTO> doctors = filterDoctorDTO.doctors;
+		Collection<ViewSearchedDoctorDTO> filteredDoctors = new ArrayList<ViewSearchedDoctorDTO>();
 		
-		for(Doctor d:doctors) {
-			if(d.getAverageGrade() == filterDoctorDTO.grade || d.getTypeOfDoctor() == filterDoctorDTO.typeOfDoctor) {
+		for(ViewSearchedDoctorDTO d:doctors) {
+			if(d.grade == filterDoctorDTO.grade || d.typeOfDoctor == filterDoctorDTO.typeOfDoctor) {
 				filteredDoctors.add(d);
 			}
 		}

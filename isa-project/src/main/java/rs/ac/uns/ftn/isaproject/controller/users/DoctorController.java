@@ -69,10 +69,10 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/pharmacy/{id}")
-	public ResponseEntity<Collection<DoctorDTO>> findByPharmacyId(@PathVariable int id) {
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findByPharmacyId(@PathVariable int id) {
 		try {
-			Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
-			return new ResponseEntity<Collection<DoctorDTO>>(doctorDTOs, HttpStatus.OK);
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.findByPharmacyId(id));
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,7 +82,7 @@ public class DoctorController {
 	@RequestMapping(path = "/search", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> search(@RequestBody SearchDoctorDTO searchDoctorDTO) {
 		try {
-			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.searchDoctors(searchDoctorDTO));
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = doctorService.searchDoctors(searchDoctorDTO);
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
@@ -94,7 +94,7 @@ public class DoctorController {
 	@RequestMapping(path = "/filter", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> filter(@RequestBody FilterDoctorDTO filterDoctorDTO) {
 		try {
-			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.filterDoctors(filterDoctorDTO));
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = doctorService.filterDoctors(filterDoctorDTO);
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
