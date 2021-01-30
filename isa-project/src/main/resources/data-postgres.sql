@@ -28,10 +28,10 @@ insert into patient(id, name, surname, email, password, telephone, city_id, pena
 insert into patient(id, name, surname, email, password, telephone, city_id, penalty, address, date_of_birth) 
 					values (nextval('users_seq'),'Ana','Anić','ana.anic@gmail.com','ana1234', '0632145214', 1,1,'Maksima Gorkog 4','1957-03-05');
 
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Amoksicilin', 1, 1, 'Hemofarm');
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Cefaleksin', 1, 2, 'Hemofarm');
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Brufen', 0, 0, 'Hemofarm');
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication) values (nextval('drugs_seq'), 'Amoksicilin', 1, 1, 'Hemofarm', 3, 'Amoksicilin se ne smije primijeniti u slučaju preosjetljivosti na penicilin te u bolesnika s infektivnom mononukleozom i limfatičkom leukemijom zbog učestale pojave osipa.');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication) values (nextval('drugs_seq'), 'Cefaleksin', 1, 2, 'Hemofarm', 2, 'Cefaleksin se ne smije primjenjivati u osoba preosjetljivih na cefaleksin i druge cefalosporine, odnosno na neki od pomoćnih sastojaka lijeka.');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication) values (nextval('drugs_seq'), 'Brufen', 0, 0, 'Hemofarm', 3, 'Kontraindikacije za upotrebu leka Brufen su: teška insuficijencija jetre, stanja koja uključuju povećanu mogućnost krvarenja, teška insuficijencija bubrega.');
+insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm', 3, 'Uzimanje probiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.');
 
 insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (1,3);
 
@@ -144,3 +144,11 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,2);
+
+insert into system_administrator (id, name, surname, email, password, telephone,address,date_of_birth) values 
+					   (nextval('users_seq'),'Mladen','Mladenović','mladenm@gmail.com','mladen1534', '0665677653','Miloša Obilića 55','1978-09-10');
+insert into system_administrator (id, name, surname, email, password, telephone,address,date_of_birth) values 
+					   (nextval('users_seq'),'Nikola','Nikolić','nikolan@gmail.com','1234nikola', '0632547777','Zmaj Jovina 12','1985-05-10');
+
+
+
