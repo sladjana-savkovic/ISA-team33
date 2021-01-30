@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
-import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
@@ -69,10 +68,10 @@ public class DoctorController {
 		}
 	}
 	
-	@PostMapping(consumes = "application/json")
+	@RequestMapping(path = "/search", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> search(@RequestBody SearchDoctorDTO searchDoctorDTO) {
 		try {
-			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.searchDoctors(searchDoctorDTO));
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.searchDoctors(doctorService.findByPharmacyId(searchDoctorDTO.pharmacyId), searchDoctorDTO));
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
@@ -84,7 +83,7 @@ public class DoctorController {
 	@RequestMapping(path = "/filter", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> filter(@RequestBody FilterDoctorDTO filterDoctorDTO) {
 		try {
-			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.filterDoctors(filterDoctorDTO));
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.filterDoctors(doctorService.findByPharmacyId(filterDoctorDTO.pharmacyId), filterDoctorDTO));
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {

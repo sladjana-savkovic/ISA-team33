@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
-import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
@@ -58,8 +57,8 @@ public class DoctorServiceImpl implements DoctorService {
 		return doctorRepository.findByPharmacyId(id);
 	}
 	
-	public Collection<Doctor> searchDoctors(SearchDoctorDTO searchDoctorDTO){
-		Collection<Doctor> doctors = findByPharmacyId(searchDoctorDTO.pharmacyId);
+	public Collection<Doctor> searchDoctors(Collection<Doctor> doctors, SearchDoctorDTO searchDoctorDTO){
+		//Collection<Doctor> doctors = findByPharmacyId(searchDoctorDTO.pharmacyId);
 		Collection<Doctor> searchedDoctors = new ArrayList<Doctor>();
 		for(Doctor d:doctors) {
 			if(d.getName().toLowerCase().contains(searchDoctorDTO.name.toLowerCase()) || d.getSurname().toLowerCase().contains(searchDoctorDTO.surname.toLowerCase())) {
@@ -71,8 +70,8 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public Collection<Doctor> filterDoctors(FilterDoctorDTO filterDoctorDTO) {
-		Collection<Doctor> doctors = findByPharmacyId(filterDoctorDTO.pharmacyId);
+	public Collection<Doctor> filterDoctors(Collection<Doctor> doctors, FilterDoctorDTO filterDoctorDTO) {
+		//Collection<Doctor> doctors = findByPharmacyId(filterDoctorDTO.pharmacyId);
 		Collection<Doctor> filteredDoctors = new ArrayList<Doctor>();
 		
 		for(Doctor d:doctors) {
