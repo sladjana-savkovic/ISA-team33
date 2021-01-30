@@ -62,7 +62,12 @@ insert into pharmacy_administrator (id, name, surname, email, password, telephon
 insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, is_active) values 
 					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234', '0632547854',2,'Zmaj Jovina 5','1980-05-08', true);
 					   
-
+insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active) values 
+					   (nextval('users_seq'),'Mitar','Mitrović','mitarm@gmail.com','mitar1234', '0665858859','Braće Ribnikar 12','1995-11-11', true);
+insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active) values 
+					   (nextval('users_seq'),'Slavko','Ilić','slavkoi@gmail.com','mitar1234', '0632585258','Jevrejska 10','1994-12-12', false);
+					   
+					   
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2021-02-20', 'Popust na pensionere', '2021-01-31', 1);
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Svi gelovi za zglobove na popustu 40%', '2021-03-01', 'Februarski popust', '2021-02-01', 1);
 
@@ -113,10 +118,10 @@ insert into therapy (id, duration, drug_id,examination_id) values (nextval('ther
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 1);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 8, 4, 3);
 
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-15', 22000, 1);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-22', 54000, 2);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id) values (nextval('offers_seq'), false, '2021-02-17', 56000, 2);
+insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-15', 22000, 1, 8, 1);
+insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1, 8, 0);
+insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-22', 54000, 2, 8, 2);
+insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-17', 56000, 2, 8, 2);
 
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 350, 1, 1, '2020-12-30');
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 380, 1, 1, '2021-01-15');
@@ -154,4 +159,5 @@ insert into system_administrator (id, name, surname, email, password, telephone,
 					   (nextval('users_seq'),'Nikola','Nikolić','nikolan@gmail.com','1234nikola', '0632547777','Zmaj Jovina 12','1985-05-10', true);
 
 
-
+					   
+					   
