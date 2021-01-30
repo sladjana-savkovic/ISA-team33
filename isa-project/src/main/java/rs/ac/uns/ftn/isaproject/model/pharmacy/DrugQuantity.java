@@ -53,5 +53,13 @@ public class DrugQuantity {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
+	public PurposeOfDrugQuantity getPurpose() {
+		return purpose;
+	}
+
+	public void setPurpose(PurposeOfDrugQuantity purpose) {
+		this.purpose = purpose;
+	}
 	
 }
