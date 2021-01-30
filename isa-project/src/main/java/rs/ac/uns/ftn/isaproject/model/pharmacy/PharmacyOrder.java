@@ -1,8 +1,6 @@
 package rs.ac.uns.ftn.isaproject.model.pharmacy;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
@@ -31,8 +28,8 @@ public class PharmacyOrder {
 	@Column(unique=false, nullable=false)
 	private boolean isFinished;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<DrugQuantity> orderedDrugs = new HashSet<DrugQuantity>();
+	//@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//private Set<DrugQuantity> orderedDrugs = new HashSet<DrugQuantity>();
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private PharmacyAdministrator pharmacyAdministrator;
@@ -53,13 +50,13 @@ public class PharmacyOrder {
 		this.limitDate = limitDate;
 	}
 
-	public Set<DrugQuantity> getOrderedDrugs() {
+	/*public Set<DrugQuantity> getOrderedDrugs() {
 		return orderedDrugs;
 	}
 
 	public void setOrderedDrugs(Set<DrugQuantity> orderedDrugs) {
 		this.orderedDrugs = orderedDrugs;
-	}
+	}*/
 
 	public boolean isFinished() {
 		return isFinished;

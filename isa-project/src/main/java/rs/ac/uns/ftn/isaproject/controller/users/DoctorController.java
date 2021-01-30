@@ -9,14 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
+import rs.ac.uns.ftn.isaproject.mapper.ViewSearchedDoctorMapper;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
 
 @RestController
@@ -64,5 +68,38 @@ public class DoctorController {
 		}
 	}
 	
+	@GetMapping("/pharmacy/{id}")
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findByPharmacyId(@PathVariable int id) {
+		try {
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.findByPharmacyId(id));
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
+	@RequestMapping(path = "/search", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> search(@RequestBody SearchDoctorDTO searchDoctorDTO) {
+		try {
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = doctorService.searchDoctors(searchDoctorDTO);
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	@RequestMapping(path = "/filter", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> filter(@RequestBody FilterDoctorDTO filterDoctorDTO) {
+		try {
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = doctorService.filterDoctors(filterDoctorDTO);
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
 }
