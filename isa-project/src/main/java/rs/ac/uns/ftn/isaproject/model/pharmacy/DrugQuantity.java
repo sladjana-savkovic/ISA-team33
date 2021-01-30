@@ -29,6 +29,9 @@ public class DrugQuantity {
 	
 	@Column(unique=false, nullable=false)
 	private PurposeOfDrugQuantity purpose;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private PharmacyOrder pharmacyOrder;
 
 	public int getId() {
 		return id;
@@ -60,6 +63,14 @@ public class DrugQuantity {
 
 	public void setPurpose(PurposeOfDrugQuantity purpose) {
 		this.purpose = purpose;
+	}
+
+	public PharmacyOrder getPharmacyOrder() {
+		return pharmacyOrder;
+	}
+
+	public void setPharmacyOrder(PharmacyOrder pharmacyOrder) {
+		this.pharmacyOrder = pharmacyOrder;
 	}
 	
 }

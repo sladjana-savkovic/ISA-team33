@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityDTO;
-import rs.ac.uns.ftn.isaproject.dto.PharmacyActionDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyOrderDTO;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyOrderService;
 
@@ -37,12 +36,12 @@ public class PharmacyOrderController {
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody PharmacyOrderDTO pharmacyOrderDTO) {
-		//try {
+		try {
 			pharmacyOrderService.add(pharmacyOrderDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
-//		}catch (Exception e) {
-	//		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		//}
+		}catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }
 
