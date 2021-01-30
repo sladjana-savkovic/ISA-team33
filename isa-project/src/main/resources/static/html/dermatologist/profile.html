@@ -15,9 +15,96 @@
 </head>
 <body>
 
+	<div class="container w-50 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Profile informations</strong></h5>
+			<div class="card-body px-lg-5">
+				<form style="color: #757575;" id="edit_profile">
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Name:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<input type="text" class="form-control" id="name" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Surname:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="text" class="form-control" id="surname" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Date of birth:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="date" class="form-control" id="dateOfBirth" required disabled>
+					 	</div>
+					 </div>
+				     <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Phone number:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="number" class="form-control" id="phone" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Country:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<select id="country" class="custom-select" required disabled></select>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">City:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<select id="city" class="custom-select" required disabled></select>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Home address:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="text" class="form-control" id="address" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Email:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="text" class="form-control" id="email" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Password:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="password" class="form-control" id="password" required disabled>
+					 	</div>
+					 </div>
+					 <button class="btn btn-outline-info btn-rounded btn-block z-depth-0 my-4 waves-effect" type="submit" id="change">Edit</button>
+			    </form>
+		    </div>
+	    </div>
+    </div>
+    
+    <div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
+  
+
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../js/navbars/dermatologist.js"></script>
+    <script type="text/javascript" src="../../js/dermatologist/profile.js"></script>
 </body>
 </html>
