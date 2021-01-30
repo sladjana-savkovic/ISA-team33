@@ -59,7 +59,7 @@ $(document).ready(function () {
 					$('#div_alert').append(alert);
 					return;
 				}
-			});
+		});
 	});
 	
 });
