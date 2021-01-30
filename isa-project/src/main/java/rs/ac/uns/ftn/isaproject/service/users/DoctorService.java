@@ -13,6 +13,6 @@ public interface DoctorService {
 	void updateInfo(DoctorDTO doctorDTO);
 	void updatePassword(int id, String password);
 	Collection<Doctor> findByPharmacyId(int id);
-	Collection<Doctor> searchDoctors(Collection<Doctor> doctors, SearchDoctorDTO searchDoctorDTO);
-	Collection<Doctor> filterDoctors(Collection<Doctor> doctors, FilterDoctorDTO filterDoctorDTO);
+	Collection<Doctor> searchDoctors(SearchDoctorDTO searchDoctorDTO);
+	Collection<Doctor> filterDoctors(FilterDoctorDTO filterDoctorDTO);
 }

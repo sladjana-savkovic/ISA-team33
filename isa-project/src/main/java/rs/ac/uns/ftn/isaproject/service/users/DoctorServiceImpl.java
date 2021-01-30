@@ -57,8 +57,9 @@ public class DoctorServiceImpl implements DoctorService {
 		return doctorRepository.findByPharmacyId(id);
 	}
 	
-	public Collection<Doctor> searchDoctors(Collection<Doctor> doctors, SearchDoctorDTO searchDoctorDTO){
-		//Collection<Doctor> doctors = findByPharmacyId(searchDoctorDTO.pharmacyId);
+	@Override
+	public Collection<Doctor> searchDoctors(SearchDoctorDTO searchDoctorDTO){
+		Collection<Doctor> doctors = searchDoctorDTO.doctors;
 		Collection<Doctor> searchedDoctors = new ArrayList<Doctor>();
 		for(Doctor d:doctors) {
 			if(d.getName().toLowerCase().contains(searchDoctorDTO.name.toLowerCase()) || d.getSurname().toLowerCase().contains(searchDoctorDTO.surname.toLowerCase())) {
@@ -70,8 +71,8 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public Collection<Doctor> filterDoctors(Collection<Doctor> doctors, FilterDoctorDTO filterDoctorDTO) {
-		//Collection<Doctor> doctors = findByPharmacyId(filterDoctorDTO.pharmacyId);
+	public Collection<Doctor> filterDoctors(FilterDoctorDTO filterDoctorDTO) {
+		Collection<Doctor> doctors = filterDoctorDTO.doctors;
 		Collection<Doctor> filteredDoctors = new ArrayList<Doctor>();
 		
 		for(Doctor d:doctors) {
@@ -79,7 +80,6 @@ public class DoctorServiceImpl implements DoctorService {
 				filteredDoctors.add(d);
 			}
 		}
-		
 		return filteredDoctors;
 	}
 }

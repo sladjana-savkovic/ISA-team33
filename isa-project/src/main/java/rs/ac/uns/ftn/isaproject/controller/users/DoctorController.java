@@ -82,7 +82,7 @@ public class DoctorController {
 	@RequestMapping(path = "/search", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> search(@RequestBody SearchDoctorDTO searchDoctorDTO) {
 		try {
-			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.searchDoctors(doctorService.findByPharmacyId(searchDoctorDTO.pharmacyId), searchDoctorDTO));
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.searchDoctors(searchDoctorDTO));
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
@@ -94,7 +94,7 @@ public class DoctorController {
 	@RequestMapping(path = "/filter", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> filter(@RequestBody FilterDoctorDTO filterDoctorDTO) {
 		try {
-			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.filterDoctors(doctorService.findByPharmacyId(filterDoctorDTO.pharmacyId), filterDoctorDTO));
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.filterDoctors(filterDoctorDTO));
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
