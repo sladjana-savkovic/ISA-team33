@@ -41,7 +41,7 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 				return true;
 		}
 		
-		//Ako lijek nije dostupan salje se notifikacija adminu apoteke
+		//TODO: Ako lijek nije dostupan salje se notifikacija adminu apoteke
 		return false;
 	}
 

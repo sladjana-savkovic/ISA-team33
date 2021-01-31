@@ -41,6 +41,8 @@ public class DrugReservationServiceImpl implements DrugReservationService{
 		DrugReservation drugReservation = drugReservationRepository.getOne(id);
 		drugReservation.setDone(true);
 		drugReservationRepository.save(drugReservation);
+		
+		//TODO: Nakon preuzimanja rezervisanog lijeka, poslati potrvdu na mejl pacijenta
 	}
 
 }
