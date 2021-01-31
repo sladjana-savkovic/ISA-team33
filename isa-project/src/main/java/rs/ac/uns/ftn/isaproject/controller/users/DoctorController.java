@@ -113,4 +113,10 @@ public class DoctorController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PutMapping("/delete/{id}")
+	public ResponseEntity<Void> deleteDoctor(@PathVariable int id){
+		doctorService.deleteDoctor(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 }

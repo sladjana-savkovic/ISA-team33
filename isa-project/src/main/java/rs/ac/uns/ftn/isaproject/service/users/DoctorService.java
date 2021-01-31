@@ -17,4 +17,5 @@ public interface DoctorService {
 	Collection<Doctor> findByPharmacyId(int id);
 	Collection<ViewSearchedDoctorDTO> searchDoctors(SearchDoctorDTO searchDoctorDTO);
 	Collection<ViewSearchedDoctorDTO> filterDoctors(FilterDoctorDTO filterDoctorDTO);
+	void deleteDoctor(int id);
 }
