@@ -27,9 +27,6 @@ public class DrugOffer {
 	private double totalPrice;
 	
 	@Column(unique = false, nullable = false)
-	private boolean isAccepted;
-	
-	@Column(unique = false, nullable = false)
 	private OfferStatus status;
 	
 	@Column(unique=false, nullable=false)
@@ -55,14 +52,6 @@ public class DrugOffer {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
-	}
-
-	public boolean isAccepted() {
-		return isAccepted;
-	}
-
-	public void setAccepted(boolean isAccepted) {
-		this.isAccepted = isAccepted;
 	}
 	
 	public OfferStatus getStatus() {

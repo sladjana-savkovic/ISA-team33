@@ -13,12 +13,11 @@ public class PharmacyDTO {
 	public String cityName;
 	public String countryName;
 	public Collection<DoctorDTO> doctors;
-	public Collection<DrugDTO> drugs;
 	public Collection<AppointmentDTO> appointments;
 	
 	public PharmacyDTO() {}
 
-	public PharmacyDTO(int id, String name, double averagePrice, String address, int cityId, String cityName, String countryName, Collection<DrugDTO> drugs, Collection<AppointmentDTO> appointments, Collection<DoctorDTO> doctors) {
+	public PharmacyDTO(int id, String name, double averagePrice, String address, int cityId, String cityName, String countryName, Collection<AppointmentDTO> appointments, Collection<DoctorDTO> doctors) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -28,7 +27,6 @@ public class PharmacyDTO {
 		this.cityName = cityName;
 		this.countryName = countryName;
 		this.doctors = doctors;
-		this.drugs = drugs;
 		this.appointments = appointments;
 	}
 	

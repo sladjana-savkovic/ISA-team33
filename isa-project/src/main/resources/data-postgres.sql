@@ -38,13 +38,13 @@ insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_do
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm', 3, 'Uzimanje probiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
 
 insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (1,3);
-
+/*
 insert into drug_pharmacies (drug_id,pharmacies_id) values (1,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (2,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (3,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (1,2);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (2,2);
-
+*/
 insert into ingredient (id, name) values (1, 'Paracetamol');
 insert into ingredient (id, name) values (2, 'Mg');
 insert into ingredient (id, name) values (3, 'Fiziološki rastvor');
@@ -107,31 +107,28 @@ insert into patient_allergies (patient_id,allergies_id) values (3,1);
 insert into patient_allergies (patient_id,allergies_id) values (4,2);
 
 
-/*
-insert into drug_quantity (id, quantity, drug_id,purpose) values (nextval('drugquantities_seq'),33,1,0);
-insert into drug_quantity (id, quantity, drug_id,purpose) values (nextval('drugquantities_seq'),12,2,0);
-insert into drug_quantity (id, quantity, drug_id,purpose) values (nextval('drugquantities_seq'),45,1,1);
-*/
+
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id) values (nextval('quantity_pharmacy_seq'),33,1,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id) values (nextval('quantity_pharmacy_seq'),12,2,2);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id) values (nextval('quantity_pharmacy_seq'),45,1,2);
+
 insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-01-31', true, 6);
 insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-03-03', false, 6);
 
 
-insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),33,1,0,1);
-insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,0,1);
-insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),45,1,0,2);
+insert into drug_quantity_order (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),33,1,0,1);
+insert into drug_quantity_order (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,0,1);
+insert into drug_quantity_order (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),45,1,0,2);
 
-/*insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
-insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);
-insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (2, 3);*/
 
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 1);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 1);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 8, 4, 3);
 
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-15', 22000, 1, 8, 1);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-10', 21000, 1, 8, 2);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-22', 54000, 2, 8, 2);
-insert into drug_offer (id, is_accepted, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), false, '2021-02-17', 56000, 2, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-15', 22000, 1, 8, 1);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-10', 21000, 1, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-22', 54000, 2, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-17', 56000, 2, 8, 2);
 
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 350, 1, 1, '2020-12-30');
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 380, 1, 1, '2021-01-15');
@@ -167,11 +164,6 @@ insert into system_administrator (id, name, surname, email, password, telephone,
 					   (nextval('users_seq'),'Mladen','Mladenović','mladenm@gmail.com','mladen1534', '0665677653','Miloša Obilića 55','1978-09-10', true);
 insert into system_administrator (id, name, surname, email, password, telephone,address,date_of_birth, is_active) values 
 					   (nextval('users_seq'),'Nikola','Nikolić','nikolan@gmail.com','1234nikola', '0632547777','Zmaj Jovina 12','1985-05-10', true);
-
-
-insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 1);
-insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 2);
-insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 3);
 					   
 
 insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), true, 4, 1);
@@ -180,6 +172,8 @@ insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) value
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'gold', 10, 100, 51);
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'silver', 5, 50, 21);
 
-
+insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 33, 1, 8);
+insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 12, 2, 8);
+insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 45, 1, 8);
 
 					   

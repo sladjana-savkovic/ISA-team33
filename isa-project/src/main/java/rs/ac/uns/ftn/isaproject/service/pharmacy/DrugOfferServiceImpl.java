@@ -6,11 +6,12 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugOfferRepository;
-import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityOrderRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 
 @Service
@@ -30,7 +31,7 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 		DrugOffer drugOffer = drugOfferRepository.getOne(id);
 		PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugOffer.getPharmacyOrder().getId());
 		if(pharmacyOrder.getLimitDate().isBefore(LocalDate.now())) {
-			drugOffer.setAccepted(true);
+			drugOffer.setStatus(OfferStatus.Accepted);
 			drugOfferRepository.save(drugOffer);
 		}
 		
