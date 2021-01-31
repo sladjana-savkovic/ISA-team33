@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
-import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrug;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrugsForm;
@@ -29,7 +28,7 @@ public class DrugServiceImpl implements DrugService{
 		Collection<Drug> drugs = drugRepository.findAll();
 		Collection<Drug> drugsInPharmacy = new ArrayList<>();
 		
-		for(Drug drug:drugs) {
+		/*for(Drug drug:drugs) {
 			Collection<Pharmacy> drugPharmacies = drug.getPharmacies();
 			for(Pharmacy pharmacy:drugPharmacies) {
 				if(pharmacy.getId() == id) {
@@ -37,7 +36,7 @@ public class DrugServiceImpl implements DrugService{
 					break;
 				}
 			}
-		}
+		}*/
 		
 		return drugsInPharmacy;
 	}

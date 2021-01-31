@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
 import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
