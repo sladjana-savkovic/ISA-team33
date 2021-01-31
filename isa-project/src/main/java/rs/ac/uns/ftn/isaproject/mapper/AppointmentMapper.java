@@ -14,7 +14,7 @@ public class AppointmentMapper {
 		
 		for(Appointment a:appointments) {
 			
-			appointmentDTOs.add(new AppointmentDTO(a.getId(), a.getTypeOfAppointment().toString(), a.getStartTime().toString(), a.getEndTime().toString(), a.getPrice(), a.getPharmacy().getId()));
+			appointmentDTOs.add(new AppointmentDTO(a.getId(), a.getTypeOfAppointment(), a.getStartTime().toString(), a.getEndTime().toString(), a.getPrice(), a.getPharmacy().getId(), a.getStatus()));
 		}
 		return appointmentDTOs;
 	}
