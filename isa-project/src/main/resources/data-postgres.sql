@@ -38,13 +38,13 @@ insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_do
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm', 3, 'Uzimanje probiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
 
 insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (1,3);
-
+/*
 insert into drug_pharmacies (drug_id,pharmacies_id) values (1,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (2,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (3,1);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (1,2);
 insert into drug_pharmacies (drug_id,pharmacies_id) values (2,2);
-
+*/
 insert into ingredient (id, name) values (1, 'Paracetamol');
 insert into ingredient (id, name) values (2, 'Mg');
 insert into ingredient (id, name) values (3, 'Fiziološki rastvor');
@@ -116,9 +116,9 @@ insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_
 insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-03-03', false, 6);
 
 
-insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),33,1,0,1);
-insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,0,1);
-insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),45,1,0,2);
+insert into drug_quantity_order (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),33,1,0,1);
+insert into drug_quantity_order (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,0,1);
+insert into drug_quantity_order (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),45,1,0,2);
 
 /*insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);

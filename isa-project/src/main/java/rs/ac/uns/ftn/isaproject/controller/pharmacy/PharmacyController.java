@@ -40,11 +40,12 @@ public class PharmacyController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(pharmacy.getDrugs());
+		//Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(pharmacy.getDrugs());
 		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(pharmacy.getAppointments());
 		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(pharmacy.getDoctors());
-		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), drugDTOs, appointmentDTOs, doctorDTOs);
+		//PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), drugDTOs, appointmentDTOs, doctorDTOs);
 		
-		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+		//return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+		return null;
 	}
 }

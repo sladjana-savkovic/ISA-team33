@@ -10,7 +10,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugOfferRepository;
-import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityOrderRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 
 @Service

@@ -7,10 +7,10 @@ import rs.ac.uns.ftn.isaproject.dto.DrugQuantityDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyOrderDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.PurposeOfDrugQuantity;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
-import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantity;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityOrder;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
 import rs.ac.uns.ftn.isaproject.model.users.PharmacyAdministrator;
-import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityOrderRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PharmacyAdministratorRepository;
@@ -19,12 +19,12 @@ import rs.ac.uns.ftn.isaproject.repository.users.PharmacyAdministratorRepository
 public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 
 	private PharmacyOrderRepository pharmacyOrderRepository;
-	private DrugQuantityRepository drugQuantityRepository;
+	private DrugQuantityOrderRepository drugQuantityRepository;
 	private DrugRepository drugRepository;
 	private PharmacyAdministratorRepository pharmacyAdministratorRepository;
 	
 	@Autowired
-	public PharmacyOrderServiceImpl(PharmacyOrderRepository pharmacyOrderRepository, DrugQuantityRepository drugQuantityRepository, DrugRepository drugRepository, PharmacyAdministratorRepository pharmacyAdministratorRepository) {
+	public PharmacyOrderServiceImpl(PharmacyOrderRepository pharmacyOrderRepository, DrugQuantityOrderRepository drugQuantityRepository, DrugRepository drugRepository, PharmacyAdministratorRepository pharmacyAdministratorRepository) {
 		this.pharmacyOrderRepository = pharmacyOrderRepository;
 		this.drugQuantityRepository = drugQuantityRepository;
 		this.drugRepository = drugRepository;
@@ -38,7 +38,7 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 
 	@Override
 	public void addDrugQuantity(DrugQuantityDTO drugQuantityDTO) {
-		DrugQuantity drugQuantity = new DrugQuantity();
+		DrugQuantityOrder drugQuantity = new DrugQuantityOrder();
 		Drug drug = drugRepository.getOne(drugQuantityDTO.idDrug);
 		PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugQuantityDTO.idPharmacyOrder);
 		

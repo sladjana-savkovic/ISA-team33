@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
-import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantity;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityOrder;
 
 
 @Entity
@@ -20,5 +20,5 @@ public class Supplier extends User{
 	private Set<DrugOffer> drugOffers = new HashSet<DrugOffer>();
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<DrugQuantity> drugsInStore = new HashSet<DrugQuantity>();
+	private Set<DrugQuantityOrder> drugsInStore = new HashSet<DrugQuantityOrder>();
 }

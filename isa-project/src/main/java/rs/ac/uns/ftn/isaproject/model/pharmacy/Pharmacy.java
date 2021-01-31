@@ -42,9 +42,6 @@ public class Pharmacy {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
-	@ManyToMany
-	@JoinTable(name = "drug_pharmacies", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
-	private Set<Drug> drugs = new HashSet<Drug>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "doctor_pharmacies", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
@@ -78,14 +75,6 @@ public class Pharmacy {
 
 	public void setCity(City city) {
 		this.city = city;
-	}
-
-	public Set<Drug> getDrugs() {
-		return drugs;
-	}
-
-	public void setDrugs(Set<Drug> drugs) {
-		this.drugs = drugs;
 	}
 
 	public Set<Doctor> getDoctors() {
