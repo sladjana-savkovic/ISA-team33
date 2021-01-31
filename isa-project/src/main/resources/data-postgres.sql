@@ -163,4 +163,7 @@ insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 
 insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 2);
 insert into supplier_drugs_in_store (supplier_id, drugs_in_store_id) values (8, 3);
 					   
+
+insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), true, 4, 1);
+insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), false, 4, 2);
 					   

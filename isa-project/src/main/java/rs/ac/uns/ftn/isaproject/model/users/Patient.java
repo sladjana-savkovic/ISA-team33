@@ -7,7 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Subscription;
 
 @Entity
 public class Patient extends User {
@@ -18,6 +22,9 @@ public class Patient extends User {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Drug> allergies = new HashSet<Drug>();
+	
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Subscription> subscriptions = new HashSet<Subscription>();
 
 	
 	public int getPenalty() {
