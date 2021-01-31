@@ -146,7 +146,7 @@ $(document).ready(function () {
 								
 				let ingredients = "";
 				for(let i of d.ingredients){
-					ingredients += i.name + '\n';
+					ingredients += i.name + "\n";
 				}
 				
 				$('#dIngredients').text(ingredients);
@@ -258,7 +258,7 @@ $(document).ready(function () {
 				
 				$.ajax({
 					type:"POST", 
-					url: "/api/therapy",
+					url: "/api/therapy/pharmacy/" + appointment.pharmacyId,
 					data: JSON.stringify(therapyDTOs),
 					contentType: "application/json",
 					success:function(){

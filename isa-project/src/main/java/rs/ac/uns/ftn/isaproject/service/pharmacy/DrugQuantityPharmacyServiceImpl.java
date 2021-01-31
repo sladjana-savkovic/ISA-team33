@@ -44,13 +44,13 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 	}
 
 	@Override
-	public boolean reduceDrugQuantity(int drugId, int pharmacyId, int quantity) {
+	public boolean reduceDrugQuantity(int drugId, int pharmacyId) {
 		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
 		
 		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
 			if(drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
-				if(drugQuantity.getQuantity() - quantity > 0) {
-					drugQuantity.setQuantity(drugQuantity.getQuantity() - quantity);
+				if(drugQuantity.getQuantity() - 1 > 0) {
+					drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
 					quantityPharmacyRepository.save(drugQuantity);
 					return true;
 				}

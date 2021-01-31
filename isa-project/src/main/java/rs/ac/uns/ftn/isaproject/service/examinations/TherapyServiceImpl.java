@@ -2,10 +2,8 @@ package rs.ac.uns.ftn.isaproject.service.examinations;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
 import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 import rs.ac.uns.ftn.isaproject.model.examinations.Therapy;
@@ -45,4 +43,5 @@ public class TherapyServiceImpl implements TherapyService {
 		}
 		therapyRepository.saveAll(therapies);
 	}
+	
 }
