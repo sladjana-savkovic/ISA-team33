@@ -8,4 +8,5 @@ public interface DrugService {
 	
 	void add(DrugDTO drugDTO);
 	Collection<Drug> findAllByPharmacyId(int id);
+	boolean checkAvailability(int id, int pharmacyId);
 }

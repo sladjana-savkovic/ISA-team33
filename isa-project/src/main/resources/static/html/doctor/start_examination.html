@@ -121,9 +121,23 @@
 			                    	<select id="drugs" class="custom-select" style="margin-top: 5px;"></select>
 		                    	</div>
 		                    	<div class="col">
-			                    	<button class="btn btn-outline-danger btn-rounded btn-block my-4 waves-effect" type="submit" id="check">Check availability</button>
+			                    	<button class="btn btn-outline-danger btn-rounded btn-block my-4 waves-effect" type="button" id="check">Check availability</button>
+		                    	</div>
+		                    	<div class="col" hidden="true" id="div_prescribe">
+			                    	<button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="button" id="prescribe" data-toggle="modal" data-target="#prescriptionModal">Prescribe</button>
 		                    	</div>
 		                    </div>
+		                    <div class="row w-100 p-3 h-50">
+						        <table class="table" style="margin-top:50px;" id="therapies">
+						        	<thead>
+						        		<tr>
+						        			<th scope="col" style="width: 500px;">Drug</th>
+						        			<th scope="col">Daily dose</th>
+						        		</tr>
+						        	</thead>
+						        	<tbody id="body_therapies"></tbody>
+						        </table>
+					        </div>
 	                    </div>
 	                    <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="create">Submit</button>
                     </form>
@@ -132,6 +146,34 @@
             </div>
 		</div>
 	</div>
+	
+	
+	<div class="modal fade" id="prescriptionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <form id="save_prescription">
+                <div class="modal-header">
+                    <p class="heading lead">Prescription</p>
+                    <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="prescribe_dialog">
+                	<p id="hasAllergy">The patient is allergic to the chosen drug.</p>
+                	<div class="row" id="noAllergy">
+                		<label class="text-secondary mb-0">Duration of therapy (in days):</label><br>
+			            <input type="number" class="form-control" id="duration" min="1" required>
+                	</div>
+                </div>
+                <div class="modal-footer">
+			        <button type="submit" class="btn btn-success" id="save_changes">Save changes</button>
+			     </div>
+			 </form>
+            </div>
+        </div>
+    </div>
+	
 
 	<div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
 

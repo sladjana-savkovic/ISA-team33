@@ -53,5 +53,12 @@ public class DrugServiceImpl implements DrugService{
 		
 		drugRepository.save(drug);
 	}
+
+	@Override
+	public boolean checkAvailability(int id, int pharmacyId) {
+		Drug drug = drugRepository.getOne(id);
+		//Nakon dodavanja logike oko kolicine lijeka u apoteci, dopuniti kod
+		return true;
+	}
 	
 }

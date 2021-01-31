@@ -1,6 +1,7 @@
 var doctorId = 1;
 var appointmentId = 5;
 var appointment = null;
+var therapies = [];
 $(document).ready(function () {
 	
 	$.ajax({
@@ -74,7 +75,84 @@ $(document).ready(function () {
 		}
 	
 	});
+	
+	$('#check').click(function(){
+		
+		let drugId = $("#drugs option:selected").val();
+				
+		$.ajax({
+			type:"GET", 
+			url: "/api/drug/" + drugId + "/pharmacy/" + appointment.pharmacyId + "/availability",
+			contentType: "application/json",
+			success:function(availability){
+				if(availability){
+					$('#div_prescribe').attr("hidden",false);
+				}else{
+					//U slucaju da lijek nije dostupan izbaciti dijalog i ponuditi zamjenske lijekove
+					alert("Nije dostupan");
+				}
+			},
+			error:function(){
+				console.log('error checking drug availability');
+			}
+		});
+		
+	});
+	
+	$('#prescribe').click(function(){
+		
+		let drugId = $("#drugs option:selected").val();
+				
+		//Prije propisivanja lijeka potrebno je provjeriti da li je pacijent alergican na njega
+		$.ajax({
+			type:"GET", 
+			url: "/api/patient/" + appointment.patientId + "/allergy/" + drugId,
+			contentType: "application/json",
+			success:function(hasAllergy){				
+				if(hasAllergy){
+					$('#noAllergy').attr("hidden",true);
+					$('#save_changes').attr("hidden",true);
+					$('#hasAllergy').attr("hidden",false);
+				}else{
+					$('#noAllergy').attr("hidden",false);
+					$('#save_changes').attr("hidden",false);
+					$('#hasAllergy').attr("hidden",true);
+					$('#duration').val("");
+				}
+			},
+			error:function(){
+				console.log('error checking allergy');
+			}
+		});
+	});
+	
+	$('#save_prescription').submit(function(event){
+			event.preventDefault();
+			
+			let drugId = $("#drugs option:selected").val();
+			let drugName = $("#drugs option:selected").text();
+			
+			$('#btn_close').click();
+			let duration = $('#duration').val();
+			
+			therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
+			reloadTherapies();
+		});
+	
+	$("#drugs" ).change(function() {
+	  	$('#div_prescribe').attr("hidden",true);
+	});
+	
 });
+
+
+function reloadTherapies(){
+	$('#body_therapies').empty();
+	for(let t of therapies){
+		let row = $('<tr><td>'+ t.drugName +'</td><td>' + t.duration + '</td></tr>');	
+		$('#therapies').append(row);
+	}
+}
 
 
 function fillInBasicInfo(){

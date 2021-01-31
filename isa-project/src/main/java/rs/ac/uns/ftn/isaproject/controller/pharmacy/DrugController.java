@@ -46,4 +46,14 @@ public class DrugController {
 		}
 	}
 	
+	@GetMapping("{id}/pharmacy/{pharmacyId}/availability")
+	public ResponseEntity<Boolean> checkAvailability(@PathVariable int id, @PathVariable int pharmacyId){
+		try {
+			boolean availability = drugService.checkAvailability(id, pharmacyId);
+			return new ResponseEntity<Boolean>(availability, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 }
