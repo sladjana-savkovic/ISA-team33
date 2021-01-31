@@ -16,7 +16,7 @@ $(document).ready(function () {
         + '  <a class="nav-link" href="/html/pharmacy_administrator/drug_order.html">Drug order</a>'
         + '  </li>'
 		+ '  <li class="nav-item">'
-        + '  <a class="nav-link" href="/html/pharmacy_administrator/pricelist.html">Pricelist</a>'
+        + '  <a class="nav-link" href="/html/pharmacy_administrator/pricelist.html">Pricelist and actions</a>'
         + '  </li>'
 		+ '  <li class="nav-item">'
         + '  <a class="nav-link" href="/html/pharmacy_administrator/vacation_requests.html">Vacation requests</a>'
