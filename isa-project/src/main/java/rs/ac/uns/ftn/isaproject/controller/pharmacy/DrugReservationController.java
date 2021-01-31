@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugReservationDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugReservationMapper;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugReservationService;
 
 @RestController
@@ -27,18 +28,21 @@ public class DrugReservationController {
 	@GetMapping("/{id}/doctor/{doctorId}")
 	public ResponseEntity<DrugReservationDTO> searchOne(@PathVariable int id,@PathVariable int doctorId){
 		try {
-			DrugReservationDTO drugReservationDTO = DrugReservationMapper.toDrugReservationDTO(drugReservationService.searchOne(id,doctorId));
-			return new ResponseEntity<DrugReservationDTO>(drugReservationDTO,HttpStatus.OK);
+			DrugReservation drugReservation = drugReservationService.searchOne(id,doctorId);
+			if(drugReservation != null) 
+				return new ResponseEntity<DrugReservationDTO>(DrugReservationMapper.toDrugReservationDTO(drugReservation),HttpStatus.OK);
+			else 
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		catch(Exception exception){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}	
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> completeReservation(@PathVariable int id){
+	public ResponseEntity<Void> confirmReservation(@PathVariable int id){
 		try {
-			drugReservationService.completeReservation(id);
+			drugReservationService.confirmReservation(id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception exception) {

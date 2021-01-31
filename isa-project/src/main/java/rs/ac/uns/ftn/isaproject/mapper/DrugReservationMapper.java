@@ -8,6 +8,7 @@ public class DrugReservationMapper {
 	public static DrugReservationDTO toDrugReservationDTO (DrugReservation drugReservation) {
 		return new DrugReservationDTO(drugReservation.getId(),drugReservation.getDrug().getId(),drugReservation.getDrug().getName(),
 									  drugReservation.getDateLimit(),drugReservation.isDone(),drugReservation.getPatient().getId(),
-									  drugReservation.getPatient().getName(),drugReservation.getPatient().getSurname());
+									  drugReservation.getPatient().getName(),drugReservation.getPatient().getSurname(),
+									  drugReservation.getPharmacy().getId(), drugReservation.getPharmacy().getName());
 	}
 }

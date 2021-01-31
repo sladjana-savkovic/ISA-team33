@@ -5,5 +5,5 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
 public interface DrugReservationService {
 
 	DrugReservation searchOne(int id, int doctorId);
-	void completeReservation(int id);
+	void confirmReservation(int id);
 }

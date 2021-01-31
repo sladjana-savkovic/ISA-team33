@@ -3,8 +3,7 @@ package rs.ac.uns.ftn.isaproject.service.pharmacy;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
@@ -26,16 +25,19 @@ public class DrugReservationServiceImpl implements DrugReservationService{
 
 	@Override
 	public DrugReservation searchOne(int id, int doctorId){
-		List<Pharmacy> doctorPharmacy = new ArrayList<>(doctorRepository.getOne(doctorId).getPharmacies());
+		Collection<Pharmacy> doctorPharmacy = new ArrayList<>(doctorRepository.getOne(doctorId).getPharmacies());
 		DrugReservation drugReservation = drugReservationRepository.getOne(id);
-		if(drugReservation.getDateLimit().isAfter(LocalDateTime.now().minus(Period.ofDays(1))) && doctorPharmacy.get(0).getId() == drugReservation.getPharmacy().getId()) {
-				return drugReservation;
+		if(drugReservation.getDateLimit().isAfter(LocalDateTime.now().minus(Period.ofDays(1))) && !drugReservation.isDone()) {
+			for(Pharmacy p:doctorPharmacy) {
+				if(p.getId() == drugReservation.getPharmacy().getId())
+					return drugReservation;
+			}
 		}
 		return null;
 	}
 
 	@Override
-	public void completeReservation(int id) {
+	public void confirmReservation(int id) {
 		DrugReservation drugReservation = drugReservationRepository.getOne(id);
 		drugReservation.setDone(true);
 		drugReservationRepository.save(drugReservation);
