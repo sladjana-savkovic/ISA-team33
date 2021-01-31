@@ -89,7 +89,8 @@ $(document).ready(function () {
 					$('#div_prescribe').attr("hidden",false);
 				}else{
 					//U slucaju da lijek nije dostupan izbaciti dijalog i ponuditi zamjenske lijekove
-					alert("Nije dostupan");
+					$('#drugAvailabilityModal').modal('toggle');
+					$('#drugAvailabilityModal').modal('show');
 				}
 			},
 			error:function(){
