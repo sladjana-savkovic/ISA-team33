@@ -8,6 +8,6 @@ import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 public interface ExaminationReportService {
 
 	Collection<ExaminationReport> findAllByDoctorId(int id);
-	void add(AddExaminationReportDTO examinationReportDTO);
+	ExaminationReport add(AddExaminationReportDTO examinationReportDTO);
 	Collection<ExaminedPatientDTO> searchByNameAndSurname(String name, String surname,Collection<ExaminedPatientDTO> examinedPatientDTOs);
 }

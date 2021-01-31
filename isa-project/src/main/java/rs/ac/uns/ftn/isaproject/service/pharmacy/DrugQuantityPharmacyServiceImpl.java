@@ -40,23 +40,36 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 			if(quantity.getDrug().getId() == drugId && quantity.getPharmacy().getId() == pharmacyId && quantity.getQuantity() > 0)
 				return true;
 		}
+		
+		//Ako lijek nije dostupan salje se notifikacija adminu apoteke
 		return false;
 	}
 
 	@Override
-	public boolean reduceDrugQuantity(int drugId, int pharmacyId, int quantity) {
+	public boolean reduceDrugQuantity(int drugId, int pharmacyId) {
 		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
 		
 		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
 			if(drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
-				if(drugQuantity.getQuantity() - quantity > 0) {
-					drugQuantity.setQuantity(drugQuantity.getQuantity() - quantity);
+				if(drugQuantity.getQuantity() - 1 > 0) {
+					drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
 					quantityPharmacyRepository.save(drugQuantity);
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Collection<Drug> findAvailableDrugsByPharmacyId(int pharmacyId) {
+		Collection<DrugQuantityPharmacy> drugQuantities = quantityPharmacyRepository.findAvailableDrugsByPharmacyId(pharmacyId);
+		Collection<Drug> drugs = new ArrayList<Drug>();
+		
+		for(DrugQuantityPharmacy d: drugQuantities) {
+			drugs.add(drugRepository.getOne(d.getDrug().getId()));
+		}
+		return drugs;
 	}
 
 }

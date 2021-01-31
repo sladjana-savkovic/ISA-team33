@@ -15,7 +15,8 @@ public class DrugMapper {
 		
 		for(Drug d:drugs) {
 			Collection<IngredientDTO> ingredients = IngredientMapper.toIngredientDTOs(d.getIngredients());
-			drugDTOs.add(new DrugDTO(d.getId(), d.getName(), d.getTypeOfDrug().toString(), d.getTypeOfDrugsForm().toString(), d.getProducer(), ingredients));
+			drugDTOs.add(new DrugDTO(d.getId(), d.getName(), d.getTypeOfDrug().name(), d.getTypeOfDrugsForm().name(), d.getProducer(), ingredients,
+									d.getContraindication(),d.getDailyDose()));
 		}
 		
 		return drugDTOs;
