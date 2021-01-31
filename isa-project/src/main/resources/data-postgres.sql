@@ -38,13 +38,8 @@ insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_do
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm', 3, 'Uzimanje probiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
 
 insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (1,3);
-/*
-insert into drug_pharmacies (drug_id,pharmacies_id) values (1,1);
-insert into drug_pharmacies (drug_id,pharmacies_id) values (2,1);
-insert into drug_pharmacies (drug_id,pharmacies_id) values (3,1);
-insert into drug_pharmacies (drug_id,pharmacies_id) values (1,2);
-insert into drug_pharmacies (drug_id,pharmacies_id) values (2,2);
-*/
+
+
 insert into ingredient (id, name) values (1, 'Paracetamol');
 insert into ingredient (id, name) values (2, 'Mg');
 insert into ingredient (id, name) values (3, 'Fiziološki rastvor');
@@ -84,7 +79,7 @@ insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor
 insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
 					values (nextval('appointments_seq'),'2020-12-03 15:30:00','2020-12-03 16:00:00',1,800,2,3,4,3);
 insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
-					values (nextval('appointments_seq'),'2021-02-03 09:30:00','2021-01-13 10:00:00',0,800,1,2,4,0);
+					values (nextval('appointments_seq'),'2021-02-03 09:30:00','2021-01-13 10:00:00',0,800,1,1,4,0);
 insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
 					values (nextval('appointments_seq'),'2020-12-03 07:30:00','2020-12-03 8:00:00',0,1000,1,2,3,0);
 insert into appointment (id,start_time,end_time,type_of_appointment,price,doctor_id,pharmacy_id,patient_id,status)
@@ -105,7 +100,6 @@ insert into examination_report (id,diagnosis,appointment_id)
 					
 insert into patient_allergies (patient_id,allergies_id) values (3,1);
 insert into patient_allergies (patient_id,allergies_id) values (4,2);
-
 
 
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id) values (nextval('quantity_pharmacy_seq'),33,1,1);

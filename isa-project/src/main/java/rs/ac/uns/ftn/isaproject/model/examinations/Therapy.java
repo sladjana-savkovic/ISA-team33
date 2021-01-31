@@ -27,4 +27,38 @@ public class Therapy {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private ExaminationReport examination;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public Drug getDrug() {
+		return drug;
+	}
+
+	public void setDrug(Drug drug) {
+		this.drug = drug;
+	}
+
+	public ExaminationReport getExamination() {
+		return examination;
+	}
+
+	public void setExamination(ExaminationReport examination) {
+		this.examination = examination;
+	}
+	
+	
 }

@@ -23,4 +23,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setStatus(status);
 		appointmentRepository.save(appointment);
 	}
+
+	@Override
+	public Appointment getOne(int id) {
+		return appointmentRepository.getOne(id);
+	}
 }
