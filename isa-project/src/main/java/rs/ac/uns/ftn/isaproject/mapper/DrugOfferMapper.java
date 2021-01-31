@@ -11,7 +11,7 @@ public class DrugOfferMapper {
 	public static Collection<DrugOfferDTO> toDrugOfferDTOs(Collection<DrugOffer> drugOffers){
 		Collection<DrugOfferDTO> drugOfferDTOs = new ArrayList<>();
 		for(DrugOffer d:drugOffers) {
-			drugOfferDTOs.add(new DrugOfferDTO(d.getId(), d.getTotalPrice(), d.isAccepted(), d.getLimitDate(),d.getPharmacyOrder().getId()));
+			drugOfferDTOs.add(new DrugOfferDTO(d.getId(), d.getTotalPrice(), d.getStatus(), d.getLimitDate(),d.getPharmacyOrder().getId()));
 		}
 		return drugOfferDTOs;
 	}

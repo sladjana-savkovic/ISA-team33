@@ -36,10 +36,16 @@ public class Drug {
 	
 	@Column(unique = false, nullable = false)
 	private String producer;
+	
+	@Column(unique = false, nullable = false)
+	private String contraindication;
+	
+	@Column(unique = false, nullable = false)
+	private int dailyDose;
+		
+	@Column(unique = false, nullable = false)
+	private boolean isAllowedOnPrescription;
 
-	@ManyToMany
-	@JoinTable(name = "drug_pharmacies", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
-	private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Ingredient> ingredients = new HashSet<Ingredient>();
@@ -88,14 +94,6 @@ public class Drug {
 		this.producer = producer;
 	}
 
-	public Set<Pharmacy> getPharmacies() {
-		return pharmacies;
-	}
-
-	public void setPharmacies(Set<Pharmacy> pharmacies) {
-		this.pharmacies = pharmacies;
-	}
-
 	public Set<Ingredient> getIngredients() {
 		return ingredients;
 	}
@@ -110,6 +108,22 @@ public class Drug {
 
 	public void setSubstituteDrugs(Set<Drug> substituteDrugs) {
 		this.substituteDrugs = substituteDrugs;
+	}
+
+	public String getContraindication() {
+		return contraindication;
+	}
+
+	public void setContraindication(String contraindication) {
+		this.contraindication = contraindication;
+	}
+
+	public int getDailyDose() {
+		return dailyDose;
+	}
+
+	public void setDailyDose(int dailyDose) {
+		this.dailyDose = dailyDose;
 	}
 	
 }

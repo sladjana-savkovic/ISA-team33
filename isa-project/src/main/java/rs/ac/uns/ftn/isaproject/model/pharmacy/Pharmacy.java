@@ -20,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
+import rs.ac.uns.ftn.isaproject.model.users.ObjectionPharmacy;
 
 @Entity
 public class Pharmacy {
@@ -41,9 +42,6 @@ public class Pharmacy {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
-	@ManyToMany
-	@JoinTable(name = "drug_pharmacies", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
-	private Set<Drug> drugs = new HashSet<Drug>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "doctor_pharmacies", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
@@ -51,6 +49,9 @@ public class Pharmacy {
 	
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
+	
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ObjectionPharmacy> objectionPharmacies = new HashSet<ObjectionPharmacy>();
 
 	public int getId() {
 		return id;
@@ -74,14 +75,6 @@ public class Pharmacy {
 
 	public void setCity(City city) {
 		this.city = city;
-	}
-
-	public Set<Drug> getDrugs() {
-		return drugs;
-	}
-
-	public void setDrugs(Set<Drug> drugs) {
-		this.drugs = drugs;
 	}
 
 	public Set<Doctor> getDoctors() {
