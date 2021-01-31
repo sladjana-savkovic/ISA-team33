@@ -102,4 +102,15 @@ public class DoctorController {
 		}
 		
 	}
+	
+	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Void> add(@RequestBody DoctorDTO doctorDTO){
+		try {
+			doctorService.add(doctorDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }

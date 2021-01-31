@@ -56,7 +56,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public void add(DoctorDTO doctorDTO) {
-		Doctor doctor = doctorRepository.getOne(doctorDTO.id);
+		Doctor doctor = new Doctor();
 		City city = cityRepository.getOne(doctorDTO.cityId);
 		
 		doctor.setName(doctorDTO.name);
