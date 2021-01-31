@@ -40,6 +40,8 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 			if(quantity.getDrug().getId() == drugId && quantity.getPharmacy().getId() == pharmacyId && quantity.getQuantity() > 0)
 				return true;
 		}
+		
+		//Ako lijek nije dostupan salje se notifikacija adminu apoteke
 		return false;
 	}
 
