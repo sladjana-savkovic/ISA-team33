@@ -42,6 +42,9 @@ public class Drug {
 	
 	@Column(unique = false, nullable = false)
 	private int dailyDose;
+		
+	@Column(unique = false, nullable = false)
+	private boolean isAllowedOnPrescription;
 
 	@ManyToMany
 	@JoinTable(name = "drug_pharmacies", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
