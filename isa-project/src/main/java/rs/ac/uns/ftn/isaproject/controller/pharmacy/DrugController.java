@@ -6,12 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
+import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugService;
 
 @RestController
@@ -19,10 +21,12 @@ import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugService;
 public class DrugController {
 
 	private DrugService drugService;
+	private DrugQuantityPharmacyService drugQuantityPharmacyService;
 	
 	@Autowired
-	public DrugController(DrugService drugService) {
+	public DrugController(DrugService drugService, DrugQuantityPharmacyService drugQuantityPharmacyService) {
 		this.drugService = drugService;
+		this.drugQuantityPharmacyService = drugQuantityPharmacyService;
 	}
 	
 	
@@ -56,4 +60,18 @@ public class DrugController {
 		}
 	}
 	
+	@GetMapping(value = "/{id}/pharmacy")
+	public ResponseEntity<Collection<DrugDTO>> getDrugsByPharmacyId(@PathVariable int id) {
+
+		Collection<Drug> drugs  = drugQuantityPharmacyService.findDrugsByPharmacyId(id);
+
+		if (drugs == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugs);
+		
+		return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
+	}
+
 }
