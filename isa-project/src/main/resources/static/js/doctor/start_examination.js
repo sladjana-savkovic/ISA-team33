@@ -1,5 +1,5 @@
 var doctorId = 1;
-var appointmentId = 5;
+var appointmentId = 6;
 var appointment = null;
 var therapies = [];
 $(document).ready(function () {
@@ -143,7 +143,66 @@ $(document).ready(function () {
 	  	$('#div_prescribe').attr("hidden",true);
 	});
 	
+	$('#submit_report').submit(function(event){
+		event.preventDefault();
+				
+		$.ajax({
+			type:"POST", 
+			url: "/api/examination-report",
+			data: JSON.stringify({ 
+				appointmentId: appointmentId, 
+				diagnosis: $('#diagnosis').val()}),
+			contentType: "application/json",
+			success:function(examinationReport){
+				
+				let examinationReportId = examinationReport.id;
+				let therapyDTOs = [];
+				for(let t of therapies){
+					therapyDTOs.push({"drugId":t.drugId, "duration":t.duration, "examinationReportId":examinationReportId});
+				}
+				
+				$.ajax({
+					type:"POST", 
+					url: "/api/therapy",
+					data: JSON.stringify(therapyDTOs),
+					contentType: "application/json",
+					success:function(){
+						disableFields();
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+						
+					},
+					error:function(){
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error saving therapies.'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+					}
+				});
+			},
+			error:function(){
+				console.log("Error saving examination report");
+				return;
+			}
+	``	});
+	});	
+	
 });
+
+
+function disableFields(){
+	$('#diagnosis').attr("disabled",true);
+	$('#drugs').attr("disabled",true);
+	$('#check').attr("disabled",true);
+	$('#prescribe').attr("disabled",true);
+	
+	$('#collapseTwo').removeClass();
+	$('#collapseTwo').addClass("collapse");
+	$('#collapseOne').removeClass();
+	$('#collapseOne').addClass("collapse");
+}
 
 
 function reloadTherapies(){

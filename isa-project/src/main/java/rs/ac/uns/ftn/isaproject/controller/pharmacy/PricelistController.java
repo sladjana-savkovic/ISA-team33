@@ -26,7 +26,7 @@ public class PricelistController {
 	public ResponseEntity<Void> add(@RequestBody PricelistDTO pricelistDTO) {
 		try {
 			pricelistService.save(pricelistDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}

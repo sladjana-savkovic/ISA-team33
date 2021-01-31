@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
+import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ExaminedPatientMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
@@ -46,14 +47,14 @@ public class ExaminationReportController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
+	public ResponseEntity<AddExaminationReportDTO> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
 		try {
-			examinationReportService.add(examinationReportDTO);
+			AddExaminationReportDTO addReportDTO = ExaminationReportMapper.toAddExaminationReportDTO(examinationReportService.add(examinationReportDTO));
 			appointmentService.changeStatus(examinationReportDTO.appointmentId, AppointmentStatus.Finished);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<AddExaminationReportDTO>(addReportDTO,HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }

@@ -40,7 +40,7 @@ public class DrugController {
 	public ResponseEntity<Void> add(@RequestBody DrugDTO drugDTO) {
 		try {
 			drugService.add(drugDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
