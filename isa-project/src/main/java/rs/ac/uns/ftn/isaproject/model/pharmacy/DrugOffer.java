@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
+import rs.ac.uns.ftn.isaproject.model.users.Supplier;
+
 @Entity
 public class DrugOffer {
 
@@ -26,11 +29,17 @@ public class DrugOffer {
 	@Column(unique = false, nullable = false)
 	private boolean isAccepted;
 	
+	@Column(unique = false, nullable = false)
+	private OfferStatus status;
+	
 	@Column(unique=false, nullable=false)
 	private LocalDate limitDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private PharmacyOrder pharmacyOrder;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	private Supplier supplier;
 
 	public int getId() {
 		return id;
@@ -54,6 +63,14 @@ public class DrugOffer {
 
 	public void setAccepted(boolean isAccepted) {
 		this.isAccepted = isAccepted;
+	}
+	
+	public OfferStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OfferStatus status) {
+		this.status = status;
 	}
 
 	public LocalDate getLimitDate() {
