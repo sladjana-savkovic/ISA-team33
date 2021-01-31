@@ -36,6 +36,15 @@ public class Drug {
 	
 	@Column(unique = false, nullable = false)
 	private String producer;
+	
+	@Column(unique = false, nullable = false)
+	private String contraindication;
+	
+	@Column(unique = false, nullable = false)
+	private int dailyDose;
+		
+	@Column(unique = false, nullable = false)
+	private boolean isAllowedOnPrescription;
 
 	@ManyToMany
 	@JoinTable(name = "drug_pharmacies", joinColumns = @JoinColumn(name = "drug_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
@@ -110,6 +119,22 @@ public class Drug {
 
 	public void setSubstituteDrugs(Set<Drug> substituteDrugs) {
 		this.substituteDrugs = substituteDrugs;
+	}
+
+	public String getContraindication() {
+		return contraindication;
+	}
+
+	public void setContraindication(String contraindication) {
+		this.contraindication = contraindication;
+	}
+
+	public int getDailyDose() {
+		return dailyDose;
+	}
+
+	public void setDailyDose(int dailyDose) {
+		this.dailyDose = dailyDose;
 	}
 	
 }

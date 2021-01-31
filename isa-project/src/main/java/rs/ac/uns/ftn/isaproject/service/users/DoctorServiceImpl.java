@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
@@ -54,6 +55,23 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
+	public void add(DoctorDTO doctorDTO) {
+		Doctor doctor = new Doctor();
+		City city = cityRepository.getOne(doctorDTO.cityId);
+		
+		doctor.setName(doctorDTO.name);
+		doctor.setSurname(doctorDTO.surname);
+		doctor.setDateOfBirth(doctorDTO.dateOfBirth);
+		doctor.setEmail(doctorDTO.email);
+		doctor.setAddress(doctorDTO.address);
+		doctor.setCity(city);
+		doctor.setPassword(doctorDTO.password);
+		doctor.setTypeOfDoctor(TypeOfDoctor.valueOf(doctorDTO.typeOfDoctor));
+		doctor.setIsDeleted(false);
+		
+		doctorRepository.save(doctor);
+	}
+	
 	public Collection<Doctor> findByPharmacyId(int id) {
 		return doctorRepository.findByPharmacyId(id);
 	}
@@ -82,5 +100,12 @@ public class DoctorServiceImpl implements DoctorService {
 			}
 		}
 		return filteredDoctors;
+	}
+
+	@Override
+	public void deleteDoctor(int id) {
+		Doctor doctor = doctorRepository.getOne(id);
+		doctor.setIsDeleted(true);
+		doctorRepository.save(doctor);
 	}
 }
