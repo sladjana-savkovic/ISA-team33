@@ -18,9 +18,9 @@ insert into pharmacy (id, name, average_grade, city_id, address) values (nextval
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Betty',3.7, 2,'Gavrila Principa 8' );
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Crvena apoteka', 4.8, 3, 'Cara Lazara 23');
 
-insert into doctor (id, name, surname, email, password, average_grade, type_of_doctor,city_id,address,date_of_birth, id_deleted) 
+insert into doctor (id, name, surname, email, password, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted) 
 					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234', 4.8, 0,1,'Tolstojeva 12','1970-12-12', false);
-insert into doctor (id, name, surname, email, password, average_grade, type_of_doctor,city_id,address,date_of_birth, id_deleted) 
+insert into doctor (id, name, surname, email, password, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted) 
 					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234',3.9, 1,2,'Balzakova 23','1982-01-10', false);
 					   
 insert into patient(id, name, surname, email, password,city_id,penalty,address,date_of_birth) 

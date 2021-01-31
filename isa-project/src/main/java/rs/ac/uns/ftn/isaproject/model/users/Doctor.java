@@ -24,7 +24,7 @@ public class Doctor extends User{
 	private double averageGrade;
 	
 	@Column(unique=false, nullable=false)
-	private boolean idDeleted;
+	private boolean isDeleted;
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "doctor_pharmacies", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
@@ -88,12 +88,12 @@ public class Doctor extends User{
 		this.pharmacies = pharmacies;
 	}
 
-	public boolean isIdDeleted() {
-		return idDeleted;
+	public boolean isIsDeleted() {
+		return isDeleted;
 	}
 
-	public void setIdDeleted(boolean idDeleted) {
-		this.idDeleted = idDeleted;
+	public void setIsDeleted(boolean idDeleted) {
+		this.isDeleted = idDeleted;
 	}
 	
 }

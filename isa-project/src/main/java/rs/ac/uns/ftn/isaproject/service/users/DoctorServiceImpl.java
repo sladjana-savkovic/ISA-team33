@@ -67,7 +67,7 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setCity(city);
 		doctor.setPassword(doctorDTO.password);
 		doctor.setTypeOfDoctor(TypeOfDoctor.valueOf(doctorDTO.typeOfDoctor));
-		doctor.setIdDeleted(false);
+		doctor.setIsDeleted(false);
 		
 		doctorRepository.save(doctor);
 	}
@@ -105,7 +105,7 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public void deleteDoctor(int id) {
 		Doctor doctor = doctorRepository.getOne(id);
-		doctor.setIdDeleted(true);
+		doctor.setIsDeleted(true);
 		doctorRepository.save(doctor);
 	}
 }

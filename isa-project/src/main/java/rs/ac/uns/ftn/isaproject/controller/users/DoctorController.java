@@ -68,7 +68,7 @@ public class DoctorController {
 		}
 	}
 	
-	@GetMapping("/pharmacy/{id}")
+	@GetMapping("/{id}/pharmacy")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findByPharmacyId(@PathVariable int id) {
 		try {
 			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.findByPharmacyId(id));
@@ -114,7 +114,7 @@ public class DoctorController {
 		}
 	}
 	
-	@PutMapping("/delete/{id}")
+	@PutMapping("/{id}/delete")
 	public ResponseEntity<Void> deleteDoctor(@PathVariable int id){
 		doctorService.deleteDoctor(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
