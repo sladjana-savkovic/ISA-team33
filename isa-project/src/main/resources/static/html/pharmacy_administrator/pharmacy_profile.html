@@ -17,7 +17,7 @@
 
 <div class="container w-50 mt-5 pt-5 mb-4">
 		<div class="card">
-			<h5 class="card-header info-color white-text text-center py-4"><strong>Pharmacy profile informatin</strong></h5>
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Pharmacy profile information</strong></h5>
 			<div class="card-body px-lg-5">
 				<form style="color: #757575;" id="pharmacy_profile">
 					 <div class="row w-100 p-3 h-50">
@@ -37,20 +37,13 @@
 					 		<input type="text" class="form-control" id="address" required disabled>
 					 	</div>
 					 </div>
+					 
 					 <div class="row w-100 p-3 h-50">
 					 	<div class="col">
-					 		<label class="text-secondary mb-0">Country:</label><br>
+					 		<label class="text-secondary mb-0">Average grade:</label><br>
 					 	</div>
 					 	<div class="col">
-					 		<select id="country" class="custom-select" required disabled></select>
-					 	</div>
-					 </div>
-					 <div class="row w-100 p-3 h-50">
-					 	<div class="col">
-					 		<label class="text-secondary mb-0">City:</label><br>
-					 	</div>
-					 	<div class="col">
-					 		<select id="city" class="custom-select" required disabled></select>
+					 		<input type="number" class="form-control" id="grade" required disabled>
 					 	</div>
 					 </div>
 					 
@@ -58,8 +51,67 @@
 		    </div>
 	    </div>
     </div>
-
-
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Dermatologists and pharmacists in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="doctors">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Name</th>
+			        			<th scope="col" style="width: 400px;">Surname</th>
+			        			<th scope="col">Type of medical staff</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_doctors"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Drugs in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="drugs">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Name</th>
+			        			<th scope="col" style="width: 400px;">Producer</th>
+			        			<th scope="col" style="width: 400px;">Drug type</th>
+			        			<th scope="col">Drug form</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_drugs"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Free appointments in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="appointments">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Start time</th>
+			        			<th scope="col" style="width: 400px;">Appointment type</th>
+			        			<th scope="col">Price</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_appointments"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
 
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

@@ -7,7 +7,7 @@ public class PharmacyDTO {
 
 	public int id;
 	public String name;
-	public double averagePrice;
+	public double averageGrade;
 	public String address;
 	public int cityId;
 	public String cityName;
@@ -21,7 +21,7 @@ public class PharmacyDTO {
 		super();
 		this.id = id;
 		this.name = name;
-		this.averagePrice = averagePrice;
+		this.averageGrade = averagePrice;
 		this.address = address;
 		this.cityId = cityId;
 		this.cityName = cityName;

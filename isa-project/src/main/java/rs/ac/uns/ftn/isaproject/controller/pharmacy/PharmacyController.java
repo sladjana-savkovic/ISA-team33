@@ -31,7 +31,7 @@ public class PharmacyController {
 		this.pharmacyService = pharmacyService;
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<PharmacyDTO> getPharmacyById(@PathVariable int id) {
 
 		Pharmacy pharmacy = pharmacyService.findOneById(id);
