@@ -53,5 +53,15 @@ public class DrugController {
 		
 		return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
 	}
+	
+	@GetMapping("/{id}/substitute")
+	public ResponseEntity<Collection<DrugDTO>> getSubstituteDrugs(@PathVariable int id){
+		try {
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getSubstituteDrugs(id));
+			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 }

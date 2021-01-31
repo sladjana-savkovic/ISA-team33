@@ -184,23 +184,36 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <p class="heading lead">Drug availability</p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" id="btn_close_substitute" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
                     </button>
                 </div>
+                <form id="save_prescription_substitute">
                 <div class="modal-body">
-                	<p>The requested drug isn't available, choose one of the substitutes.</p>
+                	<p id="substituteText">The requested drug isn't available, choose one of the substitutes.</p>
                 	<hr><br>
-                	<div class="row">
+                	<div class="row" id="subDrugs">
 	                   	<div class="col">
 	                    	<label class="text-secondary mb-0">Substitute drugs:</label><br>
 	                    	<select id="substituteDrugs" class="custom-select" style="margin-top: 5px;"></select>
 	                   	</div>
 	                </div><br>
+	                <div class="row" id="subDrugsDuration">
+	                   	<div class="col">
+	                    	<label class="text-secondary mb-0">Duration of therapy (in days):</label><br>
+	                    	<input type="number" class="form-control" id="durationSubstitute" min="1" required>
+	                   	</div>
+	                </div><br>
+	                <div class="row" id="allergySubstitute" hidden="true">
+	                	<div class="col">
+	                    	<p>The patient is allergic to the chosen substitute drug. Please choose another drug.</p>
+	                   	</div>
+	                </div><br>
                 </div>
                 <div class="modal-footer">
-			        <button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="button" id="prescribeSubstitute">Prescribe</button>
+			        <button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="submit" id="prescribeSubstitute">Prescribe</button>
 			     </div>
+			     </form>
             </div>
         </div>
     </div>

@@ -86,7 +86,7 @@ $(document).ready(function () {
 			url: "/api/drug-quantity-pharmacy/" + drugId + "/" + appointment.pharmacyId + "/availability",
 			contentType: "application/json",
 			success:function(availability){
-				availability = false;
+
 				if(availability){
 					$('#div_prescribe').attr("hidden",false);
 				}else{
@@ -94,7 +94,33 @@ $(document).ready(function () {
 					$('#drugAvailabilityModal').modal('toggle');
 					$('#drugAvailabilityModal').modal('show');
 					
-					
+					$.ajax({
+						type:"GET", 
+						url: "/api/drug/" + drugId + "/substitute",
+						contentType: "application/json",
+						success:function(substituteDrugs){		
+							
+							if(substituteDrugs.length == 0){
+								$('#subDrugs').attr("hidden",true);
+								$('#subDrugsDuration').attr("hidden",true);
+								$('#prescribeSubstitute').attr("hidden",true);
+								$('#substituteText').text("The requested drug isn't available and has no substitute drugs.");
+							}else{
+								$('#subDrugs').attr("hidden",false);
+								$('#subDrugsDuration').attr("hidden",false);
+								$('#prescribeSubstitute').attr("hidden",false);
+								$('#substituteText').text("The requested drug isn't available, choose one of the substitutes.");
+								
+								for(let d of substituteDrugs){
+								addSubstituteDrug(d);
+							}
+							}
+									
+						},
+						error:function(){
+							console.log('error getting substitute drugs');
+						}
+					});
 				}
 			},
 			error:function(){
@@ -103,6 +129,7 @@ $(document).ready(function () {
 		});
 		
 	});
+	
 	
 	$('#specification').click(function(){
 		
@@ -155,6 +182,31 @@ $(document).ready(function () {
 		});
 	});
 	
+	
+	$('#prescribeSubstitute').click(function(){
+		
+		let substituteDrugId = $("#substituteDrugs option:selected").val();
+		
+		//Prije propisivanja zamjenskog lijeka potrebno je provjeriti da li je pacijent alergican na njega
+		$.ajax({
+			type:"GET", 
+			url: "/api/patient/" + appointment.patientId + "/allergy/" + substituteDrugId,
+			contentType: "application/json",
+			success:function(hasAllergy){				
+				if(hasAllergy){
+					$('#allergySubstitute').attr("hidden",false);
+				}else{
+					$('#allergySubstitute').attr("hidden",true);
+				}
+			},
+			error:function(){
+				console.log('error checking allergy');
+			}
+		});
+		
+	});
+	
+	
 	$('#save_prescription').submit(function(event){
 			event.preventDefault();
 			
@@ -166,7 +218,21 @@ $(document).ready(function () {
 			
 			therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
 			reloadTherapies();
-		});
+	});
+	
+	$('#save_prescription_substitute').submit(function(event){
+			event.preventDefault();
+			
+			let substituteDrugId = $("#substituteDrugs option:selected").val();
+			let substituteDrugName = $("#substituteDrugs option:selected").text();
+			
+			$('#btn_close_substitute').click();
+			let duration = $('#durationSubstitute').val();
+			
+			therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+			reloadTherapies();
+	});
+	
 	
 	$("#drugs" ).change(function() {
 	  	$('#div_prescribe').attr("hidden",true);
@@ -233,7 +299,6 @@ function disableFields(){
 	$('#collapseOne').addClass("collapse");
 }
 
-
 function reloadTherapies(){
 	$('#body_therapies').empty();
 	for(let t of therapies){
@@ -241,7 +306,6 @@ function reloadTherapies(){
 		$('#therapies').append(row);
 	}
 }
-
 
 function fillInBasicInfo(){
 	$('#patientName').text(appointment.patientName);
@@ -261,3 +325,8 @@ function addDrug(drug){
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drugs').append(option);
 };
+
+function addSubstituteDrug(drug){
+	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
+	$('#substituteDrugs').append(option);
+}
