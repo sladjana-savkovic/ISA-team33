@@ -116,12 +116,15 @@
 		                    </div>
 		                    <br>
 		                    <div class="row">
-		                    	<div class="col-6">
+		                    	<div class="col">
 			                    	<label class="text-secondary mb-0">Drugs:</label><br>
 			                    	<select id="drugs" class="custom-select" style="margin-top: 5px;"></select>
 		                    	</div>
 		                    	<div class="col">
 			                    	<button class="btn btn-outline-danger btn-rounded btn-block my-4 waves-effect" type="button" id="check">Check availability</button>
+		                    	</div>
+		                    	<div class="col">
+			                    	<button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="button" id="specification" data-toggle="modal" data-target="#drugSpecificationModal">Specification</button>
 		                    	</div>
 		                    	<div class="col" hidden="true" id="div_prescribe">
 			                    	<button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="button" id="prescribe" data-toggle="modal" data-target="#prescriptionModal">Prescribe</button>
@@ -187,6 +190,88 @@
                 </div>
                 <div class="modal-body">
                 	<p>The requested drug isn't available, choose one of the substitutes.</p>
+                	<hr><br>
+                	<div class="row">
+	                   	<div class="col">
+	                    	<label class="text-secondary mb-0">Substitute drugs:</label><br>
+	                    	<select id="substituteDrugs" class="custom-select" style="margin-top: 5px;"></select>
+	                   	</div>
+	                </div><br>
+                </div>
+                <div class="modal-footer">
+			        <button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="button" id="prescribeSubstitute">Prescribe</button>
+			     </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="drugSpecificationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Drug specification</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="body_specification">
+                	<div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Name:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="dName"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Type of drug:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="dType"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Type of drug's form:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="dForm"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Produces:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="dProducer"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Contraindication:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="dContra"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Recommended daily dose:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="dDose"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Ingredients:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<label class="text mb-0" id="dIngredients"></label>
+					 	</div>
+					 </div>
                 </div>
             </div>
         </div>

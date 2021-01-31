@@ -1,7 +1,8 @@
 var doctorId = 1;
-var appointmentId = 6;
+var appointmentId = 5;
 var appointment = null;
 var therapies = [];
+var drugs = [];
 $(document).ready(function () {
 	
 	$.ajax({
@@ -13,7 +14,7 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"GET", 
-				url: "/api/drug/pharmacy/" + appointment.pharmacyId,
+				url: "/api/drug-quantity-pharmacy/" + appointment.pharmacyId + "/available",
 				contentType: "application/json",
 				success:function(drugs){
 					for (let d of drugs) {
@@ -82,21 +83,48 @@ $(document).ready(function () {
 				
 		$.ajax({
 			type:"GET", 
-			url: "/api/drug/" + drugId + "/pharmacy/" + appointment.pharmacyId + "/availability",
+			url: "/api/drug-quantity-pharmacy/" + drugId + "/" + appointment.pharmacyId + "/availability",
 			contentType: "application/json",
 			success:function(availability){
+				availability = false;
 				if(availability){
 					$('#div_prescribe').attr("hidden",false);
 				}else{
 					//U slucaju da lijek nije dostupan izbaciti dijalog i ponuditi zamjenske lijekove
 					$('#drugAvailabilityModal').modal('toggle');
 					$('#drugAvailabilityModal').modal('show');
+					
+					
 				}
 			},
 			error:function(){
 				console.log('error checking drug availability');
 			}
 		});
+		
+	});
+	
+	$('#specification').click(function(){
+		
+		let drugId = $("#drugs option:selected").val();
+		
+		for(let d of drugs){
+			if(d["drugId"] == drugId){
+				$('#dName').text(d["drugName"]);
+				$('#dType').text(d["typeOfDrug"]);
+				$('#dForm').text(d["typeOfDrugsForm"]);
+				$('#dProducer').text(d["producer"]);
+				$('#dContra').text(d["contraindication"]);
+				$('#dDose').text(d["dailyDose"]);
+								
+				let ingredients = "";
+				for(let i of d.ingredients){
+					ingredients += i.name + '\n';
+				}
+				
+				$('#dIngredients').text(ingredients);
+			}
+		}
 		
 	});
 	
@@ -187,7 +215,7 @@ $(document).ready(function () {
 				console.log("Error saving examination report");
 				return;
 			}
-	``	});
+		});
 	});	
 	
 });
@@ -227,6 +255,9 @@ function fillInBasicInfo(){
 };
 
 function addDrug(drug){
+	drugs.push({"drugId":drug.id, "drugName":drug.name, "typeOfDrug":drug.typeOfDrug, "typeOfDrugsForm":drug.typeOfDrugsForm,
+				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients});
+				
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drugs').append(option);
 };

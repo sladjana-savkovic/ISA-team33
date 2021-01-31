@@ -9,5 +9,6 @@ public interface DrugQuantityPharmacyService {
 	boolean checkDrugAvailability(int drugId, int pharmacyId);
 	boolean reduceDrugQuantity(int drugId, int pharmacyId, int quantity);
 	Collection<Drug> findDrugsByPharmacyId(int id);
+	Collection<Drug> findAvailableDrugsByPharmacyId(int pharmacyId);
 	
 }

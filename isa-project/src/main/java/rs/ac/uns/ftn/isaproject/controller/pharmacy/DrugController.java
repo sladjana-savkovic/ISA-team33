@@ -30,16 +30,6 @@ public class DrugController {
 	}
 	
 	
-	@GetMapping("/pharmacy/{id}")
-	public ResponseEntity<Collection<DrugDTO>> findAllByPharmacyId(@PathVariable int id){
-		try {
-			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.findAllByPharmacyId(id));
-			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody DrugDTO drugDTO) {
 		try {
@@ -47,16 +37,6 @@ public class DrugController {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@GetMapping("{id}/pharmacy/{pharmacyId}/availability")
-	public ResponseEntity<Boolean> checkAvailability(@PathVariable int id, @PathVariable int pharmacyId){
-		try {
-			boolean availability = drugService.checkAvailability(id, pharmacyId);
-			return new ResponseEntity<Boolean>(availability, HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	

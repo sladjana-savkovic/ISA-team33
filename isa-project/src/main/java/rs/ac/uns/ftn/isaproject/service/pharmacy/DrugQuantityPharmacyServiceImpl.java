@@ -59,4 +59,15 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		return false;
 	}
 
+	@Override
+	public Collection<Drug> findAvailableDrugsByPharmacyId(int pharmacyId) {
+		Collection<DrugQuantityPharmacy> drugQuantities = quantityPharmacyRepository.findAvailableDrugsByPharmacyId(pharmacyId);
+		Collection<Drug> drugs = new ArrayList<Drug>();
+		
+		for(DrugQuantityPharmacy d: drugQuantities) {
+			drugs.add(drugRepository.getOne(d.getDrug().getId()));
+		}
+		return drugs;
+	}
+
 }
