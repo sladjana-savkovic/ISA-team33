@@ -14,7 +14,7 @@ import javax.persistence.SequenceGenerator;
 import rs.ac.uns.ftn.isaproject.model.enums.PurposeOfDrugQuantity;
 
 @Entity
-public class DrugQuantity {
+public class DrugQuantityOrder {
 
 	@Id
 	@SequenceGenerator(name = "drugquantitiesSeqGen", sequenceName = "drugquantitiesSeq", initialValue = 1, allocationSize = 1)

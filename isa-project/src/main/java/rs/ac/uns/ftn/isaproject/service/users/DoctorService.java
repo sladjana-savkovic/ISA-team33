@@ -13,7 +13,9 @@ public interface DoctorService {
 	Doctor getOne(int id);
 	void updateInfo(DoctorDTO doctorDTO);
 	void updatePassword(int id, String password);
+	void add(DoctorDTO doctorDTO);
 	Collection<Doctor> findByPharmacyId(int id);
 	Collection<ViewSearchedDoctorDTO> searchDoctors(SearchDoctorDTO searchDoctorDTO);
 	Collection<ViewSearchedDoctorDTO> filterDoctors(FilterDoctorDTO filterDoctorDTO);
+	void deleteDoctor(int id);
 }
