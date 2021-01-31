@@ -23,6 +23,9 @@ public class Doctor extends User{
 	@Column(unique=false, nullable=true)
 	private double averageGrade;
 	
+	@Column(unique=false, nullable=false)
+	private boolean isDeleted;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "doctor_pharmacies", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))
 	private Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
@@ -83,6 +86,14 @@ public class Doctor extends User{
 
 	public void setPharmacies(Set<Pharmacy> pharmacies) {
 		this.pharmacies = pharmacies;
+	}
+
+	public boolean isIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(boolean idDeleted) {
+		this.isDeleted = idDeleted;
 	}
 	
 }

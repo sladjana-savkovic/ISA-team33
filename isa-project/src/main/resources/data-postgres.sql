@@ -18,10 +18,12 @@ insert into pharmacy (id, name, average_grade, city_id, address) values (nextval
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Betty',3.7, 2,'Gavrila Principa 8' );
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Crvena apoteka', 4.8, 3, 'Cara Lazara 23');
 
-insert into doctor (id, name, surname, email, password, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_active) 
-					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234', '0652323323', 4.8, 0,1,'Tolstojeva 12','1970-12-12', true);
-insert into doctor (id, name, surname, email, password, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_active)
-					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234', '0665859985', 3.9, 1,2,'Balzakova 23','1982-01-10', true);
+
+insert into doctor (id, name, surname, email, password, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_active, is_deleted) 
+					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','nada1234', '0652323323', 4.8, 0,1,'Tolstojeva 12','1970-12-12', true, false);
+insert into doctor (id, name, surname, email, password, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_active, is_deleted)
+					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','marija1234', '0665859985', 3.9, 1,2,'Balzakova 23','1982-01-10', true, false);
+
 					   
 insert into patient(id, name, surname, email, password, telephone, city_id, penalty, address, date_of_birth, is_active) 
 					values (nextval('users_seq'),'Pera','Perić','pera.peric@gmail.com','pera1234', '0668989985', 1,0,'Kralja Petra I','1963-07-13', true);
@@ -57,10 +59,11 @@ insert into drug_ingredients (drug_id, ingredients_id) values (3,3);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,1);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,4);
 					
-insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, is_active) values 
-					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234', '0665656653',1,'Miloša Obilića 13','1973-05-10', true);
-insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, is_active) values 
-					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234', '0632547854',2,'Zmaj Jovina 5','1980-05-08', true);
+
+insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, is_active, city_id) values 
+					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','milos1234', '0665656653',1,'Miloša Obilića 13','1973-05-10', true, 3);
+insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, is_active, city_id) values 
+					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234', '0632547854',2,'Zmaj Jovina 5','1980-05-08', true, 2);
 					   
 insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active) values 
 					   (nextval('users_seq'),'Mitar','Mitrović','mitarm@gmail.com','mitar1234', '0665858859','Braće Ribnikar 12','1995-11-11', true);
@@ -103,16 +106,23 @@ insert into examination_report (id,diagnosis,appointment_id)
 insert into patient_allergies (patient_id,allergies_id) values (3,1);
 insert into patient_allergies (patient_id,allergies_id) values (4,2);
 
+
+/*
 insert into drug_quantity (id, quantity, drug_id,purpose) values (nextval('drugquantities_seq'),33,1,0);
 insert into drug_quantity (id, quantity, drug_id,purpose) values (nextval('drugquantities_seq'),12,2,0);
 insert into drug_quantity (id, quantity, drug_id,purpose) values (nextval('drugquantities_seq'),45,1,1);
-
+*/
 insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-01-31', true, 6);
 insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-03-03', false, 6);
 
-insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
+
+insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),33,1,0,1);
+insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,0,1);
+insert into drug_quantity (id, quantity, drug_id,purpose,pharmacy_order_id) values (nextval('drugquantities_seq'),45,1,0,2);
+
+/*insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 1);
 insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (1, 2);
-insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (2, 3);
+insert into pharmacy_order_ordered_drugs (pharmacy_order_id, ordered_drugs_id) values (2, 3);*/
 
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 1);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 1);

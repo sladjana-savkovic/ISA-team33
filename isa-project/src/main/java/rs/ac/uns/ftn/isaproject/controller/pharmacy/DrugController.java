@@ -1,9 +1,14 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugService;
 
 @RestController
@@ -15,5 +20,15 @@ public class DrugController {
 	@Autowired
 	public DrugController(DrugService drugService) {
 		this.drugService = drugService;
+	}
+	
+	@PostMapping(consumes = "application/json")
+	public ResponseEntity<Void> add(@RequestBody DrugDTO drugDTO) {
+		try {
+			drugService.add(drugDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }

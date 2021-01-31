@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
+import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 import rs.ac.uns.ftn.isaproject.repository.examinations.AppointmentRepository;
@@ -49,6 +50,21 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 		examinationReport.setAppointment(appointment);
 		
 		examinationReportRepository.save(examinationReport);
+	}
+
+	@Override
+	public Collection<ExaminedPatientDTO> searchByNameAndSurname(String name, String surname,Collection<ExaminedPatientDTO> examinedPatientDTOs) {
+		Collection<ExaminedPatientDTO> searchResult = new ArrayList<>();
+		
+		if(name.equals("&")) name = "";
+		if(surname.equals("&")) surname = "";
+		
+		for(ExaminedPatientDTO patient:examinedPatientDTOs) {
+			if(patient.name.toLowerCase().contains(name.toLowerCase()) && patient.surname.toLowerCase().contains(surname.toLowerCase())) {
+				searchResult.add(patient);
+			}
+		}
+		return searchResult;
 	}
 
 }

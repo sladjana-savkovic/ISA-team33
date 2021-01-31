@@ -2,7 +2,7 @@ package rs.ac.uns.ftn.isaproject.dto;
 
 import java.time.LocalDate;
 
-public class DoctorDTO {
+public class PharmacyAdministratorDTO {
 
 	public int id;
 	public String name;
@@ -10,18 +10,16 @@ public class DoctorDTO {
 	public LocalDate dateOfBirth;
 	public String email;
 	public String password;
-	public int countryId;
 	public String countryName;
 	public int cityId;
 	public String cityName;
 	public String address;
-	public double averageGrade;
-	public String typeOfDoctor;
+	public int pharmacyId;
 	
-	public DoctorDTO() {}
+	public PharmacyAdministratorDTO() {}
 
-	public DoctorDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
-			String address, int cityId, String cityName,int countryId, String countryName, double averageGrade, String typeOfDoctor) {
+	public PharmacyAdministratorDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
+			String address, int cityId, String cityName, String countryName, int pharmacyId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,10 +30,7 @@ public class DoctorDTO {
 		this.address = address;
 		this.cityId = cityId;
 		this.cityName = cityName;
-		this.countryId = countryId;
 		this.countryName = countryName;
-		this.averageGrade = averageGrade;
-		this.typeOfDoctor = typeOfDoctor;
-	}	
-	
+		this.pharmacyId = pharmacyId;
+	}
 }

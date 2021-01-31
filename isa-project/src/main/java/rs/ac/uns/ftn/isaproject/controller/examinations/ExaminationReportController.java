@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.isaproject.controller.examinations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,12 @@ public class ExaminationReportController {
 		Collection<ExaminedPatientDTO> examinationReports = 
 				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllByDoctorId(id));
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinationReports, HttpStatus.OK);
+	}
+	
+	@PostMapping("/search/{name}/{surname}")
+	public ResponseEntity<Collection<ExaminedPatientDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ExaminedPatientDTO> examinedPatientDTOs){
+		Collection<ExaminedPatientDTO> searchResult = examinationReportService.searchByNameAndSurname(name, surname, examinedPatientDTOs);
+		return new ResponseEntity<Collection<ExaminedPatientDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 	@PostMapping(consumes = "application/json")

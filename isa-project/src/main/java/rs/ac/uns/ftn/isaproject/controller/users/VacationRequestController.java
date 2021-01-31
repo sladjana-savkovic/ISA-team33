@@ -30,7 +30,6 @@ public class VacationRequestController {
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody AddVacationRequestDTO vacationRequestDTO){
-		//TO DO: dodati idPharmacy
 		try {
 			vacationService.add(vacationRequestDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
