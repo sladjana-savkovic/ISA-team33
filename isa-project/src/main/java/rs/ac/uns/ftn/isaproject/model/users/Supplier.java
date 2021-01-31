@@ -19,6 +19,4 @@ public class Supplier extends User{
 	@OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DrugOffer> drugOffers = new HashSet<DrugOffer>();
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<DrugQuantityOrder> drugsInStore = new HashSet<DrugQuantityOrder>();
 }
