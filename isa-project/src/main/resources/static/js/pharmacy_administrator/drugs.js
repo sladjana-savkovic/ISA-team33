@@ -176,7 +176,24 @@ function addDrugInPharmacy(drug){
 };
 
 function deleteDrug(id){
-	alert(id);
+			$.ajax({
+				type:"PUT", 
+				url: "/api/drug-quantity-pharmacy/" + id + "/" + pharmacyId + "/delete",
+				contentType: "application/json",
+				success:function(){
+					location.reload();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully delete drug.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error deleting drug.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
 };
 
 function addDrugsInCombo(drug){
@@ -330,6 +347,7 @@ function acceptOffer(id){
 												url: "/api/drug-quantity-pharmacy/" + drug_id + "/" + pharmacyId + "/" + quantity + "/increase",
 												contentType: "application/json",
 												success:function(result){
+													alert(result);
 													if(result == false){
 														$.ajax({
 															type:"POST", 

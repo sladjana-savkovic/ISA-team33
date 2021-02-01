@@ -38,7 +38,9 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		Collection<Drug> drugs = new ArrayList<Drug>();
 		
 		for(DrugQuantityPharmacy d: drugQuantities) {
-			drugs.add(drugRepository.getOne(d.getDrug().getId()));
+			if(d.isDeleted()==false) {
+				drugs.add(drugRepository.getOne(d.getDrug().getId()));
+			}
 		}
 		return drugs;
 	}
@@ -106,6 +108,7 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		drugQuantity.setQuantity(drugQuantityDTO.quantity);
 		drugQuantity.setDrug(drug);
 		drugQuantity.setPharmacy(pharmacy);
+		drugQuantity.setDeleted(false);
 		
 		quantityPharmacyRepository.save(drugQuantity);
 	}
