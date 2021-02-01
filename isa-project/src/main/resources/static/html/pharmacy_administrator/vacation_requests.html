@@ -41,6 +41,34 @@
      <div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
 
 
+	<!--Modal: modalConfirmReject-->
+  <div class="modal fade" id="modalConfirmReject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Rejection of the request:</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+		<label>Reason for the rejection:</label><br>
+        <textarea id="text_reason" class="md-textarea form-control" rows="3"></textarea>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer flex-center">
+        <a href="" class="btn  btn-outline-danger" id="submit_reject">Submit</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmReject-->
+
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
