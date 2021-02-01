@@ -26,7 +26,7 @@ public class PharmacyActionController {
 	public ResponseEntity<Void> add(@RequestBody PharmacyActionDTO pharmacyActionDTO) {
 		try {
 			pharmacyActionService.save(pharmacyActionDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}

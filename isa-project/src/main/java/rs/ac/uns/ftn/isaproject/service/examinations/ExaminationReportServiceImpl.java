@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
@@ -42,14 +41,14 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 	}
 
 	@Override
-	public void add(AddExaminationReportDTO examinationReportDTO) {
+	public ExaminationReport add(AddExaminationReportDTO examinationReportDTO) {
 		Appointment appointment = appointmentRepository.getOne(examinationReportDTO.appointmentId);
 		ExaminationReport examinationReport = new ExaminationReport();
 		
 		examinationReport.setDiagnosis(examinationReportDTO.diagnosis);
 		examinationReport.setAppointment(appointment);
 		
-		examinationReportRepository.save(examinationReport);
+		return examinationReportRepository.save(examinationReport);
 	}
 
 	@Override

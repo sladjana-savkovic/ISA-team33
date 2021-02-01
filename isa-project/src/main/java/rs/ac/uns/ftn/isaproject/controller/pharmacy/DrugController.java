@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
@@ -31,11 +29,12 @@ public class DrugController {
 		this.drugQuantityPharmacyService = drugQuantityPharmacyService;
 	}
 	
+	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody DrugDTO drugDTO) {
 		try {
 			drugService.add(drugDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
@@ -54,4 +53,15 @@ public class DrugController {
 		
 		return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
 	}
+	
+	@GetMapping("/{id}/substitute")
+	public ResponseEntity<Collection<DrugDTO>> getSubstituteDrugs(@PathVariable int id){
+		try {
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getSubstituteDrugs(id));
+			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 }

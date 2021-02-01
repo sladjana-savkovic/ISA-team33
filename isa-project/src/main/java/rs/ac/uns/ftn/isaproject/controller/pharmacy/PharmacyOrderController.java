@@ -28,7 +28,7 @@ public class PharmacyOrderController {
 	public ResponseEntity<Void> addDrugQuantity(@RequestBody DrugQuantityDTO drugQuantityDTO) {
 		try {
 			pharmacyOrderService.addDrugQuantity(drugQuantityDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
@@ -38,7 +38,7 @@ public class PharmacyOrderController {
 	public ResponseEntity<Void> add(@RequestBody PharmacyOrderDTO pharmacyOrderDTO) {
 		try {
 			pharmacyOrderService.add(pharmacyOrderDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}

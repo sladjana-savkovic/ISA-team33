@@ -1,10 +1,13 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
@@ -44,7 +47,20 @@ public class PatientServiceImpl implements PatientService {
 		patient.setActive(false);
 		patient.setPenalty(0);
 					
-		patientRepository.save(patient);
+		patientRepository.save(patient);		
+	}
+
+	@Override
+	public boolean checkAllergyOnDrug(int id, int drugId) {
+		Collection<Drug> allergies = patientRepository.getOne(id).getAllergies();
+		
+		for(Drug drug:allergies) {
+			if(drug.getId() == drugId) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 }
