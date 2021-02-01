@@ -1,6 +1,4 @@
 $(document).ready(function () {
-
-	alert("registracija");
 	
 	getAllCountriesFromDatabase();
 	
@@ -22,52 +20,70 @@ $(document).ready(function () {
 		let cityName = $("#cities").val();
 		let address = $('#address').val();
 		let email = $('#email').val();
+		let dateOfBirth = $('#dateOfBirth').val();
 		let password = $('#password').val();
 		let passwordRepeat = $('#rpt_password').val();
-
+		
 		if (password != passwordRepeat) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Password and confirm password don\'t match.'
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
 		}
-		/*
+		
+		if (password.toString().length < 8) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The password cannot be less than 8 characters.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+		
+		if (!$.isNumeric(telephone) || telephone.toString().length > 20) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Phone number must have less than 20 digits.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+		
+		
 		var newPatient = {
-			"Name": name,
-			"Surname": surname,
-			"Phone": telephone,
-			"CountryId": parseInt(countryId),
-			"CountryName": countryName,
-			"CityZipCode": parseInt(cityZipCode),
-			"CityName": cityName,
-			"HomeAddress": address,
-			"Email": email,
-			"Password": password,
+			"name": name,
+			"surname": surname,
+			"telephone": telephone,
+			"dateOfBirth": dateOfBirth,
+			"countryId": parseInt(countryId),
+			"countryName": countryName,
+			"cityId": parseInt(cityZipCode),
+			"cityName": cityName,
+			"address": address,
+			"email": email,
+			"password": password,
 		};
-		*/
+		
 		if ($("form#registration").hasClass("unsuccessful")) {
 			return;
 		}
 		else {
 			$("form#registration").removeClass("unsuccessful");
-			/*
+			
 			$.ajax({
 				url: "/api/patient",
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(newPatient),
 				success: function () {
-					var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
-					$('#form_image').attr('action', actionPath)
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 				},
 				error: function (jqXHR) {
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
-						+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
-			});
-			*/
+			});			
 		}
 	});
 
@@ -87,7 +103,7 @@ function getAllCountriesFromDatabase() {
 		},
 		error: function (jqXHR) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-				'ERROR - ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				'ERROR! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
 		}
@@ -116,7 +132,7 @@ function getAllCitiesFromDatabase() {
 			},
 			error: function (jqXHR) {
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-					'ERROR - ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					'ERROR! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
 			}
