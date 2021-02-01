@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyOrderDTO;
-import rs.ac.uns.ftn.isaproject.model.enums.PurposeOfDrugQuantity;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityOrder;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
@@ -45,7 +44,6 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 		drugQuantity.setQuantity(drugQuantityDTO.quantity);
 		drugQuantity.setDrug(drug);
 		drugQuantity.setPharmacyOrder(pharmacyOrder);
-		drugQuantity.setPurpose(PurposeOfDrugQuantity.Order);
 		
 		drugQuantityRepository.save(drugQuantity);
 		
@@ -62,5 +60,10 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 		
 		pharmacyOrderRepository.save(pharmacyOrder);
 		
+	}
+
+	@Override
+	public int findByMaxId() {
+		return pharmacyOrderRepository.findByMaxId();
 	}
 }

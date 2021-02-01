@@ -9,4 +9,5 @@ public interface PharmacyOrderService {
 	PharmacyOrder findById(int id);
 	void addDrugQuantity(DrugQuantityDTO drugQuantityDTO);
 	void add(PharmacyOrderDTO pharmacyOrderDTO);
+	int findByMaxId();
 }
