@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.repository.examinations.AppointmentRepository;
@@ -20,8 +20,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public void changeStatus(int id, AppointmentStatus status) {
+	public void changeStatus(int id, AppointmentStatus status) throws Exception {
 		Appointment appointment = appointmentRepository.getOne(id);
+		
+		if(appointment.getStatus() == status)
+			throw new BadRequestException("The appointment already has a changed status.");
+		
 		appointment.setStatus(status);
 		appointmentRepository.save(appointment);
 	}

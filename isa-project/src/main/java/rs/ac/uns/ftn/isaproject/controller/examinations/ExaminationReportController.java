@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
+import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
-import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
+import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.mapper.ExaminedPatientMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.examinations.ExaminationReportService;
+import rs.ac.uns.ftn.isaproject.service.examinations.TherapyService;
+import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 
 @RestController
 @RequestMapping(value = "api/examination-report")
@@ -25,11 +29,16 @@ public class ExaminationReportController {
 
 	private ExaminationReportService examinationReportService;
 	private AppointmentService appointmentService;
+	private TherapyService therapyService;
+	private DrugQuantityPharmacyService quantityPharmacyService;
 	
 	@Autowired
-	public ExaminationReportController(ExaminationReportService examinationReportService,AppointmentService appointmentService) {
+	public ExaminationReportController(ExaminationReportService examinationReportService,AppointmentService appointmentService,TherapyService therapyService,
+									   DrugQuantityPharmacyService quantityPharmacyService) {
 		this.examinationReportService = examinationReportService;
 		this.appointmentService = appointmentService;
+		this.therapyService = therapyService;
+		this.quantityPharmacyService = quantityPharmacyService;
 	}
 	
 	@GetMapping("/doctor/{id}")
@@ -46,14 +55,20 @@ public class ExaminationReportController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<AddExaminationReportDTO> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
+	public ResponseEntity<?> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
 		try {
-			AddExaminationReportDTO addReportDTO = ExaminationReportMapper.toAddExaminationReportDTO(examinationReportService.add(examinationReportDTO));
+			ExaminationReport examinationReport = examinationReportService.add(examinationReportDTO);
+			therapyService.add(examinationReportDTO.therapyDTOs, examinationReport.getId());
+			for(AddTherapyDTO therapyDTO:examinationReportDTO.therapyDTOs) 
+				quantityPharmacyService.reduceDrugQuantity(therapyDTO.drugId, examinationReportDTO.pharmacyId);
 			appointmentService.changeStatus(examinationReportDTO.appointmentId, AppointmentStatus.Finished);
-			return new ResponseEntity<AddExaminationReportDTO>(addReportDTO,HttpStatus.CREATED);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch (BadRequestException e) {
+			return new ResponseEntity<>("A report already exists for the selected appointment.",HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while saving the examination report.",HttpStatus.BAD_REQUEST);
 		}
 	}
 }
