@@ -1,6 +1,7 @@
 var pharmacyAdminId = 6;
 var pharmacyId;
 var orderId;
+var searchDrugs = [];
 
 $(document).ready(function () {
 	
@@ -101,8 +102,6 @@ $(document).ready(function () {
 		
 	});
 	
-	//ovde
-	
 		$.ajax({
 			type:"GET", 
 			url: "/api/order/" + pharmacyId + "/pharmacy",
@@ -116,6 +115,52 @@ $(document).ready(function () {
 				console.log('error getting drugs');
 			}
 		});
+		
+		$.ajax({
+			type:"GET", 
+			url: "/api/drug-quantity-pharmacy/" + pharmacyId,
+			contentType: "application/json",
+			success:function(drugs){	
+				searchDrugs = drugs;
+				for(i = 0; i < drugs.length; i++){
+					addDrugInPharmacy(drugs[i]);
+				}
+			},
+			error:function(){
+				console.log('error getting drugs from pharmacy');
+			}
+		});
+		
+		$('#search').submit(function(event){
+		event.preventDefault();
+		
+		let drug_name = "&";
+		let drug_name_val = $('#search_field').val();
+		
+		if(drug_name_val){
+		 	drug_name = drug_name_val;
+		}
+		
+		$.ajax({
+				type:"POST", 
+				url: "/api/drug-quantity-pharmacy/search/" + drug_name,
+				data: JSON.stringify(searchDrugs),
+				contentType: "application/json",
+				success:function(searchResult){
+					$('#body_pharmacy_drugs').empty();
+					for (let d of searchResult){
+						addDrugInPharmacy(d);
+					}
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching drugs.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+		});
+	});
+		
 			
 		},
 		error:function(){
@@ -124,6 +169,32 @@ $(document).ready(function () {
 	});
 	
 });
+
+function addDrugInPharmacy(drug){
+	let row = $('<tr><td>'+ drug.name +'</td><td>' + drug.producer + '</td><td>' + drug.typeOfDrug + '</td><td>' + drug.typeOfDrugsForm + '</td><td>' + '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + drug.id + '" onclick="deleteDrug(this.id)">Delete</button>' + '</td></tr>');	
+	$('#pharmacy_drugs').append(row);
+};
+
+function deleteDrug(id){
+			$.ajax({
+				type:"PUT", 
+				url: "/api/drug-quantity-pharmacy/" + id + "/" + pharmacyId + "/delete",
+				contentType: "application/json",
+				success:function(){
+					location.reload();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully delete drug.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error deleting drug.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+};
 
 function addDrugsInCombo(drug){
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
@@ -239,7 +310,6 @@ function acceptOffer(id){
 			url: "/api/drug-offer/" + id,
 			contentType: "application/json",
 			success:function(offer){	
-				alert(offer.pharmacyOrderId);
 				$.ajax({
 					type:"GET", 
 					url: "/api/drug-offer/" + offer.pharmacyOrderId + "/pharmacy-order",
@@ -247,7 +317,6 @@ function acceptOffer(id){
 					success:function(offers){	
 						for(i = 0; i < offers.length; i++){
 							if(offers[i].status != "Accepted"){
-								alert(offers[i].status)
 								$.ajax({
 									type:"PUT", 
 									url: "/api/drug-offer/" + offers[i].id + "/reject",
@@ -263,9 +332,63 @@ function acceptOffer(id){
 										return;
 									}
 								});
-								
-							}
+									}
 						}
+								$.ajax({
+									type:"GET", 
+									url: "/api/order/" + offer.pharmacyOrderId  + "/drug-quantity",
+									contentType: "application/json",
+									success:function(drugQuantities){	
+										for(i = 0; i < drugQuantities.length; i++){
+											var drug_id = drugQuantities[i].idDrug;
+											var quantity = drugQuantities[i].quantity;
+											$.ajax({
+												type:"PUT", 
+												url: "/api/drug-quantity-pharmacy/" + drug_id + "/" + pharmacyId + "/" + quantity + "/increase",
+												contentType: "application/json",
+												success:function(result){
+													alert(result);
+													if(result == false){
+														$.ajax({
+															type:"POST", 
+															url: "/api/drug-quantity-pharmacy",
+															data: JSON.stringify({ 
+															drugId: drug_id, 
+															pharmacyId: pharmacyId,
+															quantity: quantity}),
+															contentType: "application/json",
+															success:function(){
+																let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully add new drug.'
+																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+																$('#div_alert').append(alert);
+																return;
+					
+															},
+															error:function(){
+																let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error adding new drug.'
+																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+																$('#div_alert').append(alert);
+																return;
+															}
+														});
+													
+												}
+											
+											},
+											error:function(){
+											let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept offer.'
+												+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+												$('#div_alert').append(alert);
+													return;
+												}
+										});
+										}
+									},
+									error:function(){
+										console.log('error getting drug quantities');
+									}
+								});
+								
 					},
 					error:function(){
 						console.log('error getting offer');
@@ -276,7 +399,6 @@ function acceptOffer(id){
 			error:function(){
 				console.log('error getting offer');
 			}
-			});
-			
+			});		
 			
 };
