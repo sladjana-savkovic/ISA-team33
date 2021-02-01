@@ -1,4 +1,4 @@
-var doctorId = 1;
+var doctorId = appConfig.doctorId;
 var appointmentId = window.location.href.split("?")[1];
 var appointment = null;
 var therapies = [];
