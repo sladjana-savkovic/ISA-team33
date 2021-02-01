@@ -15,5 +15,6 @@ public interface DrugQuantityPharmacyService {
 	boolean increaseDrugQuantityPharmacy(int drugId, int pharmacyId, int quantity);
 	void addDrugQuantityPharmacy(DrugQuantityPharmacyDTO drugQuantityDTO);
 	public Collection<DrugDTO> searchByName(String name, Collection<DrugDTO> drugDTOs);
+	void deleteDrugQuantityPharmacy(int idDrug, int idPharmacy);
 	
 }

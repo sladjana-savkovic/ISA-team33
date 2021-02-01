@@ -54,7 +54,7 @@ public class DrugQuantityPharmacyController {
 	public ResponseEntity<Void> add(@RequestBody DrugQuantityPharmacyDTO drugQuantityDTO) {
 		try {
 			quantityPharmacyService.addDrugQuantityPharmacy(drugQuantityDTO);
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
@@ -74,5 +74,11 @@ public class DrugQuantityPharmacyController {
 	public ResponseEntity<Collection<DrugDTO>> searchByName(@PathVariable String name, @RequestBody ArrayList<DrugDTO> drugDTOs){
 		Collection<DrugDTO> searchResult = quantityPharmacyService.searchByName(name, drugDTOs);
 		return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{drugId}/{pharmacyId}/delete")
+	public ResponseEntity<Void> increaseDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId){
+		quantityPharmacyService.deleteDrugQuantityPharmacy(drugId, pharmacyId);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 }

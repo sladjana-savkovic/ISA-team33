@@ -9,9 +9,11 @@ import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityPharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugReservationRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 
 @Service
@@ -20,12 +22,14 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 	private DrugQuantityPharmacyRepository quantityPharmacyRepository;
 	private DrugRepository drugRepository;
 	private PharmacyRepository pharmacyRepository;
+	private DrugReservationRepository drugReservationRepository;
 	
 	@Autowired
-	public DrugQuantityPharmacyServiceImpl(DrugQuantityPharmacyRepository quantityPharmacyRepository, DrugRepository drugRepository, PharmacyRepository pharmacyRepository) {
+	public DrugQuantityPharmacyServiceImpl(DrugQuantityPharmacyRepository quantityPharmacyRepository, DrugRepository drugRepository, PharmacyRepository pharmacyRepository, DrugReservationRepository drugReservationRepository) {
 		this.quantityPharmacyRepository = quantityPharmacyRepository;
 		this.drugRepository = drugRepository;
 		this.pharmacyRepository = pharmacyRepository;
+		this.drugReservationRepository = drugReservationRepository;
 	}
 
 	@Override
@@ -118,6 +122,26 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 			}
 		}
 		return searchResult;
+	}
+
+	@Override
+	public void deleteDrugQuantityPharmacy(int idDrug, int idPharmacy) {
+		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
+		Collection<DrugReservation> drugReservations = drugReservationRepository.findAll();
+		
+		boolean can_delete = false;
+		for(DrugReservation drugReservation:drugReservations) {
+			if(drugReservation.getDrug().getId() == idDrug && drugReservation.getPharmacy().getId() == idPharmacy && drugReservation.isDone()==true) {
+				can_delete = true;
+			}
+		}	
+		
+		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
+			if(drugQuantity.getDrug().getId() == idDrug && drugQuantity.getPharmacy().getId() == idPharmacy && can_delete == true) {
+				drugQuantity.setDeleted(true);
+				quantityPharmacyRepository.save(drugQuantity);
+			}
+		}	
 	}
 
 }

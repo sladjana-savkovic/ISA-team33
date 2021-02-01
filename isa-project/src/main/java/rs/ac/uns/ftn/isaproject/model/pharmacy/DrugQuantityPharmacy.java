@@ -22,6 +22,9 @@ public class DrugQuantityPharmacy {
 	@Column(unique = false, nullable = false)
 	private int quantity;
 	
+	@Column(unique = false, nullable = false)
+	private boolean isDeleted;
+	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Drug drug;
 	
@@ -59,5 +62,12 @@ public class DrugQuantityPharmacy {
 	public void setPharmacy(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
 	}
-	
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

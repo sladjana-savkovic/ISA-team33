@@ -116,7 +116,6 @@ $(document).ready(function () {
 			}
 		});
 		
-		//ovde
 		$.ajax({
 			type:"GET", 
 			url: "/api/drug-quantity-pharmacy/" + pharmacyId,
@@ -148,7 +147,7 @@ $(document).ready(function () {
 				data: JSON.stringify(searchDrugs),
 				contentType: "application/json",
 				success:function(searchResult){
-					$('#body_drugs').empty();
+					$('#body_pharmacy_drugs').empty();
 					for (let d of searchResult){
 						addDrugInPharmacy(d);
 					}
@@ -173,7 +172,7 @@ $(document).ready(function () {
 
 function addDrugInPharmacy(drug){
 	let row = $('<tr><td>'+ drug.name +'</td><td>' + drug.producer + '</td><td>' + drug.typeOfDrug + '</td><td>' + drug.typeOfDrugsForm + '</td><td>' + '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + drug.id + '" onclick="deleteDrug(this.id)">Delete</button>' + '</td></tr>');	
-	$('#drugs').append(row);
+	$('#pharmacy_drugs').append(row);
 };
 
 function deleteDrug(id){
@@ -318,27 +317,25 @@ function acceptOffer(id){
 								});
 									}
 						}
-								//ovde
 								$.ajax({
 									type:"GET", 
 									url: "/api/order/" + offer.pharmacyOrderId  + "/drug-quantity",
 									contentType: "application/json",
 									success:function(drugQuantities){	
 										for(i = 0; i < drugQuantities.length; i++){
-											var drug = drugQuantities[i].idDrug;
+											var drug_id = drugQuantities[i].idDrug;
 											var quantity = drugQuantities[i].quantity;
 											$.ajax({
 												type:"PUT", 
-												url: "/api/drug-quantity-pharmacy/" + drug + "/" + pharmacyId + "/" + quantity + "/increase",
+												url: "/api/drug-quantity-pharmacy/" + drug_id + "/" + pharmacyId + "/" + quantity + "/increase",
 												contentType: "application/json",
 												success:function(result){
-													
 													if(result == false){
 														$.ajax({
 															type:"POST", 
 															url: "/api/drug-quantity-pharmacy",
 															data: JSON.stringify({ 
-															drugId: drug, 
+															drugId: drug_id, 
 															pharmacyId: pharmacyId,
 															quantity: quantity}),
 															contentType: "application/json",
