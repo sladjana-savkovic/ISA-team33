@@ -11,7 +11,6 @@ public class PharmacyAdministrator extends User{
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Pharmacy pharmacy;
-	
 
 	public Pharmacy getPharmacy() {
 		return pharmacy;

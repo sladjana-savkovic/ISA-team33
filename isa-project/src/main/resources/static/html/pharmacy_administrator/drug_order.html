@@ -11,17 +11,73 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../lib/mdb/css/mdb.min.css" rel="stylesheet">
-<title>Drug order</title>
+<title>Drugs</title>
 </head>
 <body>
 
+	<div class="container w-50 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Create an drug order</strong></h5>
+			<div class="card-body px-lg-5">
+				<form style="color: #757575;" id="order">
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Limit date for offer:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="date" class="form-control" id="limitDate" required>
+					 	</div>
+					 </div>
+					 
+					 <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect" type="submit" id="create_order">Sumbit date</button>
+					 
+			    </form>
+			    
+			    <form style="color: #757575;" id="drug_quantity">
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Drug:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<select id="drug" class="custom-select" required></select>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Quantity:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="number" class="form-control" id="quantity" required>
+					 	</div>
+					 </div>
+					 
+					 <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect" type="submit" id="create_quantity">Add an drug to the order</button>
+					 
+			    </form>
+		    </div>
+	    </div>
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Orders and offers of the pharmacy:</strong></h5>
+			<div class="card-body px-lg-5">
+				
+				<div id="order_content">
+				</div>
+			    
+		    </div>
+	    </div>
+    </div>
 
-
-
-
+	<div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
+	
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../js/navbars/pharmacy_administrator.js"></script>
+    <script type="text/javascript" src="../../js/pharmacy_administrator/drugs.js"></script>
 </body>
 </html>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyOrderService;
 
@@ -40,9 +41,29 @@ public class DrugOfferController {
 		}
 	}
 	
-	@GetMapping("/pharmacy-order/{id}")
+	@GetMapping("/{id}/pharmacy-order")
 	public ResponseEntity<Collection<DrugOfferDTO>> findByPharmacyOrderId(@PathVariable int id){
 		Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyOrderId(id));
 		return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/pharmacy")
+	public ResponseEntity<Collection<DrugOfferDTO>> findByPharmacyId(@PathVariable int id){
+		Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyId(id));
+		return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
+	}
+	
+	@PutMapping("/{id}/reject")
+	public ResponseEntity<Void> rejectOffer(@PathVariable int id){
+		drugOfferService.rejectOffer(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<DrugOfferDTO> findById(@PathVariable int id){
+		DrugOffer drugOffer = drugOfferService.findById(id);
+		DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
+		return new ResponseEntity<DrugOfferDTO>(drugOfferDTO, HttpStatus.OK);
 	}
 }
