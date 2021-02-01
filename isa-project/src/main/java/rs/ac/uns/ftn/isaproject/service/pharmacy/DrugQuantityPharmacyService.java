@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
 import java.util.Collection;
 
+import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 
 public interface DrugQuantityPharmacyService {
@@ -10,5 +11,7 @@ public interface DrugQuantityPharmacyService {
 	boolean reduceDrugQuantity(int drugId, int pharmacyId);
 	Collection<Drug> findDrugsByPharmacyId(int id);
 	Collection<Drug> findAvailableDrugsByPharmacyId(int pharmacyId);
+	boolean increaseDrugQuantityPharmacy(int drugId, int pharmacyId, int quantity);
+	void addDrugQuantityPharmacy(DrugQuantityPharmacyDTO drugQuantityDTO);
 	
 }

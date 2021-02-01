@@ -4,21 +4,27 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+
+import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityPharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 
 @Service
 public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyService{
 
 	private DrugQuantityPharmacyRepository quantityPharmacyRepository;
 	private DrugRepository drugRepository;
+	private PharmacyRepository pharmacyRepository;
 	
 	@Autowired
-	public DrugQuantityPharmacyServiceImpl(DrugQuantityPharmacyRepository quantityPharmacyRepository, DrugRepository drugRepository) {
+	public DrugQuantityPharmacyServiceImpl(DrugQuantityPharmacyRepository quantityPharmacyRepository, DrugRepository drugRepository, PharmacyRepository pharmacyRepository) {
 		this.quantityPharmacyRepository = quantityPharmacyRepository;
 		this.drugRepository = drugRepository;
+		this.pharmacyRepository = pharmacyRepository;
 	}
 
 	@Override
@@ -70,6 +76,33 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 			drugs.add(drugRepository.getOne(d.getDrug().getId()));
 		}
 		return drugs;
+	}
+
+	@Override
+	public boolean increaseDrugQuantityPharmacy(int drugId, int pharmacyId, int quantity) {
+		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
+		
+		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
+			if(drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
+				drugQuantity.setQuantity(drugQuantity.getQuantity() + quantity);
+				quantityPharmacyRepository.save(drugQuantity);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void addDrugQuantityPharmacy(DrugQuantityPharmacyDTO drugQuantityDTO) {
+		DrugQuantityPharmacy drugQuantity = new DrugQuantityPharmacy();
+		Drug drug = drugRepository.getOne(drugQuantityDTO.drugId);
+		Pharmacy pharmacy = pharmacyRepository.getOne(drugQuantityDTO.pharmacyId);
+		
+		drugQuantity.setQuantity(drugQuantityDTO.quantity);
+		drugQuantity.setDrug(drug);
+		drugQuantity.setPharmacy(pharmacy);
+		
+		quantityPharmacyRepository.save(drugQuantity);
 	}
 
 }
