@@ -284,6 +284,16 @@ $(document).ready(function () {
 		});
 	});	
 	
+	
+	$('#newApp').click(function(){
+		window.location.href = "create_appointment.html?patientId=" + appointment.patientId + "&pharmacyId=" + appointment.pharmacyId;
+	});
+	
+	
+	$('#finish').click(function(){
+		window.location.href = "calendar.html";
+	});
+	
 });
 
 
@@ -292,11 +302,22 @@ function disableFields(){
 	$('#drugs').attr("disabled",true);
 	$('#check').attr("disabled",true);
 	$('#prescribe').attr("disabled",true);
+	$('#specification').attr("disabled",true);
+	$('#create').attr("disabled",true);
 	
 	$('#collapseTwo').removeClass();
 	$('#collapseTwo').addClass("collapse");
 	$('#collapseOne').removeClass();
 	$('#collapseOne').addClass("collapse");
+	
+	$('#label_drugs').attr("hidden",true);
+	$('#drugs').attr("hidden",true);
+	$('#check').attr("hidden",true);
+	$('#prescribe').attr("hidden",true);
+	$('#specification').attr("hidden",true);
+	$('#create').attr("hidden",true);
+	
+	$('#create_Appointment').attr("hidden",false);
 }
 
 function reloadTherapies(){
