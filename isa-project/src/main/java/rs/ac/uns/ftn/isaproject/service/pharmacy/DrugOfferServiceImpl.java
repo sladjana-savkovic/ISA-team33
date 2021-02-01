@@ -38,5 +38,22 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 		return drugOfferRepository.findByPharmacyOrderId(id);
 	}
 
+	@Override
+	public Collection<DrugOffer> findByPharmacyId(int id) {
+		return drugOfferRepository.findByPharmacyId(id);
+	}
+
+	@Override
+	public void rejectOffer(int id) {
+		DrugOffer drugOffer = drugOfferRepository.getOne(id);
+		drugOffer.setStatus(OfferStatus.Rejected);
+		drugOfferRepository.save(drugOffer);
+	}
+
+	@Override
+	public DrugOffer findById(int id) {
+		return drugOfferRepository.getOne(id);
+	}
+
 
 }

@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.examinations;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +29,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public Appointment getOne(int id) {
 		return appointmentRepository.getOne(id);
+	}
+
+	@Override
+	public Collection<Appointment> getDoctorAppointments(int id) {
+		return appointmentRepository.getDoctorAppointments(id);
 	}
 }

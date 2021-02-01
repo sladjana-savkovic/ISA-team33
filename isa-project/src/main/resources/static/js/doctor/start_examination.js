@@ -1,10 +1,10 @@
 var doctorId = 1;
-var appointmentId = 5;
+var appointmentId = window.location.href.split("?")[1];
 var appointment = null;
 var therapies = [];
 var drugs = [];
 $(document).ready(function () {
-	
+		
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/" + appointmentId,
