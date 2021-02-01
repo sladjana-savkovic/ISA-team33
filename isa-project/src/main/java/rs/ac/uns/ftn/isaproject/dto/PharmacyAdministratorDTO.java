@@ -10,16 +10,18 @@ public class PharmacyAdministratorDTO {
 	public LocalDate dateOfBirth;
 	public String email;
 	public String password;
+	public int countryId;
 	public String countryName;
 	public int cityId;
 	public String cityName;
 	public String address;
 	public int pharmacyId;
+	public String telephone;
 	
 	public PharmacyAdministratorDTO() {}
 
 	public PharmacyAdministratorDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
-			String address, int cityId, String cityName, String countryName, int pharmacyId) {
+			String address, int cityId, String cityName, String countryName, int pharmacyId, int countryId, String telephone) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,5 +34,7 @@ public class PharmacyAdministratorDTO {
 		this.cityName = cityName;
 		this.countryName = countryName;
 		this.pharmacyId = pharmacyId;
+		this.countryId = countryId;
+		this.telephone = telephone;
 	}
 }

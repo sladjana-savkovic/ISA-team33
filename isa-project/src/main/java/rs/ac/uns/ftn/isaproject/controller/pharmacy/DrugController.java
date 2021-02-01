@@ -63,5 +63,15 @@ public class DrugController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping()
+	public ResponseEntity<Collection<DrugDTO>> getAllDrugs(){
+		try {
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getAllDrugs());
+			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 
 }

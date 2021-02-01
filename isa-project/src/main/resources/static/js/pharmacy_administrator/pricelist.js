@@ -91,7 +91,6 @@ $(document).ready(function () {
 		event.preventDefault();
 		
 		let drug = $('#drug').val();
-		alert(drug)
 		let price = $('#price').val();
 		let startDatePrice = $('#startDatePrice').val();
 		let endDatePrice = $('#endDatePrice').val();

@@ -11,4 +11,7 @@ public interface DrugOfferRepository extends JpaRepository<DrugOffer, Integer> {
 
 	@Query("select o from DrugOffer o where o.pharmacyOrder.id = ?1")
 	Collection<DrugOffer> findByPharmacyOrderId(int id);
+	
+	@Query("select o from DrugOffer o where o.pharmacyOrder.pharmacyAdministrator.pharmacy.id = ?1")
+	Collection<DrugOffer> findByPharmacyId(int id);
 }

@@ -1,11 +1,12 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rs.ac.uns.ftn.isaproject.dto.DrugQuantityDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugQuantityOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyOrderDTO;
-import rs.ac.uns.ftn.isaproject.model.enums.PurposeOfDrugQuantity;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityOrder;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
@@ -37,7 +38,7 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 	}
 
 	@Override
-	public void addDrugQuantity(DrugQuantityDTO drugQuantityDTO) {
+	public void addDrugQuantity(DrugQuantityOrderDTO drugQuantityDTO) {
 		DrugQuantityOrder drugQuantity = new DrugQuantityOrder();
 		Drug drug = drugRepository.getOne(drugQuantityDTO.idDrug);
 		PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugQuantityDTO.idPharmacyOrder);
@@ -45,7 +46,6 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 		drugQuantity.setQuantity(drugQuantityDTO.quantity);
 		drugQuantity.setDrug(drug);
 		drugQuantity.setPharmacyOrder(pharmacyOrder);
-		drugQuantity.setPurpose(PurposeOfDrugQuantity.Order);
 		
 		drugQuantityRepository.save(drugQuantity);
 		
@@ -62,5 +62,20 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 		
 		pharmacyOrderRepository.save(pharmacyOrder);
 		
+	}
+
+	@Override
+	public int findByMaxId() {
+		return pharmacyOrderRepository.findByMaxId();
+	}
+
+	@Override
+	public Collection<DrugQuantityOrder> findByPharmacyOrderId(int id) {
+		return drugQuantityRepository.findByPharmacyOrderId(id);
+	}
+
+	@Override
+	public Collection<PharmacyOrder> findByPharmacyId(int id) {
+		return pharmacyOrderRepository.findByPharmacyId(id);
 	}
 }
