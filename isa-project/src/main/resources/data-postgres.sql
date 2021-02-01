@@ -60,10 +60,10 @@ insert into pharmacy_administrator (id, name, surname, email, password, telephon
 insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, is_active, city_id) values 
 					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','darko1234', '0632547854',2,'Zmaj Jovina 5','1980-05-08', true, 2);
 					   
-insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active) values 
-					   (nextval('users_seq'),'Mitar','Mitrović','mitarm@gmail.com','mitar1234', '0665858859','Braće Ribnikar 12','1995-11-11', true);
-insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active) values 
-					   (nextval('users_seq'),'Slavko','Ilić','slavkoi@gmail.com','mitar1234', '0632585258','Jevrejska 10','1994-12-12', false);
+insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active, city_id) values 
+					   (nextval('users_seq'),'Mitar','Mitrović','mitarm@gmail.com','mitar1234', '0665858859','Braće Ribnikar 12','1995-11-11', true, 1);
+insert into supplier (id, name, surname, email, password, telephone,address,date_of_birth, is_active, city_id) values 
+					   (nextval('users_seq'),'Slavko','Ilić','slavkoi@gmail.com','mitar1234', '0632585258','Jevrejska 10','1994-12-12', false, 1);
 					   
 					   
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2021-02-20', 'Popust na pensionere', '2021-01-31', 1);
