@@ -1,4 +1,4 @@
-var doctorId = 1;
+var doctorId = appConfig.doctorId;
 $(document).ready(function () {
 	
 	$('#startDate').prop("min",new Date().toISOString().split("T")[0]);
