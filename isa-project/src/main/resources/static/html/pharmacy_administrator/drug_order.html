@@ -71,6 +71,39 @@
 		    </div>
 	    </div>
     </div>
+    
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Search drugs in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<form id="search">
+					<div class="row w-100 p-3 h-50">
+					 	<div class="col-8" style="margin-top: 5px;">
+					 		<input type="text" placeholder="Enter name of drug" class="form-control" id="search_field">
+					 	</div>
+					 	<div class="col">
+					 		<button class="btn btn-primary btn-rounded btn-block waves-effect" type="submit">Search</button>
+					 	</div>
+					</div>
+				</form>
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="drugs">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Name</th>
+			        			<th scope="col" style="width: 400px;">Producer</th>
+			        			<th scope="col" style="width: 400px;">Drug type</th>
+			        			<th scope="col" style="width: 400px;">Drug form</th>
+			        			<th scope="col"></th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_drugs"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
 
 	<div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
 	

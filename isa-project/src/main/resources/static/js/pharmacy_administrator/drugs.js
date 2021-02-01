@@ -1,6 +1,7 @@
 var pharmacyAdminId = 6;
 var pharmacyId;
 var orderId;
+var searchDrugs = [];
 
 $(document).ready(function () {
 	
@@ -114,6 +115,53 @@ $(document).ready(function () {
 				console.log('error getting drugs');
 			}
 		});
+		
+		//ovde
+		$.ajax({
+			type:"GET", 
+			url: "/api/drug-quantity-pharmacy/" + pharmacyId,
+			contentType: "application/json",
+			success:function(drugs){	
+				searchDrugs = drugs;
+				for(i = 0; i < drugs.length; i++){
+					addDrugInPharmacy(drugs[i]);
+				}
+			},
+			error:function(){
+				console.log('error getting drugs from pharmacy');
+			}
+		});
+		
+		$('#search').submit(function(event){
+		event.preventDefault();
+		
+		let drug_name = "&";
+		let drug_name_val = $('#search_field').val();
+		
+		if(drug_name_val){
+		 	drug_name = drug_name_val;
+		}
+		
+		$.ajax({
+				type:"POST", 
+				url: "/api/drug-quantity-pharmacy/search/" + drug_name,
+				data: JSON.stringify(searchDrugs),
+				contentType: "application/json",
+				success:function(searchResult){
+					$('#body_drugs').empty();
+					for (let d of searchResult){
+						addDrugInPharmacy(d);
+					}
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching drugs.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+		});
+	});
+		
 			
 		},
 		error:function(){
@@ -122,6 +170,15 @@ $(document).ready(function () {
 	});
 	
 });
+
+function addDrugInPharmacy(drug){
+	let row = $('<tr><td>'+ drug.name +'</td><td>' + drug.producer + '</td><td>' + drug.typeOfDrug + '</td><td>' + drug.typeOfDrugsForm + '</td><td>' + '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + drug.id + '" onclick="deleteDrug(this.id)">Delete</button>' + '</td></tr>');	
+	$('#drugs').append(row);
+};
+
+function deleteDrug(id){
+	alert(id);
+};
 
 function addDrugsInCombo(drug){
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');

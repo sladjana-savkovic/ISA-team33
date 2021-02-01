@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,5 +58,21 @@ public class DrugQuantityPharmacyController {
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/{pharmacyId}")
+	public ResponseEntity<Collection<DrugDTO>> findDrugsByPharmacyId(@PathVariable int pharmacyId){
+		try {
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(quantityPharmacyService.findDrugsByPharmacyId(pharmacyId));
+			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PostMapping("/search/{name}")
+	public ResponseEntity<Collection<DrugDTO>> searchByName(@PathVariable String name, @RequestBody ArrayList<DrugDTO> drugDTOs){
+		Collection<DrugDTO> searchResult = quantityPharmacyService.searchByName(name, drugDTOs);
+		return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
 	}
 }

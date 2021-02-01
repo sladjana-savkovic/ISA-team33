@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
@@ -103,6 +104,20 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		drugQuantity.setPharmacy(pharmacy);
 		
 		quantityPharmacyRepository.save(drugQuantity);
+	}
+
+	@Override
+	public Collection<DrugDTO> searchByName(String name, Collection<DrugDTO> drugDTOs) {
+		Collection<DrugDTO> searchResult = new ArrayList<>();
+		
+		if(name.equals("&")) name = "";
+		
+		for(DrugDTO drug:drugDTOs) {
+			if(drug.name.toLowerCase().contains(name.toLowerCase())) {
+				searchResult.add(drug);
+			}
+		}
+		return searchResult;
 	}
 
 }
