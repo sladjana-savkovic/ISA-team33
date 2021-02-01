@@ -1,4 +1,4 @@
-var doctorId = 1;
+var doctorId = appConfig.doctorId;
 var reservationId;
 $(document).ready(function () {
 	
