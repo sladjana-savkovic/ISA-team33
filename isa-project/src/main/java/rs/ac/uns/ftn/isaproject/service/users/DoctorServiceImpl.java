@@ -70,6 +70,7 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setPassword(doctorDTO.password);
 		doctor.setTypeOfDoctor(TypeOfDoctor.valueOf(doctorDTO.typeOfDoctor));
 		doctor.setIsDeleted(false);
+		doctor.setTelephone(doctorDTO.phoneNumber);
 		
 		doctorRepository.save(doctor);
 	}

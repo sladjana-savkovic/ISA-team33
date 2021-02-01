@@ -100,7 +100,6 @@ public class DoctorController {
 		catch(EntityNotFoundException exception) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		
 	}
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
