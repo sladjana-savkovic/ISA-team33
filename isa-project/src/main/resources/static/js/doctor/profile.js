@@ -49,6 +49,7 @@ $(document).ready(function () {
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),
+					phoneNumber: $('#phone').val(),
 					email: $('#email').val(),
 					password: $('#password').val(),
 					address: $('#address').val(),

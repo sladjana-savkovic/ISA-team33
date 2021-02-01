@@ -40,8 +40,10 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setName(doctorDTO.name);
 		doctor.setSurname(doctorDTO.surname);
 		doctor.setDateOfBirth(doctorDTO.dateOfBirth);
+		doctor.setTelephone(doctorDTO.phoneNumber);
 		doctor.setAddress(doctorDTO.address);
 		doctor.setCity(city);
+		doctor.setEmail(doctorDTO.email);
 		doctor.setPassword(doctorDTO.password);
 		
 		doctorRepository.save(doctor);
