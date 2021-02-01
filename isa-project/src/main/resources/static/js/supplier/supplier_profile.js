@@ -1,4 +1,5 @@
-var doctorId = appConfig.doctorId;
+var supplierId = 8;
+
 $(document).ready(function () {
 	
 	$.ajax({
@@ -13,19 +14,19 @@ $(document).ready(function () {
 			getCities($("#countrySelect option:selected").val());
 		},
 		error:function(){
-			console.log('error getting doctor countries');
+			console.log('error getting supplier countries');
 		}
 	});
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/doctor/" + doctorId,
+		url: "/api/supplier/" + supplierId,
 		contentType: "application/json",
-		success:function(doctor){
-			addDoctorInfo(doctor);
+		success:function(supplier){
+			addSupplierInfo(supplier);
 		},
 		error:function(){
-			console.log('error getting doctor');
+			console.log('error getting supplier');
 		}
 	});
 	
@@ -43,13 +44,13 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"PUT", 
-				url: "/api/doctor",
+				url: "/api/supplier",
 				data: JSON.stringify({ 
-					id:doctorId,
+					id:supplierId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
-					dateOfBirth: $('#dateOfBirth').val(),
-					phoneNumber: $('#phone').val(),
+					telephone: $('#phone').val(),
+					//dateOfBirth: $('#dateOfBirth').val(),
 					email: $('#email').val(),
 					password: $('#password').val(),
 					address: $('#address').val(),
@@ -89,20 +90,19 @@ function enableFields(){
 };
 
 
-function addDoctorInfo(doctor){
-	$('#name').val(doctor.name);
-	$('#surname').val(doctor.surname);
-	$('#dateOfBirth').val(doctor.dateOfBirth);
-	$('#phone').val(doctor.phoneNumber);
-	$('#email').val(doctor.email);
-	$('#password').val(doctor.password);
-	$('#address').val(doctor.address);
+function addSupplierInfo(supplier){
+	$('#name').val(supplier.name);
+	$('#surname').val(supplier.surname);
+	//$('#dateOfBirth').val(supplier.dateOfBirth);
+	$('#phone').val(supplier.telephone);
+	$('#email').val(supplier.email);
+	$('#password').val(supplier.password);
+	$('#address').val(supplier.address);
 	
 	changeInputFiledsStatus(false);
 	changeSelectOptionsStatus(true);
-	$("#countryInput").val(doctor.countryName);
-	$("#cityInput").val(doctor.cityName);
-	
+	$("#countryInput").val(supplier.countryName);
+	$("#cityInput").val(supplier.cityName);	
 }
 
 function changeInputFiledsStatus(hidden){
