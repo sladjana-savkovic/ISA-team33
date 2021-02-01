@@ -8,14 +8,20 @@
 		<version>2.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>rs.ac.uns.ftn</groupId>
 	<artifactId>isa-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<packaging>war</packaging>
+	
 	<name>isa-project</name>
 	<description>ISA project</description>
+	
 	<properties>
 		<java.version>15</java.version>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
