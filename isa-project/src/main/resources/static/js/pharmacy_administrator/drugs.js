@@ -100,6 +100,22 @@ $(document).ready(function () {
 		});
 		
 	});
+	
+	//ovde
+	
+		$.ajax({
+			type:"GET", 
+			url: "/api/order/" + pharmacyId + "/pharmacy",
+			contentType: "application/json",
+			success:function(orders){	
+				for(i = 0; i < orders.length; i++){
+					addOrder(orders[i], i+1);
+				}
+			},
+			error:function(){
+				console.log('error getting drugs');
+			}
+		});
 			
 		},
 		error:function(){
@@ -112,4 +128,155 @@ $(document).ready(function () {
 function addDrugsInCombo(drug){
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drug').append(option);
+};
+
+function addOrder(order, i){
+	
+	let order_div = '<div class="card" id="div' + order.id + '"><table id="table' + order.id + '" style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                       + '<tr> <td><h5>Order' + ' ' + i + '</h5></td> </tr>'
+						+ '<tr> <td>Limit date:</td><td>' + order.limitDate + '</td><td></td></tr>' 
+						+ '<tr> <td><b>Ordered drugs:</b></td> </tr>'
+                        + '</table></div>';
+
+	$('#order_content').append(order_div);
+	
+	$.ajax({
+			type:"GET", 
+			url: "/api/order/" + order.id + "/drug-quantity",
+			contentType: "application/json",
+			success:function(drugs){	
+				for(i = 0; i < drugs.length; i++){
+					addDrug(drugs[i], order.id);
+				}
+			},
+			error:function(){
+				console.log('error getting drugs');
+			}
+	});
+	
+	$.ajax({
+			type:"GET", 
+			url: "/api/drug-offer/" + order.id + "/pharmacy-order",
+			contentType: "application/json",
+			success:function(offers){	
+				for(i = 0; i < offers.length; i++){
+					addOffer(offers[i], order.id, order.limitDate, order.idPharmacyAdmn, i + 1);
+				}
+			},
+			error:function(){
+				console.log('error getting offers');
+			}
+		});
+		
+	
+};
+
+function addDrug(drug, id){
+	
+	let order_div = '<tr> <td>' + drug.drugName + '</td><td>' + drug.quantity + '</td> </tr>';
+	let t = '#table' + id;
+	$(t).append(order_div);
+};
+
+function addOffer(offer, id, date, admin, i){
+	
+	var today = new Date();
+	var dd = String(today.getDate()).padStart(2, '0');
+	var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var yyyy = today.getFullYear();
+
+	today = yyyy + '-' + mm + '-' + dd;
+	
+	let offer_div1 =  '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                       + '<tr> <td><h6>Offer' + ' ' + i + '</h6></td> </tr>'
+						+ '<tr> <td>Limit date:</td><td>' + offer.limitDate + '</td></tr>' 
+						+ '<tr> <td>Total price:</td><td>' + offer.totalPrice + '</td> </tr>' 
+                        + '</table></div>';
+	
+	let offer_div2 =  '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                       + '<tr> <td><h6>Offer' + ' ' + i + '</h6></td> </tr>'
+						+ '<tr> <td>Limit date:</td><td>' + offer.limitDate + '</td><td>' + '<button name="acceptButton" type = "button" class="btn btn-success float-right" id="' + offer.id + '" onclick="acceptOffer(this.id)">Accept</button>' + '</td> </tr>' 
+						+ '<tr> <td>Total price:</td><td>' + offer.totalPrice + '</td> </tr>' 
+                        + '</table></div>';
+	
+	let t = '#div' + id;
+	
+	var from_date =date.split("-");
+	var from_today = today.split("-");
+	var dd = new Date(from_date[0], from_date[1] - 1, from_date[2]);
+	var dt = new Date(from_today[0], from_today[1] - 1, from_today[2]);
+	
+	if(dd < dt && admin == pharmacyAdminId && offer.status=="Waiting"){
+		$(t).append(offer_div2);
+	}else{
+		$(t).append(offer_div1);
+	}
+};
+
+function acceptOffer(id){
+	
+			$.ajax({
+				type:"PUT", 
+				url: "/api/drug-offer/" + id,
+				contentType: "application/json",
+				success:function(){
+					location.reload();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully accept offer.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept offer.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+			
+			$.ajax({
+			type:"GET", 
+			url: "/api/drug-offer/" + id,
+			contentType: "application/json",
+			success:function(offer){	
+				alert(offer.pharmacyOrderId);
+				$.ajax({
+					type:"GET", 
+					url: "/api/drug-offer/" + offer.pharmacyOrderId + "/pharmacy-order",
+					contentType: "application/json",
+					success:function(offers){	
+						for(i = 0; i < offers.length; i++){
+							if(offers[i].status != "Accepted"){
+								alert(offers[i].status)
+								$.ajax({
+									type:"PUT", 
+									url: "/api/drug-offer/" + offers[i].id + "/reject",
+									contentType: "application/json",
+									success:function(){
+									location.reload();
+									return;
+								},
+									error:function(){
+									let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject offer.'
+										+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+										$('#div_alert').append(alert);
+										return;
+									}
+								});
+								
+							}
+						}
+					},
+					error:function(){
+						console.log('error getting offer');
+					}
+				});
+				
+			},
+			error:function(){
+				console.log('error getting offer');
+			}
+			});
+			
+			
 };
