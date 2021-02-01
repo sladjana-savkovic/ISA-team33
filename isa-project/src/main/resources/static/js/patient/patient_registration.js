@@ -1,5 +1,19 @@
 $(document).ready(function () {
 	
+	var dtToday = new Date();
+
+	var month = dtToday.getMonth() + 1;
+	var day = dtToday.getDate();
+	var year = dtToday.getFullYear();
+	if (month < 10)
+		month = '0' + month.toString();
+	if (day < 10)
+		day = '0' + day.toString();
+
+	var maxDate = year + '-' + month + '-' + day;
+
+	$('#dateOfBirth').attr('max', maxDate);
+	
 	getAllCountriesFromDatabase();
 	
 	getAllCitiesFromDatabase();
@@ -72,7 +86,7 @@ $(document).ready(function () {
 				contentType: 'application/json',
 				data: JSON.stringify(newPatient),
 				success: function () {
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!.'
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
