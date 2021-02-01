@@ -10,9 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
-import rs.ac.uns.ftn.isaproject.model.enums.TypeOfAppointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
@@ -24,9 +22,6 @@ public class Appointment {
 	@SequenceGenerator(name = "appointmentsSeqGen", sequenceName = "appointmentsSeq", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointmentsSeqGen")
 	private int id;
-
-	@Column(unique=false, nullable=false)
-	private TypeOfAppointment typeOfAppointment;
 	
 	@Column(unique=false, nullable=false)
 	private AppointmentStatus status;
@@ -46,7 +41,7 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private Pharmacy pharmacy;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Patient patient;
 
 	public int getId() {
@@ -55,14 +50,6 @@ public class Appointment {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public TypeOfAppointment getTypeOfAppointment() {
-		return typeOfAppointment;
-	}
-
-	public void setTypeOfAppointment(TypeOfAppointment typeOfAppointment) {
-		this.typeOfAppointment = typeOfAppointment;
 	}
 
 	public LocalDateTime getStartTime() {
