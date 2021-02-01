@@ -17,11 +17,12 @@ public class DoctorDTO {
 	public String address;
 	public double averageGrade;
 	public String typeOfDoctor;
+	public String phoneNumber;
 	
 	public DoctorDTO() {}
 
 	public DoctorDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
-			String address, int cityId, String cityName,int countryId, String countryName, double averageGrade, String typeOfDoctor) {
+			String address, int cityId, String cityName,int countryId, String countryName, double averageGrade, String typeOfDoctor,String phoneNumber) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -36,6 +37,7 @@ public class DoctorDTO {
 		this.countryName = countryName;
 		this.averageGrade = averageGrade;
 		this.typeOfDoctor = typeOfDoctor;
+		this.phoneNumber = phoneNumber;
 	}	
 	
 }
