@@ -40,9 +40,6 @@ public class UserAccount implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "enabled")
     private boolean enabled;
 
@@ -101,14 +98,6 @@ public class UserAccount implements UserDetails {
     
     public Authority getAuthority() {
 		return authority;
-	}
-    
-    public String getEmail() {
-        return email;
-    }
-
-	public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override
