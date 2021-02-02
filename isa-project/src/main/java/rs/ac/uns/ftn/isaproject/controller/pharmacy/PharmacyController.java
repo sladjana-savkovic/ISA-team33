@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
-import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
+import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
 
@@ -27,11 +26,13 @@ public class PharmacyController {
 
 	private PharmacyService pharmacyService;
 	private DoctorService doctorService;
+	private AppointmentService appointmentService;
 	
 	@Autowired
-	public PharmacyController(PharmacyService pharmacyService, DoctorService doctorService) {
+	public PharmacyController(PharmacyService pharmacyService, DoctorService doctorService, AppointmentService appointmentService) {
 		this.pharmacyService = pharmacyService;
 		this.doctorService = doctorService;
+		this.appointmentService = appointmentService;
 	}
 	
 	@GetMapping("/{id}")
@@ -43,13 +44,7 @@ public class PharmacyController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
-		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(pharmacy.getAppointments());
-		Collection<AppointmentDTO> freeAppointmentDTOs = new ArrayList<AppointmentDTO>();
-		for(AppointmentDTO a: appointmentDTOs) {
-			if(a.status.equals(AppointmentStatus.Created)) {
-				freeAppointmentDTOs.add(a);
-			}
-		}
+		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacy(id));
 		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
 		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs);
 		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);

@@ -11,4 +11,7 @@ public interface VacationRequestRepository extends JpaRepository<VacationRequest
 
 	@Query("select v from VacationRequest v where v.pharmacy.id = ?1")
 	Collection<VacationRequest> findByPharmacyId(int id);
+	
+	@Query("select v from VacationRequest v where v.pharmacy.id = ?1 and v.doctor.id =?2")
+	Collection<VacationRequest> findByDoctorPharmacyId(int id_pharmacy, int id_doctor);
 }

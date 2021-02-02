@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentEventDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentForExaminationDTO;
@@ -20,16 +22,22 @@ import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventDTOMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
+import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
+import rs.ac.uns.ftn.isaproject.service.users.WorkingTimeService;
 
 @RestController
 @RequestMapping(value = "api/appointment")
 public class AppointmentController {
 
 	private AppointmentService appointmentService;
+	private VacationRequestService vacationRequestService;
+	private WorkingTimeService workingTimeService;
 	
 	@Autowired
-	public AppointmentController(AppointmentService appointmentService) {
+	public AppointmentController(AppointmentService appointmentService, VacationRequestService vacationRequestService, WorkingTimeService workingTimeService) {
 		this.appointmentService = appointmentService;
+		this.vacationRequestService = vacationRequestService;
+		this.workingTimeService = workingTimeService;
 	}
 	
 	@PutMapping("/{id}/unperformed")
@@ -94,6 +102,32 @@ public class AppointmentController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/doctor/{id_doctor}/date-time/{date}/{start_time}/{end_time}")
+	public ResponseEntity<Boolean> isAppointmentAvailableToCreate(@PathVariable int id_doctor, @PathVariable String date, @PathVariable String start_time, @PathVariable String end_time){
+		boolean result = appointmentService.isAppointmentAvailableToCreate(id_doctor, date, start_time, end_time);
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
+	@PostMapping(consumes = "application/json")
+	public ResponseEntity<Void> add(@RequestBody AddAppointmentDTO appointmentDTO) {
+		if(vacationRequestService.isDoctorOnVacation(appointmentDTO.idDoctor, appointmentDTO.idPharmacy, appointmentDTO.startTime)) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if(!workingTimeService.isDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, appointmentDTO.startTime, appointmentDTO.endTime)) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if(!appointmentService.isAppointmentAvailableToCreate(appointmentDTO.idDoctor, appointmentDTO.startTime, appointmentDTO.startTime, appointmentDTO.endTime)) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		try{
+			appointmentService.add(appointmentDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

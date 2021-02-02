@@ -10,5 +10,6 @@ public interface VacationRequestService {
 	void add(AddVacationRequestDTO vacationRequestDTO);
 	void acceptRequest(int id);
 	void rejectRequest(int id, String reason);
-	Collection<VacationRequest> findByPharmacyId(int id);
+	Collection<VacationRequest> findCreatedByPharmacyId(int id);
+	boolean isDoctorOnVacation(int id_doctor, int id_pharmacy, String date);
 }
