@@ -69,8 +69,8 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("pharmacy/{pharmacyId}/doctor/{doctorId}")
-	public ResponseEntity<Collection<AppointmentDTO>> findAllCreatedByPharmacyAndDoctor(@PathVariable int pharmacyId, @PathVariable int doctorId){
-		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacyAndDoctor(pharmacyId, doctorId));
+	public ResponseEntity<Collection<AppointmentDTO>> findFreeAppointmentsByPharmacyAndDoctor(@PathVariable int pharmacyId, @PathVariable int doctorId){
+		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, doctorId));
 		return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 	}
 	

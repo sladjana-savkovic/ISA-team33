@@ -24,9 +24,9 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 	}
 
 	@Override
-	public Collection<ExaminationReport> findAllByDoctorId(int id) {
+	public Collection<ExaminationReport> findAllFinishedByDoctorId(int id) {
 	
-		Collection<ExaminationReport> examinationReports = examinationReportRepository.findAllByDoctorId(id);
+		Collection<ExaminationReport> examinationReports = examinationReportRepository.findAllFinishedByDoctorId(id);
 		Collection<Integer> patientsId = new ArrayList<>();
 		Collection<ExaminationReport> uniqueReportsByPatient = new ArrayList<>();
 		

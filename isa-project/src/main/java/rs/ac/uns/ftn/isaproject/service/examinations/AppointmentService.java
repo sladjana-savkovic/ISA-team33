@@ -13,7 +13,7 @@ public interface AppointmentService {
 	void changeStatus(int id, AppointmentStatus status) throws Exception;
 	Appointment getOne(int id);
 	Collection<Appointment> getDoctorAppointments(int id);
-	Collection<Appointment> findAllCreatedByPharmacyAndDoctor(int pharmacyId, int doctorId);
+	Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId);
 	void schedulePredefinedAppointment(int id, int patientId) throws BadRequestException;
 	Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs);
 	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);

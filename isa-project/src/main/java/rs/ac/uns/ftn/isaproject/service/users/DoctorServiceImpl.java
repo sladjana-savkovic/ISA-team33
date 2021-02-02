@@ -50,7 +50,6 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setAddress(doctorDTO.address);
 		doctor.setCity(city);
 		doctor.setEmail(doctorDTO.email);
-		doctor.setPassword(doctorDTO.password);
 		
 		doctorRepository.save(doctor);
 	}

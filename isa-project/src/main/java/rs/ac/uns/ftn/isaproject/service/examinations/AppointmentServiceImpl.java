@@ -60,16 +60,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public Collection<Appointment> findAllCreatedByPharmacyAndDoctor(int pharmacyId, int doctorId) {
-		return appointmentRepository.findAllCreatedByPharmacyAndDoctor(pharmacyId, doctorId);
+	public Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId) {
+		return appointmentRepository.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, doctorId);
 	}
 
 	@Override
 	public void schedulePredefinedAppointment(int id, int patientId) throws BadRequestException {
 		Appointment appointment = appointmentRepository.getOne(id);
+		Collection<Appointment> appointments = appointmentRepository.checkIfPatientHasAppointment(patientId, appointment.getStartTime());
 		
 		if(appointment.getStatus() == AppointmentStatus.Scheduled) 
 			throw new BadRequestException("An appointment has already been scheduled.");
+		
+		if(appointments.size() > 0) {
+			throw new BadRequestException("The patient is busy for the chosen appointment.");
+		}
 		
 		Patient patient = patientRepository.getOne(patientId);
 		appointment.setPatient(patient);
