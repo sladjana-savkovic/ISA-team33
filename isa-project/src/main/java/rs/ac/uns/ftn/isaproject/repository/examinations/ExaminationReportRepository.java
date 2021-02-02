@@ -9,7 +9,7 @@ import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 
 public interface ExaminationReportRepository extends JpaRepository<ExaminationReport, Integer> {
 
-	@Query(value = "select * from examination_report er natural join appointment ap where ap.doctor_id = ?1 order by ap.start_time desc", nativeQuery = true)
-	Collection<ExaminationReport> findAllByDoctorId(int id);
+	@Query(value = "select * from examination_report er, appointment ap where er.appointment_id = ap.id and ap.doctor_id = ?1 and ap.status = 3 order by ap.start_time desc", nativeQuery = true)
+	Collection<ExaminationReport> findAllFinishedByDoctorId(int id);
 	
 }

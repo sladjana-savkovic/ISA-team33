@@ -25,6 +25,7 @@ function changeNavbar(typeOfDoctor){
 	}else{
 		document.body.appendChild(document.createElement('script')).src='../../js/navbars/pharmacist.js';
 		$('#searchPredefinedAppointments').attr('hidden',true);
+		$('#freeAppText').attr('hidden',true);
 	}
 	
 };

@@ -44,7 +44,7 @@ public class ExaminationReportController {
 	@GetMapping("/doctor/{id}")
 	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllByDoctorIdOrderByDate(@PathVariable int id){
 		Collection<ExaminedPatientDTO> examinationReports = 
-				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllByDoctorId(id));
+				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllFinishedByDoctorId(id));
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinationReports, HttpStatus.OK);
 	}
 	
