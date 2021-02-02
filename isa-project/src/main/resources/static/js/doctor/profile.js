@@ -60,7 +60,7 @@ $(document).ready(function () {
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed profile informations.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
-					window.setTimeout(function(){location.reload()},1000)
+					window.setTimeout(function(){location.reload()},1000);
 					return;
 				},
 				error:function(xhr){

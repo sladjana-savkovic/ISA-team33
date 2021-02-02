@@ -43,31 +43,18 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"PUT", 
-				url: "/api/appointment/" + appointment.appointmentId + "/unperformed",
+				url: "/api/appointment/" + appointment.appointmentId + "/patient/" + appointment.patientId + "/unperformed",
 				contentType: "application/json",
 				success:function(){
-					$.ajax({
-						type:"PUT", 
-						url: "/api/patient/" + appointment.patientId + "/increase-penalty",
-						contentType: "application/json",
-						success:function(){
-							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
-								+'Successfully changed appointment status and increased penalties for patient.'
-								+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							location.href = "calendar.html";
-							return;
-						},
-						error:function(){
-							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error increasing penalties for patient.'
-								+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							return;
-						}
-					});
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
+					+'Successfully changed appointment status and increased penalties for patient.'
+					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					window.setTimeout(function(){location.href = "calendar.html"},500);
+					return;
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing appointment status to unperformed .'
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;

@@ -46,7 +46,7 @@ public class DoctorController {
 			return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
 		}
 		catch(Exception e) {
-			return new ResponseEntity<>("The requested doctor doesn't exist in the database", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("The requested doctor doesn't exist in the database.", HttpStatus.NOT_FOUND);
 		}
 	}
 	
