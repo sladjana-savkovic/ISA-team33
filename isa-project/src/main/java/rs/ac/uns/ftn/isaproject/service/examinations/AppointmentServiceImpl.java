@@ -106,7 +106,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
 		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
 	}
-
+	
+	//Metoda vraca true ukoliko se slobodan termin pregleda kod zadatog doktora za zadato vrijeme i datum moze kreirati, u suprotnom vraca false
 	@Override
 	public boolean isAppointmentAvailableToCreate(int doctor_id, String date, String start_time, String end_time) {
 		String date_parse = date.split(" ")[0];

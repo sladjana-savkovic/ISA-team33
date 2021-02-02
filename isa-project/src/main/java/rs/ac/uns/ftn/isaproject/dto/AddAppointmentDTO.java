@@ -9,11 +9,12 @@ public class AddAppointmentDTO {
 	public int idDoctor;
 	public int idPharmacy;
 	public double price;
+	public int idPatient;
 	
 	public AddAppointmentDTO() {}
 	
 	public AddAppointmentDTO(int id, String startTime, String endTime, int idDoctor, int idPharmacy,
-			double price) {
+			double price, int idPatient) {
 		super();
 		this.id = id;
 		this.startTime = startTime;
@@ -21,6 +22,7 @@ public class AddAppointmentDTO {
 		this.idDoctor = idDoctor;
 		this.idPharmacy = idPharmacy;
 		this.price = price;
+		this.idPatient = idPatient;
 	}
 	
 	
