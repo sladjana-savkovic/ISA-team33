@@ -17,17 +17,79 @@
 <br>
 <br>
 <br>
-
 	<div>
-     		<button style="margin-left:50px; margin-bottom:20px;" onclick="window.location.href='/html/pharmacy_administrator/doctor_registration.html'" class="btn btn-link float-left pl-0">Register a pharmacist or dermatologist</button>
-    		<button style="margin-left:40px; margin-bottom:20px;" onclick="window.location.href='/html/pharmacy_administrator/doctor_working_time.html'" class="btn btn-link float-left pl-0">Generate the working time of a pharmacist or dermatologist</button>
+     	<button style="margin-left:220px; margin-bottom:20px;" onclick="window.location.href='/html/pharmacy_administrator/doctor_registration.html'" class="btn btn-link float-left pl-0">Register a pharmacist or dermatologist</button>
+    	<button style="margin-left:40px; margin-bottom:20px;" onclick="window.location.href='/html/pharmacy_administrator/doctor_working_time.html'" class="btn btn-link float-left pl-0">Generate the working time of a pharmacist or dermatologist</button>
      </div>
     
+	 <div class="container w-90 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Search medical staff in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<form id="search">
+					<div class="row w-100 p-3 h-50">
+					 	<div class="col-8" style="margin-top: 5px;">
+					 		<label for="search_field" class="text-secondary">Name and surname</label>
+					 		<input type="text" placeholder="Enter name and surname" class="form-control" id="search_field">
+					 	</div>
+					 	<div class="col" style="margin-top: 15px;">
+					 		<button class="btn btn-primary btn-rounded btn-block waves-effect" type="submit">Search</button>
+					 	</div>
+					</div>
+				</form>
+				<form id="filter">
+					<div class="form-row">
+					 	<div class="form-group col" style="margin-top: 5px; margin-left: 15px;">
+					 	<label for="type" class="text-secondary">Type of medical staff</label>
+					 		<select id="types" class="custom-select" required>
+					 		<option value="" disabled selected hidden>Choose type</option>
+                                        <option value="Pharmacist" id="pharmacist_id">Pharmacist </option>
+                                         <option value="Dermatologist" id="dermatologist_id" selected>Dermatologist</option>
+					 		</select>
+					 	</div>
+					 	<div class="form-group col" style="margin-top: 5px;">
+					 	<label for="grade" class="text-secondary">Average grade</label>
+					 		<select id="grades" class="custom-select" required>
+					 		<option value="" disabled selected hidden>Choose grade</option>
+                                        <option value="1" id="grade_1" selected>1 </option>
+                                         <option value="2" id="grade_2">2</option>
+                                          <option value="3" id="grade_3">3</option>
+                                         <option value="4" id="grade_4">4</option>
+                                          <option value="5" id="grade_5">5</option>
+                            
+					 		</select>
+					 	</div>
+					 	<div class="form-group col" style="margin-top: 15px; margin-right: 45px; margin-left: 7px;">
+					 		<button class="btn btn-primary btn-rounded btn-block waves-effect" type="submit">Filter</button>
+					 	</div>
+					</div>
+				</form>
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="medicals">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Name</th>
+			        			<th scope="col" style="width: 400px;">Surname</th>
+			        			<th scope="col" style="width: 400px;">Medical staff type</th>
+			        			<th scope="col" style="width: 400px;">Average grade</th>
+			        			<th scope="col" style="width: 400px;">Pharmacies</th>
+			        			<th scope="col"></th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_medicals"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
 
+	<div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
+	
 
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../js/navbars/pharmacy_administrator.js"></script>
+    <script type="text/javascript" src="../../js/pharmacy_administrator/medical_staff.js"></script>
 </body>
 </html>

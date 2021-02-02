@@ -11,4 +11,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
 	@Query(value = "select * from appointment a where a.doctor_id=?1", nativeQuery = true)
 	Collection<Appointment> getDoctorAppointments(int id);
+	
+	@Query(value = "select * from appointment a where a.doctor_id=?1 and a.pharmacy_id=?2", nativeQuery = true)
+	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);
 }

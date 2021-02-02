@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
-import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
-import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -87,34 +85,43 @@ public class DoctorServiceImpl implements DoctorService {
 		doctorRepository.save(doctor);
 	}
 	
+	@Override
 	public Collection<Doctor> findByPharmacyId(int id) {
-		return doctorRepository.findByPharmacyId(id);
+		Pharmacy pharmacy = pharmacyRepository.getOne(id);
+		Collection<Doctor> allDoctors = doctorRepository.findAll();
+		Collection<Doctor> doctors = new ArrayList<Doctor>();
+		for(Doctor d: allDoctors) {
+			if(d.getPharmacies().contains(pharmacy) && d.isIsDeleted() == false) {
+				doctors.add(d);
+			}
+		}
+		return doctors;
 	}
 	
 	@Override
-	public Collection<ViewSearchedDoctorDTO> searchDoctors(SearchDoctorDTO searchDoctorDTO){
-		Collection<ViewSearchedDoctorDTO> doctors = searchDoctorDTO.doctors;
-		Collection<ViewSearchedDoctorDTO> searchedDoctors = new ArrayList<ViewSearchedDoctorDTO>();
-		for(ViewSearchedDoctorDTO d:doctors) {
-			if(d.name.toLowerCase().contains(searchDoctorDTO.name.toLowerCase()) || d.surname.toLowerCase().contains(searchDoctorDTO.surname.toLowerCase())) {
-				searchedDoctors.add(d);
+	public Collection<ViewSearchedDoctorDTO> searchByNameAndSurname(String name, String surname, Collection<ViewSearchedDoctorDTO> doctorDTOs) {
+		Collection<ViewSearchedDoctorDTO> searchResult = new ArrayList<>();
+		
+		if(name.equals("&")) name = "";
+		if(surname.equals("&")) surname = "";
+		
+		for(ViewSearchedDoctorDTO doctor:doctorDTOs) {
+			if(doctor.name.toLowerCase().contains(name.toLowerCase()) && doctor.surname.toLowerCase().contains(surname.toLowerCase())) {
+				searchResult.add(doctor);
 			}
 		}
-		return searchedDoctors;
-		
+		return searchResult;
 	}
-
+	
 	@Override
-	public Collection<ViewSearchedDoctorDTO> filterDoctors(FilterDoctorDTO filterDoctorDTO) {
-		Collection<ViewSearchedDoctorDTO> doctors = filterDoctorDTO.doctors;
-		Collection<ViewSearchedDoctorDTO> filteredDoctors = new ArrayList<ViewSearchedDoctorDTO>();
-		
-		for(ViewSearchedDoctorDTO d:doctors) {
-			if(d.grade == filterDoctorDTO.grade || d.typeOfDoctor == filterDoctorDTO.typeOfDoctor) {
-				filteredDoctors.add(d);
+	public Collection<ViewSearchedDoctorDTO> filterByGradeAndType(String typeOfDoctor, int grade, Collection<ViewSearchedDoctorDTO> doctorDTOs) {
+		Collection<ViewSearchedDoctorDTO> searchResult = new ArrayList<>();
+		for(ViewSearchedDoctorDTO doctor:doctorDTOs) {
+			if(doctor.typeOfDoctor == TypeOfDoctor.valueOf(typeOfDoctor) && doctor.grade <= grade && doctor.grade >= grade-1) {
+				searchResult.add(doctor);
 			}
 		}
-		return filteredDoctors;
+		return searchResult;
 	}
 
 	@Override
@@ -136,5 +143,6 @@ public class DoctorServiceImpl implements DoctorService {
 		}
 		return doctors;
 	}
+
 
 }
