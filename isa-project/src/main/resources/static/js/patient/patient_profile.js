@@ -17,22 +17,18 @@ $(document).ready(function () {
 			console.log('error getting patients countries');
 		}
 	});
-	
-	
-	let amenities = [] 
+	 
 	$.ajax({
 		type:"GET",
 		url:"/api/drug",
 		contentType:"application/json",
-		success:function(amenitiess){
-			console.log(amenitiess)
-			amenities = amenitiess
-			for(let amenity of amenitiess){
-				addAmenity(amenity, patientId)
+		success:function(drugs){
+			for(let drug of drugs){
+				addDrug(drug, patientId)
 			}
 		},
 		error:function(){
-			alert('error getting amenities')
+			alert('error getting drugs')
 		}
 	})
 	
@@ -181,13 +177,13 @@ function getCities(countryId){
 	});
 }
 
-function addAmenity(amenity, patientId){
+function addDrug(drug, patientId){
 	let div = $('<div class="form-check"></div>')
-	let input = $('<input type="checkbox" class="form-check-input" id="' + amenity.id + '" name="amenities" value="' + amenity.id + '" >')
-	let label =  $('<label class="form-check-label" for="' + amenity.id + '">' + amenity.name + '</label>')
+	let input = $('<input type="checkbox" class="form-check-input" id="' + drug.id + '" name="amenities" value="' + drug.id + '" >')
+	let label =  $('<label class="form-check-label" for="' + drug.id + '">' + drug.name + '</label>')
 	$.ajax({
 		type:"GET", 
-		url: "/api/patient/" + patientId + "/allergy/" + amenity.id,
+		url: "/api/patient/" + patientId + "/allergy/" + drug.id,
 		contentType: "application/json",
 		success:function(check){
 				if(check == true){
