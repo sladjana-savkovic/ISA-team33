@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.isaproject.service.examinations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public Collection<Appointment> getDoctorAppointments(int id) {
 		return appointmentRepository.getDoctorAppointments(id);
+	}
+
+	@Override
+	public Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId) {
+		Collection<Appointment> appointments = appointmentRepository.getDoctorScheduledAppointmentsInPharamacy(doctorId, pharmacyId);
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for(Appointment a : appointments) {
+			if(a.getStatus() == AppointmentStatus.Scheduled) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
 	}
 }

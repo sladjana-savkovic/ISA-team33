@@ -10,4 +10,5 @@ public interface AppointmentService {
 	void changeStatus(int id, AppointmentStatus status);
 	Appointment getOne(int id);
 	Collection<Appointment> getDoctorAppointments(int id);
+	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);
 }
