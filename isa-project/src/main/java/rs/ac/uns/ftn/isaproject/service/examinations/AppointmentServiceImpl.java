@@ -46,8 +46,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public Collection<Appointment> findAllCreatedByPharmacyAndDoctor(int pharmacyId, int doctorId) {
-		return appointmentRepository.findAllCreatedByPharmacyAndDoctor(pharmacyId, doctorId);
+	public Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId) {
+		return appointmentRepository.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, doctorId);
 	}
 
 	@Override
