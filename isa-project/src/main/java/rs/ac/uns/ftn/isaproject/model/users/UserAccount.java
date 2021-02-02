@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 //POJO koji implementira Spring Security UserDetails interfejs koji specificira
 //osnovne osobine Spring korisnika (koje role ima, da li je nalog zakljucan, istekao, da li su kredencijali istekli)
 @Entity
-@Table(name="USERS")
 public class UserAccount implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -48,14 +48,9 @@ public class UserAccount implements UserDetails {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
 	private Authority authority;
-    
-    /*
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
-     */
+	
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL/*,optional = false*/)
+	private User user;
     
     
     public Long getId() {

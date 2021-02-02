@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 
@@ -33,10 +34,10 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private LocalDate dateOfBirth;
 	
-	@Column(unique=true, nullable=false)
+	@Column(unique=true, nullable=true)
 	private String email;
 	
-	@Column(unique=false, nullable=false)
+	@Column(unique=false, nullable=true)
 	private String password;
 	
 	@Column(unique=false, nullable=false)
@@ -45,13 +46,18 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private String telephone;
 	
-	@Column(unique=false, nullable=false)
+	@Column(unique=false, nullable=true)
 	private boolean isActive;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
-
+    
+    //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL/*,optional = false*/)
+	//private UserAccount userAccount;
+	
+	
+	
 	public int getId() {
 		return id;
 	}

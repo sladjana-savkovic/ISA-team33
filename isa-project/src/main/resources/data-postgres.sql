@@ -6,10 +6,23 @@ INSERT INTO AUTHORITY (id, name) VALUES (2, 'ROLE_DOCTOR');
 INSERT INTO AUTHORITY (id, name) VALUES (3, 'ROLE_SYSTEMADMIN');
 INSERT INTO AUTHORITY (id, name) VALUES (4, 'ROLE_SUPPLIER');
 
-
+/*
 INSERT INTO USERS (authority_id, username, password, enabled, last_password_reset_date) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07');
 INSERT INTO USERS (authority_id, username, password, enabled, last_password_reset_date) VALUES (1, 'admin@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07');
+*/
 
+insert into patient(id, name, surname, email, password, telephone, penalty, address, date_of_birth, is_active/*, user_account_id*/) 
+					values (20,'Pera','Perić','pera7peric@gmail.com','$2y$10$HwUMyAHRKMWRvKXdxbiVG.U6kv06fwagW513LNWpft0T6Oxqsoyy2 ', '0668989985', 0,'Kralja Petra I','1963-07-13', true);
+insert into patient(id, name, surname, email, password, telephone, penalty, address, date_of_birth, is_active/*, user_account_id*/) 
+				    values (21,'Pera','Perić','pera4peric@gmail.com','$2y$10$HwUMyAHRKMWRvKXdxbiVG.U6kv06fwagW513LNWpft0T6Oxqsoyy2 ', '0668989985', 0,'Kralja Petra I','1963-07-13', true);
+
+INSERT INTO user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 20);
+INSERT INTO user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'admin@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 21);
+				    
+				    
+				    
+				    
+				    
 
 
 insert into country (id,name) values (1,'Srbija');
