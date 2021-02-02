@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
+import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
+import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
 
@@ -61,6 +63,29 @@ public class PatientServiceImpl implements PatientService {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public Patient getOne(int id) {
+		return patientRepository.getOne(id);
+	}
+
+	@Override
+	public void updateInfo(PatientDTO patientDTO) {
+		Patient patient = patientRepository.getOne(patientDTO.id);
+		City city = cityRepository.getOne(patientDTO.cityId);
+		
+		patient.setName(patientDTO.name);
+		patient.setSurname(patientDTO.surname);
+		patient.setDateOfBirth(patientDTO.dateOfBirth);
+		patient.setPassword(patientDTO.password);
+		patient.setTelephone(patientDTO.telephone);		
+		patient.setAddress(patientDTO.address);
+		patient.setCity(city);
+		patient.setAllergies(patientDTO.allergies);
+		
+		patientRepository.save(patient);
+		
 	}
 
 }
