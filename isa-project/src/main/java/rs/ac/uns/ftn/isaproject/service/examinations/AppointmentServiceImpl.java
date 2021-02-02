@@ -51,7 +51,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public void scheduleAppointment(int id, int patientId) throws BadRequestException {
+	public void schedulePredefinedAppointment(int id, int patientId) throws BadRequestException {
 		Appointment appointment = appointmentRepository.getOne(id);
 		
 		if(appointment.getStatus() == AppointmentStatus.Scheduled) 

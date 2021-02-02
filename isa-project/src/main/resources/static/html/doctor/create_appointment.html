@@ -48,6 +48,35 @@
     </div>
     
     
+    <div class="container w-50 mt-3 pt-5 mb-5">
+		<div class="card">
+	    <h5 class="card-header info-color white-text text-center py-4">
+	        <strong>Create new appointment</strong>
+	    </h5>
+
+	    <div class="card-body px-lg-5">
+	        <form class="text-center" style="color: #757575;" id="createApp">
+	            <div class="card-body">
+	            <div class="form-row pt-2">
+                    <div class="form-group col">
+                        <label for="appDate" class="text-secondary" style="float: left">Enter date *</label>
+                        <input placeholder="Enter start date" type="date" class="form-control" id="appDate" required>
+                    </div>
+                </div>
+	             <div class="form-row pt-2">
+                    <div class="form-group col">
+                        <label for="appTime" class="text-secondary" style="float: left">Enter time *</label>
+                        <input placeholder="Enter end date" type="time" class="form-control" id="appTime" required>
+                    </div>
+                </div>
+				</div>
+	            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="createApp">Create appointment</button>
+	        </form>
+   		 </div>
+		</div>
+    </div>
+       
+    
     <div class="modal fade" id="scheduleAppModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-notify modal-info modal-dialog-centered" role="document">
