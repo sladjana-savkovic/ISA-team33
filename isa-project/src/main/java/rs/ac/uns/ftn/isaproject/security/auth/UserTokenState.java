@@ -1,9 +1,9 @@
-package rs.ac.uns.ftn.isaproject.model.users;
+package rs.ac.uns.ftn.isaproject.security.auth;
 
 //DTO koji enkapsulira generisani JWT i njegovo trajanje koji se vracaju klijentu
 public class UserTokenState {
-
-	private String accessToken;
+	
+    private String accessToken;
     private Long expiresIn;
 
     public UserTokenState() {
@@ -31,5 +31,4 @@ public class UserTokenState {
     public void setExpiresIn(Long expiresIn) {
         this.expiresIn = expiresIn;
     }
-		
 }
