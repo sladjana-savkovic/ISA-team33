@@ -11,4 +11,7 @@ public interface WorkingTimeRepository extends JpaRepository<WorkingTime, Intege
 
 	@Query("select w from WorkingTime w where w.pharmacy.id = ?1")
 	Collection<WorkingTime> findByPharmacyId(int id);
+	
+	@Query("select w from WorkingTime w where w.pharmacy.id = ?1 and w.doctor.id = ?2")
+	WorkingTime findByPharmacyDoctorId(int id_pharmacy, int id_doctor);
 }
