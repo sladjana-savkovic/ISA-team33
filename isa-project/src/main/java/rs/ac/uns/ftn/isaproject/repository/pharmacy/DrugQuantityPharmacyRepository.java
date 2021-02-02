@@ -12,6 +12,6 @@ public interface DrugQuantityPharmacyRepository extends JpaRepository<DrugQuanti
 	@Query("select d from DrugQuantityPharmacy d where d.pharmacy.id = ?1")
 	Collection<DrugQuantityPharmacy> findByPharmacyId(int id);
 	
-	@Query(value = "select * from drug_quantity_pharmacy d where d.pharmacy_id = ?1 and d.quantity > 0", nativeQuery = true)
+	@Query(value = "select * from drug_quantity_pharmacy d where d.pharmacy_id = ?1 and d.quantity > 0 and d.is_deleted = false", nativeQuery = true)
 	Collection<DrugQuantityPharmacy> findAvailableDrugsByPharmacyId(int pharmacyId);
 }

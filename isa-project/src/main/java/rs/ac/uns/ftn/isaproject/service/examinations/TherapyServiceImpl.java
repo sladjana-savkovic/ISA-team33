@@ -27,12 +27,12 @@ public class TherapyServiceImpl implements TherapyService {
 	}
 
 	@Override
-	public void add(Collection<AddTherapyDTO> therapyDTOs) {
+	public void add(Collection<AddTherapyDTO> therapyDTOs, int examinationReportId) {
+		ExaminationReport examinationReport = examinationReportRepository.getOne(examinationReportId);
 		Collection<Therapy> therapies = new ArrayList<>();
 		
 		for(AddTherapyDTO dto:therapyDTOs) {
 			Drug drug = drugRepository.getOne(dto.drugId);
-			ExaminationReport examinationReport = examinationReportRepository.getOne(dto.examinationReportId);
 			Therapy therapy = new Therapy();
 			
 			therapy.setDrug(drug);

@@ -117,7 +117,7 @@
 		                    <br>
 		                    <div class="row">
 		                    	<div class="col">
-			                    	<label class="text-secondary mb-0">Drugs:</label><br>
+			                    	<label class="text-secondary mb-0" id="label_drugs">Drugs:</label><br>
 			                    	<select id="drugs" class="custom-select" style="margin-top: 5px;"></select>
 		                    	</div>
 		                    	<div class="col">
@@ -147,6 +147,24 @@
                 </div>
                 </div>
             </div>
+		</div>
+	</div>
+	
+	<div class="container w-60 mt-5 pt-5 mb-4" id="create_Appointment" hidden="true">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Do you want to create a new appointment for the patient?</strong></h5>
+			<div class="row w-200 p-3 h-50">
+				<div class="card-body p-0">
+					<div class="row justify-content-center">
+						<div class="col-5">
+							<button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="button" id="newApp">Yes</button>
+						</div>
+						<div class="col-5">
+							<button class="btn btn-outline-danger btn-rounded btn-block my-4 waves-effect" type="button" id="finish">No, finish this examination</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	

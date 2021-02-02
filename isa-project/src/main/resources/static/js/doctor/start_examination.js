@@ -240,49 +240,47 @@ $(document).ready(function () {
 	
 	$('#submit_report').submit(function(event){
 		event.preventDefault();
+		
+		let therapyDTOs = [];
+		for(let t of therapies){
+			therapyDTOs.push({"drugId":t.drugId, "duration":t.duration});
+		}
 				
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report",
 			data: JSON.stringify({ 
 				appointmentId: appointmentId, 
-				diagnosis: $('#diagnosis').val()}),
+				diagnosis: $('#diagnosis').val(),
+				pharmacyId : appointment.pharmacyId,
+				therapyDTOs: therapyDTOs}),
 			contentType: "application/json",
-			success:function(examinationReport){
-				
-				let examinationReportId = examinationReport.id;
-				let therapyDTOs = [];
-				for(let t of therapies){
-					therapyDTOs.push({"drugId":t.drugId, "duration":t.duration, "examinationReportId":examinationReportId});
-				}
-				
-				$.ajax({
-					type:"POST", 
-					url: "/api/therapy/pharmacy/" + appointment.pharmacyId,
-					data: JSON.stringify(therapyDTOs),
-					contentType: "application/json",
-					success:function(){
-						disableFields();
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
-						
-					},
-					error:function(){
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error saving therapies.'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
-					}
-				});
+			success:function(){
+				disableFields();
+		
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			},
-			error:function(){
-				console.log("Error saving examination report");
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
 				return;
 			}
 		});
 	});	
+	
+	
+	$('#newApp').click(function(){
+		window.location.href = "create_appointment.html?patientId=" + appointment.patientId + "&pharmacyId=" + appointment.pharmacyId;
+	});
+	
+	
+	$('#finish').click(function(){
+		window.location.href = "calendar.html";
+	});
 	
 });
 
@@ -292,11 +290,22 @@ function disableFields(){
 	$('#drugs').attr("disabled",true);
 	$('#check').attr("disabled",true);
 	$('#prescribe').attr("disabled",true);
+	$('#specification').attr("disabled",true);
+	$('#create').attr("disabled",true);
 	
 	$('#collapseTwo').removeClass();
 	$('#collapseTwo').addClass("collapse");
 	$('#collapseOne').removeClass();
 	$('#collapseOne').addClass("collapse");
+	
+	$('#label_drugs').attr("hidden",true);
+	$('#drugs').attr("hidden",true);
+	$('#check').attr("hidden",true);
+	$('#prescribe').attr("hidden",true);
+	$('#specification').attr("hidden",true);
+	$('#create').attr("hidden",true);
+	
+	$('#create_Appointment').attr("hidden",false);
 }
 
 function reloadTherapies(){

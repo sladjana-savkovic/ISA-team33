@@ -50,7 +50,7 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
 		
 		for(DrugQuantityPharmacy quantity:quantityPharmacies) {
-			if(quantity.getDrug().getId() == drugId && quantity.getPharmacy().getId() == pharmacyId && quantity.getQuantity() > 0)
+			if(!quantity.isDeleted() && quantity.getDrug().getId() == drugId && quantity.getPharmacy().getId() == pharmacyId && quantity.getQuantity() > 0)
 				return true;
 		}
 		
@@ -63,7 +63,7 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
 		
 		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
-			if(drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
+			if(!drugQuantity.isDeleted() && drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
 				if(drugQuantity.getQuantity() - 1 > 0) {
 					drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
 					quantityPharmacyRepository.save(drugQuantity);
