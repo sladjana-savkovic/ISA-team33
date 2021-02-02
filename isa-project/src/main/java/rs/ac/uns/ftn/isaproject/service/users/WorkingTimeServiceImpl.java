@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +40,19 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
 		workingTime.setPharmacy(pharmacy);
 		
 		workingTimeRepository.save(workingTime);
+	}
+
+	@Override
+	public Collection<WorkingTime> findByPharmacyId(int id) {
+		Collection<WorkingTime> workingTimes = workingTimeRepository.findByPharmacyId(id);
+		Collection<WorkingTime> resultWorkingTimes = new ArrayList<WorkingTime>();
+		for(WorkingTime w : workingTimes) {
+			Doctor doctor = doctorRepository.getOne(w.getDoctor().getId());
+			if(doctor.isIsDeleted()==false) {
+				resultWorkingTimes.add(w);
+			}
+		}
+		
+		return resultWorkingTimes;
 	}
 }

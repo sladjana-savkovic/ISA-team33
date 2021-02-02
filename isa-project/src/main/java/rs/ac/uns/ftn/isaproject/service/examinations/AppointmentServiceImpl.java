@@ -76,4 +76,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		return searchResult;
 	}
+
+	public Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId) {
+		Collection<Appointment> appointments = appointmentRepository.getDoctorScheduledAppointmentsInPharamacy(doctorId, pharmacyId);
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for(Appointment a : appointments) {
+			if(a.getStatus() == AppointmentStatus.Scheduled) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
+	}
 }

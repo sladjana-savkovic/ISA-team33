@@ -86,4 +86,15 @@ public class AppointmentController {
 		return new ResponseEntity<Collection<AppointmentDTO>>(searchResult, HttpStatus.OK);
 	}
 	
+	@GetMapping("/doctor/{id_doctor}/pharmacy/{id_pharmacy}/scheduled")
+	public ResponseEntity<Collection<AppointmentEventDTO>> getDoctorScheduledAppointmentsInPharamacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
+		try {
+			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventDTOMapper.toAppointmentEventDTOs(appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy));
+			return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 }
