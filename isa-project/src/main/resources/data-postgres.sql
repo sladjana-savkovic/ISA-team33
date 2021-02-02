@@ -124,7 +124,7 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 
 /*Zakazani (status = 1) termini kod farmaceuta*/		
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status)
-					values (nextval('appointments_seq'),'2021-02-16 13:00:00','2021-02-16 13:30:00',800,2,1,3,1);
+					values (nextval('appointments_seq'),'2021-02-23 09:30:00','2021-02-23 10:30:00',800,2,1,3,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status)
 					values (nextval('appointments_seq'),'2021-02-19 15:30:00','2021-02-19 16:00:00',800,2,1,4,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status)

@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.isaproject.repository.examinations;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	
 	@Query(value = "select * from appointment a where a.doctor_id=?1 and a.pharmacy_id=?2", nativeQuery = true)
 	Collection<Appointment> getDoctorAppointmentsInPharamacy(int doctorId, int pharmacyId);
+	
+	@Query(value = "select * from appointment a where a.patient_id=?1 and a.start_time=?2", nativeQuery = true)
+	Collection<Appointment> checkIfPatientHasAppointment(int patientId, LocalDateTime startTime);
 	
 }
