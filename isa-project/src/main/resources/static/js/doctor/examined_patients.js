@@ -55,9 +55,26 @@ $(document).ready(function () {
 });
 
 function addPatient(patient){
-	 let row = $('<tr><td>'+ patient.name +'</td><td>' + patient.surname + '</td><td>' + patient.dateOfLastExamination + '</td></tr>');	
+	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
+			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id)">Details</button></td></tr>');	
 	$('#patients').append(row);
 }
+
+function patientDetail(patientId){
+	
+	for(let p of examinedPatients){
+		if(p["id"] == patientId){
+			$('#pNameSurname').text(p.name + " " + p.surname);
+			$('#pBirth').text(p.dateOfBirth);
+			$('#pAddress').text(p.address);
+			$('#pAllergies').text(p.allergies);
+			$('#patientInfo').modal('toggle');
+			$('#patientInfo').modal('show');
+		}
+	}
+	
+};
 
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

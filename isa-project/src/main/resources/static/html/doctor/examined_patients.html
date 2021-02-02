@@ -37,6 +37,7 @@
 			        			<th scope="col" style="width: 400px;" onclick="sortTable(0)" class="thHover">Name</th>
 			        			<th scope="col" style="width: 400px;" onclick="sortTable(1)" class="thHover">Surname</th>
 			        			<th scope="col" class="thHover">Date of last examination</th>
+			        			<th scope="col"></th>
 			        		</tr>
 			        	</thead>
 			        	<tbody id="body_patients"></tbody>
@@ -44,6 +45,55 @@
 		        </div>
 		     </div>
 		 </div>    
+    </div>
+    
+    
+    <div class="modal fade" id="patientInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Patient information</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="body_specification">
+                	<div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Name and surname:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="pNameSurname"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Date of birth:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="pBirth"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Address:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="pAddress"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Allergies:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="pAllergies"></label>
+					 	</div>
+					 </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
