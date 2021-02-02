@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
@@ -20,6 +21,7 @@ public class PatientDTO {
 	public String address;
 	public String telephone;
 	public Set<Drug> allergies;
+	public List<Integer> allergyIds;
 	
 	public PatientDTO() {}
 

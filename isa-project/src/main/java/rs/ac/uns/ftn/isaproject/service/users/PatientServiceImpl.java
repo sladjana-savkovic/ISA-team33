@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +12,8 @@ import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
-import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
 
 @Service
@@ -19,11 +21,13 @@ public class PatientServiceImpl implements PatientService {
 
 	private PatientRepository patientRepository;
 	private CityRepository cityRepository;
+	private DrugRepository drugRepository;
 	
 	@Autowired
-	public PatientServiceImpl(PatientRepository patientRepository, CityRepository cityRepository) {
+	public PatientServiceImpl(PatientRepository patientRepository, CityRepository cityRepository, DrugRepository drugRepository) {
 		this.patientRepository = patientRepository;
 		this.cityRepository = cityRepository;
+		this.drugRepository = drugRepository;
 	}
 
 	@Override
@@ -82,7 +86,12 @@ public class PatientServiceImpl implements PatientService {
 		patient.setTelephone(patientDTO.telephone);		
 		patient.setAddress(patientDTO.address);
 		patient.setCity(city);
-		patient.setAllergies(patientDTO.allergies);
+		Set<Drug> drugs = new HashSet<Drug>();
+		for(Integer i : patientDTO.allergyIds) {
+			Drug d= drugRepository.findById(i).get();
+			drugs.add(d);
+		}
+		patient.setAllergies(drugs);
 		
 		patientRepository.save(patient);
 		

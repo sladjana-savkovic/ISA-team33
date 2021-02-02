@@ -58,15 +58,12 @@ $(document).ready(function () {
 		enableFields();
 		$('#change').text("Save");
 		
-		/*var amenities = []
+		var amenities = []
 		var $boxes = $('input[name=amenities]:checked');
 		$boxes.each(function(){
 			amenities.push($(this).val())
 		})
-		console.log('all amenities: ' + amenities)
-		for(let a in amenities){
-			
-		} */
+		
 		
 		$('#edit_profile').submit(function(event){
 			event.preventDefault();
@@ -83,7 +80,7 @@ $(document).ready(function () {
 					email: $('#email').val(),
 					password: $('#password').val(),
 					address: $('#address').val(),
-					//allergies: 
+					allergyIds: amenities,
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
 				success:function(){
