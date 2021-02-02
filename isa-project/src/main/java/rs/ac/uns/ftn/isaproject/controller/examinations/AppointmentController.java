@@ -97,4 +97,10 @@ public class AppointmentController {
 		}
 	}
 	
+	@GetMapping("/doctor/{id_doctor}/date-time/{date}/{start_time}/{end_time}")
+	public ResponseEntity<Boolean> isAppointmentAvailableToCreate(@PathVariable int id_doctor, @PathVariable String date, @PathVariable String start_time, @PathVariable String end_time){
+		boolean result = appointmentService.isAppointmentAvailableToCreate(id_doctor, date, start_time, end_time);
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+	}
+	
 }

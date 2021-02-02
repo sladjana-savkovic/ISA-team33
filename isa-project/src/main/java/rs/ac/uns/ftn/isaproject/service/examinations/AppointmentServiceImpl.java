@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.examinations;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,5 +93,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
 		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
+	}
+
+	@Override
+	public boolean isAppointmentAvailableToCreate(int doctor_id, String date, String start_time, String end_time) {
+		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointments(doctor_id);
+		for(Appointment a : appointments) {
+			if(LocalDate.parse(date).equals(a.getStartTime().toLocalDate()) && (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && ((LocalTime.parse(start_time).equals(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time).equals(a.getEndTime().toLocalTime())) || (LocalTime.parse(start_time).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time).isBefore(a.getEndTime().toLocalTime()))  || (LocalTime.parse(start_time).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time).isAfter(a.getEndTime().toLocalTime())) || (LocalTime.parse(start_time).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(start_time).isBefore(a.getEndTime().toLocalTime())) || (LocalTime.parse(start_time).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time).isAfter(a.getStartTime().toLocalTime())) ) ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
