@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,25 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 	}
 
 	@Override
-	public Collection<VacationRequest> findByPharmacyId(int id) {
-		return vacationRepository.findByPharmacyId(id);
+	public Collection<VacationRequest> findCreatedByPharmacyId(int id) {
+		Collection<VacationRequest> requests = vacationRepository.findByPharmacyId(id);
+		Collection<VacationRequest> createdRequests = new ArrayList<VacationRequest>();
+		for(VacationRequest v: requests) {
+			if(v.getStatus().equals(VacationRequestStatus.Created)) {
+				createdRequests.add(v);
+			}
+		}
+		return createdRequests;
+	}
+
+	@Override
+	public boolean isDoctorOnVacation(int id_doctor, int id_pharmacy, String date) {
+		Collection<VacationRequest> requests = vacationRepository.findByDoctorPharmacyId(id_pharmacy, id_doctor);
+		for(VacationRequest r : requests) {
+			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && LocalDate.parse(date).isAfter(r.getStartDate()) && LocalDate.parse(date).isBefore(r.getEndDate())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
