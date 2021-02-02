@@ -67,9 +67,9 @@ public class AppointmentController {
 	}
 	
 	@PutMapping("{id}/patient/{patientId}/schedule")
-	public ResponseEntity<?> scheduleAppointment(@PathVariable int id, @PathVariable int patientId){
+	public ResponseEntity<?> schedulePredefinedAppointment(@PathVariable int id, @PathVariable int patientId){
 		try {
-			appointmentService.scheduleAppointment(id, patientId);
+			appointmentService.schedulePredefinedAppointment(id, patientId);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch (BadRequestException e) {
