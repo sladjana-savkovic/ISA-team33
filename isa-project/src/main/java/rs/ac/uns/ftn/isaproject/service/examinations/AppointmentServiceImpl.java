@@ -87,4 +87,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return resultAppointments;
 	}
+
+	@Override
+	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
+		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
+	}
 }
