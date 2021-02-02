@@ -29,13 +29,13 @@ public class VacationRequestController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody AddVacationRequestDTO vacationRequestDTO){
+	public ResponseEntity<?> add(@RequestBody AddVacationRequestDTO vacationRequestDTO){
 		try {
 			vacationService.add(vacationRequestDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while creating a vacation request.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
