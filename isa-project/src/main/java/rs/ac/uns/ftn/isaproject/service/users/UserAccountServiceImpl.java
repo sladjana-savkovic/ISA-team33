@@ -63,6 +63,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	*/
 	
 	
+	//cuvanje pacijenta
 	public UserAccount save(AddPatientDTO addPatientDTO) {
 		UserAccount u = new UserAccount();
 		u.setUsername(addPatientDTO.email);
@@ -71,7 +72,6 @@ public class UserAccountServiceImpl implements UserAccountService {
 		u.setEnabled(true);
 		
 		Authority auth = authService.findByname("ROLE_PATIENT");
-		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
 		u.setAuthority(auth);
 		
 		u = this.userRepository.save(u);
