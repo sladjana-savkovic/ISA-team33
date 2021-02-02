@@ -14,11 +14,26 @@ public class AppointmentEventDTOMapper {
 		Collection<AppointmentEventDTO> appointmentEventDTOs = new ArrayList<>();
 		
 		for(Appointment a : appointments) {
+			
+			if(a.getStatus() == AppointmentStatus.Created) {
+				long minutes = ChronoUnit.MINUTES.between(a.getStartTime(), a.getEndTime());
+				String patient = "(" + minutes + "min)"; 
+				String url = "";
+				appointmentEventDTOs.add(new AppointmentEventDTO(patient, a.getStartTime().toString(), a.getEndTime().toString(), url, "#03ff11"));
+			}
+			
 			if(a.getStatus() == AppointmentStatus.Scheduled) {
 				long minutes = ChronoUnit.MINUTES.between(a.getStartTime(), a.getEndTime());
 				String patient = a.getPatient().getName() + " " + a.getPatient().getSurname() + " (" + minutes + "min)"; 
 				String url = "http://localhost:8080/html/doctor/start_examination.html?" + a.getId();
-				appointmentEventDTOs.add(new AppointmentEventDTO(patient, a.getStartTime().toString(), a.getEndTime().toString(), url));
+				appointmentEventDTOs.add(new AppointmentEventDTO(patient, a.getStartTime().toString(), a.getEndTime().toString(), url, "#fe0202"));
+			}
+			
+			if(a.getStatus() == AppointmentStatus.Canceled) {
+				long minutes = ChronoUnit.MINUTES.between(a.getStartTime(), a.getEndTime());
+				String patient = "(" + minutes + "min)"; 
+				String url = "";
+				appointmentEventDTOs.add(new AppointmentEventDTO(patient, a.getStartTime().toString(), a.getEndTime().toString(), url, "#dfff03"));
 			}
 		}
 		
