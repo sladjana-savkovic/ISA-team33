@@ -195,29 +195,29 @@ $(document).ready(function () {
 	
 	
 	$('#save_prescription').submit(function(event){
-			event.preventDefault();
-			
-			let drugId = $("#drugs option:selected").val();
-			let drugName = $("#drugs option:selected").text();
-			
-			$('#btn_close').click();
-			let duration = $('#duration').val();
-			
-			therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
-			reloadTherapies();
+		event.preventDefault();
+		
+		let drugId = $("#drugs option:selected").val();
+		let drugName = $("#drugs option:selected").text();
+		
+		$('#btn_close').click();
+		let duration = $('#duration').val();
+		
+		therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
+		reloadTherapies();
 	});
 	
 	$('#save_prescription_substitute').submit(function(event){
-			event.preventDefault();
-			
-			let substituteDrugId = $("#substituteDrugs option:selected").val();
-			let substituteDrugName = $("#substituteDrugs option:selected").text();
-			
-			$('#btn_close_substitute').click();
-			let duration = $('#durationSubstitute').val();
-			
-			therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
-			reloadTherapies();
+		event.preventDefault();
+		
+		let substituteDrugId = $("#substituteDrugs option:selected").val();
+		let substituteDrugName = $("#substituteDrugs option:selected").text();
+		
+		$('#btn_close_substitute').click();
+		let duration = $('#durationSubstitute').val();
+		
+		therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		reloadTherapies();
 	});
 	
 	
@@ -305,13 +305,13 @@ function reloadTherapies(){
 
 function fillInBasicInfo(){
 	$('#patientName').text(appointment.patientName);
-			$('#patientSurname').text(appointment.patientSurname);
-			$('#doctorName').text(appointment.doctorName);
-			$('#doctorSurname').text(appointment.doctorSurname);
-			$('#startTime').text(appointment.startTime.split("T")[0] + " " + appointment.startTime.split("T")[1]);
-			$('#endTime').text(appointment.endTime.split("T")[0] + " " + appointment.endTime.split("T")[1]);
-			$('#pharmacyName').text(appointment.pharmacyName);
-			$('#price').text(appointment.price);
+	$('#patientSurname').text(appointment.patientSurname);
+	$('#doctorName').text(appointment.doctorName);
+	$('#doctorSurname').text(appointment.doctorSurname);
+	$('#startTime').text(appointment.startTime.split("T")[0] + " " + appointment.startTime.split("T")[1]);
+	$('#endTime').text(appointment.endTime.split("T")[0] + " " + appointment.endTime.split("T")[1]);
+	$('#pharmacyName').text(appointment.pharmacyName);
+	$('#price').text(appointment.price);
 };
 
 function addDrug(drug){
