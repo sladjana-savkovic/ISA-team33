@@ -2,17 +2,23 @@ package rs.ac.uns.ftn.isaproject.service.users;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
 
 @Service
@@ -20,11 +26,13 @@ public class DoctorServiceImpl implements DoctorService {
 
 	private DoctorRepository doctorRepository;
 	private CityRepository cityRepository;
+	private PharmacyRepository pharmacyRepository;
 	
 	@Autowired
-	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository) {
+	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository) {
 		this.doctorRepository = doctorRepository;
 		this.cityRepository = cityRepository;
+		this.pharmacyRepository = pharmacyRepository;
 	}
 
 	@Override
@@ -57,9 +65,12 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public void add(DoctorDTO doctorDTO) {
+	public void add(AddDoctorDTO doctorDTO) {
 		Doctor doctor = new Doctor();
 		City city = cityRepository.getOne(doctorDTO.cityId);
+		Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
+		Pharmacy pharmacy = pharmacyRepository.getOne(doctorDTO.pharmacyId);
+		pharmacies.add(pharmacy);
 		
 		doctor.setName(doctorDTO.name);
 		doctor.setSurname(doctorDTO.surname);
@@ -71,6 +82,7 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setTypeOfDoctor(TypeOfDoctor.valueOf(doctorDTO.typeOfDoctor));
 		doctor.setIsDeleted(false);
 		doctor.setTelephone(doctorDTO.phoneNumber);
+		doctor.setPharmacies(pharmacies);
 		
 		doctorRepository.save(doctor);
 	}
@@ -111,4 +123,18 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setIsDeleted(true);
 		doctorRepository.save(doctor);
 	}
+	
+	@Override
+	public Collection<Doctor> getDoctorWithoutWorkingTime(int id){
+		Pharmacy pharmacy = pharmacyRepository.getOne(id);
+		Collection<Doctor> allDoctors = doctorRepository.findAll();
+		Collection<Doctor> doctors = new ArrayList<Doctor>();
+		for(Doctor d: allDoctors) {
+			if(d.getPharmacies().contains(pharmacy) && d.getWorkingTimes().isEmpty()) {
+				doctors.add(d);
+			}
+		}
+		return doctors;
+	}
+
 }

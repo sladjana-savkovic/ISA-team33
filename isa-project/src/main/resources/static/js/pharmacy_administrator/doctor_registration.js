@@ -1,4 +1,13 @@
+var pharmacyAdminId = 6;
+var pharmacyId;
 $(document).ready(function () {
+	
+	$.ajax({
+		type:"GET", 
+		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		contentType: "application/json",
+		success:function(admin){
+			pharmacyId = admin.pharmacyId;
 	
 	var dtToday = new Date();
 
@@ -56,8 +65,7 @@ $(document).ready(function () {
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
-		}
-		
+		}		
 		
 		var newDoctor = {
 			"name": name,
@@ -71,7 +79,8 @@ $(document).ready(function () {
 			"address": address,
 			"email": email,
 			"password": password,
-			"typeOfDoctor": typeOfDoctor
+			"typeOfDoctor": typeOfDoctor,
+			"pharmacyId": pharmacyId
 		};
 		
 		if ($("form#registration").hasClass("unsuccessful")) {
@@ -98,6 +107,12 @@ $(document).ready(function () {
 					return;
 				}
 			});			
+		}
+	});
+	
+	},
+		error:function(){
+			console.log('error getting pharmacy administrator');
 		}
 	});
 

@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +39,10 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
 		workingTime.setPharmacy(pharmacy);
 		
 		workingTimeRepository.save(workingTime);
+	}
+
+	@Override
+	public Collection<WorkingTime> findByPharmacyId(int id) {
+		return workingTimeRepository.findByPharmacyId(id);
 	}
 }

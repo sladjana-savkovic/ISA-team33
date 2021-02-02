@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.FilterDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.SearchDoctorDTO;
@@ -103,7 +105,7 @@ public class DoctorController {
 	}
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody DoctorDTO doctorDTO){
+	public ResponseEntity<Void> add(@RequestBody AddDoctorDTO doctorDTO){
 		try {
 			doctorService.add(doctorDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -118,4 +120,17 @@ public class DoctorController {
 		doctorService.deleteDoctor(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	@GetMapping("/{id}/pharmacy/without/working-time")
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findDoctorWithoutWorkingTime(@PathVariable int id) {
+		try {
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.getDoctorWithoutWorkingTime(id));
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 }
