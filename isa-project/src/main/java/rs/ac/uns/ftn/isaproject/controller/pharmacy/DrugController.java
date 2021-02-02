@@ -79,15 +79,4 @@ public class DrugController {
 		}
 	}
 	
-/*	@GetMapping("/{id}")
-	public ResponseEntity<DrugDTO> findOneById(@PathVariable int id) {
-		try {
-			DrugDTO drugDTO = DrugMapper.toDrugDTO(drugService.getOne(id));
-			return new ResponseEntity<DrugDTO>(drugDTO, HttpStatus.OK);
-		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-*/
 }

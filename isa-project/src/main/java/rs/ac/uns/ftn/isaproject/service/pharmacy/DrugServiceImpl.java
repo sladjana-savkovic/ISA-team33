@@ -40,10 +40,5 @@ public class DrugServiceImpl implements DrugService{
 	public Collection<Drug> getAllDrugs() {
 		return drugRepository.findAll();
 	}
-
-	/*@Override
-	public Drug getOne(int id) {
-		return drugRepository.getOne(id);
-	}*/
 	
 }

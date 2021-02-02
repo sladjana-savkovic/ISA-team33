@@ -10,5 +10,5 @@ public interface DrugService {
 	void add(DrugDTO drugDTO);
 	Collection<Drug> getSubstituteDrugs(int id);
 	Collection<Drug> getAllDrugs();
-	//Drug getOne(int id);
+
 }
