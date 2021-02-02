@@ -26,27 +26,24 @@ public class DrugReservationController {
 	}
 	
 	@GetMapping("/{id}/doctor/{doctorId}")
-	public ResponseEntity<DrugReservationDTO> searchOne(@PathVariable int id,@PathVariable int doctorId){
+	public ResponseEntity<?> searchOne(@PathVariable int id,@PathVariable int doctorId){
 		try {
 			DrugReservation drugReservation = drugReservationService.searchOne(id,doctorId);
-			if(drugReservation != null) 
-				return new ResponseEntity<DrugReservationDTO>(DrugReservationMapper.toDrugReservationDTO(drugReservation),HttpStatus.OK);
-			else 
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<DrugReservationDTO>(DrugReservationMapper.toDrugReservationDTO(drugReservation),HttpStatus.OK);
 		}
-		catch(Exception exception){
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch(Exception e){
+			return new ResponseEntity<>("The reservation number is incorrect.", HttpStatus.NOT_FOUND);
 		}	
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> confirmReservation(@PathVariable int id){
+	public ResponseEntity<?> confirmReservation(@PathVariable int id){
 		try {
 			drugReservationService.confirmReservation(id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
-		catch (Exception exception) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while confirming a reservation.", HttpStatus.BAD_REQUEST);
 		}
 	}
 }

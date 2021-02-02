@@ -29,7 +29,6 @@ $(document).ready(function () {
 		$('#scheduleAppModal').modal('toggle');
 		$('#scheduleAppModal').modal('show');
 		
-		
 		$('#schedule').click(function(){
 			
 			$.ajax({
@@ -77,8 +76,6 @@ $(document).ready(function () {
 			}
 		});
 	});
-	
-	
 	
 });
 

@@ -43,31 +43,18 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"PUT", 
-				url: "/api/appointment/" + appointment.appointmentId + "/unperformed",
+				url: "/api/appointment/" + appointment.appointmentId + "/patient/" + appointment.patientId + "/unperformed",
 				contentType: "application/json",
 				success:function(){
-					$.ajax({
-						type:"PUT", 
-						url: "/api/patient/" + appointment.patientId + "/increase-penalty",
-						contentType: "application/json",
-						success:function(){
-							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
-								+'Successfully changed appointment status and increased penalties for patient.'
-								+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							location.href = "calendar.html";
-							return;
-						},
-						error:function(){
-							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error increasing penalties for patient.'
-								+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							return;
-						}
-					});
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
+					+'Successfully changed appointment status and increased penalties for patient.'
+					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					window.setTimeout(function(){location.href = "calendar.html"},500);
+					return;
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing appointment status to unperformed .'
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
@@ -208,29 +195,29 @@ $(document).ready(function () {
 	
 	
 	$('#save_prescription').submit(function(event){
-			event.preventDefault();
-			
-			let drugId = $("#drugs option:selected").val();
-			let drugName = $("#drugs option:selected").text();
-			
-			$('#btn_close').click();
-			let duration = $('#duration').val();
-			
-			therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
-			reloadTherapies();
+		event.preventDefault();
+		
+		let drugId = $("#drugs option:selected").val();
+		let drugName = $("#drugs option:selected").text();
+		
+		$('#btn_close').click();
+		let duration = $('#duration').val();
+		
+		therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
+		reloadTherapies();
 	});
 	
 	$('#save_prescription_substitute').submit(function(event){
-			event.preventDefault();
-			
-			let substituteDrugId = $("#substituteDrugs option:selected").val();
-			let substituteDrugName = $("#substituteDrugs option:selected").text();
-			
-			$('#btn_close_substitute').click();
-			let duration = $('#durationSubstitute').val();
-			
-			therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
-			reloadTherapies();
+		event.preventDefault();
+		
+		let substituteDrugId = $("#substituteDrugs option:selected").val();
+		let substituteDrugName = $("#substituteDrugs option:selected").text();
+		
+		$('#btn_close_substitute').click();
+		let duration = $('#durationSubstitute').val();
+		
+		therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		reloadTherapies();
 	});
 	
 	
@@ -318,13 +305,13 @@ function reloadTherapies(){
 
 function fillInBasicInfo(){
 	$('#patientName').text(appointment.patientName);
-			$('#patientSurname').text(appointment.patientSurname);
-			$('#doctorName').text(appointment.doctorName);
-			$('#doctorSurname').text(appointment.doctorSurname);
-			$('#startTime').text(appointment.startTime.split("T")[0] + " " + appointment.startTime.split("T")[1]);
-			$('#endTime').text(appointment.endTime.split("T")[0] + " " + appointment.endTime.split("T")[1]);
-			$('#pharmacyName').text(appointment.pharmacyName);
-			$('#price').text(appointment.price);
+	$('#patientSurname').text(appointment.patientSurname);
+	$('#doctorName').text(appointment.doctorName);
+	$('#doctorSurname').text(appointment.doctorSurname);
+	$('#startTime').text(appointment.startTime.split("T")[0] + " " + appointment.startTime.split("T")[1]);
+	$('#endTime').text(appointment.endTime.split("T")[0] + " " + appointment.endTime.split("T")[1]);
+	$('#pharmacyName').text(appointment.pharmacyName);
+	$('#price').text(appointment.price);
 };
 
 function addDrug(drug){

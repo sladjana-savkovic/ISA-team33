@@ -22,6 +22,7 @@ import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventDTOMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
+import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
 import rs.ac.uns.ftn.isaproject.service.users.WorkingTimeService;
 
@@ -32,22 +33,26 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 	private VacationRequestService vacationRequestService;
 	private WorkingTimeService workingTimeService;
+	private PatientService patientService;
 	
 	@Autowired
-	public AppointmentController(AppointmentService appointmentService, VacationRequestService vacationRequestService, WorkingTimeService workingTimeService) {
+	public AppointmentController(AppointmentService appointmentService, VacationRequestService vacationRequestService, WorkingTimeService workingTimeService,
+								 PatientService patientService) {
 		this.appointmentService = appointmentService;
 		this.vacationRequestService = vacationRequestService;
 		this.workingTimeService = workingTimeService;
+		this.patientService = patientService;
 	}
 	
-	@PutMapping("/{id}/unperformed")
-	public ResponseEntity<Void> changeStatusToUnperformed(@PathVariable int id){
+	@PutMapping("/{id}/patient/{patientId}/unperformed")
+	public ResponseEntity<?> changeStatusToUnperformed(@PathVariable int id, @PathVariable int patientId){
 		try {
 			appointmentService.changeStatus(id, AppointmentStatus.Unperformed);
+			patientService.increasePenalty(patientId);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while changing appointment status to unperformed.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -63,9 +68,14 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("/doctor/{id}")
-	public ResponseEntity<Collection<AppointmentEventDTO>> getDoctorAppointments(@PathVariable int id){
-		Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventDTOMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(id));
-		return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
+	public ResponseEntity<?> getDoctorAppointments(@PathVariable int id){
+		try {
+			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventDTOMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(id));
+			return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("The requested doctor's appointment doesn't exist in the database.", HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@GetMapping("pharmacy/{pharmacyId}/doctor/{doctorId}")
