@@ -76,9 +76,10 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 
 	@Override
 	public boolean isDoctorOnVacation(int id_doctor, int id_pharmacy, String date) {
+		String date_parse = date.split(" ")[0];
 		Collection<VacationRequest> requests = vacationRepository.findByDoctorPharmacyId(id_pharmacy, id_doctor);
 		for(VacationRequest r : requests) {
-			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && LocalDate.parse(date).isAfter(r.getStartDate()) && LocalDate.parse(date).isBefore(r.getEndDate())) {
+			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && LocalDate.parse(date_parse).isAfter(r.getStartDate()) && LocalDate.parse(date_parse).isBefore(r.getEndDate())) {
 				return true;
 			}
 		}

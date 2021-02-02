@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.examinations;
 
 import java.util.Collection;
+
+import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
@@ -17,4 +19,5 @@ public interface AppointmentService {
 	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);
 	Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId);
 	boolean isAppointmentAvailableToCreate(int doctor_id, String date, String start_time, String end_time);
+	void add(AddAppointmentDTO appointmentDTO);
 }
