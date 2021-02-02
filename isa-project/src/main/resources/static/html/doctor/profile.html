@@ -17,7 +17,7 @@
 
 	<div class="container w-50 mt-5 pt-5 mb-4">
 		<div class="card">
-			<h5 class="card-header info-color white-text text-center py-4"><strong>Profile informations</strong></h5>
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Change personal information</strong></h5>
 			<div class="card-body px-lg-5">
 				<form style="color: #757575;" id="edit_profile">
 					 <div class="row w-100 p-3 h-50">
@@ -86,19 +86,51 @@
 					 		<input type="text" class="form-control" id="email" required disabled>
 					 	</div>
 					 </div>
-					 <div class="row w-100 p-3 h-50">
-					 	<div class="col">
-					 		<label class="text-secondary mb-0">Password:</label><br>
-					 	</div>
-					 	<div class="col">
-					 		<input type="password" class="form-control" id="password" required disabled>
-					 	</div>
-					 </div>
 					 <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="change">Edit</button>
 			    </form>
 		    </div>
 	    </div>
     </div>
+    
+    
+    <div class="container w-50 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Change password</strong></h5>
+			<div class="card-body px-lg-5">
+				<form style="color: #757575;" id="edit_password">
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Old password:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="password" class="form-control" id="oldPass" required>
+					 	</div>
+					 </div>
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Enter the new password:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="password" class="form-control" id="newPass" required>
+					 	</div>
+					 </div>
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Re-enter the new password:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="password" class="form-control" id="newPassRepeat" required>
+					 	</div>
+					 </div>
+					 
+					 <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="change_pass">Save</button>
+			    </form>
+		    </div>
+	    </div>
+    </div>
+    
     
     <div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
   
