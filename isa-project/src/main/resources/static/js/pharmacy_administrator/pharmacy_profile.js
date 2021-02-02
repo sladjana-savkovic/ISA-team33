@@ -69,6 +69,6 @@ function addDrug(drug){
 };
 
 function addAppointment(appointment){
-	 let row = $('<tr><td>'+ appointment.startTime.split('T')[0] + " " + appointment.startTime.split('T')[1] +'</td><td>' + appointment.typeOfAppointment + '</td><td>' + appointment.price + '</td></tr>');		
+	 let row = $('<tr><td>'+ appointment.startTime.split('T')[0] + " " + appointment.startTime.split('T')[1] +'</td><td>' + appointment.typeOfDoctor + " " + appointment.doctorSurname + '</td><td>' + appointment.price + '</td></tr>');		
 	$('#appointments').append(row);
 };

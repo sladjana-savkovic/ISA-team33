@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -54,5 +55,16 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
 		}
 		
 		return resultWorkingTimes;
+	}
+
+	@Override
+	public boolean isDoctorWorkInPharmacy(int id_pharmacy, int id_doctor, String start_time, String end_time) {
+		String start_time_parse = start_time.split(" ")[1];
+		String end_time_parse = end_time.split(" ")[1];
+		WorkingTime workingTime = workingTimeRepository.findByPharmacyDoctorId(id_pharmacy, id_doctor);
+		if((LocalTime.parse(start_time_parse).isAfter(workingTime.getStartTime()) || LocalTime.parse(start_time_parse).equals(workingTime.getStartTime()))  && (LocalTime.parse(end_time_parse).isBefore(workingTime.getEndTime()) || LocalTime.parse(end_time_parse).equals(workingTime.getEndTime()))) {
+			return true;
+		}
+		return false;
 	}
 }
