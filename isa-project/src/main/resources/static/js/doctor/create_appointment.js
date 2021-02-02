@@ -4,6 +4,8 @@ var doctorId = appConfig.doctorId;
 free_appointments = [];
 $(document).ready(function () {
 	
+	$('#appDate').prop("min",new Date().toISOString().split("T")[0]);
+	
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/pharmacy/" + pharmacyId + "/doctor/" + doctorId,
