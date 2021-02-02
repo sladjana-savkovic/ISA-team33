@@ -25,8 +25,13 @@ public class CityController {
 	}
 	
 	@GetMapping("/country/{id}")
-	public ResponseEntity<Collection<CityDTO>> findAllByCountryId(@PathVariable int id){
-		Collection<CityDTO> cityDTOs = CityMapper.toCityDTOs(cityService.findAllByCountryId(id));
-		return new ResponseEntity<Collection<CityDTO>>(cityDTOs,HttpStatus.OK);
+	public ResponseEntity<?> findAllByCountryId(@PathVariable int id){
+		try {
+			Collection<CityDTO> cityDTOs = CityMapper.toCityDTOs(cityService.findAllByCountryId(id));
+			return new ResponseEntity<Collection<CityDTO>>(cityDTOs,HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("The requested country doesn't exist in the database.", HttpStatus.NOT_FOUND);
+		}
 	}
 }

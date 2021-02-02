@@ -40,36 +40,46 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<DoctorDTO> findOneById(@PathVariable int id) {
+	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
 			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
 			return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
 		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch(Exception e) {
+			return new ResponseEntity<>("The requested doctor doesn't exist in the database", HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@PutMapping(consumes = "application/json")
-	public ResponseEntity<Void> updateInfo(@RequestBody DoctorDTO doctorDTO){
-		doctorService.updateInfo(doctorDTO);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> updateInfo(@RequestBody DoctorDTO doctorDTO){
+		try {
+			doctorService.updateInfo(doctorDTO);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while updating doctor's information.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("/{id}/password/{value}")
-	public ResponseEntity<Void> updatePassword(@PathVariable int id, @PathVariable String value){
-		doctorService.updatePassword(id,value);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> updatePassword(@PathVariable int id, @PathVariable String value){
+		try {
+			doctorService.updatePassword(id,value);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while updating doctor's password.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/{id}/pharmacies")
-	public ResponseEntity<Collection<DoctorPharmacyDTO>> doctorPharmacies(@PathVariable int id){
+	public ResponseEntity<?> doctorPharmacies(@PathVariable int id){
 		try {
 			Collection<DoctorPharmacyDTO> doctorPharmacyDTOs = DoctorMapper.toDoctorPharmacyDTOs(doctorService.getOne(id));
 			return new ResponseEntity<Collection<DoctorPharmacyDTO>>(doctorPharmacyDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("The requested doctor doesn't exist in the database", HttpStatus.NOT_FOUND);
 		}
 	}
 	
