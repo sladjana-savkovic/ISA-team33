@@ -57,7 +57,7 @@ $(document).ready(function () {
 		var amenities = []
 		var $boxes = $('input[name=amenities]:checked');
 		$boxes.each(function(){
-			amenities.push($(this).val())
+			amenities.push({"id":$(this).val()})
 		})
 		
 		
@@ -76,7 +76,7 @@ $(document).ready(function () {
 					email: $('#email').val(),
 					password: $('#password').val(),
 					address: $('#address').val(),
-					allergyIds: amenities,
+					allergies: amenities,
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
 				success:function(){

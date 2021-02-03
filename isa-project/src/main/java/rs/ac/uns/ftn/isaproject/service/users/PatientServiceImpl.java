@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
@@ -87,8 +88,8 @@ public class PatientServiceImpl implements PatientService {
 		patient.setAddress(patientDTO.address);
 		patient.setCity(city);
 		Set<Drug> drugs = new HashSet<Drug>();
-		for(Integer i : patientDTO.allergyIds) {
-			Drug d= drugRepository.findById(i).get();
+		for(DrugDTO i : patientDTO.allergies) {
+			Drug d= drugRepository.findById(i.id).get();
 			drugs.add(d);
 		}
 		patient.setAllergies(drugs);

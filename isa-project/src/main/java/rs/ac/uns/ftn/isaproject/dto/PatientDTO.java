@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.dto;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -20,13 +21,12 @@ public class PatientDTO {
 	public String cityName;
 	public String address;
 	public String telephone;
-	public Set<Drug> allergies;
-	public List<Integer> allergyIds;
+	public Collection<DrugDTO> allergies;
 	
 	public PatientDTO() {}
 
 	public PatientDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
-			int countryId, String countryName, int cityId, String cityName, String address, String telephone, Set<Drug> allergies) {
+			int countryId, String countryName, int cityId, String cityName, String address, String telephone, Collection<DrugDTO> allergies) {
 		super();
 		this.id = id;
 		this.name = name;
