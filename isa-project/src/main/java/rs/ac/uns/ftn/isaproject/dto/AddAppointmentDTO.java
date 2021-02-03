@@ -10,6 +10,7 @@ public class AddAppointmentDTO {
 	public int idPharmacy;
 	public double price;
 	public int idPatient;
+	public double averageGrade;
 	
 	public AddAppointmentDTO() {}
 	

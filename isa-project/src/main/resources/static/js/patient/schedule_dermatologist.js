@@ -4,38 +4,35 @@ $(document).ready(function(){
 	
 	getAllAppointments();
 	
-	/*$('form#search').submit(function(event){
+	$('form#search').submit(function(event){
 		event.preventDefault()
 		
 
-		let sorting = $('#sort').val()
+		let sorting = $('#sort').val();
 		$("#apartment-cards").empty();
-		var user = JSON.parse(localStorage.getItem('user'));
-		if(user.role!=0){
-			$('#users').hide()
-		}
-		console.log(user)
-			$.ajax({
-				type:"GET",
-				url: "/api/patient",
-				contentType:"application/json",
-				success:function(apartments){
-					apartments.forEach(a => appendApartment(user,a))
-				},
-				error:function(error){
-					alert(error)
-				}
-			})
+		$.ajax({
+			type:"GET",
+			url:"/api/appointment/pharmacy/"+pharmacyId+"/created/"+sorting,
+			contentType:"application/json",
+			success:function(appointments){
+				appointments.forEach(a => appendAppointment(a));
+			},
+			error: function (jqXHR) {
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+							 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+			}
 		})
-		
-	*/	
+	})
+	
 })
 
 const getAllAppointments = () => {
 	$("#apartment-cards").empty();
 	$.ajax({
 		type:"GET",
-		url:"/api/appointment/pharmacy/"+pharmacyId+"/created",
+		url:"/api/appointment/pharmacy/"+pharmacyId+"/created/PRICE_ASC",
 		contentType:"application/json",
 		success:function(appointments){
 			appointments.forEach(a => appendAppointment(a));
@@ -70,7 +67,7 @@ const appendAppointment = (apartment) => {
 				<h3 class="text-light">Doctor: ${name} ${surname}</h3>
 			</div>
 			<div class="col d-flex flex-column justify-content-center align-items-center">
-				<h3 class="text-light">Doctors grade: ${grade}</h3>
+				<h3 class="text-light">Doctor's grade: ${grade}</h3>
 			</div>
 			<div class="col d-flex flex-column justify-content-center align-items-center">
 				<h3 class="text-light">Price: ${apartment.price}$</h3>
@@ -107,55 +104,4 @@ const scheduleAppointment = apartmentId =>{
 	})
 }
 
-
-
-const search = url => {
-	$("#apartment-cards").empty();
-	var user = JSON.parse(localStorage.getItem('user'));
-	if(user.role!=0){
-		$('#users').hide()
-	}
-	console.log(user)
-	$.ajax({
-		type:"GET",
-		url: url,
-		contentType:"application/json",
-		success:function(apartments){
-			apartments.forEach(a => appendApartment(user,a))
-		},
-		error:function(error){
-			alert(error)
-		}
-	})
-}
-
-const submitReservation = event => {
-	event.preventDefault();
-	const apartmentId = $("#apartment-id").val();
-	const startDate = $("#start-date").val();
-	const nights = $("#nights").val();
-	const message = $("#message").val();
-	
-	
-	$.ajax({
-			type:"POST",
-			url:"rest/reservation",
-			contentType: "application/json",
-			data: JSON.stringify({
-				apartmentId: apartmentId,
-				startDate: Date.parse(startDate),
-				nights: +nights,
-				message: message
-			}),
-			success: function(reservation){
-				alert("Reservation successfully created")
-				window.location.href="homepage.html"
-			},
-			error: function(error){
-				console.log(error)
-			}
-			
-		})
-	
-}
 

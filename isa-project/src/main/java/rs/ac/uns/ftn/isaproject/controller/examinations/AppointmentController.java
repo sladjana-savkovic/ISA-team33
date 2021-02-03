@@ -2,6 +2,8 @@ package rs.ac.uns.ftn.isaproject.controller.examinations;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventDTOMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.utils.GradeComparator;
+import rs.ac.uns.ftn.isaproject.model.utils.Order;
+import rs.ac.uns.ftn.isaproject.model.utils.PriceComparator;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
@@ -115,12 +120,28 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("/pharmacy/{pharmacyId}/created")
-	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId){
+	@GetMapping("/pharmacy/{pharmacyId}/created/{sort}")
+	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId,@PathVariable String sort){
 		try {
 		Collection<AddAppointmentDTO> appointmentDTOs = 
 				AppointmentMapper.toAddAppointmentDTOs(appointmentService.findAllCreatedByPharmacyDermatologist(pharmacyId));
-		
+		switch (sort) {
+		case "GRADE_ASC":
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new GradeComparator(Order.ASC));
+			break;
+
+		case "GRADE_DESC":
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new GradeComparator(Order.DESC));
+			break;
+
+		case "PRICE_ASC":
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new PriceComparator(Order.ASC));
+			break;
+
+		case "PRICE_DESC":
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new PriceComparator(Order.DESC));
+			break;
+		}
 		return new ResponseEntity<Collection<AddAppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		
 		}catch(Exception e) {

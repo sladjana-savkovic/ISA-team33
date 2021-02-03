@@ -36,8 +36,10 @@ public class AppointmentMapper {
 		Collection<AddAppointmentDTO> appointmentDTOs = new ArrayList<>();
 		
 		for(Appointment a:appointments) {
-			
-			appointmentDTOs.add(new AddAppointmentDTO(a.getId(), a.getStartTime().toString(), a.getEndTime().toString(), a.getDoctor().getId(), a.getPharmacy().getId(), a.getPrice(), -1));
+			int patientId = a.getPatient() == null ? -1 : a.getPatient().getId();
+			AddAppointmentDTO appointment = new AddAppointmentDTO(a.getId(), a.getStartTime().toString(), a.getEndTime().toString(), a.getDoctor().getId(), a.getPharmacy().getId(), a.getPrice(), patientId);
+			appointment.averageGrade = a.getDoctor().getAverageGrade();
+			appointmentDTOs.add(appointment);
 		}
 		return appointmentDTOs;
 	}
