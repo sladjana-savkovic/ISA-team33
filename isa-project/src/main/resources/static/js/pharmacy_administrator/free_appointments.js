@@ -41,9 +41,9 @@ $(document).ready(function () {
 		let price = parseFloat(priceStr);
 		
 		var startDate = '';
-		startDate = date + " " + startTime + ":00";
+		startDate = date + "T" + startTime + ":00";
 		var endDate = '';
-		endDate = date + " " + endTime + ":00";
+		endDate = date + "T" + endTime + ":00";
 		
 		var from_start =startTime.split(":");
 		var from_end = endTime.split(":");
@@ -67,7 +67,7 @@ $(document).ready(function () {
 		
 			$.ajax({
 				type:"POST", 
-				url: "/api/appointment",
+				url: "/api/appointment/create",
 				data: JSON.stringify({ 
 					startTime: startDate, 
 					endTime: endDate,
