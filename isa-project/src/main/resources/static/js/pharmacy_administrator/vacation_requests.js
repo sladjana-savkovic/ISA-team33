@@ -51,16 +51,46 @@ function rejectRequest(id){
 				url: "/api/vacation/" + id + "/reason/" + reason,
 				contentType: "application/json",
 				success:function(){
-					location.reload();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully reject vacation request.'
+					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully reject vacation request.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
+					$('#div_alert').append(a);
+					
+					$.ajax({
+						type:"GET", 
+						url: "/api/doctor/" + id,
+						contentType: "application/json",
+						success:function(doctor){
+							$.ajax({
+								url: "/api/email",
+								type: 'POST',
+								contentType: 'application/json',
+								data: JSON.stringify({ 
+									email: doctor.email, 
+									name: doctor.name, 
+									subject: "Odbijanje zahtjeva za godišnji odmor",
+									message: reason}),
+								success: function () {
+								location.reload();	
+							},
+							error: function (jqXHR) {
+								let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 		'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+								$('#div_alert').append(a);
+								return;
+							}
+							});	
+					
+					},
+					error:function(){
+						console.log('error getting doctor');
+					}
+					});
+					
 				},
 				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject vacation request.'
+					let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject vacation request.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
+					$('#div_alert').append(a);
 					return;
 				}
 			});
@@ -75,11 +105,42 @@ function acceptRequest(id){
 				url: "/api/vacation/" + id,
 				contentType: "application/json",
 				success:function(){
-					location.reload();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully accept vacation request.'
+					
+					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully accept vacation request.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
+					$('#div_alert').append(a);
+					
+					$.ajax({
+						type:"GET", 
+						url: "/api/doctor/" + id,
+						contentType: "application/json",
+						success:function(doctor){
+							$.ajax({
+								url: "/api/email",
+								type: 'POST',
+								contentType: 'application/json',
+								data: JSON.stringify({ 
+									email: doctor.email, 
+									name: doctor.name, 
+									subject: "Prihavanje zahtjeva za godišnji odmor",
+									message: "Vaš zahtjev za godišnjim odmorom je prihvaćen."}),
+								success: function () {
+								location.reload();	
+							},
+							error: function (jqXHR) {
+								let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 		'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+								$('#div_alert').append(a);
+								return;
+							}
+							});	
+					
+					},
+					error:function(){
+						console.log('error getting doctor');
+					}
+					});
+				
 				},
 				error:function(){
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept vacation request.'
@@ -88,4 +149,6 @@ function acceptRequest(id){
 					return;
 				}
 			});
+			
+			
 };
