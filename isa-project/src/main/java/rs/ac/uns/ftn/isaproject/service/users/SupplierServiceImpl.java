@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.io.IOException;
+import java.nio.file.AccessDeniedException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +65,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public UserAccount getOne(long id) {
+	public UserAccount getOne(long id) throws AccessDeniedException {
 		//return userAccountRepository.getOne(id);
 		return userAccountService.findById(id);
 	}
