@@ -17,12 +17,14 @@ public class SupplierServiceImpl implements SupplierService {
 	private CityRepository cityRepository;
 	private SupplierRepository supplierRepository;
 	private UserAccountRepository userAccountRepository;
+	private UserAccountService userAccountService;
 	
 	@Autowired
-	public SupplierServiceImpl(SupplierRepository supplierRepository, CityRepository cityRepository, UserAccountRepository userAccountRepository) {
+	public SupplierServiceImpl(SupplierRepository supplierRepository, CityRepository cityRepository, UserAccountRepository userAccountRepository, UserAccountService userAccountService) {
 		this.supplierRepository = supplierRepository;
 		this.cityRepository = cityRepository;
 		this.userAccountRepository = userAccountRepository;
+		this.userAccountService = userAccountService;
 	}
 	
 	@Override
@@ -61,7 +63,8 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public UserAccount getOne(long id) {
-		return userAccountRepository.getOne(id);
+		//return userAccountRepository.getOne(id);
+		return userAccountService.findById(id);
 	}
 	
 }

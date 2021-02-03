@@ -8,8 +8,12 @@ import rs.ac.uns.ftn.isaproject.model.users.Authority;
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
 
-	  @Autowired
 	  private AuthorityRepository authorityRepository;
+		
+	  @Autowired
+	  public AuthorityServiceImpl(AuthorityRepository authorityRepository) {
+		  this.authorityRepository = authorityRepository;
+	  }
 
 	  @Override
 	  public Authority findById(Long id) {
