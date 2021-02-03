@@ -73,17 +73,6 @@ public class DoctorController {
 		}
 	}
 	
-	@PutMapping("/{id}/password/{value}")
-	public ResponseEntity<?> updatePassword(@PathVariable int id, @PathVariable String value){
-		try {
-			doctorService.updatePassword(id,value);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		catch (Exception e) {
-			return new ResponseEntity<>("An error occurred while updating doctor's password.", HttpStatus.BAD_REQUEST);
-		}
-	}
-	
 	@GetMapping("/{id}/pharmacies")
 	public ResponseEntity<?> doctorPharmacies(@PathVariable int id){
 		try {
