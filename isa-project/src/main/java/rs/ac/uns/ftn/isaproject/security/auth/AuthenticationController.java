@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.users.CustomUserDetailsService;
-import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,10 +33,6 @@ public class AuthenticationController {
 
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
-	
-	@Autowired
-	private UserAccountService userService;
-	
 		
 	
 	@PostMapping("/login")
@@ -45,14 +40,15 @@ public class AuthenticationController {
 			HttpServletResponse response) {
 
 		Authentication authentication = authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+				.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
 						authenticationRequest.getPassword()));
 
 		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		UserAccount user = (UserAccount) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername(), user.getId(), user.getAuthority().getName());
+		UserAccount userAccount = (UserAccount) authentication.getPrincipal();
+		String jwt = tokenUtils.generateToken(userAccount.getUsername(), userAccount.getId(), 
+											userAccount.getAuthority().getName(), userAccount.getUser().getId());
 		int expiresIn = tokenUtils.getExpiredIn();
 
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));

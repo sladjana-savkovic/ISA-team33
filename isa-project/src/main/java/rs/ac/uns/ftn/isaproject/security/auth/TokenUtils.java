@@ -18,7 +18,7 @@ import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 public class TokenUtils {
 
 	// Izdavac tokena
-	@Value("spring-security-example")
+	@Value("spring-isa-project")
 	private String APP_NAME;
 
 	// Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
@@ -33,16 +33,16 @@ public class TokenUtils {
 	@Value("Authorization")
 	private String AUTH_HEADER;
 
-	// Moguce je generisati JWT za razlicite klijente (npr. web i mobilni klijenti nece imati isto trajanje JWT, JWT za mobilne klijente ce trajati duze jer se mozda aplikacija redje koristi na taj nacin)
+	// Moguce je generisati JWT za razlicite klijente
 	private static final String AUDIENCE_WEB = "web";
 	private static final String AUDIENCE_MOBILE = "mobile";
 	private static final String AUDIENCE_TABLET = "tablet";
 
-	// Algoritam za potpisivanje JWT
+	
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
-	// Funkcija za generisanje JWT token
-	public String generateToken(String username, Long id, String role) {
+
+	public String generateToken(String username, Long userAccountId, String role, int userId) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
 				.setSubject(username) //email
@@ -50,7 +50,8 @@ public class TokenUtils {
 				.setIssuedAt(new Date())
 				.setExpiration(generateExpirationDate())
 				// .claim("key", value) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
-				.claim("userId", id)
+				.claim("userAccountId", userAccountId)
+				.claim("userId", userId)
 				.claim("role", role)
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 	}
@@ -60,7 +61,6 @@ public class TokenUtils {
 		return new Date(new Date().getTime() + EXPIRES_IN);
 	}
 
-	// Funkcija za refresh JWT tokena
 	public String refreshToken(String token) {
 		String refreshedToken;
 		try {
@@ -82,7 +82,6 @@ public class TokenUtils {
 				&& (!(this.isTokenExpired(token)) || this.ignoreTokenExpiration(token)));
 	}
 
-	// Funkcija za validaciju JWT tokena
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		
 		UserAccount user = (UserAccount) userDetails;
@@ -91,8 +90,6 @@ public class TokenUtils {
 		
 		return (username != null && username.equals(userDetails.getUsername())
 				&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
-		
-		//return true;
 	}
 
 	public String getUsernameFromToken(String token) {
@@ -147,8 +144,6 @@ public class TokenUtils {
 	public String getToken(HttpServletRequest request) {
 		String authHeader = getAuthHeaderFromHeader(request);
 
-		// JWT se prosledjuje kroz header Authorization u formatu:
-		// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 		if (authHeader != null && authHeader.startsWith("Bearer ")) {
 			return authHeader.substring(7);
 		}
@@ -174,7 +169,6 @@ public class TokenUtils {
 		return (audience.equals(AUDIENCE_TABLET) || audience.equals(AUDIENCE_MOBILE));
 	}
 
-	// Funkcija za citanje svih podataka iz JWT tokena
 	private Claims getAllClaimsFromToken(String token) {
 		Claims claims;
 		try {

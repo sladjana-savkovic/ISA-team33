@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 
@@ -47,15 +46,11 @@ public abstract class User {
 	private String telephone;
 	
 	@Column(unique=false, nullable=true)
-	private boolean isActive;
+	private boolean isActive = true;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
-    
-    //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL/*,optional = false*/)
-	//private UserAccount userAccount;
-		
 	
 	public int getId() {
 		return id;
