@@ -28,12 +28,12 @@ public class UserAccountController {
 
 	
 	@GetMapping("/{id}")
-	public UserAccount getOne(@PathVariable int id) throws AccessDeniedException {
+	public UserAccount getOne(@PathVariable Long id) throws AccessDeniedException {
 		return userAccountService.findById(id);
 	}
 	
 	@PutMapping("/{id}/password/{oldPassword}/{newPassword}")
-	public ResponseEntity<?> updatePassword(@PathVariable int id,@PathVariable String oldPassword, @PathVariable String newPassword){
+	public ResponseEntity<?> updatePassword(@PathVariable Long id,@PathVariable String oldPassword, @PathVariable String newPassword){
 		try {
 			userAccountService.updatePassword(id,oldPassword, newPassword);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);

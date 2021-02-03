@@ -45,7 +45,6 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private String telephone;
 	
-	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
@@ -122,5 +121,4 @@ public abstract class User {
 		this.telephone = telephone;
 	}
 
-	
 }

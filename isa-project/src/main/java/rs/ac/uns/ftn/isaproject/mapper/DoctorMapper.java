@@ -17,9 +17,10 @@ public class DoctorMapper {
 			typeOfDoctor = "Farmaceut";
 		}
 		
-		return new DoctorDTO(doctor.getId(),doctor.getName(),doctor.getSurname(),doctor.getDateOfBirth(),doctor.getEmail(),doctor.getPassword(),
-						     doctor.getAddress(), doctor.getCity().getId(),doctor.getCity().getName(),doctor.getCity().getCountry().getId(),
-						     doctor.getCity().getCountry().getName(), doctor.getAverageGrade(),typeOfDoctor, doctor.getTelephone());
+		return new DoctorDTO(doctor.getId(),doctor.getName(),doctor.getSurname(),doctor.getDateOfBirth(),doctor.getEmail(),
+							 doctor.getPassword(), doctor.getAddress(), doctor.getCity().getId(),doctor.getCity().getName(),
+							 doctor.getCity().getCountry().getId(),doctor.getCity().getCountry().getName(), doctor.getAverageGrade(),typeOfDoctor, 
+							 doctor.getTelephone());
 	}
 	
 	public static Collection<DoctorDTO> toDoctoryDTOs(Collection<Doctor> doctors){
