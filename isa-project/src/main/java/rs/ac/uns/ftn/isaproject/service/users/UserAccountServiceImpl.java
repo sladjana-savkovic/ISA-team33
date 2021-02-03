@@ -42,7 +42,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Override
-	public void updatePassword(int id,String oldPassword, String newPassword) throws BadRequestException {
+	public void updatePassword(Long id,String oldPassword, String newPassword) throws BadRequestException {
 		UserAccount userAccount = userRepository.getOne(id);
 		
 		if(!passwordEncoder.matches(oldPassword, userAccount.getPassword())) {
@@ -59,7 +59,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 	
 	@Override
-	public UserAccount findById(int id) throws AccessDeniedException {
+	public UserAccount findById(Long id) throws AccessDeniedException {
 		return userRepository.findById(id).orElseGet(null);
 	}
 
