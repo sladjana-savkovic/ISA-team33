@@ -42,22 +42,19 @@ public class TokenUtils {
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
 	// Funkcija za generisanje JWT token
-	public String generateToken(String username, Long id) {
+	public String generateToken(String username, Long id, String role) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
 				.setSubject(username) //email
-				.setAudience(generateAudience())
+				.setAudience(AUDIENCE_WEB)
 				.setIssuedAt(new Date())
 				.setExpiration(generateExpirationDate())
 				// .claim("key", value) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
 				.claim("userId", id)
+				.claim("role", role)
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 	}
 
-	private String generateAudience() {
-//		Moze se iskoristiti org.springframework.mobile.device.Device objekat za odredjivanje tipa uredjaja sa kojeg je zahtev stigao.
-		return AUDIENCE_WEB;
-	}
 
 	private Date generateExpirationDate() {
 		return new Date(new Date().getTime() + EXPIRES_IN);

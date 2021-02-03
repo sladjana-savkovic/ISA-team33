@@ -55,8 +55,7 @@ public abstract class User {
     
     //@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL/*,optional = false*/)
 	//private UserAccount userAccount;
-	
-	
+		
 	
 	public int getId() {
 		return id;

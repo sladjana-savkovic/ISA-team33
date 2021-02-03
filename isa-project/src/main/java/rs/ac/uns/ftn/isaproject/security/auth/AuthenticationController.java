@@ -27,7 +27,6 @@ import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.users.CustomUserDetailsService;
 import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
-//Kontroler zaduzen za autentifikaciju korisnika
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationController {
@@ -44,8 +43,7 @@ public class AuthenticationController {
 	@Autowired
 	private UserAccountService userService;
 	
-	
-	
+		
 	
 	@PostMapping("/login")
 	public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
@@ -58,13 +56,44 @@ public class AuthenticationController {
 		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// Kreiraj token za tog korisnika
 		UserAccount user = (UserAccount) authentication.getPrincipal();
-		String jwt = tokenUtils.generateToken(user.getUsername(), user.getId());
+		String jwt = tokenUtils.generateToken(user.getUsername(), user.getId(), user.getAuthority().getName());
 		int expiresIn = tokenUtils.getExpiredIn();
 
-		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+	}
+	
+	
+	/*
+	// Endpoint za registraciju novog korisnika
+	@PostMapping("/signup")
+	public ResponseEntity<User> addUser(@RequestBody UserRequest userRequest, UriComponentsBuilder ucBuilder) {
+
+		UserAccount existUser = this.userService.findByUsername(userRequest.getUsername());
+		if (existUser != null) {
+			//throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+		}
+
+		UserAccount user = this.userService.save(userRequest);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
+	 */
+	
+	
+	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
+	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
+		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+
+		Map<String, String> result = new HashMap<>();
+		result.put("result", "success");
+		return ResponseEntity.accepted().body(result);
+	}
+
+	static class PasswordChanger {
+		public String oldPassword;
+		public String newPassword;
 	}
 	
 }
