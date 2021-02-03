@@ -47,8 +47,7 @@ public class PatientServiceImpl implements PatientService {
 		patient.setDateOfBirth(addPatientDTO.dateOfBirth);
 		patient.setPenalty(0);
 		
-		userAccountService.save(addPatientDTO.email, addPatientDTO.password, "ROLE_PATIENT", false, patient);					
-		//patientRepository.save(patient);		
+		userAccountService.save(addPatientDTO.email, addPatientDTO.password, "ROLE_PATIENT", false, patient);	
 	}
 
 	@Override

@@ -1,4 +1,5 @@
 var doctorId = appConfig.doctorId;
+var doctorAccountId = appConfig.doctorId;
 var doctorObj = null;
 $(document).ready(function () {
 	
@@ -80,12 +81,6 @@ $(document).ready(function () {
 		let newPass = $('#newPass').val();
 		let newPassRepeat = $('#newPassRepeat').val();
 		
-		if(oldPass != doctorObj.password){
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Wrong old password.'
-			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('#div_alert').append(alert);
-			return;
-		}
 		if(newPass != newPassRepeat){
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Passwords don\'t match.'
 			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
@@ -93,10 +88,9 @@ $(document).ready(function () {
 			return;
 		}
 		
-		
 		$.ajax({
 			type:"PUT", 
-			url: "/api/doctor/" + doctorId + "/password/" + newPass,
+			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
 			contentType: "application/json",
 			success:function(){
 				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
@@ -106,7 +100,7 @@ $(document).ready(function () {
 				return;
 			},
 			error:function(xhr){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + + xhr.responseText
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
