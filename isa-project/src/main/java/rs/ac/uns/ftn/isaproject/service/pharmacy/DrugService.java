@@ -10,4 +10,5 @@ public interface DrugService {
 	Collection<Drug> getSubstituteDrugs(int id);
 	Collection<Drug> getAllDrugs();
 	Drug getById(int id);
+
 }

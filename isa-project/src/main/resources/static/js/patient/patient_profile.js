@@ -1,6 +1,5 @@
-var doctorId = appConfig.doctorId;
-var doctorAccountId = appConfig.doctorId;
-var doctorObj = null;
+var patientId = 3;
+
 $(document).ready(function () {
 	
 	$.ajax({
@@ -15,22 +14,36 @@ $(document).ready(function () {
 			getCities($("#countrySelect option:selected").val());
 		},
 		error:function(){
-			console.log('error getting doctor countries');
+			console.log('error getting patients countries');
 		}
 	});
+	 
+	$.ajax({
+		type:"GET",
+		url:"/api/drug",
+		contentType:"application/json",
+		success:function(drugs){
+			for(let drug of drugs){
+				addDrug(drug, patientId)
+			}
+		},
+		error:function(){
+			alert('error getting drugs')
+		}
+	})
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/doctor/" + doctorId,
+		url: "/api/patient/" + patientId,
 		contentType: "application/json",
-		success:function(doctor){
-			doctorObj = doctor;
-			addDoctorInfo(doctor);
+		success:function(patient){
+			addPatientInfo(patient);
 		},
-		error:function(xhr){
-			console.log(xhr.responseText);
+		error:function(){
+			console.log('error getting patient');
 		}
 	});
+
 	
 	$("#countrySelect" ).change(function() {
 	  	getCities($("#countrySelect option:selected").val());
@@ -41,70 +54,45 @@ $(document).ready(function () {
 		enableFields();
 		$('#change').text("Save");
 		
+		var amenities = []
+		var $boxes = $('input[name=amenities]:checked');
+		$boxes.each(function(){
+			amenities.push({"id":$(this).val()})
+		})
+		
+		
 		$('#edit_profile').submit(function(event){
 			event.preventDefault();
 			
 			$.ajax({
 				type:"PUT", 
-				url: "/api/doctor",
+				url: "/api/patient",
 				data: JSON.stringify({ 
-					id:doctorId,
+					id:patientId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
+					telephone: $('#phone').val(),
 					dateOfBirth: $('#dateOfBirth').val(),
-					phoneNumber: $('#phone').val(),
 					email: $('#email').val(),
+					password: $('#password').val(),
 					address: $('#address').val(),
+					allergies: amenities,
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
 				success:function(){
+					location.reload();
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed profile informations.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
-					window.setTimeout(function(){location.reload()},1000);
 					return;
 				},
-				error:function(xhr){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing profile informations.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
 			});
-		});
-	});
-	
-	$('#edit_password').submit(function(event){
-		event.preventDefault();
-		
-		let oldPass = $('#oldPass').val();
-		let newPass = $('#newPass').val();
-		let newPassRepeat = $('#newPassRepeat').val();
-		
-		if(newPass != newPassRepeat){
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Passwords don\'t match.'
-			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('#div_alert').append(alert);
-			return;
-		}
-		
-		$.ajax({
-			type:"PUT", 
-			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
-			contentType: "application/json",
-			success:function(){
-				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
-				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				window.setTimeout(function(){location.reload()},1000)
-				return;
-			},
-			error:function(xhr){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
-				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				return;
-			}
 		});
 	});
 });
@@ -114,7 +102,8 @@ function enableFields(){
 	$('#surname').attr("disabled",false);
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	$('#email').attr("disabled",false);
+	//$('#email').attr("disabled",false);
+	$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -124,19 +113,19 @@ function enableFields(){
 };
 
 
-function addDoctorInfo(doctor){
-	$('#name').val(doctor.name);
-	$('#surname').val(doctor.surname);
-	$('#dateOfBirth').val(doctor.dateOfBirth);
-	$('#phone').val(doctor.phoneNumber);
-	$('#email').val(doctor.email);
-	$('#address').val(doctor.address);
+function addPatientInfo(patient){
+	$('#name').val(patient.name);
+	$('#surname').val(patient.surname);
+	$('#dateOfBirth').val(patient.dateOfBirth);
+	$('#phone').val(patient.telephone);
+	$('#email').val(patient.email);
+	$('#password').val(patient.password);
+	$('#address').val(patient.address);
 	
 	changeInputFiledsStatus(false);
 	changeSelectOptionsStatus(true);
-	$("#countryInput").val(doctor.countryName);
-	$("#cityInput").val(doctor.cityName);
-	
+	$("#countryInput").val(patient.countryName);
+	$("#cityInput").val(patient.cityName);	
 }
 
 function changeInputFiledsStatus(hidden){
@@ -182,8 +171,29 @@ function getCities(countryId){
 				addCities(c);
 			}
 		},
-		error:function(xhr){
-			console.log(xhr.responseText);
+		error:function(){
+			console.log('error getting cities');
 		}
 	});
+}
+
+function addDrug(drug, patientId){
+	let div = $('<div class="form-check"></div>')
+	let input = $('<input type="checkbox" class="form-check-input" id="' + drug.id + '" name="amenities" value="' + drug.id + '" >')
+	let label =  $('<label class="form-check-label" for="' + drug.id + '">' + drug.name + '</label>')
+	$.ajax({
+		type:"GET", 
+		url: "/api/patient/" + patientId + "/allergy/" + drug.id,
+		contentType: "application/json",
+		success:function(check){
+				if(check == true){
+					input.attr('checked', 'checked');
+				}
+		},
+		error:function(){
+			console.log('error getting patient');
+		}
+	});
+	div.append(input).append(label)
+	$("#checkboxes").append(div)
 }

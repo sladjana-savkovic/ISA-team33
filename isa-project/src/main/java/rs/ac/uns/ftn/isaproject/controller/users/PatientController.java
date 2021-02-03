@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
+import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
+import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
+import rs.ac.uns.ftn.isaproject.mapper.PatientMapper;
+import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 
 @RestController
@@ -23,6 +29,22 @@ public class PatientController {
 	@Autowired
 	public PatientController(PatientService patientService) {
 		this.patientService = patientService;
+	}
+	@GetMapping("/{id}")
+	public ResponseEntity<PatientDTO> findOneById(@PathVariable int id) {
+		try {
+			PatientDTO patientDTO = PatientMapper.toPatientDTO(patientService.getOne(id));
+			return new ResponseEntity<PatientDTO>(patientDTO, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping(consumes = "application/json")
+	public ResponseEntity<Void> updateInfo(@RequestBody PatientDTO patientDTO){
+		patientService.updateInfo(patientDTO);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/{id}/increase-penalty")

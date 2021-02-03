@@ -20,8 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-//POJO koji implementira Spring Security UserDetails interfejs koji specificira
-//osnovne osobine Spring korisnika (koje role ima, da li je nalog zakljucan, istekao, da li su kredencijali istekli)
+
 @Entity
 public class UserAccount implements UserDetails {
 
