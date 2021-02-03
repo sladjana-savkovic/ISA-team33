@@ -26,7 +26,7 @@ public class EmailServiceImpl implements EmailService {
 		mail.setTo(notificationDTO.email);
 		mail.setFrom(environment.getProperty("spring.mail.username"));
 		mail.setSubject(notificationDTO.subject);
-		mail.setText(notificationDTO.message);
+		mail.setText("Dear " + notificationDTO.name + ",\n\n" + notificationDTO.message + "\n\nBest regards.");
 		mailSender.send(mail);
 	}
 }

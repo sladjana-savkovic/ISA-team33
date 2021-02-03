@@ -44,8 +44,8 @@ insert into patient(id, name, surname, telephone, city_id, penalty, address, dat
 					values (nextval('users_seq'),'Ana','Anić', '0632145214', 1,1,'Maksima Gorkog 4','1957-03-05');
 insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
 					values (nextval('users_seq'),'Lana','Ilić', '0632145555', 1,0,'Maksima Gorkog 15','1988-03-10');
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'pera.peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 3);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'ana.anic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 4);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'sladjasavkovic333+1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 3);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'sladjasavkovic333+11@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 4);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'lana.ilic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 5);
 
 

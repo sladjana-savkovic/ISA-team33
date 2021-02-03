@@ -37,22 +37,47 @@ $(document).ready(function () {
 		
 		$('#schedule').click(function(){
 			
+			$('#schedule').attr("disabled",true);
+			
 			$.ajax({
 				type:"PUT", 
 				url: "/api/appointment/" + appointmentId + "/patient/" + patientId + "/schedule",
 				contentType: "application/json",
 				success:function(){
-					$('#close_btn').click();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					window.setTimeout(function(){location.href = "calendar.html"},1000)
-					return;
+					
+					let message = "You have a new examination scheduled. See a list of future appointments.";
+					
+					$.ajax({
+						url: "/api/email/" + patientId,
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify({ 
+							 subject: "Scheduling new appointment",
+							 message: message}),
+						success: function () {
+							$('#close_btn').click();
+							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							$('#div_alert').append(alert);
+							window.setTimeout(function(){location.href = "calendar.html"},500)
+							return;
+						},
+						error: function () {
+							$('#close_btn').click();
+							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
+							+ 'Successfully appointment scheduling, but an error occurred while sending an email'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							$('#div_alert').append(alert);
+							window.setTimeout(function(){location.href = "calendar.html"},500)
+							return;
+						}
+					});	
 				},
 				error:function(xhr){
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					$('#schedule').attr("disabled",false);
 					return;
 				}
 			});
