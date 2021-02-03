@@ -33,10 +33,10 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private LocalDate dateOfBirth;
 	
-	@Column(unique=true, nullable=false)
+	@Column(unique=true, nullable=true)
 	private String email;
 	
-	@Column(unique=false, nullable=false)
+	@Column(unique=false, nullable=true)
 	private String password;
 	
 	@Column(unique=false, nullable=false)
@@ -45,13 +45,11 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private String telephone;
 	
-	@Column(unique=false, nullable=false)
-	private boolean isActive;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
-
+	
 	public int getId() {
 		return id;
 	}
@@ -124,12 +122,5 @@ public abstract class User {
 		this.telephone = telephone;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 	
 }
