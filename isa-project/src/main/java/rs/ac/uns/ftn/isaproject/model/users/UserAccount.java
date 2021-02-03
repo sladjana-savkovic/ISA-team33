@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,14 +32,14 @@ public class UserAccount implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(unique=true, nullable=false)
     private String username;
 
     @JsonIgnore
-    @Column(name = "password")
+    @Column(unique=false, nullable=false)
     private String password;
 
-    @Column(name = "enabled")
+    @Column(unique=false, nullable=false)
     private boolean enabled;
 
     @Column(name = "last_password_reset_date")
@@ -49,7 +48,7 @@ public class UserAccount implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
 	private Authority authority;
 	
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL/*,optional = false*/)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private User user;
     
     
@@ -130,4 +129,15 @@ public class UserAccount implements UserDetails {
         return true;
     }
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+    
+    
+    
 }

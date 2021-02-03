@@ -18,18 +18,18 @@ public class UserAccountController {
 
 
 	@Autowired
-	private UserAccountService userService;
+	private UserAccountService userAccountService;
 
 
 	@GetMapping("/user/{userId}")
 	public UserAccount loadById(@PathVariable Long userId) {
-		return this.userService.findById(userId);
+		return this.userAccountService.findById(userId);
 	}
 
 
 	@GetMapping("/whoami")
 	public UserAccount user(Principal user) {
-		return this.userService.findByUsername(user.getName());
+		return this.userAccountService.findByUsername(user.getName());
 	}
 	
 		

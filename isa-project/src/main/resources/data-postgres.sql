@@ -1,28 +1,10 @@
 /*Lozinke su hesovane pomocu https://bcrypt-generator.com/ gdje je Rounds=10 */
 /*Lozinke za sve usere su 1111*/
 
-INSERT INTO AUTHORITY (id, name) VALUES (1, 'ROLE_PATIENT');
-INSERT INTO AUTHORITY (id, name) VALUES (2, 'ROLE_DOCTOR');
-INSERT INTO AUTHORITY (id, name) VALUES (3, 'ROLE_SYSTEMADMIN');
-INSERT INTO AUTHORITY (id, name) VALUES (4, 'ROLE_SUPPLIER');
-
-/*
-INSERT INTO USERS (authority_id, username, password, enabled, last_password_reset_date) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07');
-INSERT INTO USERS (authority_id, username, password, enabled, last_password_reset_date) VALUES (1, 'admin@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07');
-*/
-
-insert into patient(id, name, surname, email, password, telephone, penalty, address, date_of_birth, is_active/*, user_account_id*/) 
-					values (20,'Pera','Perić','pera7peric@gmail.com','$2y$10$HwUMyAHRKMWRvKXdxbiVG.U6kv06fwagW513LNWpft0T6Oxqsoyy2 ', '0668989985', 0,'Kralja Petra I','1963-07-13', true);
-insert into patient(id, name, surname, email, password, telephone, penalty, address, date_of_birth, is_active/*, user_account_id*/) 
-				    values (21,'Pera','Perić','pera4peric@gmail.com','$2y$10$HwUMyAHRKMWRvKXdxbiVG.U6kv06fwagW513LNWpft0T6Oxqsoyy2 ', '0668989985', 0,'Kralja Petra I','1963-07-13', true);
-
-INSERT INTO user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 20);
-INSERT INTO user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'admin@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 21);
-				    
-				    
-				    
-				    
-				    
+insert into AUTHORITY (id, name) VALUES (1, 'ROLE_PATIENT');
+insert into AUTHORITY (id, name) VALUES (2, 'ROLE_DOCTOR');
+insert into AUTHORITY (id, name) VALUES (3, 'ROLE_SYSTEMADMIN');
+insert into AUTHORITY (id, name) VALUES (4, 'ROLE_SUPPLIER');				    		    
 
 
 insert into country (id,name) values (1,'Srbija');
@@ -268,5 +250,16 @@ insert into user_category (id, name, discount, upper_limit, lower_limit) values 
 insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 33, 1, 8);
 insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 12, 2, 8);
 insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 45, 1, 8);
+
+
+
+insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
+					values (nextval('users_seq'),'Sima','Simić', '0668989985', 0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
+				    values (nextval('users_seq'),'Pera','Perić', '0668989985', 0,'Kralja Petra I','1963-07-13');
+/* password 123 */
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'pera7peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13);
+
 
 					   
