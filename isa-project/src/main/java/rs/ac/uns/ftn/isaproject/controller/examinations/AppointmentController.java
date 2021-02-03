@@ -115,15 +115,16 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("pharmacy/{pharmacyId}/created")
-	public ResponseEntity<Collection<AppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId){
+	@GetMapping("/pharmacy/{pharmacyId}/created")
+	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId){
 		try {
-		Collection<AppointmentDTO> appointmentDTOs = 
-				AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacyDermatologist(pharmacyId));
+		Collection<AddAppointmentDTO> appointmentDTOs = 
+				AppointmentMapper.toAddAppointmentDTOs(appointmentService.findAllCreatedByPharmacyDermatologist(pharmacyId));
 		
-		return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+		return new ResponseEntity<Collection<AddAppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		
 		}catch(Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		
