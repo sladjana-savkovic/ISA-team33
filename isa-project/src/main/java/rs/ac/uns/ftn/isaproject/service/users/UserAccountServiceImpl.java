@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,6 +63,19 @@ public class UserAccountServiceImpl implements UserAccountService {
 	@Override
 	public UserAccount findById(Long id) throws AccessDeniedException {
 		return userRepository.findById(id).orElseGet(null);
+	}
+
+	@Override
+	public UserAccount findByUserId(int id) {
+		Collection<UserAccount> userAccounts = userRepository.findAll();
+		
+		for(UserAccount userAccount:userAccounts) {
+			if(userAccount.getUser().getId() == id) {
+				
+				return userAccount;
+			}
+		}
+		return null;
 	}
 
 }

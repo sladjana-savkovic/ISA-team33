@@ -15,11 +15,9 @@ import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
-import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
-import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -27,15 +25,12 @@ public class DoctorServiceImpl implements DoctorService {
 	private DoctorRepository doctorRepository;
 	private CityRepository cityRepository;
 	private PharmacyRepository pharmacyRepository;
-	private UserAccountRepository userAccountRepository;
 	
 	@Autowired
-	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository,
-			UserAccountRepository userAccountRepository) {
+	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository) {
 		this.doctorRepository = doctorRepository;
 		this.cityRepository = cityRepository;
 		this.pharmacyRepository = pharmacyRepository;
-		this.userAccountRepository = userAccountRepository;
 	}
 
 	@Override
@@ -54,7 +49,6 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setTelephone(doctorDTO.phoneNumber);
 		doctor.setAddress(doctorDTO.address);
 		doctor.setCity(city);
-		doctor.setEmail(doctorDTO.email);
 		
 		doctorRepository.save(doctor);
 	}
