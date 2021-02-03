@@ -235,8 +235,8 @@ insert into system_administrator (id, name, surname, email, password, telephone,
 					   (nextval('users_seq'),'Nikola','Nikolić','nikolan@gmail.com','1111', '0632547777','Zmaj Jovina 12','1985-05-10', true);
 					   
 
-insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), true, 4, 1);
-insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), false, 4, 2);
+insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), true, 4, 1);
+insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), false, 4, 2);
 
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'gold', 10, 100, 51);
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'silver', 5, 50, 21);
