@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		    calendar.render();
 			
 		},
-		error:function(){
-			console.log('error getting doctor appointments');
+		error:function(xhr){
+			console.log(xhr.responseText);
 		}
 	});
 	

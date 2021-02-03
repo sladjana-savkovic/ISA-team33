@@ -22,11 +22,11 @@ $(document).ready(function () {
 					$('#searchResult').attr("hidden",true);
 				}
 			},
-			error:function(){
+			error:function(xhr){
 				$('#searchResult').attr("hidden",true);
 				$('#search_field').val('');
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The reservation number is incorrect.'
-					+'<button type="button" id="close_alert" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" id="close_alert" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
 			}
@@ -46,8 +46,8 @@ $(document).ready(function () {
 				$('#div_alert').append(alert);
 				$('#searchResult').attr("hidden",true);
 			},
-			error:function(){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">An error occurred while confirming the reservation.'
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 					+'<button type="button" id="close_alert" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
