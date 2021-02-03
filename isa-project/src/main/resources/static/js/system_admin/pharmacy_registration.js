@@ -25,12 +25,12 @@ $(document).ready(function () {
 			"address": address,
 		};
 		
-		if ($("form#registration").hasClass("unsuccessful")) {
+		/*if ($("form#registration").hasClass("unsuccessful")) {
 			return;
 		}
 		else {
 			$("form#registration").removeClass("unsuccessful");
-			
+			*/
 			$.ajax({
 				url: "/api/pharmacy",
 				type: 'POST',
@@ -49,7 +49,7 @@ $(document).ready(function () {
 					return;
 				}
 			});			
-		}
+		//}
 	});
 
 });
