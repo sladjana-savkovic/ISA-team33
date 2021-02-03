@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 
 //Utility klasa za rad sa JSON Web Tokenima
 @Component
@@ -41,14 +42,15 @@ public class TokenUtils {
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
 	// Funkcija za generisanje JWT token
-	public String generateToken(String username) {
+	public String generateToken(String username, Long id) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
-				.setSubject(username)
+				.setSubject(username) //email
 				.setAudience(generateAudience())
 				.setIssuedAt(new Date())
 				.setExpiration(generateExpirationDate())
 				// .claim("key", value) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
+				.claim("userId", id)
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 	}
 
@@ -85,15 +87,15 @@ public class TokenUtils {
 
 	// Funkcija za validaciju JWT tokena
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		/*
-		User user = (User) userDetails;
+		
+		UserAccount user = (UserAccount) userDetails;
 		final String username = getUsernameFromToken(token);
 		final Date created = getIssuedAtDateFromToken(token);
 		
 		return (username != null && username.equals(userDetails.getUsername())
 				&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
-		*/
-		return true;
+		
+		//return true;
 	}
 
 	public String getUsernameFromToken(String token) {
