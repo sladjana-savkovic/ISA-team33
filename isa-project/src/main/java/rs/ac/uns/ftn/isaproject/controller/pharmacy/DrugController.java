@@ -79,4 +79,15 @@ public class DrugController {
 		}
 	}
 	
+	@GetMapping("{id}")
+	public ResponseEntity<DrugDTO> getById(@PathVariable int id){
+		try {
+			Drug drug = drugService.getById(id);
+			DrugDTO drugDTO = new DrugDTO(drug.getId(), drug.getName(), drug.getTypeOfDrug().toString(), drug.getTypeOfDrugsForm().toString(), drug.getProducer(), null, drug.getContraindication(), drug.getDailyDose());
+			return new ResponseEntity<DrugDTO>(drugDTO, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 }
