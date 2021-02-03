@@ -45,8 +45,6 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private String telephone;
 	
-	@Column(unique=false, nullable=true)
-	private boolean isActive = true;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
@@ -124,12 +122,5 @@ public abstract class User {
 		this.telephone = telephone;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 	
 }
