@@ -4,7 +4,8 @@
 insert into AUTHORITY (id, name) VALUES (1, 'ROLE_PATIENT');
 insert into AUTHORITY (id, name) VALUES (2, 'ROLE_DOCTOR');
 insert into AUTHORITY (id, name) VALUES (3, 'ROLE_SYSTEMADMIN');
-insert into AUTHORITY (id, name) VALUES (4, 'ROLE_SUPPLIER');				    		    
+insert into AUTHORITY (id, name) VALUES (4, 'ROLE_SUPPLIER');
+insert into AUTHORITY (id, name) VALUES (5, 'ROLE_PHARMACYADMIN');
 
 
 insert into country (id,name) values (1,'Srbija');
@@ -28,18 +29,25 @@ insert into pharmacy (id, name, average_grade, city_id, address) values (nextval
 insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Crvena apoteka', 4.8, 3, 'Cara Lazara 23');
 
 
-insert into doctor (id, name, surname, email, password, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted) 
-					values (nextval('users_seq'),'Nada','Nadić','nada.nadic@gmail.com','1111', '0652323323', 4.8, 0,1,'Tolstojeva 12','1970-12-12', false);
-insert into doctor (id, name, surname, email, password, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
-					values (nextval('users_seq'),'Marija','Marić','marija.maric@gmail.com','1111', '0665859985', 3.9, 1,2,'Balzakova 23','1982-01-10', false);
+insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted) 
+					values (nextval('users_seq'),'Nada','Nadić', '0652323323', 4.8, 0,1,'Tolstojeva 12','1970-12-12', false);
+insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
+					values (nextval('users_seq'),'Marija','Marić', '0665859985', 3.9, 1,2,'Balzakova 23','1982-01-10', false);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (2, 'nada.nadic@gmail.com', '1111',  true, '2017-10-01 21:58:58.508-07', 1);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (2, 'marija.maric@gmail.com', '1111',  true, '2017-10-01 18:57:58.508-07', 2);
+
 
 					   
-insert into patient(id, name, surname, email, password, telephone, city_id, penalty, address, date_of_birth) 
-					values (nextval('users_seq'),'Pera','Perić','pera.peric@gmail.com','1111', '0668989985', 1,0,'Kralja Petra I','1963-07-13');
-insert into patient(id, name, surname, email, password, telephone, city_id, penalty, address, date_of_birth) 
-					values (nextval('users_seq'),'Ana','Anić','ana.anic@gmail.com','1111', '0632145214', 1,1,'Maksima Gorkog 4','1957-03-05');
-insert into patient(id, name, surname, email, password, telephone, city_id, penalty, address, date_of_birth) 
-					values (nextval('users_seq'),'Lana','Ilić','lana.ilic@gmail.com','1111', '0632145555', 1,0,'Maksima Gorkog 15','1988-03-10');					
+insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
+					values (nextval('users_seq'),'Pera','Perić', '0668989985', 1,0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
+					values (nextval('users_seq'),'Ana','Anić', '0632145214', 1,1,'Maksima Gorkog 4','1957-03-05');
+insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
+					values (nextval('users_seq'),'Lana','Ilić', '0632145555', 1,0,'Maksima Gorkog 15','1988-03-10');
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'pera.peric@gmail.com', '1111',  true, '2017-10-01 21:58:58.508-07', 3);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'ana.anic@gmail.com', '1111',  true, '2017-10-01 18:57:58.508-07', 4);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'lana.ilic@gmail.com', '1111',  true, '2017-10-01 21:58:58.508-07', 5);
+
 
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Amoksicilin', 1, 1, 'Hemofarm', 3, 'Amoksicilin se ne smije primijeniti u slučaju preosjetljivosti na penicilin te u bolesnika s infektivnom mononukleozom i limfatičkom leukemijom zbog učestale pojave osipa.', false);
 insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Cefaleksin', 1, 2, 'Hemofarm', 2, 'Cefaleksin se ne smije primjenjivati u osoba preosjetljivih na cefaleksin i druge cefalosporine, odnosno na neki od pomoćnih sastojaka lijeka.', false);
@@ -64,11 +72,13 @@ insert into drug_ingredients (drug_id, ingredients_id) values (4,1);
 insert into drug_ingredients (drug_id, ingredients_id) values (4,4);
 					
 
-insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, city_id) values 
-					   (nextval('users_seq'),'Miloš','Milošević','milosm@gmail.com','1111', '0665656653',1,'Miloša Obilića 13','1973-05-10', 3);
-insert into pharmacy_administrator (id, name, surname, email, password, telephone, pharmacy_id,address,date_of_birth, city_id) values 
-					   (nextval('users_seq'),'Darko','Darković','darkod@gmail.com','1111', '0632547854',2,'Zmaj Jovina 5','1980-05-08', 2);
-					   
+insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Miloš','Milošević', '0665656653',1,'Miloša Obilića 13','1973-05-10', 3);
+insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Darko','Darković', '0632547854',2,'Zmaj Jovina 5','1980-05-08', 2);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'milosm@gmail.com', '1111',  true, '2017-10-01 21:58:58.508-07', 6);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'darkod@gmail.com', '1111',  true, '2017-10-01 18:57:58.508-07', 7);
+
 
 /* password 123 */
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
