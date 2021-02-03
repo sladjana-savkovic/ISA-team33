@@ -84,4 +84,9 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 		
 		return false;
 	}
+
+	@Override
+	public Doctor findDoctorById(int id) {
+		return vacationRepository.findDoctorById(id);
+	}
 }

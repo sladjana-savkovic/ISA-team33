@@ -57,9 +57,10 @@ function rejectRequest(id){
 					
 					$.ajax({
 						type:"GET", 
-						url: "/api/doctor/" + id,
+						url: "/api/vacation/" + id + "/doctor",
 						contentType: "application/json",
 						success:function(doctor){
+							
 							$.ajax({
 								url: "/api/email",
 								type: 'POST',
@@ -67,7 +68,7 @@ function rejectRequest(id){
 								data: JSON.stringify({ 
 									email: doctor.email, 
 									name: doctor.name, 
-									subject: "Odbijanje zahtjeva za godišnji odmor",
+									subject: "Rejection of vacation requests",
 									message: reason}),
 								success: function () {
 								location.reload();	
@@ -112,7 +113,7 @@ function acceptRequest(id){
 					
 					$.ajax({
 						type:"GET", 
-						url: "/api/doctor/" + id,
+						url: "/api/vacation/" + id + "/doctor",
 						contentType: "application/json",
 						success:function(doctor){
 							$.ajax({
@@ -122,8 +123,8 @@ function acceptRequest(id){
 								data: JSON.stringify({ 
 									email: doctor.email, 
 									name: doctor.name, 
-									subject: "Prihavanje zahtjeva za godišnji odmor",
-									message: "Vaš zahtjev za godišnjim odmorom je prihvaćen."}),
+									subject: "Accepting vacation requests",
+									message: "Your vacation request has been accepted."}),
 								success: function () {
 								location.reload();	
 							},
