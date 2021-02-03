@@ -259,8 +259,8 @@ insert into user_account (authority_id, username, password, enabled, last_passwo
 
 					   
 
-insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), true, 4, 1);
-insert into subscription (id, is_canceled, patient_id, pharmacy_action_id) values (nextval('subscriptions_seq'), false, 4, 2);
+insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), true, 4, 1);
+insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), false, 4, 2);
 
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'gold', 10, 100, 51);
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'silver', 5, 50, 21);

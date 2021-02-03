@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
+import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugOfferRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 
@@ -53,6 +54,11 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	@Override
 	public DrugOffer findById(int id) {
 		return drugOfferRepository.getOne(id);
+	}
+
+	@Override
+	public Supplier findSupplierById(int id) {
+		return drugOfferRepository.findSupplierById(id);
 	}
 
 

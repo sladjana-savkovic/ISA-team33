@@ -42,6 +42,8 @@ public class Pharmacy {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
+	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Subscription> subscriptions = new HashSet<Subscription>();
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "doctor_pharmacies", joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "pharmacies_id", referencedColumnName = "id"))

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
+import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyOrderService;
@@ -65,5 +67,11 @@ public class DrugOfferController {
 		DrugOffer drugOffer = drugOfferService.findById(id);
 		DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
 		return new ResponseEntity<DrugOfferDTO>(drugOfferDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/supplier")
+	public ResponseEntity<SupplierDTO> findSupplierById(@PathVariable int id){
+		SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
+		return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 	}
 }
