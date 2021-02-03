@@ -1,4 +1,6 @@
 var doctorId = appConfig.doctorId;
+var doctorAccountId = appConfig.doctorId;
+var doctorObj = null;
 $(document).ready(function () {
 	
 	$.ajax({
@@ -22,10 +24,11 @@ $(document).ready(function () {
 		url: "/api/doctor/" + doctorId,
 		contentType: "application/json",
 		success:function(doctor){
+			doctorObj = doctor;
 			addDoctorInfo(doctor);
 		},
-		error:function(){
-			console.log('error getting doctor');
+		error:function(xhr){
+			console.log(xhr.responseText);
 		}
 	});
 	
@@ -51,24 +54,57 @@ $(document).ready(function () {
 					dateOfBirth: $('#dateOfBirth').val(),
 					phoneNumber: $('#phone').val(),
 					email: $('#email').val(),
-					password: $('#password').val(),
 					address: $('#address').val(),
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
 				success:function(){
-					location.reload();
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed profile informations.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					window.setTimeout(function(){location.reload()},1000);
 					return;
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing profile informations.'
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
 			});
+		});
+	});
+	
+	$('#edit_password').submit(function(event){
+		event.preventDefault();
+		
+		let oldPass = $('#oldPass').val();
+		let newPass = $('#newPass').val();
+		let newPassRepeat = $('#newPassRepeat').val();
+		
+		if(newPass != newPassRepeat){
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Passwords don\'t match.'
+			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+		
+		$.ajax({
+			type:"PUT", 
+			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
+			contentType: "application/json",
+			success:function(){
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				window.setTimeout(function(){location.reload()},1000)
+				return;
+			},
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
 		});
 	});
 });
@@ -79,7 +115,6 @@ function enableFields(){
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
 	$('#email').attr("disabled",false);
-	$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -95,7 +130,6 @@ function addDoctorInfo(doctor){
 	$('#dateOfBirth').val(doctor.dateOfBirth);
 	$('#phone').val(doctor.phoneNumber);
 	$('#email').val(doctor.email);
-	$('#password').val(doctor.password);
 	$('#address').val(doctor.address);
 	
 	changeInputFiledsStatus(false);
@@ -148,8 +182,8 @@ function getCities(countryId){
 				addCities(c);
 			}
 		},
-		error:function(){
-			console.log('error getting cities');
+		error:function(xhr){
+			console.log(xhr.responseText);
 		}
 	});
 }

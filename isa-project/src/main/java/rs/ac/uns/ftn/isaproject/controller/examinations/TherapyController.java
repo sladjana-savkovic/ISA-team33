@@ -18,24 +18,10 @@ import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 public class TherapyController {
 
 	private TherapyService therapyService;
-	private DrugQuantityPharmacyService quantityPharmacyService;
 	
 	@Autowired
-	public TherapyController(TherapyService therapyService,DrugQuantityPharmacyService quantityPharmacyService) {
+	public TherapyController(TherapyService therapyService) {
 		this.therapyService = therapyService;
-		this.quantityPharmacyService = quantityPharmacyService;
 	}
 	
-	@PostMapping("/pharmacy/{pharmacyId}")
-	public ResponseEntity<Void> add(@RequestBody ArrayList<AddTherapyDTO> therapyDTOs, @PathVariable int pharmacyId){
-		try {
-			therapyService.add(therapyDTOs);
-			for(AddTherapyDTO therapyDTO:therapyDTOs) 
-				quantityPharmacyService.reduceDrugQuantity(therapyDTO.drugId, pharmacyId);
-			
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-	}
 }

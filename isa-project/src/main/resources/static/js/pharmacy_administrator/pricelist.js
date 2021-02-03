@@ -72,10 +72,43 @@ $(document).ready(function () {
 					pharmacyId: pharmacyId}),
 				contentType: "application/json",
 				success:function(){
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully created pharmacy action.'
+					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully created pharmacy action.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert_action').append(alert);
-					return;
+					$('#div_alert_action').append(a);
+				
+					$.ajax({
+						type:"GET", 
+						url: "/api/subscription/" + pharmacyId + "/pharmacy-patients",
+						contentType: "application/json",
+						success:function(emails){
+							for(i = 0; i < emails.length; i++){
+								
+								$.ajax({
+									url: "/api/email",
+									type: 'POST',
+									contentType: 'application/json',
+									data: JSON.stringify({ 
+									email: emails[i], 
+									name: "", 
+									subject: name,
+									message: description}),
+									success: function () {
+									location.reload();	
+									},
+									error: function (jqXHR) {
+										let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 			'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+										$('#div_alert').append(a);
+								return;
+							}
+							});	
+								
+							}
+						},
+						error:function(){
+						console.log('error getting patients email');
+					}
+					});
 					
 				},
 				error:function(){
@@ -121,6 +154,7 @@ $(document).ready(function () {
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully created pricelist.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert_action').append(alert);
+					location.reload();
 					return;
 					
 				},

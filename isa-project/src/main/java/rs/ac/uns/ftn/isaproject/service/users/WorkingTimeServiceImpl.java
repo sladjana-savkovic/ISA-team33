@@ -1,5 +1,9 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +41,29 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
 		workingTime.setPharmacy(pharmacy);
 		
 		workingTimeRepository.save(workingTime);
+	}
+
+	@Override
+	public Collection<WorkingTime> findByPharmacyId(int id) {
+		Collection<WorkingTime> workingTimes = workingTimeRepository.findByPharmacyId(id);
+		Collection<WorkingTime> resultWorkingTimes = new ArrayList<WorkingTime>();
+		for(WorkingTime w : workingTimes) {
+			Doctor doctor = doctorRepository.getOne(w.getDoctor().getId());
+			if(doctor.isIsDeleted()==false) {
+				resultWorkingTimes.add(w);
+			}
+		}
+		
+		return resultWorkingTimes;
+	}
+
+	@Override
+	public boolean checkIfDoctorWorkInPharmacy(int pharmacyId, int doctorId, LocalTime startTime, LocalTime endTime) {
+		WorkingTime workingTime = workingTimeRepository.findByPharmacyDoctorId(pharmacyId, doctorId);
+		if((startTime.isAfter(workingTime.getStartTime()) || startTime.equals(workingTime.getStartTime())) && 
+			(endTime.isBefore(workingTime.getEndTime()) || endTime.equals(workingTime.getEndTime()))) {
+				return true;
+		}
+		return false;
 	}
 }

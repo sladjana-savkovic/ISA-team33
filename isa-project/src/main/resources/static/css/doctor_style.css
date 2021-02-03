@@ -1,0 +1,17 @@
+.my-custom-scrollbar {
+position: relative;
+height: 300px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+#calendar {
+   max-width: 1200px;
+   margin: 0 auto;
+   margin-top:100px;
+   margin-bottom:100px;
+}
+.thHover{
+	cursor: pointer;
+}

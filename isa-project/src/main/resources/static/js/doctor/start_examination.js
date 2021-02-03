@@ -43,31 +43,18 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"PUT", 
-				url: "/api/appointment/" + appointment.appointmentId + "/unperformed",
+				url: "/api/appointment/" + appointment.appointmentId + "/patient/" + appointment.patientId + "/unperformed",
 				contentType: "application/json",
 				success:function(){
-					$.ajax({
-						type:"PUT", 
-						url: "/api/patient/" + appointment.patientId + "/increase-penalty",
-						contentType: "application/json",
-						success:function(){
-							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
-								+'Successfully changed appointment status and increased penalties for patient.'
-								+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							location.href = "calendar.html";
-							return;
-						},
-						error:function(){
-							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error increasing penalties for patient.'
-								+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							return;
-						}
-					});
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
+					+'Successfully changed appointment status and increased penalties for patient.'
+					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					window.setTimeout(function(){location.href = "calendar.html"},500);
+					return;
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing appointment status to unperformed .'
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
@@ -208,29 +195,29 @@ $(document).ready(function () {
 	
 	
 	$('#save_prescription').submit(function(event){
-			event.preventDefault();
-			
-			let drugId = $("#drugs option:selected").val();
-			let drugName = $("#drugs option:selected").text();
-			
-			$('#btn_close').click();
-			let duration = $('#duration').val();
-			
-			therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
-			reloadTherapies();
+		event.preventDefault();
+		
+		let drugId = $("#drugs option:selected").val();
+		let drugName = $("#drugs option:selected").text();
+		
+		$('#btn_close').click();
+		let duration = $('#duration').val();
+		
+		therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
+		reloadTherapies();
 	});
 	
 	$('#save_prescription_substitute').submit(function(event){
-			event.preventDefault();
-			
-			let substituteDrugId = $("#substituteDrugs option:selected").val();
-			let substituteDrugName = $("#substituteDrugs option:selected").text();
-			
-			$('#btn_close_substitute').click();
-			let duration = $('#durationSubstitute').val();
-			
-			therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
-			reloadTherapies();
+		event.preventDefault();
+		
+		let substituteDrugId = $("#substituteDrugs option:selected").val();
+		let substituteDrugName = $("#substituteDrugs option:selected").text();
+		
+		$('#btn_close_substitute').click();
+		let duration = $('#durationSubstitute').val();
+		
+		therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		reloadTherapies();
 	});
 	
 	
@@ -240,49 +227,47 @@ $(document).ready(function () {
 	
 	$('#submit_report').submit(function(event){
 		event.preventDefault();
+		
+		let therapyDTOs = [];
+		for(let t of therapies){
+			therapyDTOs.push({"drugId":t.drugId, "duration":t.duration});
+		}
 				
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report",
 			data: JSON.stringify({ 
 				appointmentId: appointmentId, 
-				diagnosis: $('#diagnosis').val()}),
+				diagnosis: $('#diagnosis').val(),
+				pharmacyId : appointment.pharmacyId,
+				therapyDTOs: therapyDTOs}),
 			contentType: "application/json",
-			success:function(examinationReport){
-				
-				let examinationReportId = examinationReport.id;
-				let therapyDTOs = [];
-				for(let t of therapies){
-					therapyDTOs.push({"drugId":t.drugId, "duration":t.duration, "examinationReportId":examinationReportId});
-				}
-				
-				$.ajax({
-					type:"POST", 
-					url: "/api/therapy/pharmacy/" + appointment.pharmacyId,
-					data: JSON.stringify(therapyDTOs),
-					contentType: "application/json",
-					success:function(){
-						disableFields();
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
-						
-					},
-					error:function(){
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error saving therapies.'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
-					}
-				});
+			success:function(){
+				disableFields();
+		
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			},
-			error:function(){
-				console.log("Error saving examination report");
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
 				return;
 			}
 		});
 	});	
+	
+	
+	$('#newApp').click(function(){
+		window.location.href = "create_appointment.html?ptId=" + appointment.patientId + "&phId=" + appointment.pharmacyId;
+	});
+	
+	
+	$('#finish').click(function(){
+		window.location.href = "calendar.html";
+	});
 	
 });
 
@@ -292,11 +277,22 @@ function disableFields(){
 	$('#drugs').attr("disabled",true);
 	$('#check').attr("disabled",true);
 	$('#prescribe').attr("disabled",true);
+	$('#specification').attr("disabled",true);
+	$('#create').attr("disabled",true);
 	
 	$('#collapseTwo').removeClass();
 	$('#collapseTwo').addClass("collapse");
 	$('#collapseOne').removeClass();
 	$('#collapseOne').addClass("collapse");
+	
+	$('#label_drugs').attr("hidden",true);
+	$('#drugs').attr("hidden",true);
+	$('#check').attr("hidden",true);
+	$('#prescribe').attr("hidden",true);
+	$('#specification').attr("hidden",true);
+	$('#create').attr("hidden",true);
+	
+	$('#create_Appointment').attr("hidden",false);
 }
 
 function reloadTherapies(){
@@ -309,13 +305,13 @@ function reloadTherapies(){
 
 function fillInBasicInfo(){
 	$('#patientName').text(appointment.patientName);
-			$('#patientSurname').text(appointment.patientSurname);
-			$('#doctorName').text(appointment.doctorName);
-			$('#doctorSurname').text(appointment.doctorSurname);
-			$('#startTime').text(appointment.startTime.split("T")[0] + " " + appointment.startTime.split("T")[1]);
-			$('#endTime').text(appointment.endTime.split("T")[0] + " " + appointment.endTime.split("T")[1]);
-			$('#pharmacyName').text(appointment.pharmacyName);
-			$('#price').text(appointment.price);
+	$('#patientSurname').text(appointment.patientSurname);
+	$('#doctorName').text(appointment.doctorName);
+	$('#doctorSurname').text(appointment.doctorSurname);
+	$('#startTime').text(appointment.startTime.split("T")[0] + " " + appointment.startTime.split("T")[1]);
+	$('#endTime').text(appointment.endTime.split("T")[0] + " " + appointment.endTime.split("T")[1]);
+	$('#pharmacyName').text(appointment.pharmacyName);
+	$('#price').text(appointment.price);
 };
 
 function addDrug(drug){
