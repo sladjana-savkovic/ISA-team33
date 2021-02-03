@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
@@ -53,13 +51,6 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setCity(city);
 		doctor.setEmail(doctorDTO.email);
 		
-		doctorRepository.save(doctor);
-	}
-
-	@Override
-	public void updatePassword(int id, String password) {
-		Doctor doctor = doctorRepository.getOne(id);
-		doctor.setPassword(password);
 		doctorRepository.save(doctor);
 	}
 

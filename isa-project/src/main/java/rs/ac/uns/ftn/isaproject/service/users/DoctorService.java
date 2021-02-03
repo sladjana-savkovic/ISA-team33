@@ -12,7 +12,6 @@ public interface DoctorService {
 
 	Doctor getOne(int id);
 	void updateInfo(DoctorDTO doctorDTO);
-	void updatePassword(int id, String password);
 	void add(AddDoctorDTO doctorDTO);
 	Collection<Doctor> findByPharmacyId(int id);
 	Collection<ViewSearchedDoctorDTO> searchByNameAndSurname(String name, String surname, Collection<ViewSearchedDoctorDTO> doctorDTOs);

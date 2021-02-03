@@ -20,8 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-//POJO koji implementira Spring Security UserDetails interfejs koji specificira
-//osnovne osobine Spring korisnika (koje role ima, da li je nalog zakljucan, istekao, da li su kredencijali istekli)
+
 @Entity
 public class UserAccount implements UserDetails {
 
@@ -30,7 +29,7 @@ public class UserAccount implements UserDetails {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(unique=true, nullable=false)
     private String username;
@@ -52,11 +51,11 @@ public class UserAccount implements UserDetails {
 	private User user;
     
     
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddVacationRequestDTO;
+import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewVacationRequestDTO;
+import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.mapper.VacationRequestMapper;
 import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
 
@@ -57,4 +59,9 @@ public class VacationRequestController {
 		return new ResponseEntity<Collection<ViewVacationRequestDTO>>(vacationRequestDTOs, HttpStatus.OK);
 	}
 	
+	@GetMapping("/{id}/doctor")
+	public ResponseEntity<DoctorDTO> findDoctorById(@PathVariable int id){
+		DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(vacationService.findDoctorById(id));
+		return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
+	}
 }
