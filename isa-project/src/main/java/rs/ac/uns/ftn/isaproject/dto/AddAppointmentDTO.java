@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.dto;
 
 public class AddAppointmentDTO {
 
+	public int idAppointment;
 	public String startTime;
 	public String endTime;
 	public int idDoctor;
@@ -13,9 +14,10 @@ public class AddAppointmentDTO {
 	
 	public AddAppointmentDTO() {}
 	
-	public AddAppointmentDTO(String startTime, String endTime, int idDoctor, int idPharmacy,
+	public AddAppointmentDTO(int id,String startTime, String endTime, int idDoctor, int idPharmacy,
 			double price, int idPatient) {
 		super();
+		this.idAppointment = id;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.idDoctor = idDoctor;
