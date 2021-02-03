@@ -97,4 +97,18 @@ public class AppointmentController {
 		}
 	}
 	
+	@GetMapping("pharmacy/{pharmacyId}/created")
+	public ResponseEntity<Collection<AppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId){
+		try {
+		Collection<AppointmentDTO> appointmentDTOs = 
+				AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacyDermatologist(pharmacyId));
+		
+		return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+		
+		}catch(Exception e) {
+			//System.out.println("**************************************************"+e.getMessage());
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
 }

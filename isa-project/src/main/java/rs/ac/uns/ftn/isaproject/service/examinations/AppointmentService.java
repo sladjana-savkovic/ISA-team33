@@ -15,5 +15,5 @@ public interface AppointmentService {
 	void schedulePredefinedAppointment(int id, int patientId) throws BadRequestException;
 	Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs);
 	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);
-
+	Collection<Appointment> findAllCreatedByPharmacyDermatologist(int pharmacyId);
 }
