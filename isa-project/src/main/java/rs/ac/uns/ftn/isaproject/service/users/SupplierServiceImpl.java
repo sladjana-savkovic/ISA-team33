@@ -6,19 +6,23 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Supplier;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.SupplierRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
 
 	private CityRepository cityRepository;
 	private SupplierRepository supplierRepository;
+	private UserAccountRepository userAccountRepository;
 	
 	@Autowired
-	public SupplierServiceImpl(SupplierRepository supplierRepository, CityRepository cityRepository) {
+	public SupplierServiceImpl(SupplierRepository supplierRepository, CityRepository cityRepository, UserAccountRepository userAccountRepository) {
 		this.supplierRepository = supplierRepository;
 		this.cityRepository = cityRepository;
+		this.userAccountRepository = userAccountRepository;
 	}
 	
 	@Override
@@ -52,8 +56,12 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public void add(SupplierDTO supplierDTO) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
+	}
+
+	@Override
+	public UserAccount getOne(long id) {
+		return userAccountRepository.getOne(id);
 	}
 	
 }

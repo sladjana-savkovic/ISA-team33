@@ -20,7 +20,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/supplier/" + supplierId,
+		url: "/api/supplier/account/" + supplierId,
 		contentType: "application/json",
 		success:function(supplier){
 			addSupplierInfo(supplier);

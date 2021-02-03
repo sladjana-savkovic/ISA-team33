@@ -40,6 +40,17 @@ public class SupplierController {
 		}
 	}
 	
+	@GetMapping("/account/{id}")
+	public ResponseEntity<SupplierDTO> findOneById(@PathVariable long id) {
+		try {
+			SupplierDTO supplierDTO = SupplierMapper.toSupplierAccountDTO(supplierService.getOne(id));
+			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@PutMapping(consumes = "application/json")
 	public ResponseEntity<Void> updateInfo(@RequestBody SupplierDTO supplierDTO){
 		supplierService.updateInfo(supplierDTO);
