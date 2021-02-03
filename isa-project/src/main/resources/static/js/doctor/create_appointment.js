@@ -1,5 +1,11 @@
-var patientId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
-var pharmacyId = window.location.href.split("?")[1].split("&")[1].split("=")[1];
+try {
+  var patientId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
+  var pharmacyId = window.location.href.split("?")[1].split("&")[1].split("=")[1];
+}
+catch(err) {
+   window.location.href = "calendar.html";
+}
+
 var doctorId = appConfig.doctorId;
 free_appointments = [];
 $(document).ready(function () {
@@ -71,6 +77,64 @@ $(document).ready(function () {
 			error:function(){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching appointments.'
 					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
+		});
+	});
+	
+	
+	$('#createApp').submit(function(event){
+		event.preventDefault();
+		let appDate = $('#appDate').val();
+		let appStartTime = $('#appStartTime').val();
+		let appEndTime = $('#appEndTime').val();
+		
+		let startTime = appDate + "T" + appStartTime + ":00";
+		let endTime = appDate + "T" + appEndTime + ":00";
+		
+		var from_start =appStartTime.split(":");
+		var from_end = appEndTime.split(":");
+		
+		var end_hour = parseInt(from_end[0]);
+		var start_hour = parseInt(from_start[0]);
+		var start_min = parseInt(from_start[1]);
+		var end_min = parseInt(from_end[1]);
+		
+		if(end_hour < start_hour){
+			let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The start time must be less than the end time.'
+		    +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(a);
+			return;
+		}else if(start_hour == end_hour && end_min < start_min){
+			let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The start time must be less than the end time.'
+		    +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(a);
+			return;
+		}
+		
+		$.ajax({
+			type:"POST", 
+			url: "/api/appointment/schedule",
+			data: JSON.stringify({ 
+				startTime: startTime,
+				endTime : endTime,
+				idDoctor: doctorId,
+				idPharmacy: pharmacyId,
+				idPatient: patientId,
+				price: 800}),
+			contentType: "application/json",
+			success:function(){
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				window.setTimeout(function(){location.href = "calendar.html"},1000)
+				return;
+				
+			},
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
 			}

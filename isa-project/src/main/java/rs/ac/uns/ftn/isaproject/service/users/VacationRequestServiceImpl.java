@@ -3,10 +3,8 @@ package rs.ac.uns.ftn.isaproject.service.users;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.isaproject.dto.AddVacationRequestDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.VacationRequestStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -75,14 +73,20 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 	}
 
 	@Override
-	public boolean isDoctorOnVacation(int id_doctor, int id_pharmacy, String date) {
-		String date_parse = date.split(" ")[0];
-		Collection<VacationRequest> requests = vacationRepository.findByDoctorPharmacyId(id_pharmacy, id_doctor);
-		for(VacationRequest r : requests) {
-			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && LocalDate.parse(date_parse).isAfter(r.getStartDate()) && LocalDate.parse(date_parse).isBefore(r.getEndDate())) {
+	public boolean isDoctorOnVacation(int doctorId, int pharmacyId, LocalDate date) {
+		Collection<VacationRequest> vacationRequests = vacationRepository.findByDoctorPharmacyId(pharmacyId, doctorId);
+		
+		for(VacationRequest r : vacationRequests) {
+			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && date.isAfter(r.getStartDate()) && date.isBefore(r.getEndDate())) {
 				return true;
 			}
 		}
+		
 		return false;
+	}
+
+	@Override
+	public Doctor findDoctorById(int id) {
+		return vacationRepository.findDoctorById(id);
 	}
 }
