@@ -42,7 +42,7 @@ public class TokenUtils {
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
 
-	public String generateToken(String username, int userAccountId, String role, int userId) {
+	public String generateToken(String username, Long userAccountId, String role, int userId) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
 				.setSubject(username) //email
