@@ -52,9 +52,4 @@ public class WorkingTimeController {
 		}
 	}
 	
-	@GetMapping("/doctor-pharmacy/{id_doctor}/{id_pharmacy}/{start_time}/{end_time}")
-	public ResponseEntity<Boolean> isDoctorOnVacation(@PathVariable int id_doctor, @PathVariable int id_pharmacy, @PathVariable String start_time, @PathVariable String end_time){
-		boolean result = workingTimeService.isDoctorWorkInPharmacy(id_pharmacy, id_doctor, start_time, end_time);
-		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
-	}
 }
