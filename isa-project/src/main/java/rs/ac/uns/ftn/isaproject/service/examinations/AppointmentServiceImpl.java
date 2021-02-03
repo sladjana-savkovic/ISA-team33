@@ -3,7 +3,6 @@ package rs.ac.uns.ftn.isaproject.service.examinations;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,47 +110,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
 		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
 	}
-	
-	//Metoda vraca true ukoliko se slobodan termin pregleda kod zadatog doktora za zadato vrijeme i datum moze kreirati, u suprotnom vraca false
-	@Override
-	public boolean isAppointmentAvailableToCreate(int doctor_id, String date, String start_time, String end_time) {
-		String date_parse = date.split(" ")[0];
-		String start_time_parse = start_time.split(" ")[1];
-		String end_time_parse = end_time.split(" ")[1];
-		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointments(doctor_id);
-		for(Appointment a : appointments) {
-			if(LocalDate.parse(date_parse).equals(a.getStartTime().toLocalDate()) && 
-			 (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && 
-			 ((LocalTime.parse(start_time_parse).equals(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).equals(a.getEndTime().toLocalTime())) || 
-			  (LocalTime.parse(start_time_parse).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isBefore(a.getEndTime().toLocalTime()))  || 
-			  (LocalTime.parse(start_time_parse).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isAfter(a.getEndTime().toLocalTime())) || 
-			  (LocalTime.parse(start_time_parse).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(start_time_parse).isBefore(a.getEndTime().toLocalTime())) || 
-			  (LocalTime.parse(start_time_parse).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isAfter(a.getStartTime().toLocalTime())))) {
-				return false;
-			}
-		}
-		return true;
-	}
 
-	@Override
-	public void add(AddAppointmentDTO appointmentDTO) {
-		Appointment appointment = new Appointment();
-		Doctor doctor = doctorRepository.getOne(appointmentDTO.idDoctor);
-		Pharmacy pharmacy = pharmacyRepository.getOne(appointmentDTO.idPharmacy);
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
-		LocalDateTime startDateTime = LocalDateTime.parse(appointmentDTO.startTime, formatter);
-		LocalDateTime endDateTime = LocalDateTime.parse(appointmentDTO.endTime, formatter);
-		
-		appointment.setStartTime(startDateTime);
-		appointment.setEndTime(endDateTime);
-		appointment.setPrice(appointmentDTO.price);
-		appointment.setStatus(AppointmentStatus.Created);
-		appointment.setDoctor(doctor);
-		appointment.setPharmacy(pharmacy);
-		
-		appointmentRepository.save(appointment);
-	}
 
 	@Override
 	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {

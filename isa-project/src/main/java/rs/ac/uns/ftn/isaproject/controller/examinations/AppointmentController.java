@@ -118,30 +118,30 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("/doctor/{id_doctor}/date-time/{date}/{start_time}/{end_time}")
-	public ResponseEntity<Boolean> isAppointmentAvailableToCreate(@PathVariable int id_doctor, @PathVariable String date, @PathVariable String start_time, @PathVariable String end_time){
-		boolean result = appointmentService.isAppointmentAvailableToCreate(id_doctor, date, start_time, end_time);
-		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
-	}
-	
-	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody AddAppointmentDTO appointmentDTO) {
-		if(vacationRequestService.isDoctorOnVacation(appointmentDTO.idDoctor, appointmentDTO.idPharmacy, appointmentDTO.startTime)) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	@PostMapping(value="/create", consumes = "application/json")
+	public ResponseEntity<?> createFreeAppointment(@RequestBody AddAppointmentDTO appointmentDTO) {
+		try {
+			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
+			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
+			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
+			
+			if(vacationRequestService.isDoctorOnVacation(appointmentDTO.idDoctor,appointmentDTO.idPharmacy, date)) {
+				return new ResponseEntity<>("The doctor is on vacation at a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			if(!workingTimeService.checkIfDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, startTime, endTime)) {
+					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
+			}
+			if(!appointmentService.isDoctorAvailableForChosenTime(appointmentDTO.idDoctor, date, startTime, endTime)) {
+				return new ResponseEntity<>("The doctor is busy for a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			
+			appointmentService.add(appointmentDTO, AppointmentStatus.Created);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		if(!workingTimeService.isDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, appointmentDTO.startTime, appointmentDTO.endTime)) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		if(!appointmentService.isAppointmentAvailableToCreate(appointmentDTO.idDoctor, appointmentDTO.startTime, appointmentDTO.startTime, appointmentDTO.endTime)) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while creating an appointment.", HttpStatus.BAD_REQUEST);
 		}
 		
-		try{
-			appointmentService.add(appointmentDTO);
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
 	}
 	
 	@PostMapping(value="/schedule", consumes = "application/json")

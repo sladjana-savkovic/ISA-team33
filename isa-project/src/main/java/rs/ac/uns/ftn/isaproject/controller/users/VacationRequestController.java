@@ -57,10 +57,4 @@ public class VacationRequestController {
 		return new ResponseEntity<Collection<ViewVacationRequestDTO>>(vacationRequestDTOs, HttpStatus.OK);
 	}
 	
-	@GetMapping("/doctor-pharmacy/{id_doctor}/{id_pharmacy}/{date}")
-	public ResponseEntity<Boolean> isDoctorOnVacation(@PathVariable int id_doctor, @PathVariable int id_pharmacy, @PathVariable String date){
-		boolean result = vacationService.isDoctorOnVacation(id_doctor, id_pharmacy, date);
-		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
-	}
-	
 }

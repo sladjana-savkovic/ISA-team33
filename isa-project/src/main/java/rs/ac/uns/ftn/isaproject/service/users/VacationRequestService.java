@@ -11,6 +11,5 @@ public interface VacationRequestService {
 	void acceptRequest(int id);
 	void rejectRequest(int id, String reason);
 	Collection<VacationRequest> findCreatedByPharmacyId(int id);
-	boolean isDoctorOnVacation(int id_doctor, int id_pharmacy, String date);
 	boolean isDoctorOnVacation(int doctorId, int pharmacyId, LocalDate date);
 }

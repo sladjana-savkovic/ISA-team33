@@ -19,8 +19,6 @@ public interface AppointmentService {
 	Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs);
 	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);
 	Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId);
-	boolean isAppointmentAvailableToCreate(int doctor_id, String date, String start_time, String end_time);
-	void add(AddAppointmentDTO appointmentDTO);
 	boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime);
 	boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime);
 	void add(AddAppointmentDTO appointmentDTO, AppointmentStatus status);
