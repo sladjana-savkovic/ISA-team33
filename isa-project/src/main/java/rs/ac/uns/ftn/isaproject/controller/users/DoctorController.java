@@ -152,7 +152,7 @@ public class DoctorController {
 	
 	@GetMapping("/{id}/report")
 	public ResponseEntity<Void> report(HttpServletResponse response, @PathVariable int id) throws Exception {
-		response.setContentType("text/html");
+		response.setContentType("text/html; charset=UTF-8");
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(doctorService.report(id));
 		InputStream inputStream = this.getClass().getResourceAsStream("/reports/pharmacy_report.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
