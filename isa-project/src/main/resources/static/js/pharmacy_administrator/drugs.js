@@ -2,7 +2,7 @@ var pharmacyAdminId = 6;
 var pharmacyId;
 var orderId;
 var searchDrugs = [];
-
+var selectedDrugs = [];
 $(document).ready(function () {
 	
 	$('#limitDate').prop("min",new Date().toISOString().split("T")[0]);
@@ -28,8 +28,40 @@ $(document).ready(function () {
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
-			
-		$('#order').submit(function(event){
+	
+	$('#drug_quantity').submit(function(event){
+		event.preventDefault();
+		
+		let drug_id = $('#drug').val();
+		let quantity = $('#quantity').val();
+		
+		$.ajax({
+			type:"GET", 
+			url: "/api/drug/" + drug_id,
+			contentType: "application/json",
+			success:function(drug){	
+			let item = drug_id + "-" + quantity;
+			for(i=0; i<selectedDrugs.length; i++){
+				if(selectedDrugs[i] == item){
+				let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Drug with that quantity already exist.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(a);
+					return;
+				}
+			}
+				selectedDrugs.push(item);
+				let row = $('<tr><td>'+ drug.name +'</td><td>' + quantity + '</td></tr>');	
+				$('#check_drugs').append(row);
+			},
+			error:function(){
+				console.log('error getting drugs');
+			}
+		});
+		
+		
+	});
+	
+	$('#order').submit(function(event){
 		event.preventDefault();
 		
 		let limitDate = $('#limitDate').val();
@@ -43,9 +75,6 @@ $(document).ready(function () {
 					idPharmacyAdmn: pharmacyAdminId}),
 				contentType: "application/json",
 				success:function(){
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully submit order limit date.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
 					return;
 					
 				},
@@ -56,13 +85,12 @@ $(document).ready(function () {
 					return;
 				}
 		});
+		
 	});
 	
-	$('#drug_quantity').submit(function(event){
+	$('a#yes').click(function(event){
+	
 		event.preventDefault();
-		
-		let drug = $('#drug').val();
-		let quantity = $('#quantity').val();
 		
 		$.ajax({
 			type:"GET", 
@@ -70,7 +98,9 @@ $(document).ready(function () {
 			contentType: "application/json",
 			success:function(id){	
 				orderId = id;
-				
+			for(i=0; i<selectedDrugs.length; i++){
+				let drug = selectedDrugs[i].split("-")[0];
+				let quantity = selectedDrugs[i].split("-")[1];
 				$.ajax({
 				type:"POST", 
 				url: "/api/order/drug-quantity",
@@ -80,6 +110,7 @@ $(document).ready(function () {
 					idPharmacyOrder: orderId}),
 				contentType: "application/json",
 				success:function(){
+					location.reload();
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully add drug in order.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
@@ -92,7 +123,8 @@ $(document).ready(function () {
 					$('#div_alert').append(alert);
 					return;
 				}
-		});
+			});
+		}
 				
 			},
 			error:function(){

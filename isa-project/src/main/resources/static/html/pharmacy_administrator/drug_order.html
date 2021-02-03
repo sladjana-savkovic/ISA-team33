@@ -19,20 +19,6 @@
 		<div class="card">
 			<h5 class="card-header info-color white-text text-center py-4"><strong>Create an drug order</strong></h5>
 			<div class="card-body px-lg-5">
-				<form style="color: #757575;" id="order">
-					 
-					 <div class="row w-100 p-3 h-50">
-					 	<div class="col">
-					 		<label class="text-secondary mb-0">Limit date for offer:</label><br>
-					 	</div>
-					 	<div class="col">
-					 		<input type="date" class="form-control" id="limitDate" required>
-					 	</div>
-					 </div>
-					 
-					 <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect" type="submit" id="create_order">Sumbit date</button>
-					 
-			    </form>
 			    
 			    <form style="color: #757575;" id="drug_quantity">
 					 
@@ -53,9 +39,39 @@
 					 	</div>
 					 </div>
 					 
-					 <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect" type="submit" id="create_quantity">Add an drug to the order</button>
+					 <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect" type="submit" id="create_quantity">Add drug</button>
+					 
+					 <div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="check_drugs">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Selected drug</th>
+			        			<th scope="col" style="width: 400px;">Quantity</th>
+			        			<th scope="col"></th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_check_drugs"></tbody>
+			        </table>
+		        </div>
+					  
 					 
 			    </form>
+			    
+			    <form style="color: #757575;" id="order">
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Limit date for offer:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="date" class="form-control" id="limitDate" required>
+					 	</div>
+					 </div>
+					 
+					 <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect"  data-toggle="modal" data-target="#modalOrder" type="submit" id="create_order">Create order</button>
+					 
+			    </form>
+			    
 		    </div>
 	    </div>
     </div>
@@ -106,6 +122,36 @@
     </div>
 
 	<div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
+	
+	
+	<!--Modal: modalConfirmDelete-->
+  <div class="modal fade" id="modalOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-success" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Are you sure you want to create an order?</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+
+        <i class="fas fa-check fa-4x animated rotateIn"></i>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer flex-center">
+        <a href="" class="btn  btn-outline-success" id="yes">Yes</a>
+        <a type="button" class="btn  btn-success waves-effect" data-dismiss="modal" id="no">No</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmDelete-->
 	
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

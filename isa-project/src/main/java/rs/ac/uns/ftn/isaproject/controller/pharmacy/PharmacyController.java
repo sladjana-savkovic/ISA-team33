@@ -15,6 +15,7 @@ import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
+import rs.ac.uns.ftn.isaproject.mapper.PharmacyMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyService;
@@ -48,5 +49,11 @@ public class PharmacyController {
 		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
 		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs);
 		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+	}
+	
+	@GetMapping()
+	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
+		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
+		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
 	}
 }
