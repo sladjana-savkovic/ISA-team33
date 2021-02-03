@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import java.nio.file.AccessDeniedException;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +31,10 @@ public class SupplierController {
 	}
 	
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<SupplierDTO> findOneById(@PathVariable int id) {
+	@GetMapping("/account/{id}")
+	public ResponseEntity<SupplierDTO> findOneById(@PathVariable long id) throws AccessDeniedException {
 		try {
-			SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(supplierService.getOne(id));
+			SupplierDTO supplierDTO = SupplierMapper.toSupplierAccountDTO(supplierService.getOne(id));
 			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {

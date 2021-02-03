@@ -1,4 +1,4 @@
-var supplierId = 8;
+var patientId = 3;
 
 $(document).ready(function () {
 	
@@ -14,21 +14,36 @@ $(document).ready(function () {
 			getCities($("#countrySelect option:selected").val());
 		},
 		error:function(){
-			console.log('error getting supplier countries');
+			console.log('error getting patients countries');
 		}
 	});
+	 
+	$.ajax({
+		type:"GET",
+		url:"/api/drug",
+		contentType:"application/json",
+		success:function(drugs){
+			for(let drug of drugs){
+				addDrug(drug, patientId)
+			}
+		},
+		error:function(){
+			alert('error getting drugs')
+		}
+	})
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/supplier/account/" + supplierId,
+		url: "/api/patient/" + patientId,
 		contentType: "application/json",
-		success:function(supplier){
-			addSupplierInfo(supplier);
+		success:function(patient){
+			addPatientInfo(patient);
 		},
 		error:function(){
-			console.log('error getting supplier');
+			console.log('error getting patient');
 		}
 	});
+
 	
 	$("#countrySelect" ).change(function() {
 	  	getCities($("#countrySelect option:selected").val());
@@ -39,20 +54,29 @@ $(document).ready(function () {
 		enableFields();
 		$('#change').text("Save");
 		
+		var amenities = []
+		var $boxes = $('input[name=amenities]:checked');
+		$boxes.each(function(){
+			amenities.push({"id":$(this).val()})
+		})
+		
+		
 		$('#edit_profile').submit(function(event){
 			event.preventDefault();
 			
 			$.ajax({
 				type:"PUT", 
-				url: "/api/supplier",
+				url: "/api/patient",
 				data: JSON.stringify({ 
-					id:supplierId,
+					id:patientId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					telephone: $('#phone').val(),
-					//email: $('#email').val(),
-					//password: $('#password').val(),
+					dateOfBirth: $('#dateOfBirth').val(),
+					email: $('#email').val(),
+					password: $('#password').val(),
 					address: $('#address').val(),
+					allergies: amenities,
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
 				success:function(){
@@ -76,9 +100,10 @@ $(document).ready(function () {
 function enableFields(){
 	$('#name').attr("disabled",false);
 	$('#surname').attr("disabled",false);
+	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
 	//$('#email').attr("disabled",false);
-	//$('#password').attr("disabled",false);
+	$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -88,18 +113,19 @@ function enableFields(){
 };
 
 
-function addSupplierInfo(supplier){
-	$('#name').val(supplier.name);
-	$('#surname').val(supplier.surname);
-	$('#phone').val(supplier.telephone);
-	$('#email').val(supplier.email);
-	//$('#password').val(supplier.password);
-	$('#address').val(supplier.address);
+function addPatientInfo(patient){
+	$('#name').val(patient.name);
+	$('#surname').val(patient.surname);
+	$('#dateOfBirth').val(patient.dateOfBirth);
+	$('#phone').val(patient.telephone);
+	$('#email').val(patient.email);
+	$('#password').val(patient.password);
+	$('#address').val(patient.address);
 	
 	changeInputFiledsStatus(false);
 	changeSelectOptionsStatus(true);
-	$("#countryInput").val(supplier.countryName);
-	$("#cityInput").val(supplier.cityName);	
+	$("#countryInput").val(patient.countryName);
+	$("#cityInput").val(patient.cityName);	
 }
 
 function changeInputFiledsStatus(hidden){
@@ -149,4 +175,25 @@ function getCities(countryId){
 			console.log('error getting cities');
 		}
 	});
+}
+
+function addDrug(drug, patientId){
+	let div = $('<div class="form-check"></div>')
+	let input = $('<input type="checkbox" class="form-check-input" id="' + drug.id + '" name="amenities" value="' + drug.id + '" >')
+	let label =  $('<label class="form-check-label" for="' + drug.id + '">' + drug.name + '</label>')
+	$.ajax({
+		type:"GET", 
+		url: "/api/patient/" + patientId + "/allergy/" + drug.id,
+		contentType: "application/json",
+		success:function(check){
+				if(check == true){
+					input.attr('checked', 'checked');
+				}
+		},
+		error:function(){
+			console.log('error getting patient');
+		}
+	});
+	div.append(input).append(label)
+	$("#checkboxes").append(div)
 }

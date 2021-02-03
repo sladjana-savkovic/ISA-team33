@@ -1,6 +1,9 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
 import java.util.Collection;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
+import rs.ac.uns.ftn.isaproject.mapper.PatientMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugService;
@@ -69,6 +74,17 @@ public class DrugController {
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getAllDrugs());
 			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<DrugDTO> getById(@PathVariable int id){
+		try {
+			Drug drug = drugService.getById(id);
+			DrugDTO drugDTO = new DrugDTO(drug.getId(), drug.getName(), drug.getTypeOfDrug().toString(), drug.getTypeOfDrugsForm().toString(), drug.getProducer(), null, drug.getContraindication(), drug.getDailyDose());
+			return new ResponseEntity<DrugDTO>(drugDTO, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}

@@ -66,7 +66,7 @@ function rejectRequest(id){
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
-									email: doctor.email, 
+									email: "dcarapic1998@gmail.com", 
 									name: doctor.name, 
 									subject: "Rejection of vacation requests",
 									message: reason}),

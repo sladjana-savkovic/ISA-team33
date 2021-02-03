@@ -11,7 +11,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../../lib/mdb/css/mdb.min.css" rel="stylesheet">
-<title>Supplier Profile</title>
+<title>Profile</title>
 </head>
 <body>
 
@@ -34,6 +34,14 @@
 					 	</div>
 					 	<div class="col">
 					 		<input type="text" class="form-control" id="surname" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Date of birth:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="date" class="form-control" id="dateOfBirth" required disabled>
 					 	</div>
 					 </div>
 				     <div class="row w-100 p-3 h-50">
@@ -78,7 +86,48 @@
 					 		<input type="text" class="form-control" id="email" required disabled>
 					 	</div>
 					 </div>
-
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Password:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="password" class="form-control" id="password" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="form-group">
+	                  		<div class="col">
+						 		<label class="text-secondary mb-0">Allergies:</label><br>
+						 	</div>
+			                <div class="col">
+			                    <div class="input-group" id="checkboxes"></div>
+			                </div>
+                		</div>
+					 </div>
+					<!-- <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Kategorija:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="text" class="form-control" id="category" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Poeni:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="text" class="form-control" id="poens" required disabled>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Pogodnosti:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<input type="text" class="form-control" id="benefits" required disabled>
+					 	</div>
+					 </div> -->
 					 <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="change">Edit</button>
 			    </form>
 		    </div>
@@ -91,7 +140,8 @@
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../../js/navbars/supplier.js"></script>
-    <script type="text/javascript" src="../../js/supplier/supplier_profile.js"></script>
+  <!--  <script type="text/javascript" src="../../js/navbars/dermatologist.js"></script> -->
+	<script type="text/javascript" src="../../js/config.js"></script>
+    <script type="text/javascript" src="../../js/patient/patient_profile.js"></script>
 </body>
 </html>
