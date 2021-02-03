@@ -1,7 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.time.LocalDate;
 import java.util.Collection;
-
 import rs.ac.uns.ftn.isaproject.dto.AddVacationRequestDTO;
 import rs.ac.uns.ftn.isaproject.model.users.VacationRequest;
 
@@ -11,5 +11,5 @@ public interface VacationRequestService {
 	void acceptRequest(int id);
 	void rejectRequest(int id, String reason);
 	Collection<VacationRequest> findCreatedByPharmacyId(int id);
-	boolean isDoctorOnVacation(int id_doctor, int id_pharmacy, String date);
+	boolean isDoctorOnVacation(int doctorId, int pharmacyId, LocalDate date);
 }
