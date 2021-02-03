@@ -3,10 +3,8 @@ package rs.ac.uns.ftn.isaproject.service.users;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.isaproject.dto.AddVacationRequestDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.VacationRequestStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -83,6 +81,19 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	@Override
+	public boolean isDoctorOnVacation(int doctorId, int pharmacyId, LocalDate date) {
+		Collection<VacationRequest> vacationRequests = vacationRepository.findByDoctorPharmacyId(pharmacyId, doctorId);
+		
+		for(VacationRequest r : vacationRequests) {
+			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && date.isAfter(r.getStartDate()) && date.isBefore(r.getEndDate())) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 }

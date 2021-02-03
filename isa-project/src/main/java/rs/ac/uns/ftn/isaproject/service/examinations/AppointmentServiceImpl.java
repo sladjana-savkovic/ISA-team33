@@ -120,7 +120,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 		String end_time_parse = end_time.split(" ")[1];
 		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointments(doctor_id);
 		for(Appointment a : appointments) {
-			if(LocalDate.parse(date_parse).equals(a.getStartTime().toLocalDate()) && (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && ((LocalTime.parse(start_time_parse).equals(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).equals(a.getEndTime().toLocalTime())) || (LocalTime.parse(start_time_parse).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isBefore(a.getEndTime().toLocalTime()))  || (LocalTime.parse(start_time_parse).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isAfter(a.getEndTime().toLocalTime())) || (LocalTime.parse(start_time_parse).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(start_time_parse).isBefore(a.getEndTime().toLocalTime())) || (LocalTime.parse(start_time_parse).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isAfter(a.getStartTime().toLocalTime())) ) ) {
+			if(LocalDate.parse(date_parse).equals(a.getStartTime().toLocalDate()) && 
+			 (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && 
+			 ((LocalTime.parse(start_time_parse).equals(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).equals(a.getEndTime().toLocalTime())) || 
+			  (LocalTime.parse(start_time_parse).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isBefore(a.getEndTime().toLocalTime()))  || 
+			  (LocalTime.parse(start_time_parse).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isAfter(a.getEndTime().toLocalTime())) || 
+			  (LocalTime.parse(start_time_parse).isAfter(a.getStartTime().toLocalTime()) && LocalTime.parse(start_time_parse).isBefore(a.getEndTime().toLocalTime())) || 
+			  (LocalTime.parse(start_time_parse).isBefore(a.getStartTime().toLocalTime()) && LocalTime.parse(end_time_parse).isAfter(a.getStartTime().toLocalTime())))) {
 				return false;
 			}
 		}
@@ -143,6 +149,54 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setStatus(AppointmentStatus.Created);
 		appointment.setDoctor(doctor);
 		appointment.setPharmacy(pharmacy);
+		
+		appointmentRepository.save(appointment);
+	}
+
+	@Override
+	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		Collection<Appointment> doctorAppointments = appointmentRepository.getDoctorAppointments(doctorId);
+		return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
+	}
+
+	@Override
+	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		Collection<Appointment> patientAppointments = appointmentRepository.getPatientAppointments(patientId);
+		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
+	}
+	
+	private boolean checkIfAppointmentMathces(Collection<Appointment> appointments, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		for(Appointment a : appointments) {
+			if(date.equals(a.getStartTime().toLocalDate()) && 
+			 (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && 
+			 ((startTime.equals(a.getStartTime().toLocalTime()) && endTime.equals(a.getEndTime().toLocalTime())) || 
+			  (startTime.isAfter(a.getStartTime().toLocalTime()) && endTime.isBefore(a.getEndTime().toLocalTime()))  || 
+			  (startTime.isBefore(a.getStartTime().toLocalTime()) && endTime.isAfter(a.getEndTime().toLocalTime())) || 
+			  (startTime.isAfter(a.getStartTime().toLocalTime()) && startTime.isBefore(a.getEndTime().toLocalTime())) || 
+			  (startTime.isBefore(a.getStartTime().toLocalTime()) && endTime.isAfter(a.getStartTime().toLocalTime())))) {
+					return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void add(AddAppointmentDTO appointmentDTO, AppointmentStatus status) {
+		Appointment appointment = new Appointment();
+		Doctor doctor = doctorRepository.getOne(appointmentDTO.idDoctor);
+		Pharmacy pharmacy = pharmacyRepository.getOne(appointmentDTO.idPharmacy);
+		
+		appointment.setStartTime(LocalDateTime.parse(appointmentDTO.startTime));
+		appointment.setEndTime(LocalDateTime.parse(appointmentDTO.endTime));
+		appointment.setPrice(appointmentDTO.price);
+		appointment.setStatus(status);
+		appointment.setDoctor(doctor);
+		appointment.setPharmacy(pharmacy);
+		
+		if(status == AppointmentStatus.Scheduled) {
+			Patient patient = patientRepository.getOne(appointmentDTO.idPatient);
+			appointment.setPatient(patient);
+		}
 		
 		appointmentRepository.save(appointment);
 	}

@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.isaproject.controller.examinations;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,5 +143,34 @@ public class AppointmentController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@PostMapping(value="/schedule", consumes = "application/json")
+	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
+		try {
+			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
+			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
+			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
+			
+			if(vacationRequestService.isDoctorOnVacation(appointmentDTO.idDoctor,appointmentDTO.idPharmacy, date)) {
+				return new ResponseEntity<>("The doctor is on vacation at a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			if(!workingTimeService.checkIfDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, startTime, endTime)) {
+					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
+			}
+			if(!appointmentService.isDoctorAvailableForChosenTime(appointmentDTO.idDoctor, date, startTime, endTime)) {
+				return new ResponseEntity<>("The doctor is busy for a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			if(!appointmentService.isPatientAvailableForChosenTime(appointmentDTO.idPatient, date, startTime, endTime)) {
+				return new ResponseEntity<>("The patient is busy for a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			
+			appointmentService.add(appointmentDTO, AppointmentStatus.Scheduled);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while scheduling an appointment.", HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	
 }
