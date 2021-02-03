@@ -1,4 +1,3 @@
-/*Lozinke su hesovane pomocu https://bcrypt-generator.com/ gdje je Rounds=10 */
 /*Lozinke za sve usere su 123*/
 
 insert into AUTHORITY (id, name) VALUES (1, 'ROLE_PATIENT');
