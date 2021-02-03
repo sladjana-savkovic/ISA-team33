@@ -13,8 +13,8 @@ $(document).ready(function () {
 				addDoctorPharmacy(dp);
 			}
 		},
-		error:function(){
-			console.log('error getting doctor pharmacies');
+		error:function(xhr){
+			console.log(xhr.responseText);
 		}
 	});
 	
@@ -53,8 +53,8 @@ $(document).ready(function () {
 					return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error creating vacation request.'
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;

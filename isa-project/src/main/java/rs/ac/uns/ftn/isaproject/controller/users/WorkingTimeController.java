@@ -1,14 +1,22 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import java.util.Collection;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.ViewWorkingTimeDTO;
 import rs.ac.uns.ftn.isaproject.dto.WorkingTimeDTO;
+import rs.ac.uns.ftn.isaproject.mapper.ViewWorkingTimeMapper;
 import rs.ac.uns.ftn.isaproject.service.users.WorkingTimeService;
 
 @RestController
@@ -31,5 +39,22 @@ public class WorkingTimeController {
 		catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/{id}/pharmacy")
+	public ResponseEntity<Collection<ViewWorkingTimeDTO>> findByPharmacyId(@PathVariable int id) {
+		try {
+			Collection<ViewWorkingTimeDTO> workingTimeDTOs = ViewWorkingTimeMapper.toViewWorkingTimeDTOs(workingTimeService.findByPharmacyId(id));
+			return new ResponseEntity<Collection<ViewWorkingTimeDTO>>(workingTimeDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/doctor-pharmacy/{id_doctor}/{id_pharmacy}/{start_time}/{end_time}")
+	public ResponseEntity<Boolean> isDoctorOnVacation(@PathVariable int id_doctor, @PathVariable int id_pharmacy, @PathVariable String start_time, @PathVariable String end_time){
+		boolean result = workingTimeService.isDoctorWorkInPharmacy(id_pharmacy, id_doctor, start_time, end_time);
+		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
 	}
 }
