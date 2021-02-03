@@ -70,7 +70,7 @@ $(document).ready(function () {
 						error: function () {
 							$('#close_btn').click();
 							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
-							+ 'Successfully appointment scheduling, but an error occurred while sending an email'
+							+ 'Successfully appointment scheduling, but an error occurred while sending an email.'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 							$('#div_alert').append(alert);
 							cleanLocalStorage();
