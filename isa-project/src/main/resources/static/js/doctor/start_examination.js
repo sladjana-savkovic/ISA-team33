@@ -261,7 +261,9 @@ $(document).ready(function () {
 	
 	
 	$('#newApp').click(function(){
-		window.location.href = "create_appointment.html?ptId=" + appointment.patientId + "&phId=" + appointment.pharmacyId;
+		window.location.href = "create_appointment.html"
+		localStorage.setItem("patientId", appointment.patientId);
+		localStorage.setItem("pharmacyId", appointment.pharmacyId);
 	});
 	
 	

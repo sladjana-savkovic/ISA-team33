@@ -1,6 +1,10 @@
 try {
-  var patientId = window.location.href.split("?")[1].split("&")[0].split("=")[1];
-  var pharmacyId = window.location.href.split("?")[1].split("&")[1].split("=")[1];
+	var patientId = localStorage.getItem("patientId");
+	var pharmacyId = localStorage.getItem("pharmacyId");
+	
+	if(patientId == null || pharmacyId == null){
+		window.location.href = "calendar.html";
+	}
 }
 catch(err) {
    window.location.href = "calendar.html";
@@ -45,7 +49,7 @@ $(document).ready(function () {
 				contentType: "application/json",
 				success:function(){
 					
-					let message = "You have a new examination scheduled. See a list of future appointments.";
+					let message = "You have a new scheduled examination. See a list of future appointments.";
 					
 					$.ajax({
 						url: "/api/email/" + patientId,
@@ -59,6 +63,7 @@ $(document).ready(function () {
 							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 							$('#div_alert').append(alert);
+							cleanLocalStorage();
 							window.setTimeout(function(){location.href = "calendar.html"},500)
 							return;
 						},
@@ -68,6 +73,7 @@ $(document).ready(function () {
 							+ 'Successfully appointment scheduling, but an error occurred while sending an email'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 							$('#div_alert').append(alert);
+							cleanLocalStorage();
 							window.setTimeout(function(){location.href = "calendar.html"},500)
 							return;
 						}
@@ -138,6 +144,8 @@ $(document).ready(function () {
 			return;
 		}
 		
+		$('#createAppBtn').attr("disabled",true);
+		
 		$.ajax({
 			type:"POST", 
 			url: "/api/appointment/schedule",
@@ -150,23 +158,54 @@ $(document).ready(function () {
 				price: 800}),
 			contentType: "application/json",
 			success:function(){
-				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
-				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				window.setTimeout(function(){location.href = "calendar.html"},1000)
-				return;
+				
+				let message = "You have a new scheduled examination. See a list of future appointments.";
+					
+				$.ajax({
+					url: "/api/email/" + patientId,
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify({ 
+						 subject: "Scheduling new appointment",
+						 message: message}),
+					success: function () {
+						$('#close_btn').click();
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						cleanLocalStorage();
+						window.setTimeout(function(){location.href = "calendar.html"},500)
+						return;
+					},
+					error: function () {
+						$('#close_btn').click();
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
+						+ 'Successfully appointment scheduling, but an error occurred while sending an email'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						cleanLocalStorage();
+						window.setTimeout(function(){location.href = "calendar.html"},500)
+						return;
+					}
+				});	
 				
 			},
 			error:function(xhr){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
+				$('#createAppBtn').attr("disabled",false);
 				return;
 			}
 		});
 	});
 	
 });
+
+function cleanLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
+};
 
 
 function addAppointment(a){
