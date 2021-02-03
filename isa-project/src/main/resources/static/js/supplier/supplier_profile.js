@@ -50,9 +50,8 @@ $(document).ready(function () {
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					telephone: $('#phone').val(),
-					//dateOfBirth: $('#dateOfBirth').val(),
-					email: $('#email').val(),
-					password: $('#password').val(),
+					//email: $('#email').val(),
+					//password: $('#password').val(),
 					address: $('#address').val(),
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
@@ -77,10 +76,9 @@ $(document).ready(function () {
 function enableFields(){
 	$('#name').attr("disabled",false);
 	$('#surname').attr("disabled",false);
-	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	$('#email').attr("disabled",false);
-	$('#password').attr("disabled",false);
+	//$('#email').attr("disabled",false);
+	//$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -93,10 +91,9 @@ function enableFields(){
 function addSupplierInfo(supplier){
 	$('#name').val(supplier.name);
 	$('#surname').val(supplier.surname);
-	//$('#dateOfBirth').val(supplier.dateOfBirth);
 	$('#phone').val(supplier.telephone);
 	$('#email').val(supplier.email);
-	$('#password').val(supplier.password);
+	//$('#password').val(supplier.password);
 	$('#address').val(supplier.address);
 	
 	changeInputFiledsStatus(false);

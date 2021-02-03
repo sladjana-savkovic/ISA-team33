@@ -31,17 +31,6 @@ public class SupplierController {
 	}
 	
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<SupplierDTO> findOneById(@PathVariable int id) {
-		try {
-			SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(supplierService.getOne(id));
-			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
-		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-	
 	@GetMapping("/account/{id}")
 	public ResponseEntity<SupplierDTO> findOneById(@PathVariable long id) throws AccessDeniedException {
 		try {

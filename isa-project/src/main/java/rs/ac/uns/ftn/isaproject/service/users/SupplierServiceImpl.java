@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
-import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,6 @@ public class SupplierServiceImpl implements SupplierService {
 		
 		supplier.setName(supplierDTO.name);
 		supplier.setSurname(supplierDTO.surname);
-		//supplier.setDateOfBirth(supplierDTO.dateOfBirth);
-		supplier.setEmail(supplierDTO.email);
-		supplier.setPassword(supplierDTO.password);
 		supplier.setTelephone(supplierDTO.telephone);		
 		supplier.setAddress(supplierDTO.address);
 		supplier.setCity(city);

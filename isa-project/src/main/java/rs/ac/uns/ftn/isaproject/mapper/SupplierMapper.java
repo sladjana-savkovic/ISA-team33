@@ -33,10 +33,10 @@ public class SupplierMapper {
 				 supplierAccount.getUser().getDateOfBirth(), 
 				 supplierAccount.getUsername(), 
 				 supplierAccount.getPassword(),
-				 supplierAccount.getUser().getCity().getId(),
-				 supplierAccount.getUser().getCity().getName(),
 				 supplierAccount.getUser().getCity().getCountry().getId(), 
-				 supplierAccount.getUser().getCity().getCountry().getName(), 
+				 supplierAccount.getUser().getCity().getCountry().getName(),
+				 supplierAccount.getUser().getCity().getId(),
+				 supplierAccount.getUser().getCity().getName(),				 				  
 				 supplierAccount.getUser().getAddress(),
 				 supplierAccount.getUser().getTelephone());
 	}
