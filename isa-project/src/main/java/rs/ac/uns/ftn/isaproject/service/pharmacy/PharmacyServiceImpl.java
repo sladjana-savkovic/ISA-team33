@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +22,10 @@ public class PharmacyServiceImpl implements PharmacyService {
 	public Pharmacy findOneById(int id) {
 		
 		return pharmacyRepository.findOneById(id);
+	}
+
+	@Override
+	public Collection<Pharmacy> findAll() {
+		return pharmacyRepository.findAll();
 	}
 }
