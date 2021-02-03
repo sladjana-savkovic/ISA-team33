@@ -291,11 +291,40 @@ function acceptOffer(id){
 				url: "/api/drug-offer/" + id,
 				contentType: "application/json",
 				success:function(){
-					location.reload();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully accept offer.'
+					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully accept offer.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
+					$('#div_alert').append(a);
+					$.ajax({
+						type:"GET", 
+						url: "/api/drug-offer/" + id + "/supplier",
+						contentType: "application/json",
+						success:function(supplier){
+							$.ajax({
+								url: "/api/email",
+								type: 'POST',
+								contentType: 'application/json',
+								data: JSON.stringify({ 
+									email: supplier.email, 
+									name: supplier.name, 
+									subject: "Accepting drug offer",
+									message: "Your offer has been accepted."}),
+								success: function () {
+								location.reload();	
+							},
+							error: function (jqXHR) {
+								let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 		'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+								$('#div_alert').append(a);
+								return;
+							}
+							});	
+					
+					},
+					error:function(){
+						console.log('error getting doctor');
+					}
+					});
+					
 				},
 				error:function(){
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept offer.'
@@ -322,13 +351,43 @@ function acceptOffer(id){
 									url: "/api/drug-offer/" + offers[i].id + "/reject",
 									contentType: "application/json",
 									success:function(){
-									location.reload();
-									return;
+									
+									$.ajax({
+										type:"GET", 
+										url: "/api/drug-offer/" + id + "/supplier",
+										contentType: "application/json",
+										success:function(supplier){
+											$.ajax({
+											url: "/api/email",
+											type: 'POST',
+											contentType: 'application/json',
+											data: JSON.stringify({ 
+											email: supplier.email, 
+											name: supplier.name, 
+											subject: "Rejection drug offer",
+											message: "Your offer has been rejected."}),
+											success: function () {
+											location.reload();	
+											},
+											error: function (jqXHR) {
+											let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 					'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+											$('#div_alert').append(a);
+										return;
+										}
+									});	
+					
+					},
+					error:function(){
+						console.log('error getting supplier');
+					}
+					});
+									
 								},
 									error:function(){
-									let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject offer.'
+									let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject offer.'
 										+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-										$('#div_alert').append(alert);
+										$('#div_alert').append(a);
 										return;
 									}
 								});
@@ -347,7 +406,6 @@ function acceptOffer(id){
 												url: "/api/drug-quantity-pharmacy/" + drug_id + "/" + pharmacyId + "/" + quantity + "/increase",
 												contentType: "application/json",
 												success:function(result){
-													alert(result);
 													if(result == false){
 														$.ajax({
 															type:"POST", 
@@ -358,16 +416,16 @@ function acceptOffer(id){
 															quantity: quantity}),
 															contentType: "application/json",
 															success:function(){
-																let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully add new drug.'
+																let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully add new drug.'
 																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-																$('#div_alert').append(alert);
+																$('#div_alert').append(a);
 																return;
 					
 															},
 															error:function(){
-																let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error adding new drug.'
+																let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error adding new drug.'
 																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-																$('#div_alert').append(alert);
+																$('#div_alert').append(a);
 																return;
 															}
 														});

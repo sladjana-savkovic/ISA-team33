@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.service.pharmacy;
 import java.util.Collection;
 
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
+import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 
 public interface DrugOfferService {
 	
@@ -11,4 +12,5 @@ public interface DrugOfferService {
 	Collection<DrugOffer> findByPharmacyOrderId(int id);
 	Collection<DrugOffer> findByPharmacyId(int id);
 	DrugOffer findById(int id);
+	Supplier findSupplierById(int id);
 }
