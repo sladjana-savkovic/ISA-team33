@@ -28,8 +28,7 @@ public class DrugServiceImpl implements DrugService{
 	
 	@Override
 	public void add(AddDrugDTO drugDTO) {
-		Drug drug = new Drug();
-		
+		Drug drug = new Drug();		
 		drug.setName(drugDTO.name);
 		drug.setCode(drugDTO.code);
 		drug.setContraindication(drugDTO.contraindication);
@@ -41,11 +40,13 @@ public class DrugServiceImpl implements DrugService{
 		drug.setDailyDose(drugDTO.dailyDose);
 		
 		Collection<Drug> substituteDrugs = drugRepository.findByIds(drugDTO.substituteDrugList);
-		Collection<Ingredient> ingredients = ingredientRepository.findByIds(drugDTO.drugIngredientsList);
-		
-		//drug.setIngredients((Set<Ingredient>) ingredients);
-		//drug.setSubstituteDrugs((Set<Drug>) substituteDrugs);
-		
+		Collection<Ingredient> ingredients = ingredientRepository.findByIds(drugDTO.drugIngredientsList);		
+		for (Ingredient i : ingredients) {
+			drug.getIngredients().add(i);			
+		}
+		for (Drug d : substituteDrugs) {
+			drug.getSubstituteDrugs().add(d);			
+		}				
 		drugRepository.save(drug);
 	}
 
