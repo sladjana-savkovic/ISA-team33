@@ -22,10 +22,10 @@ insert into city (id,name,country_id) values (5,'Zagreb',4);
 insert into city (id,name,country_id) values (6,'Skoplje',5);
 insert into city (id,name,country_id) values (7,'Ljubljana',6);
 
-insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Janković', 4.5, 1, 'Lasla Gala 89');
-insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Betty', 5.0, 2, 'Danila Kiša 7');
-insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Pharma',3.7, 2,'Gavrila Principa 8' );
-insert into pharmacy (id, name, average_grade, city_id, address) values (nextval('pharmacies_seq'),'Crvena apoteka', 4.8, 3, 'Cara Lazara 23');
+insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude) values (nextval('pharmacies_seq'),'Janković', 4.5, 2, 'Lasla Gala 15', 45.246101, 19.837765);
+insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude) values (nextval('pharmacies_seq'),'Betty', 5.0, 2, 'Danila Kiša 17', 45.247523, 19.836453);
+insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude) values (nextval('pharmacies_seq'),'Pharma',3.7, 2,'Gavrila Principa 8', 45.248707, 19.811935);
+insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude) values (nextval('pharmacies_seq'),'Crvena apoteka', 4.8, 1, 'Cara Lazara 15', 44.817567, 20.454853);
 
 
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted) 

@@ -37,6 +37,12 @@ public class Pharmacy {
 	private String address;
 	
 	@Column(unique=false, nullable=true)
+	private double latitude;
+	
+	@Column(unique=false, nullable=true)
+	private double longitude;
+	
+	@Column(unique=false, nullable=true)
 	private double averageGrade;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -109,6 +115,22 @@ public class Pharmacy {
 
 	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 	
 }
