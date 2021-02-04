@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.isaproject.dto;
 
 import java.time.LocalDate;
-import java.util.Collection;
 
 public class AddDoctorDTO {
 
