@@ -35,7 +35,6 @@ public class DrugQuantityPharmacyController {
 	@GetMapping("/{drugId}/{pharmacyId}/availability")
 	public ResponseEntity<Boolean> checkAvailability(@PathVariable int drugId, @PathVariable int pharmacyId){
 		boolean availability = quantityPharmacyService.checkDrugAvailability(drugId, pharmacyId);
-		availability = false;
 		
 		if(!availability) {
 			notificationService.add(new NotificationDTO(drugId, pharmacyId));
