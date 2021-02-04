@@ -24,6 +24,7 @@ import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventDTOMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
@@ -172,10 +173,11 @@ public class AppointmentController {
 		}
 	}
 
-	@GetMapping("/patient/{id_patient}/dermatologists/scheduled")
-	public ResponseEntity<Collection<AppointmentDTO>> getPatientsScheduledAppointmentsDermatologists(@PathVariable int id_patient){
+	@GetMapping("/patient/{id_patient}/{doctorType}/scheduled")
+	public ResponseEntity<Collection<AppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
 		try {
-			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDermatologists(id_patient));
+			TypeOfDoctor type = doctorType.equals("dermatologists") ? TypeOfDoctor.Dermatologist : TypeOfDoctor.Pharmacist;
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDoctor(id_patient, type));
 			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
@@ -189,17 +191,9 @@ public class AppointmentController {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>("An error occurred while changing appointment status to cancelled.", HttpStatus.BAD_REQUEST);
 		}
 	}
-	@GetMapping("/patient/{id_patient}/pharmacist/scheduled")
-	public ResponseEntity<Collection<AppointmentDTO>> getPatientsScheduledAppointmentsPharmacists(@PathVariable int id_patient){
-		try {
-			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsPharmacists(id_patient));
-			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
-		}
-		catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
+	
 }

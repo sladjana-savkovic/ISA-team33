@@ -164,36 +164,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public Collection<Appointment> getPatientsScheduledAppointmentsDermatologists(int patientId) {
-		Collection<Appointment> appointments = appointmentRepository.findAll();
-		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
-		for(Appointment a : appointments) {
-			if(a.getStatus() == AppointmentStatus.Scheduled && a.getPatient().getId() == patientId && a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Dermatologist) {
-				resultAppointments.add(a);
-			}
-		}
-		return resultAppointments;
+	public Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType) {
+		Collection<Appointment> appointments = appointmentRepository.findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(patientId,doctorType,AppointmentStatus.Scheduled);
+		return appointments;
 	}
 	@Override
 	public void cancelAppointment(int id) throws Exception {
-		Appointment appointment = appointmentRepository.getOne(id);
+		Appointment appointment = appointmentRepository.findById(id).get();
 		
-		if(appointment.getStatus() != AppointmentStatus.Scheduled || appointment.getStartTime().isAfter(LocalDateTime.now().minus(Period.ofDays(1))))
+		if(appointment.getStatus() != AppointmentStatus.Scheduled || !appointment.getStartTime().isAfter(LocalDateTime.now().plus(Period.ofDays(1))))
 			throw new BadRequestException("The appointment cannot be cancelled.");
 		
 		appointment.setStatus(AppointmentStatus.Canceled);
 		appointment.setPatient(null);
 		appointmentRepository.save(appointment);
 	}
-	@Override
-	public Collection<Appointment> getPatientsScheduledAppointmentsPharmacists(int patientId) {
-		Collection<Appointment> appointments = appointmentRepository.findAll();
-		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
-		for(Appointment a : appointments) {
-			if(a.getStatus() == AppointmentStatus.Scheduled && a.getPatient().getId() == patientId && a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Pharmacist) {
-				resultAppointments.add(a);
-			}
-		}
-		return resultAppointments;
-	}
+	
 }
