@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +45,7 @@ public class ExaminationReportController {
 	}
 	
 	@GetMapping("/doctor/{id}/status/{status}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllByDoctorIdAndStatus(@PathVariable int id, @PathVariable int status){
 		Collection<ExaminedPatientDTO> examinationReports = 
 				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllByDoctorIdAndStatus(id, status));
@@ -51,12 +53,14 @@ public class ExaminationReportController {
 	}
 	
 	@PostMapping("/search/{name}/{surname}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<ExaminedPatientDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ExaminedPatientDTO> examinedPatientDTOs){
 		Collection<ExaminedPatientDTO> searchResult = examinationReportService.searchByNameAndSurname(name, surname, examinedPatientDTOs);
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
 		try {
 			ExaminationReport examinationReport = examinationReportService.add(examinationReportDTO);
@@ -75,6 +79,7 @@ public class ExaminationReportController {
 	}
 	
 	@GetMapping("/patient/{patientId}/doctor/{doctorId}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> getByPatientAtDoctor(@PathVariable int patientId, @PathVariable int doctorId){
 		try {
 			Collection<ExaminationReportDTO> examinationReportDTOs = ExaminationReportMapper.toExaminationReportDTO(examinationReportService.getByPatientAtDoctor(patientId, doctorId));

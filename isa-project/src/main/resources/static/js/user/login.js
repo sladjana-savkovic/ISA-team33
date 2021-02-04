@@ -27,9 +27,7 @@ $(document).ready(function () {
 				data: JSON.stringify(userInfoDTO),
 				success: function (token) {
 					localStorage.setItem('token', token.accessToken);
-					
-					alert('token ' + token.accessToken);
-					
+					redirectUser(token.accessToken);
 				},
 				error: function (jqXHR) {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert"> ERROR! '
@@ -42,3 +40,20 @@ $(document).ready(function () {
 		}
 	});
 });
+
+function redirectUser(token){
+	let role = decodeToken(token).role;
+	if(role == "ROLE_PHARMACIST" || role == "ROLE_DERMATOLOGIST"){
+    	 window.location.href = "../doctor/calendar.html";
+	}
+}
+
+function decodeToken(token) {
+   var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
