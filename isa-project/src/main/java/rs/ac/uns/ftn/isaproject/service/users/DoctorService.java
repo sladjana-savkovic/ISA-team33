@@ -2,7 +2,6 @@ package rs.ac.uns.ftn.isaproject.service.users;
 
 import java.util.Collection;
 import java.util.Map;
-
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;

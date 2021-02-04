@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.DrugReservationDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugReservationMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
@@ -39,11 +38,12 @@ public class DrugReservationController {
 	@PutMapping("/{id}")
 	public ResponseEntity<?> confirmReservation(@PathVariable int id){
 		try {
-			drugReservationService.confirmReservation(id);
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			DrugReservation drugReservation =  drugReservationService.confirmReservation(id);
+			return new ResponseEntity<Integer>(drugReservation.getPatient().getId(), HttpStatus.OK);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while confirming a reservation.", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 }

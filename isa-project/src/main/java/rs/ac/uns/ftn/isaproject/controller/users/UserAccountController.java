@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
-import java.nio.file.AccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +9,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.UserAccountDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
-import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
+import rs.ac.uns.ftn.isaproject.mapper.UserAccountMapper;
 import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 import org.springframework.http.MediaType;
 
@@ -25,11 +25,16 @@ public class UserAccountController {
 	public UserAccountController(UserAccountService userAccountService) {
 		this.userAccountService = userAccountService;
 	}
-
 	
-	@GetMapping("/{id}")
-	public UserAccount getOne(@PathVariable Long id) throws AccessDeniedException {
-		return userAccountService.findById(id);
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> findUserAccount(@PathVariable int userId) {
+		try {
+			UserAccountDTO userAccountDTO = UserAccountMapper.toAccountDTO(userAccountService.findByUserId(userId));
+			return new ResponseEntity<UserAccountDTO>(userAccountDTO, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("The requested user account doesn't exist in the database.", HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@PutMapping("/{id}/password/{oldPassword}/{newPassword}")

@@ -49,7 +49,6 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setTelephone(doctorDTO.phoneNumber);
 		doctor.setAddress(doctorDTO.address);
 		doctor.setCity(city);
-		doctor.setEmail(doctorDTO.email);
 		
 		doctorRepository.save(doctor);
 	}
@@ -152,6 +151,5 @@ public class DoctorServiceImpl implements DoctorService {
 		}
 		return result;
 	}
-
 
 }

@@ -17,15 +17,16 @@ public class DoctorMapper {
 			typeOfDoctor = "Farmaceut";
 		}
 		
-		return new DoctorDTO(doctor.getId(),doctor.getName(),doctor.getSurname(),doctor.getDateOfBirth(),doctor.getEmail(),doctor.getPassword(),
-						     doctor.getAddress(), doctor.getCity().getId(),doctor.getCity().getName(),doctor.getCity().getCountry().getId(),
-						     doctor.getCity().getCountry().getName(), doctor.getAverageGrade(),typeOfDoctor, doctor.getTelephone());
+		return new DoctorDTO(doctor.getId(),doctor.getName(),doctor.getSurname(),doctor.getDateOfBirth(),
+						     doctor.getAddress(), doctor.getCity().getId(),doctor.getCity().getName(),
+							 doctor.getCity().getCountry().getId(),doctor.getCity().getCountry().getName(), doctor.getAverageGrade(),typeOfDoctor, 
+							 doctor.getTelephone());
 	}
 	
 	public static Collection<DoctorDTO> toDoctoryDTOs(Collection<Doctor> doctors){
 		Collection<DoctorDTO> doctorDTOs = new ArrayList<>();
 		for(Doctor d:doctors) {
-			doctorDTOs.add(new DoctorDTO(d.getId(), d.getName(), d.getSurname(), d.getDateOfBirth(), d.getEmail(), d.getPassword(), d.getAddress(), 
+			doctorDTOs.add(new DoctorDTO(d.getId(), d.getName(), d.getSurname(), d.getDateOfBirth(), d.getAddress(), 
 							d.getCity().getId(), d.getCity().getName(),d.getCity().getCountry().getId(), d.getCity().getCountry().getName(), 
 							d.getAverageGrade(), d.getTypeOfDoctor().toString(), d.getTelephone()));
 		}
