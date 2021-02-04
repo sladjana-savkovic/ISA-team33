@@ -79,6 +79,41 @@ $(document).ready(function () {
 		});
 	});
 	
+	
+	$('#searchFuture').submit(function(event){
+		event.preventDefault();
+		
+		let name = "&";
+		let surname = "&";
+		let name_surname = $('#search_field_future').val().split(' ');
+		
+		if(name_surname[0]){
+		 name = name_surname[0];
+		}
+		if(name_surname[1]){
+		 surname = name_surname[1];
+		}
+
+		$.ajax({
+			type:"POST", 
+			url: "/api/examination-report/search/" + name + "/" + surname,
+			data: JSON.stringify(futurePatients),
+			contentType: "application/json",
+			success:function(searchResult){
+				$('#body_patients_future').empty();
+				for (let p of searchResult){
+					addFuturePatient(p);
+				}
+			},
+			error:function(){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
+		});
+	});
+	
 });
 
 function addPatient(patient){
