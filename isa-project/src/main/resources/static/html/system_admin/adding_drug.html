@@ -26,7 +26,7 @@
                     <div class="card">
                         <div class="card-header bg-info text-white">
                             <h4 class="card-title mb-0">
-                                Drug information
+                                New drug
                             </h4>
                         </div>
 
@@ -70,10 +70,10 @@
                                     <label for="drug_form" class="text-secondary">Drug form *</label>
                                     <select id="drug_form" class="custom-select" required>
                                         <option value="" disabled selected hidden>Choose form</option>
-                                        <option id="1" value="Capsule">Capsule</option>
-  										<option id="2" value="Tablet">Tablet</option>
-  										<option id="3" value="Injection">Injection</option>
-  										<option id="4" value="Liquid">Liquid</option>
+                                        <option id="0" value="Capsule">Capsule</option>
+  										<option id="1" value="Tablet">Tablet</option>
+  										<option id="2" value="Injection">Injection</option>
+  										<option id="3" value="Liquid">Liquid</option>
                                     </select>
                                 </div>
                             </div>
@@ -103,20 +103,11 @@
 									<label for="prescription" class="text-secondary"> Allowed on prescription</label><br>
                                 </div>                              
                             </div>
-                             
-                            <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="ingredients" class="text-secondary">Ingredients *</label>                                   
-                                    <select id="ingredients" class="custom-select" required>
-
-                                    </select>
-                                </div>
-                            </div>
-                            
+                                                       
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="substitute_drugs" class="text-secondary">Substitute drugs *</label>                                   
-                                    <select id="substitute_drugs" class="custom-select" required>
+                                    <select id="substitute_drugs" class="custom-select" >
 
                                     </select>
                                 </div>
@@ -126,18 +117,45 @@
                     </div>
                 </div>
             </div>
+            
+            
+            <div class="row">
+                <div class="col p-4">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h4 class="card-title mb-0">
+                                Drug ingredients
+                            </h4>
+                        </div>
 
+                        <div class="card-body p-3">
+
+                            <div class="form-row">
+                                <div class="form-group col">
+                                    <label for="ingredients" class="text-secondary">Ingredients *</label>                                   
+                                    <select id="ingredients" class="custom-select" >
+									<option value="" disabled selected hidden>Choose ingredient</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+            
 
             <div class="row">
                 <div class="col p-4">
-                    <input type="submit" class="btn btn-success btn-lg btn-block mb-4" value="Register" id="register">
+                    <input type="submit" class="btn btn-success btn-lg btn-block mb-4" value="Add" id="register">
                 </div>
             </div>
 
         </form>
 
     </div>
-
 
 
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
