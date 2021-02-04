@@ -3,8 +3,10 @@ package rs.ac.uns.ftn.isaproject.service.examinations;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
@@ -157,6 +160,29 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointment.setPatient(patient);
 		}
 		
+		appointmentRepository.save(appointment);
+	}
+
+	@Override
+	public Collection<Appointment> getPatientsScheduledAppointmentsDermatologists(int patientId) {
+		Collection<Appointment> appointments = appointmentRepository.findAll();
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for(Appointment a : appointments) {
+			if(a.getStatus() == AppointmentStatus.Scheduled && a.getPatient().getId() == patientId && a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Dermatologist) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
+	}
+	@Override
+	public void cancelDermatologist(int id) throws Exception {
+		Appointment appointment = appointmentRepository.getOne(id);
+		
+		if(appointment.getStatus() != AppointmentStatus.Scheduled || appointment.getStartTime().isAfter(LocalDateTime.now().minus(Period.ofDays(1))))
+			throw new BadRequestException("The appointment cannot be cancelled.");
+		
+		appointment.setStatus(AppointmentStatus.Canceled);
+		appointment.setPatient(null);
 		appointmentRepository.save(appointment);
 	}
 }

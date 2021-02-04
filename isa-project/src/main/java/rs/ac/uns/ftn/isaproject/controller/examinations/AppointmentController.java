@@ -172,5 +172,24 @@ public class AppointmentController {
 		}
 	}
 
-	
+	@GetMapping("/patient/{id_patient}/dermatologists/scheduled")
+	public ResponseEntity<Collection<AppointmentDTO>> getPatientsScheduledAppointmentsDermatologists(@PathVariable int id_patient){
+		try {
+			Collection<AppointmentDTO> appointmentEventDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDermatologists(id_patient));
+			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentEventDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	@PutMapping("/{id}/cancel")
+	public ResponseEntity<?> cancelDermatologist(@PathVariable int id){
+		try {
+			appointmentService.cancelDermatologist(id);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("An error occurred while changing appointment status to cancelled.", HttpStatus.BAD_REQUEST);
+		}
+	}
 }
