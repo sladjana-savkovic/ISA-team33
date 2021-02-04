@@ -1,5 +1,6 @@
 var appConfig={
-    'doctorId' : 1
+    'doctorId' : 2,
+    'doctorRole': "ROLE_PHARMACIST"
 }
 
 $(document).ready(function () {

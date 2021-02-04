@@ -7,6 +7,7 @@ try {
 	}
 }
 catch(err) {
+   localStorage.clear();
    window.location.href = "calendar.html";
 }
 
@@ -63,7 +64,7 @@ $(document).ready(function () {
 							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 							$('#div_alert').append(alert);
-							cleanLocalStorage();
+							localStorage.clear();
 							window.setTimeout(function(){location.href = "calendar.html"},500)
 							return;
 						},
@@ -73,7 +74,7 @@ $(document).ready(function () {
 							+ 'Successfully appointment scheduling, but an error occurred while sending an email.'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 							$('#div_alert').append(alert);
-							cleanLocalStorage();
+							localStorage.clear();
 							window.setTimeout(function(){location.href = "calendar.html"},500)
 							return;
 						}
@@ -173,7 +174,7 @@ $(document).ready(function () {
 						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
-						cleanLocalStorage();
+						localStorage.clear();
 						window.setTimeout(function(){location.href = "calendar.html"},500)
 						return;
 					},
@@ -183,7 +184,7 @@ $(document).ready(function () {
 						+ 'Successfully appointment scheduling, but an error occurred while sending an email'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
-						cleanLocalStorage();
+						localStorage.clear();
 						window.setTimeout(function(){location.href = "calendar.html"},500)
 						return;
 					}
@@ -201,11 +202,6 @@ $(document).ready(function () {
 	});
 	
 });
-
-function cleanLocalStorage(){
-	localStorage.removeItem("patientId");
-	localStorage.removeItem("pharmacyId");
-};
 
 
 function addAppointment(a){
