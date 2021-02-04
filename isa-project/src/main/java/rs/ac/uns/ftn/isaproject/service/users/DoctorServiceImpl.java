@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
@@ -15,6 +17,7 @@ import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
+import rs.ac.uns.ftn.isaproject.model.users.Patient;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
@@ -25,12 +28,14 @@ public class DoctorServiceImpl implements DoctorService {
 	private DoctorRepository doctorRepository;
 	private CityRepository cityRepository;
 	private PharmacyRepository pharmacyRepository;
+	private UserAccountService userAccountService;
 	
 	@Autowired
-	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository) {
+	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository, UserAccountService userAccountService) {
 		this.doctorRepository = doctorRepository;
 		this.cityRepository = cityRepository;
 		this.pharmacyRepository = pharmacyRepository;
+		this.userAccountService = userAccountService;
 	}
 
 	@Override
@@ -150,6 +155,21 @@ public class DoctorServiceImpl implements DoctorService {
 			result.add(item);
 		}
 		return result;
+	}
+
+	
+	@Override
+	public void add(AddDermatologistDTO dermatologistDTO) {
+		Doctor dermatologist = new Doctor();		
+		City city = cityRepository.getOne(dermatologistDTO.cityId);
+		dermatologist.setCity(city);				
+		dermatologist.setName(dermatologistDTO.name);
+		dermatologist.setSurname(dermatologistDTO.surname);
+		dermatologist.setTelephone(dermatologistDTO.phoneNumber);	
+		dermatologist.setAddress(dermatologistDTO.address);		
+		dermatologist.setDateOfBirth(dermatologistDTO.dateOfBirth);
+		dermatologist.setTypeOfDoctor(TypeOfDoctor.Dermatologist);		
+		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", false, dermatologist);	
 	}
 
 }
