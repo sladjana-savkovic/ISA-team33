@@ -21,4 +21,6 @@ public interface DoctorService {
 	void deleteDoctor(int id);
 	Collection<Doctor> getDoctorWithoutWorkingTime(int id);
 	Collection<Map<String, Object>> report(int idPharmacy);
+	void addDermatologistInPharmacy(int id, int idPharmacy);
+	Collection<Doctor> findDoctorNotInPharmacy(int id);
 }

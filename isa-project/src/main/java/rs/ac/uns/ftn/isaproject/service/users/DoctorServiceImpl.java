@@ -169,4 +169,28 @@ public class DoctorServiceImpl implements DoctorService {
 		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", false, dermatologist);	
 	}
 
+	@Override
+	public void addDermatologistInPharmacy(int id, int idPharmacy) {
+		Doctor doctor = doctorRepository.getOne(id);
+		Set<Pharmacy> pharmacies = doctor.getPharmacies();
+		Pharmacy pharmacy = pharmacyRepository.getOne(idPharmacy);
+		pharmacies.add(pharmacy);
+		doctor.setPharmacies(pharmacies);
+		doctorRepository.save(doctor);
+		
+	}
+
+	@Override
+	public Collection<Doctor> findDoctorNotInPharmacy(int id) {
+		Pharmacy pharmacy = pharmacyRepository.getOne(id);
+		Collection<Doctor> allDoctors = doctorRepository.findAll();
+		Collection<Doctor> doctors = new ArrayList<Doctor>();
+		for(Doctor d: allDoctors) {
+			if(!d.getPharmacies().contains(pharmacy) && d.isIsDeleted() == false) {
+				doctors.add(d);
+			}
+		}
+		return doctors;
+	}
+
 }
