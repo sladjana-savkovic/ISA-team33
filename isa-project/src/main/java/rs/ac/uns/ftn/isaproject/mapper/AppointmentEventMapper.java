@@ -38,7 +38,7 @@ public class AppointmentEventMapper {
 				else {
 					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + " " + title; 
 				}
-				url = "http://localhost:8080/html/doctor/start_examination.html?" + a.getId();
+				url = Integer.toString(a.getId());
 				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#fe0202"));
 			}
 			

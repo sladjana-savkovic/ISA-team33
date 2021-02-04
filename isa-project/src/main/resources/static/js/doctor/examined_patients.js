@@ -1,6 +1,8 @@
 var doctorId = appConfig.doctorId;
 var examinedPatients = [];
 $(document).ready(function () {
+	
+	localStorage.clear();
 
 	$.ajax({
 		type:"GET", 
