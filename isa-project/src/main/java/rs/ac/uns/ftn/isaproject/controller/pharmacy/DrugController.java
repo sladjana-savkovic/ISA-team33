@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import rs.ac.uns.ftn.isaproject.dto.AddDrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
@@ -36,9 +38,9 @@ public class DrugController {
 	
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody DrugDTO drugDTO) {
+	public ResponseEntity<Void> add(@RequestBody AddDrugDTO drugDTO) {
 		try {
-			drugService.add(drugDTO);
+			//drugService.add(drugDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

@@ -18,22 +18,59 @@ $(document).ready(function () {
 		let notes = $('#notes').val();
 		let producer = $('#producer').val();
 		let daily_dose = $('#daily_dose').val();
-		let typeOfDrug = $("#type_of_drug option:selected").attr("id");;
-		let drugForm = $("#drug_form option:selected").attr("id");;
-		let prescription = 0;
+		let typeOfDrug = $("#type_of_drug option:selected").val();
+		let drugForm = $("#drug_form option:selected").val();
+		let prescription = false;
 		if (document.getElementById('prescription').checked) {
-			prescription = 1;
+			prescription = true;
 		}
 			
-		
 		if (!$.isNumeric(daily_dose)) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Field daily dose must have digits.'
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
-		}				
-		else {						
-
+		}
+		if (drugIngredientsList.length == 0) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Ingredients list is empty!'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}						
+		else {																										
+			var newDrug = {
+				"name": name,
+				"code": code,
+				"contraindication": contraindication,
+				"notes": notes,
+				"producer": producer,
+				"typeOfDrug": typeOfDrug,
+				"drugForm": drugForm,
+				"dailyDose": parseInt(daily_dose),
+				"prescription": prescription,
+				"substituteDrugList": substituteDrugList,
+				"drugIngredientsList": drugIngredientsList
+			};				
+			
+			$.ajax({
+				url: "/api/drug",
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(newDrug),
+				success: function () {
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful!'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				},
+				error: function (jqXHR) {
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						 'Unsuccessful! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});												
+					
 		}
 	});
 });
@@ -67,8 +104,8 @@ function addIngredientInComboBox(ingredient) {
 
 function chooseIngredient() {	
 	let ingredientId = $("#ingredients option:selected").attr("id");	
-	if (!drugIngredientsList.includes(ingredientId)) {		
-		drugIngredientsList.push(ingredientId);		
+	if (!drugIngredientsList.includes(parseInt(ingredientId))){		
+		drugIngredientsList.push(parseInt(ingredientId));		
 		$('table#table_ingredients').append('<tr><td>' + $("#ingredients option:selected").val() + ' </td> </tr>');		
 	}			
 };
@@ -101,12 +138,9 @@ function addDrugsInComboBox(drug) {
 
 function chooseSubstituteDrugs() {
 	let drugId = $("#substitute_drugs option:selected").attr("id");	
-	if (!substituteDrugList.includes(drugId)) {		
-		substituteDrugList.push(drugId);		
+	if (!substituteDrugList.includes(parseInt(drugId))) {		
+		substituteDrugList.push(parseInt(drugId));		
 		$('table#table_substitute_drugs').append('<tr><td>' + $("#substitute_drugs option:selected").val() + ' </td> </tr>');		
 	}		
 }
-
-
-
 
