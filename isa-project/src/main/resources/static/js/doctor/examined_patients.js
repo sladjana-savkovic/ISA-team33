@@ -1,12 +1,14 @@
 var doctorId = appConfig.doctorId;
+var doctorRole = appConfig.doctorRole;
 var examinedPatients = [];
+var futurePatients = [];
 $(document).ready(function () {
 	
 	localStorage.clear();
 
 	$.ajax({
 		type:"GET", 
-		url: "/api/examination-report/doctor/" + doctorId,
+		url: "/api/examination-report/doctor/" + doctorId + "/status/3",
 		contentType: "application/json",
 		success:function(patients){
 			$('#body_patients').empty();
@@ -19,6 +21,29 @@ $(document).ready(function () {
 			console.log('error getting examined patients');
 		}
 	});
+	
+	if(doctorRole == "ROLE_PHARMACIST"){
+		$('#futurePatients').attr("hidden",false);
+		
+		$.ajax({
+		type:"GET", 
+		url: "/api/examination-report/doctor/" + doctorId + "/status/1",
+		contentType: "application/json",
+		success:function(patients){
+			$('#body_patients_future').empty();
+			futurePatients = patients;
+			for (let p of patients){
+				addFuturePatient(p);
+			}
+		},
+		error:function(){
+			console.log('error getting future patients');
+		}
+	});
+	}else{
+		$('#futurePatients').attr("hidden",true);
+	}
+	
 	
 	$('#search').submit(function(event){
 		event.preventDefault();
@@ -59,14 +84,23 @@ $(document).ready(function () {
 function addPatient(patient){
 	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
 			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id)" style="margin-left:30px;">Details</button></td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientExaminations(this.id)">Examinations</button></td></tr>');	
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id,0)" style="margin-left:30px;">Details</button></td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientExaminations(this.id,0)">Examinations</button></td></tr>');	
 	$('#patients').append(row);
 }
 
-function patientDetail(patientId){
+function addFuturePatient(patient){
+	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
+			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id,1)" style="margin-left:30px;">Details</button></td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientExaminations(this.id,1)">Examinations</button></td></tr>');	
+	$('#patientsFuture').append(row);
+}
+
+function patientDetail(patientId, type){
 	
-	for(let p of examinedPatients){
+	if(type == 0){
+		for(let p of examinedPatients){
 		if(p["id"] == patientId){
 			$('#pNameSurname').text(p.name + " " + p.surname);
 			$('#pBirth').text(p.dateOfBirth);
@@ -75,12 +109,27 @@ function patientDetail(patientId){
 			$('#patientInfo').modal('toggle');
 			$('#patientInfo').modal('show');
 		}
+		}
 	}
+	else{
+		for(let p of futurePatients){
+		if(p["id"] == patientId){
+			$('#pNameSurname').text(p.name + " " + p.surname);
+			$('#pBirth').text(p.dateOfBirth);
+			$('#pAddress').text(p.address);
+			$('#pAllergies').text(p.allergies);
+			$('#patientInfo').modal('toggle');
+			$('#patientInfo').modal('show');
+		}
+		}
+	}
+	
 };
 
-function patientExaminations(patientId){
+function patientExaminations(patientId, type){
 	
-	for(let p of examinedPatients){
+	if(type == 0){
+		for(let p of examinedPatients){
 		if(p["id"] == patientId){
 			$.ajax({
 				type:"GET", 
@@ -99,7 +148,31 @@ function patientExaminations(patientId){
 				}
 			});
 		}
+		}
+	}else{
+		for(let p of futurePatients){
+		if(p["id"] == patientId){
+			$.ajax({
+				type:"GET", 
+				url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId,
+				contentType: "application/json",
+				success:function(reports){
+					$('#body_pExaminations').empty();
+					for (let r of reports){
+						addReport(r);
+					}
+					$('#patientExaminations').modal('toggle');
+					$('#patientExaminations').modal('show');
+				},
+				error:function(){
+					console.log('error getting examined patients');
+				}
+			});
+		}
+		}
 	}
+	
+	
 };
 
 function addReport(report){

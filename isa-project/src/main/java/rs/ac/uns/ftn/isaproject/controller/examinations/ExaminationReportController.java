@@ -43,10 +43,10 @@ public class ExaminationReportController {
 		this.quantityPharmacyService = quantityPharmacyService;
 	}
 	
-	@GetMapping("/doctor/{id}")
-	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllByDoctorIdOrderByDate(@PathVariable int id){
+	@GetMapping("/doctor/{id}/status/{status}")
+	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllByDoctorIdAndStatus(@PathVariable int id, @PathVariable int status){
 		Collection<ExaminedPatientDTO> examinationReports = 
-				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllFinishedByDoctorId(id));
+				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllByDoctorIdAndStatus(id, status));
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinationReports, HttpStatus.OK);
 	}
 	
