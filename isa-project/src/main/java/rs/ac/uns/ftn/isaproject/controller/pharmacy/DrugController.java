@@ -40,7 +40,7 @@ public class DrugController {
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody AddDrugDTO drugDTO) {
 		try {
-			//drugService.add(drugDTO);
+			drugService.add(drugDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
