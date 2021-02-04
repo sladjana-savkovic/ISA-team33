@@ -42,7 +42,7 @@ $(document).ready(function () {
 			return;
 		}
 		
-		if (!$.isNumeric(telephone) || telephone.toString().length > 20) {
+		else if (!$.isNumeric(telephone) || telephone.toString().length > 20) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Phone number must have less than 20 digits.'
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
@@ -50,12 +50,7 @@ $(document).ready(function () {
 		}
 		
 		
-		if ($("form#registration").hasClass("unsuccessful")) {
-			return;
-		}
-		else {
-			$("form#registration").removeClass("unsuccessful");
-						
+		else {				
 			var roleId = $("#role option:selected").attr("id");
 			if (parseInt(roleId) == 2) {
 				alert("admin_pharmacy")
@@ -233,8 +228,7 @@ function getAllPharmacies() {
                                     '<label for="pharmacy" class="text-secondary">Pharmacy *</label> ' +                                
                                     '<select id="pharmacy" class="custom-select" required> ' +
                                     '</select>' + 
-                                    '<div class="invalid-feedback"> Please enter a pharmacy.' +
-                                   '</div></div></div>');									
+                                    '</div></div>');									
 				
 					$('select#pharmacy').append('<option value="" disabled selected hidden>Choose pharmacy</option>');
 					for (let i = 0; i < pharmacies.length; i++) {
