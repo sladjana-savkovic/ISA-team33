@@ -80,16 +80,14 @@ $(document).ready(function () {
 						type:"GET", 
 						url: "/api/subscription/" + pharmacyId + "/pharmacy-patients",
 						contentType: "application/json",
-						success:function(emails){
-							for(i = 0; i < emails.length; i++){
+						success:function(idies){
+							for(i = 0; i < idies.length; i++){
 								
 								$.ajax({
-									url: "/api/email",
+									url: "/api/email/" + idies[i],
 									type: 'POST',
 									contentType: 'application/json',
-									data: JSON.stringify({ 
-									email: emails[i], 
-									name: "", 
+									data: JSON.stringify({  
 									subject: name,
 									message: description}),
 									success: function () {
