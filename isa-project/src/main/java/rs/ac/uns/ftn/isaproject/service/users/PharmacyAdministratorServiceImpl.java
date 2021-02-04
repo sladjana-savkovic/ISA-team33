@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.service.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.dto.AddPharmacyAdministratorDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyAdministratorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -59,8 +60,9 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 		
 	}
 
+	
 	@Override
-	public void add(PharmacyAdministratorDTO pharmacyAdministratorDTO) {
+	public void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) {
 		PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();		
 		City city = cityRepository.getOne(pharmacyAdministratorDTO.cityId);
 		pharmacyAdministrator.setCity(city);				

@@ -53,7 +53,6 @@ $(document).ready(function () {
 		else {				
 			var roleId = $("#role option:selected").attr("id");
 			if (parseInt(roleId) == 2) {
-				alert("admin_pharmacy")
 																				
 				var newPharmacyAdmin = {
 					"name": name,

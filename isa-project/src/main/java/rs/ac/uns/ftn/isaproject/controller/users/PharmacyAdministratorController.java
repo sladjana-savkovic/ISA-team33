@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.AddPharmacyAdministratorDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyAdministratorDTO;
 import rs.ac.uns.ftn.isaproject.mapper.PharmacyAdministratorMapper;
 import rs.ac.uns.ftn.isaproject.service.users.PharmacyAdministratorService;
@@ -53,7 +54,7 @@ public class PharmacyAdministratorController {
 	
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody PharmacyAdministratorDTO pharmacyAdministratorDTO){
+	public ResponseEntity<Void> add(@RequestBody AddPharmacyAdministratorDTO pharmacyAdministratorDTO){
 		try {
 			administratorService.add(pharmacyAdministratorDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
