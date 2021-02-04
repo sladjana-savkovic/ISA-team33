@@ -21,7 +21,7 @@ import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentEventDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentForExaminationDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
-import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventDTOMapper;
+import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
@@ -73,7 +73,7 @@ public class AppointmentController {
 	@GetMapping("/doctor/{id}")
 	public ResponseEntity<?> getDoctorAppointments(@PathVariable int id){
 		try {
-			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventDTOMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(id));
+			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(id));
 			return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
@@ -110,7 +110,7 @@ public class AppointmentController {
 	@GetMapping("/doctor/{id_doctor}/pharmacy/{id_pharmacy}/scheduled")
 	public ResponseEntity<Collection<AppointmentEventDTO>> getDoctorScheduledAppointmentsInPharamacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
 		try {
-			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventDTOMapper.toAppointmentEventDTOs(appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy));
+			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventMapper.toAppointmentEventDTOs(appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy));
 			return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {

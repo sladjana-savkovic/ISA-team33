@@ -7,7 +7,7 @@ $(document).ready(function () {
         + '  <a class="nav-link" href="/html/doctor/calendar.html">Working calendar</a>'
         + '  </li>'
 		+ '  <li class="nav-item">'
-        + '  <a class="nav-link" href="/html/doctor/examined_patients.html">Examined patients</a>'
+        + '  <a class="nav-link" href="/html/doctor/examined_patients.html">Patients</a>'
         + '  </li>'
 		+ ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/doctor/vacation_request.html">Vacation request</a>'

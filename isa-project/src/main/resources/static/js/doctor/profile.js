@@ -3,6 +3,8 @@ var doctorAccountId = appConfig.doctorId;
 var doctorObj = null;
 $(document).ready(function () {
 	
+	localStorage.clear();
+	
 	$.ajax({
 		type:"GET", 
 		url: "/api/country",

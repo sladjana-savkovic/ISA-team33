@@ -48,6 +48,38 @@
     </div>
     
     
+    <div class="container w-80 mt-5 pt-5 mb-5" id="futurePatients">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Search the patients you need to examine</strong></h5>
+			<div class="card-body px-lg-5">
+				<form id="searchFuture">
+					<div class="row w-100 p-3 h-50">
+					 	<div class="col-8" style="margin-top: 5px;">
+					 		<input type="text" placeholder="Enter patient's name and surname" class="form-control" id="search_field_future">
+					 	</div>
+					 	<div class="col">
+					 		<button class="btn btn-outline-info btn-rounded btn-block waves-effect" type="submit">Search</button>
+					 	</div>
+					</div>
+				</form>
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="patientsFuture">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;" onclick="sortTable(0)" class="thHover">Name</th>
+			        			<th scope="col" style="width: 400px;" onclick="sortTable(1)" class="thHover">Surname</th>
+			        			<th scope="col" class="thHover">Date of last examination</th>
+			        			<th scope="col"></th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_patients_future"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+    
     <div class="modal fade" id="patientInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-notify modal-info modal-dialog-centered" role="document">
@@ -91,6 +123,34 @@
 					 		<label class="text mb-0" id="pAllergies"></label>
 					 	</div>
 					 </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="modal fade" id="patientExaminations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Patient examinations</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                	 <table class="table" id="pExaminations">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col">Date</th>
+			        			<th scope="col">Doctor</th>
+			        			<th scope="col">Diagnosis</th>
+			        			<th scope="col">Therapy</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_pExaminations"></tbody>
+			        </table>
                 </div>
             </div>
         </div>
