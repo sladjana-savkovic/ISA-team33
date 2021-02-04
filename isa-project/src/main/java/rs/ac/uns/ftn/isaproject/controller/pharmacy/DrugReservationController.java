@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,6 +26,7 @@ public class DrugReservationController {
 	}
 	
 	@GetMapping("/{id}/doctor/{doctorId}")
+	@PreAuthorize("hasAnyRole('PHARMACIST')")
 	public ResponseEntity<?> searchOne(@PathVariable int id,@PathVariable int doctorId){
 		try {
 			DrugReservation drugReservation = drugReservationService.searchOne(id,doctorId);
@@ -36,6 +38,7 @@ public class DrugReservationController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasAnyRole('PHARMACIST')")
 	public ResponseEntity<?> confirmReservation(@PathVariable int id){
 		try {
 			DrugReservation drugReservation =  drugReservationService.confirmReservation(id);

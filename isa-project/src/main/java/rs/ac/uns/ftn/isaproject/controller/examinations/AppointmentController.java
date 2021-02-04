@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentEventDTO;
@@ -48,6 +48,7 @@ public class AppointmentController {
 	}
 	
 	@PutMapping("/{id}/patient/{patientId}/unperformed")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> changeStatusToUnperformed(@PathVariable int id, @PathVariable int patientId){
 		try {
 			appointmentService.changeStatus(id, AppointmentStatus.Unperformed);
@@ -60,6 +61,7 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<AppointmentForExaminationDTO> getOne(@PathVariable int id){
 		try {
 			AppointmentForExaminationDTO appointmentForExaminationDTO = AppointmentMapper.toAppointmentForExaminationDTO(appointmentService.getOne(id));
@@ -71,6 +73,7 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("/doctor/{id}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> getDoctorAppointments(@PathVariable int id){
 		try {
 			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(id));
@@ -82,12 +85,14 @@ public class AppointmentController {
 	}
 	
 	@GetMapping("pharmacy/{pharmacyId}/doctor/{doctorId}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<AppointmentDTO>> findFreeAppointmentsByPharmacyAndDoctor(@PathVariable int pharmacyId, @PathVariable int doctorId){
 		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, doctorId));
 		return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 	}
 	
 	@PutMapping("{id}/patient/{patientId}/schedule")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> schedulePredefinedAppointment(@PathVariable int id, @PathVariable int patientId){
 		try {
 			appointmentService.schedulePredefinedAppointment(id, patientId);
@@ -102,6 +107,7 @@ public class AppointmentController {
 	}
 	
 	@PostMapping("/search/{startTime}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<AppointmentDTO>> searchByStartTime(@PathVariable String startTime ,@RequestBody ArrayList<AppointmentDTO> appointmentDTOs){
 		Collection<AppointmentDTO> searchResult = appointmentService.searchByStartTime(startTime, appointmentDTOs);
 		return new ResponseEntity<Collection<AppointmentDTO>>(searchResult, HttpStatus.OK);
@@ -145,6 +151,7 @@ public class AppointmentController {
 	}
 	
 	@PostMapping(value="/schedule", consumes = "application/json")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
 		try {
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
