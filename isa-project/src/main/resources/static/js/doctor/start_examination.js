@@ -1,5 +1,16 @@
+try {
+	var appointmentId = localStorage.getItem("appointmentId");
+	
+	if(appointmentId == null){
+		window.location.href = "calendar.html";
+	}
+}
+catch(err) {
+   localStorage.clear();
+   window.location.href = "calendar.html";
+}
+
 var doctorId = appConfig.doctorId;
-var appointmentId = window.location.href.split("?")[1];
 var appointment = null;
 var therapies = [];
 var drugs = [];
@@ -50,6 +61,7 @@ $(document).ready(function () {
 					+'Successfully changed appointment status and increased penalties for patient.'
 					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					localStorage.clear();
 					window.setTimeout(function(){location.href = "calendar.html"},500);
 					return;
 				},
@@ -261,6 +273,7 @@ $(document).ready(function () {
 	
 	
 	$('#newApp').click(function(){
+		localStorage.clear();
 		window.location.href = "create_appointment.html"
 		localStorage.setItem("patientId", appointment.patientId);
 		localStorage.setItem("pharmacyId", appointment.pharmacyId);
@@ -268,6 +281,7 @@ $(document).ready(function () {
 	
 	
 	$('#finish').click(function(){
+		localStorage.clear();
 		window.location.href = "calendar.html";
 	});
 	

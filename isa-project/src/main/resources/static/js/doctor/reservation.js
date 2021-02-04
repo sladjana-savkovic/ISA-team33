@@ -2,6 +2,8 @@ var doctorId = appConfig.doctorId;
 var reservationId;
 $(document).ready(function () {
 	
+	localStorage.clear();
+	
 	$('#searchReservations').submit(function(event){
 		event.preventDefault();
 		
