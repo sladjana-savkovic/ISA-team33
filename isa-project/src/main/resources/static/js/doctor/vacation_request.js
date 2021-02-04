@@ -1,7 +1,9 @@
-var doctorId = appConfig.doctorId;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
+
 $(document).ready(function () {
 	
-	localStorage.clear();
+	clearLocalStorage();
 	
 	$('#startDate').prop("min",new Date().toISOString().split("T")[0]);
 	$('#endDate').prop("min",new Date().toISOString().split("T")[0]);
@@ -9,6 +11,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/doctor/" + doctorId + "/pharmacies",
+		headers: {
+	        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	    },
 		contentType: "application/json",
 		success:function(doctorPharmacies){
 			for (let dp of doctorPharmacies) {
@@ -33,15 +38,18 @@ $(document).ready(function () {
 		var de = new Date(from_end[0], from_end[1] - 1, from_end[2]);
 		
 		if(de < ds){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The start date must be less than the end date.'
-			    +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				return;
-			}
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The start date must be less than the end date.'
+		    +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
 		
 		$.ajax({
 				type:"POST", 
 				url: "/api/vacation",
+				headers: {
+			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			    },
 				data: JSON.stringify({ 
 					doctorId: doctorId, 
 					startDate: startDate, 
@@ -52,6 +60,7 @@ $(document).ready(function () {
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully created vacation request.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					window.setTimeout(function(){location.reload();},1000)
 					return;
 					
 				},
@@ -70,3 +79,7 @@ function addDoctorPharmacy(doctorPharmacy){
 	let option = $('<option value="' + doctorPharmacy.pharmacyId +'">' + doctorPharmacy.pharmacyName + '</option>');
 	$('#doctorPharmacies').append(option);
 };
+
+function clearLocalStorage(){
+	localStorage.removeItem("appointmentId");
+}

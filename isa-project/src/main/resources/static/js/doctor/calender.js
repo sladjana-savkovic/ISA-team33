@@ -1,12 +1,16 @@
-var doctorId = appConfig.doctorId;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
 
 document.addEventListener('DOMContentLoaded', function() {
 	
-	localStorage.clear();
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/doctor/" + doctorId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(appointments){
 						
@@ -43,4 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	
 });
+
+function clearLocalStorage(){
+	localStorage.removeItem("appointmentId");
+}
 	

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
 			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
@@ -60,6 +62,7 @@ public class DoctorController {
 	}
 	
 	@PutMapping(consumes = "application/json")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> updateInfo(@RequestBody DoctorDTO doctorDTO){
 		try {
 			doctorService.updateInfo(doctorDTO);
@@ -71,6 +74,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}/pharmacies")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> doctorPharmacies(@PathVariable int id){
 		try {
 			Collection<DoctorPharmacyDTO> doctorPharmacyDTOs = DoctorMapper.toDoctorPharmacyDTOs(doctorService.getOne(id));
