@@ -95,7 +95,6 @@ $(document).ready(function () {
 				*/							
 			}
 			else if (roleId.localeCompare('dermatologist') == 0) {
-				alert("dermatologist")
 				
 				var newDermatologist = {
 					"name": name,
@@ -136,30 +135,44 @@ $(document).ready(function () {
 			}
 			else if (roleId.localeCompare('supplier') == 0) {
 				alert("supplier")
+								
+				var newSupplier = {
+					"name": name,
+					"surname": surname,
+					"telephone": telephone,
+					"dateOfBirth": dateOfBirth,
+					"countryId": parseInt(countryId),
+					"countryName": countryName,
+					"cityId": parseInt(cityZipCode),
+					"cityName": cityName,
+					"address": address,
+					"email": email,
+					"password": password,
+				};
+				
+				$.ajax({
+					url: "/api/supplier/add",
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(newSupplier),
+					success: function () {
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+					},
+					error: function (jqXHR) {
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+							 'Unsuccessful registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+					}
+				});				
+				
 			}
-			/*
-			$.ajax({
-				url: "/api/patient",
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(newUser),
-				success: function () {
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				},
-				error: function (jqXHR) {
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 'Unsuccessful registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
-			});		
-			*/	
+	
 		}
 	});
-
 });
 
 

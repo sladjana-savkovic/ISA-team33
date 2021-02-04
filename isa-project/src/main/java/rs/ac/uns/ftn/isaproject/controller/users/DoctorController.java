@@ -117,9 +117,9 @@ public class DoctorController {
 	
 	
 	@RequestMapping(path = "/add/dermatologist", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody AddDermatologistDTO DermatologistDTO){
+	public ResponseEntity<Void> add(@RequestBody AddDermatologistDTO dermatologistDTO){
 		try {
-			doctorService.add(DermatologistDTO);
+			doctorService.add(dermatologistDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
