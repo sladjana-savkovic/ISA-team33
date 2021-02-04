@@ -44,7 +44,7 @@ $(document).ready(function () {
 		let dateOfBirth = $('#dateOfBirth').val();
 		let password = $('#password').val();
 		let passwordRepeat = $('#rpt_password').val();
-		let typeOfDoctor = $('#types option:selected').val();
+		let typeOfDoctor = "Pharmacist";
 		
 		if (password != passwordRepeat) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Password and confirm password don\'t match.'
@@ -90,11 +90,12 @@ $(document).ready(function () {
 			$("form#registration").removeClass("unsuccessful");
 			
 			$.ajax({
-				url: "/api/doctor/add",
+				url: "/api/doctor/add/pharmacist",
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(newDoctor),
 				success: function () {
+					location.reload();
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);

@@ -58,7 +58,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public void add(AddDoctorDTO doctorDTO) {
+	public void addPharmacist(AddDoctorDTO doctorDTO) {
 		Doctor doctor = new Doctor();
 		City city = cityRepository.getOne(doctorDTO.cityId);
 		Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
@@ -68,16 +68,14 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setName(doctorDTO.name);
 		doctor.setSurname(doctorDTO.surname);
 		doctor.setDateOfBirth(doctorDTO.dateOfBirth);
-		doctor.setEmail(doctorDTO.email);
 		doctor.setAddress(doctorDTO.address);
 		doctor.setCity(city);
-		doctor.setPassword(doctorDTO.password);
-		doctor.setTypeOfDoctor(TypeOfDoctor.valueOf(doctorDTO.typeOfDoctor));
+		doctor.setTypeOfDoctor(TypeOfDoctor.Pharmacist);
 		doctor.setIsDeleted(false);
 		doctor.setTelephone(doctorDTO.phoneNumber);
 		doctor.setPharmacies(pharmacies);
 		
-		doctorRepository.save(doctor);
+		userAccountService.save(doctorDTO.email, doctorDTO.password, "ROLE_PHARMACIST", false, doctor);
 	}
 	
 	@Override
@@ -169,6 +167,30 @@ public class DoctorServiceImpl implements DoctorService {
 		dermatologist.setDateOfBirth(dermatologistDTO.dateOfBirth);
 		dermatologist.setTypeOfDoctor(TypeOfDoctor.Dermatologist);		
 		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", false, dermatologist);	
+	}
+
+	@Override
+	public void addDermatologistInPharmacy(int id, int idPharmacy) {
+		Doctor doctor = doctorRepository.getOne(id);
+		Set<Pharmacy> pharmacies = doctor.getPharmacies();
+		Pharmacy pharmacy = pharmacyRepository.getOne(idPharmacy);
+		pharmacies.add(pharmacy);
+		doctor.setPharmacies(pharmacies);
+		doctorRepository.save(doctor);
+		
+	}
+
+	@Override
+	public Collection<Doctor> findDoctorNotInPharmacy(int id) {
+		Pharmacy pharmacy = pharmacyRepository.getOne(id);
+		Collection<Doctor> allDoctors = doctorRepository.findAll();
+		Collection<Doctor> doctors = new ArrayList<Doctor>();
+		for(Doctor d: allDoctors) {
+			if(!d.getPharmacies().contains(pharmacy) && d.isIsDeleted() == false) {
+				doctors.add(d);
+			}
+		}
+		return doctors;
 	}
 
 }
