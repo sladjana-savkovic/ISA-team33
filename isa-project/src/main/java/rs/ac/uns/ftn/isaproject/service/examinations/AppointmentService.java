@@ -23,6 +23,7 @@ public interface AppointmentService {
 	boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime);
 	void add(AddAppointmentDTO appointmentDTO, AppointmentStatus status);
 	Collection<Appointment> getPatientsScheduledAppointmentsDermatologists(int patientId);
-	void cancelDermatologist(int id) throws Exception;
+	void cancelAppointment(int id) throws Exception;
+	Collection<Appointment> getPatientsScheduledAppointmentsPharmacists(int patientId);
 	
 }

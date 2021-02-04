@@ -175,7 +175,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return resultAppointments;
 	}
 	@Override
-	public void cancelDermatologist(int id) throws Exception {
+	public void cancelAppointment(int id) throws Exception {
 		Appointment appointment = appointmentRepository.getOne(id);
 		
 		if(appointment.getStatus() != AppointmentStatus.Scheduled || appointment.getStartTime().isAfter(LocalDateTime.now().minus(Period.ofDays(1))))
@@ -184,5 +184,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setStatus(AppointmentStatus.Canceled);
 		appointment.setPatient(null);
 		appointmentRepository.save(appointment);
+	}
+	@Override
+	public Collection<Appointment> getPatientsScheduledAppointmentsPharmacists(int patientId) {
+		Collection<Appointment> appointments = appointmentRepository.findAll();
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for(Appointment a : appointments) {
+			if(a.getStatus() == AppointmentStatus.Scheduled && a.getPatient().getId() == patientId && a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Pharmacist) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
 	}
 }
