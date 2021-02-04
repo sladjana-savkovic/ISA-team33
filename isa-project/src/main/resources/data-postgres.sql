@@ -356,9 +356,9 @@ insert into user_account (authority_id, username, password, enabled, last_passwo
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'pera7peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13);
 
 
-insert into notification (id, drug_id, pharmacy_id) values (nextval('notification_seq'), 1, 1);
-insert into notification (id, drug_id, pharmacy_id) values (nextval('notification_seq'), 3, 1);
-insert into notification (id, drug_id, pharmacy_id) values (nextval('notification_seq'), 2, 2);
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 1, 1, '2021-01-25 15:00:00');
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 3, 1, '2021-02-01 10:00:00');
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 2, 2, '2021-01-30 12:00:00');
 
 
 /*Ubacivanje dodatnog farmaceuta i definisanje zavrsenog pregleda*/

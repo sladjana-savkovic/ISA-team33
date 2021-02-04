@@ -98,7 +98,6 @@ function enableFields(){
 	$('#name').attr("disabled",false);
 	$('#surname').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	$('#email').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
