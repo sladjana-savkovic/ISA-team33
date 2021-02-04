@@ -1,8 +1,10 @@
 var drugIngredientsList = new Array(); 
+var substituteDrugList = new Array(); 
 
 $(document).ready(function () {
 		
-	getAllIngredients();	
+	getAllIngredients();
+	getAllDrugs();	
 	
 	/*Add drog on submit*/
 	$('form#registration').submit(function (event) {
@@ -39,7 +41,6 @@ $(document).ready(function () {
 
 
 
-
 function getAllIngredients() {
 	$.ajax({
 		url: "/api/ingredient",
@@ -59,21 +60,52 @@ function getAllIngredients() {
 	});		
 }
 
-
 function addIngredientInComboBox(ingredient) {
 	let ingredient_option = $('<option id="' + ingredient.id + '" value="' + ingredient.name + '">' + ingredient.name + '</option>');
 	$('select#ingredients').append(ingredient_option);
 };
 
-
-function chooseIngredient() {
-	
+function chooseIngredient() {	
 	let ingredientId = $("#ingredients option:selected").attr("id");	
 	if (!drugIngredientsList.includes(ingredientId)) {		
 		drugIngredientsList.push(ingredientId);		
 		$('table#table_ingredients').append('<tr><td>' + $("#ingredients option:selected").val() + ' </td> </tr>');		
 	}			
 };
+
+
+
+function getAllDrugs() {
+	$.ajax({
+		url: "/api/drug",
+		type: 'GET',
+		contentType: "application/json",
+		success: function (drugs) {			
+			for (let i = 0; i < drugs.length; i++) {
+				addDrugsInComboBox(drugs[i]);
+			}
+		},
+		error: function (jqXHR) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+				'Error getting drugs! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+	});		
+}
+
+function addDrugsInComboBox(drug) {
+	let drug_option = $('<option id="' + drug.id + '" value="' + drug.name + '">' + drug.name + '</option>');
+	$('select#substitute_drugs').append(drug_option);
+};
+
+function chooseSubstituteDrugs() {
+	let drugId = $("#substitute_drugs option:selected").attr("id");	
+	if (!substituteDrugList.includes(drugId)) {		
+		substituteDrugList.push(drugId);		
+		$('table#table_substitute_drugs').append('<tr><td>' + $("#substitute_drugs option:selected").val() + ' </td> </tr>');		
+	}		
+}
 
 
 
