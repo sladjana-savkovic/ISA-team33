@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.NotificationDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
+import rs.ac.uns.ftn.isaproject.service.notification.NotificationService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 
 @RestController
@@ -22,15 +24,22 @@ import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 public class DrugQuantityPharmacyController {
 
 	private DrugQuantityPharmacyService quantityPharmacyService;
+	private NotificationService notificationService;
 	
 	@Autowired
-	public DrugQuantityPharmacyController(DrugQuantityPharmacyService quantityPharmacyService) {
+	public DrugQuantityPharmacyController(DrugQuantityPharmacyService quantityPharmacyService, NotificationService notificationService) {
 		this.quantityPharmacyService = quantityPharmacyService;
+		this.notificationService = notificationService;
 	}
 	
 	@GetMapping("/{drugId}/{pharmacyId}/availability")
 	public ResponseEntity<Boolean> checkAvailability(@PathVariable int drugId, @PathVariable int pharmacyId){
 		boolean availability = quantityPharmacyService.checkDrugAvailability(drugId, pharmacyId);
+		
+		if(!availability) {
+			notificationService.add(new NotificationDTO(drugId, pharmacyId));
+		}
+		
 		return new ResponseEntity<Boolean>(availability, HttpStatus.OK);
 	}
 	

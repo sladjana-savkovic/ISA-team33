@@ -1,5 +1,5 @@
 var appConfig={
-    'doctorId' : 2
+    'doctorId' : 1
 }
 
 $(document).ready(function () {
