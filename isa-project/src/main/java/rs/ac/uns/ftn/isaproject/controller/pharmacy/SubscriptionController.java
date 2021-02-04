@@ -24,9 +24,9 @@ public class SubscriptionController {
 	}
 
 	@GetMapping("/{id}/pharmacy-patients")
-	public ResponseEntity<Collection<String>> getEmailsOfSubscriptionPatients(@PathVariable int id){
+	public ResponseEntity<Collection<Integer>> getEmailsOfSubscriptionPatients(@PathVariable int id){
 		try {
-			return new ResponseEntity<Collection<String>>(subscriptionService.getEmailsOfSubscriptionPatients(id), HttpStatus.OK);
+			return new ResponseEntity<Collection<Integer>>(subscriptionService.getSubscribedPatientsByPharmacy(id), HttpStatus.OK);
 		}
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

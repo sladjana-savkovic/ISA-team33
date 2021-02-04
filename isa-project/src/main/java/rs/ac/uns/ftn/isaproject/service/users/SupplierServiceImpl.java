@@ -5,6 +5,7 @@ import java.nio.file.AccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.dto.AddSupplierDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Supplier;
@@ -56,10 +57,19 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void add(SupplierDTO supplierDTO) {
-		// TODO Auto-generated method stub		
+	public void add(AddSupplierDTO supplierDTO) {
+		Supplier supplier = new Supplier();		
+		City city = cityRepository.getOne(supplierDTO.cityId);
+		supplier.setCity(city);				
+		supplier.setName(supplierDTO.name);
+		supplier.setSurname(supplierDTO.surname);
+		supplier.setTelephone(supplierDTO.telephone);	
+		supplier.setAddress(supplierDTO.address);		
+		supplier.setDateOfBirth(supplierDTO.dateOfBirth);
+		userAccountService.save(supplierDTO.email, supplierDTO.password, "ROLE_SUPPLIER", false, supplier);			
 	}
 
+	
 	@Override
 	public UserAccount getOne(long id) throws AccessDeniedException {
 		//return userAccountRepository.getOne(id);
