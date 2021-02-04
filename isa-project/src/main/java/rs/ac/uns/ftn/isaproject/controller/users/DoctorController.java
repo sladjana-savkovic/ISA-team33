@@ -104,10 +104,10 @@ public class DoctorController {
 		return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(path = "/add/pharmacist", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody AddDoctorDTO doctorDTO){
 		try {
-			doctorService.add(doctorDTO);
+			doctorService.addPharmacist(doctorDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {

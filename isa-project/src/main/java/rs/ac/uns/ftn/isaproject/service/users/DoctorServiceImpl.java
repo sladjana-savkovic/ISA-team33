@@ -58,7 +58,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public void add(AddDoctorDTO doctorDTO) {
+	public void addPharmacist(AddDoctorDTO doctorDTO) {
 		Doctor doctor = new Doctor();
 		City city = cityRepository.getOne(doctorDTO.cityId);
 		Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
@@ -68,16 +68,14 @@ public class DoctorServiceImpl implements DoctorService {
 		doctor.setName(doctorDTO.name);
 		doctor.setSurname(doctorDTO.surname);
 		doctor.setDateOfBirth(doctorDTO.dateOfBirth);
-		doctor.setEmail(doctorDTO.email);
 		doctor.setAddress(doctorDTO.address);
 		doctor.setCity(city);
-		doctor.setPassword(doctorDTO.password);
-		doctor.setTypeOfDoctor(TypeOfDoctor.valueOf(doctorDTO.typeOfDoctor));
+		doctor.setTypeOfDoctor(TypeOfDoctor.Pharmacist);
 		doctor.setIsDeleted(false);
 		doctor.setTelephone(doctorDTO.phoneNumber);
 		doctor.setPharmacies(pharmacies);
 		
-		doctorRepository.save(doctor);
+		userAccountService.save(doctorDTO.email, doctorDTO.password, "ROLE_PHARMACIST", false, doctor);
 	}
 	
 	@Override

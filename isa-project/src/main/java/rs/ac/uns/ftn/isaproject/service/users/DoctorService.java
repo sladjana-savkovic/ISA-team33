@@ -13,7 +13,7 @@ public interface DoctorService {
 
 	Doctor getOne(int id);
 	void updateInfo(DoctorDTO doctorDTO);
-	void add(AddDoctorDTO doctorDTO);
+	void addPharmacist(AddDoctorDTO doctorDTO);
 	void add(AddDermatologistDTO dermatologistDTO);
 	Collection<Doctor> findByPharmacyId(int id);
 	Collection<ViewSearchedDoctorDTO> searchByNameAndSurname(String name, String surname, Collection<ViewSearchedDoctorDTO> doctorDTOs);
