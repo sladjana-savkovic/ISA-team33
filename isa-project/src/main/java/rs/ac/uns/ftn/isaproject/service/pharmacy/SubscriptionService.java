@@ -7,5 +7,5 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Subscription;
 public interface SubscriptionService {
 
 	Collection<Subscription> findByPharmacyId(int id);
-	Collection<String> getEmailsOfSubscriptionPatients(int pharmacyId);
+	Collection<Integer> getSubscribedPatientsByPharmacy(int pharmacyId);
 }
