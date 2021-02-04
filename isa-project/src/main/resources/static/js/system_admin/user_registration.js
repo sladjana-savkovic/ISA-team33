@@ -54,12 +54,27 @@ $(document).ready(function () {
 			var roleId = $("#role option:selected").attr("id");
 			if (parseInt(roleId) == 2) {
 				alert("admin_pharmacy")
-				/*
+																				
+				var newPharmacyAdmin = {
+					"name": name,
+					"surname": surname,
+					"telephone": telephone,
+					"dateOfBirth": dateOfBirth,
+					"countryId": parseInt(countryId),
+					"countryName": countryName,
+					"cityId": parseInt(cityZipCode),
+					"cityName": cityName,
+					"address": address,
+					"email": email,
+					"password": password,
+					"pharmacyId": parseInt($("#pharmacy option:selected").attr("id"))
+				};				
+				
 				$.ajax({
-					url: "/api/patient",
+					url: "/api/pharmacy-admin/add",
 					type: 'POST',
 					contentType: 'application/json',
-					data: JSON.stringify(newUser),
+					data: JSON.stringify(newPharmacyAdmin),
 					success: function () {
 						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful pharmacy admin registration!'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
@@ -72,8 +87,7 @@ $(document).ready(function () {
 						$('#div_alert').append(alert);
 						return;
 					}
-				});		
-				*/							
+				});												
 			}
 			
 			else if (parseInt(roleId) == 1) {

@@ -17,12 +17,14 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 	private PharmacyAdministratorRepository administratorRepository;
 	private CityRepository cityRepository;
 	private PharmacyRepository pharmacyRepository;
+	private UserAccountService userAccountService;
 	
 	@Autowired
-	public PharmacyAdministratorServiceImpl(PharmacyAdministratorRepository administratorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository) {
+	public PharmacyAdministratorServiceImpl(PharmacyAdministratorRepository administratorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository, UserAccountService userAccountService) {
 		this.administratorRepository = administratorRepository;
 		this.cityRepository = cityRepository;
 		this.pharmacyRepository = pharmacyRepository;
+		this.userAccountService = userAccountService;
 	}
 
 	@Override
@@ -55,5 +57,20 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 		pharmacyAdministrator.setPassword(password);
 		administratorRepository.save(pharmacyAdministrator);
 		
+	}
+
+	@Override
+	public void add(PharmacyAdministratorDTO pharmacyAdministratorDTO) {
+		PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();		
+		City city = cityRepository.getOne(pharmacyAdministratorDTO.cityId);
+		pharmacyAdministrator.setCity(city);				
+		pharmacyAdministrator.setName(pharmacyAdministratorDTO.name);
+		pharmacyAdministrator.setSurname(pharmacyAdministratorDTO.surname);
+		pharmacyAdministrator.setTelephone(pharmacyAdministratorDTO.telephone);	
+		pharmacyAdministrator.setAddress(pharmacyAdministratorDTO.address);		
+		pharmacyAdministrator.setDateOfBirth(pharmacyAdministratorDTO.dateOfBirth);
+		Pharmacy pharmacy = pharmacyRepository.getOne(pharmacyAdministratorDTO.pharmacyId);
+		pharmacyAdministrator.setPharmacy(pharmacy);
+		userAccountService.save(pharmacyAdministratorDTO.email, pharmacyAdministratorDTO.password, "ROLE_PHARMACYADMIN", false, pharmacyAdministrator);					
 	}
 }
