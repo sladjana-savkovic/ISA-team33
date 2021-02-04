@@ -7,7 +7,7 @@ $(document).ready(function () {
         + '  <a class="nav-link" href="">xxxxx</a>'
         + '  </li>'
 		+ '  <li class="nav-item">'
-        + '  <a class="nav-link" href="">User registration</a>'
+        + '  <a class="nav-link" href="/html/system_admin/user_registration.html">User registration</a>'
         + '  </li>'
 		+ ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/system_admin/pharmacy_registration.html">Pharmacy registration</a>'
