@@ -1,7 +1,8 @@
+var drugIngredientsList = new Array(); 
+
 $(document).ready(function () {
-	
-	getAllIngredients();
-	
+		
+	getAllIngredients();	
 	
 	/*Add drog on submit*/
 	$('form#registration').submit(function (event) {
@@ -65,54 +66,15 @@ function addIngredientInComboBox(ingredient) {
 };
 
 
-
-
-
-
-//************************************** */
-function getAllPharmacy() {
-	$('select#role').on('change', function () {
-
-		var id = $(this).children(":selected").attr("id");
-		
-		if (parseInt(id) == 2) {
-			$.ajax({
-				url: "/api/pharmacy",
-				type: 'GET',
-				dataType: 'json',
-				processData: false,
-				contentType: false,
-				success: function (pharmacies) {
-					
-					$('div#divPharmacy').empty();
-					$('div#divInfo').append('<div id="divPharmacy" class="form-row"><div class="form-group col"> ' + 
-                                    '<label for="pharmacy" class="text-secondary">Pharmacy *</label> ' +                                
-                                    '<select id="pharmacy" class="custom-select" required> ' +
-                                    '</select>' + 
-                                    '</div></div>');									
-				
-					$('select#pharmacy').append('<option value="" disabled selected hidden>Choose pharmacy</option>');
-					for (let i = 0; i < pharmacies.length; i++) {
-						addPharmacyInComboBox(pharmacies[i]);
-					}
-				},
-				error: function (jqXHR) {
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						'Error getting pharmacies! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
-			});
-		}
-		else {
-			$('div#divPharmacy').empty();
-		}	
-	});	
+function chooseIngredient() {
+	
+	let ingredientId = $("#ingredients option:selected").attr("id");	
+	if (!drugIngredientsList.includes(ingredientId)) {		
+		drugIngredientsList.push(ingredientId);		
+		$('table#table_ingredients').append('<tr><td>' + $("#ingredients option:selected").val() + ' </td> </tr>');		
+	}			
 };
 
 
-function addPharmacyInComboBox(pharmacy) {
-	let pharmacy_option = $('<option id="' + pharmacy.id + '" value="' + pharmacy.name + '">' + pharmacy.name + '</option>');
-	$('select#pharmacy').append(pharmacy_option);
-};
+
 
