@@ -209,8 +209,12 @@ insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) value
 
 
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 1);
-insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 1);
-insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 8, 4, 3);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 2);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 7, 2, 2);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 3);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 10, 3, 4);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 5, 2, 5);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 6, 1, 6);
 
 insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-15', 22000, 1, 8, 2);
 insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-10', 21000, 1, 8, 2);

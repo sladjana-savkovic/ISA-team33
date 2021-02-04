@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
+import rs.ac.uns.ftn.isaproject.dto.ExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
+import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ExaminedPatientMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
@@ -69,6 +71,16 @@ public class ExaminationReportController {
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while saving the examination report.",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/patient/{patientId}/doctor/{doctorId}")
+	public ResponseEntity<?> getByPatientAtDoctor(@PathVariable int patientId, @PathVariable int doctorId){
+		try {
+			Collection<ExaminationReportDTO> examinationReportDTOs = ExaminationReportMapper.toExaminationReportDTO(examinationReportService.getByPatientAtDoctor(patientId, doctorId));
+			return new ResponseEntity<Collection<ExaminationReportDTO>>(examinationReportDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>("The patient hasn't had any examinations.",HttpStatus.NOT_FOUND);
 		}
 	}
 }

@@ -9,7 +9,7 @@ import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
-public class AppointmentEventDTOMapper {
+public class AppointmentEventMapper {
 
 	public static Collection<AppointmentEventDTO> toAppointmentEventDTOs(Collection<Appointment> appointments){
 		Collection<AppointmentEventDTO> appointmentEventDTOs = new ArrayList<>();

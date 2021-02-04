@@ -57,7 +57,8 @@ $(document).ready(function () {
 function addPatient(patient){
 	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
 			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id)">Details</button></td></tr>');	
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id)" style="margin-left:30px;">Details</button></td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientExaminations(this.id)">Examinations</button></td></tr>');	
 	$('#patients').append(row);
 }
 
@@ -73,6 +74,38 @@ function patientDetail(patientId){
 			$('#patientInfo').modal('show');
 		}
 	}
+};
+
+function patientExaminations(patientId){
+	
+	for(let p of examinedPatients){
+		if(p["id"] == patientId){
+			$.ajax({
+				type:"GET", 
+				url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId,
+				contentType: "application/json",
+				success:function(reports){
+					$('#body_pExaminations').empty();
+					for (let r of reports){
+						addReport(r);
+					}
+					$('#patientExaminations').modal('toggle');
+					$('#patientExaminations').modal('show');
+				},
+				error:function(){
+					console.log('error getting examined patients');
+				}
+			});
+		}
+	}
+};
+
+function addReport(report){
+	let row = $('<tr><td style="vertical-align: middle;">'+ report.dateTime.split('T')[0] + " " + report.dateTime.split('T')[1]
+			+ '<td style="vertical-align: middle;">' + report.doctor + '</td>'
+			+ '<td style="vertical-align: middle;">' + report.diagnosis + '</td>'
+			+ '<td style="vertical-align: middle;">' + report.therapies + '</td></tr>');	
+	$('#pExaminations').append(row);
 };
 
 function sortTable(n) {

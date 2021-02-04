@@ -10,4 +10,5 @@ public interface ExaminationReportService {
 	Collection<ExaminationReport> findAllFinishedByDoctorId(int id);
 	ExaminationReport add(AddExaminationReportDTO examinationReportDTO);
 	Collection<ExaminedPatientDTO> searchByNameAndSurname(String name, String surname,Collection<ExaminedPatientDTO> examinedPatientDTOs);
+	Collection<ExaminationReport> getByPatientAtDoctor(int patientId, int doctorId);
 }

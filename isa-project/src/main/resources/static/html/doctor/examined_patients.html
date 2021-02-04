@@ -95,6 +95,34 @@
             </div>
         </div>
     </div>
+    
+    
+    <div class="modal fade" id="patientExaminations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Patient examinations</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                	 <table class="table" id="pExaminations">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col">Date</th>
+			        			<th scope="col">Doctor</th>
+			        			<th scope="col">Diagnosis</th>
+			        			<th scope="col">Therapy</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_pExaminations"></tbody>
+			        </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

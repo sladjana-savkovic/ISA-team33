@@ -66,4 +66,9 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 		return searchResult;
 	}
 
+	@Override
+	public Collection<ExaminationReport> getByPatientAtDoctor(int patientId, int doctorId) {
+		return examinationReportRepository.getByPatientAtDoctor(patientId, doctorId);
+	}
+
 }
