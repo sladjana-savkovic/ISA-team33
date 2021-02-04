@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.AddSupplierDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.service.users.SupplierService;
@@ -50,7 +51,7 @@ public class SupplierController {
 	}
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody SupplierDTO supplierDTO){
+	public ResponseEntity<Void> add(@RequestBody AddSupplierDTO supplierDTO){
 		try {
 			supplierService.add(supplierDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);

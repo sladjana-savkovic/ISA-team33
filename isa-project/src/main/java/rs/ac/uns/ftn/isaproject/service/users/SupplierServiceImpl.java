@@ -5,6 +5,7 @@ import java.nio.file.AccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.dto.AddSupplierDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Supplier;
@@ -56,7 +57,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void add(SupplierDTO supplierDTO) {
+	public void add(AddSupplierDTO supplierDTO) {
 		Supplier supplier = new Supplier();		
 		City city = cityRepository.getOne(supplierDTO.cityId);
 		supplier.setCity(city);				
