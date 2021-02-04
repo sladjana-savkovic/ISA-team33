@@ -49,21 +49,7 @@ $(document).ready(function () {
 			return;
 		}
 		
-		/*
-		var newUser = {
-			"name": name,
-			"surname": surname,
-			"telephone": telephone,
-			"dateOfBirth": dateOfBirth,
-			"countryId": parseInt(countryId),
-			"countryName": countryName,
-			"cityId": parseInt(cityZipCode),
-			"cityName": cityName,
-			"address": address,
-			"email": email,
-			"password": password,
-		};
-		*/
+		
 		if ($("form#registration").hasClass("unsuccessful")) {
 			return;
 		}
@@ -71,7 +57,7 @@ $(document).ready(function () {
 			$("form#registration").removeClass("unsuccessful");
 						
 			var roleId = $("#role option:selected").attr("id");
-			if (roleId.localeCompare('admin_pharmacy') == 0) {
+			if (parseInt(roleId) == 2) {
 				alert("admin_pharmacy")
 				/*
 				$.ajax({
@@ -80,21 +66,22 @@ $(document).ready(function () {
 					contentType: 'application/json',
 					data: JSON.stringify(newUser),
 					success: function () {
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful pharmacy admin registration!'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						return;
 					},
 					error: function (jqXHR) {
 						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-							 'Unsuccessful registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							 'Unsuccessful pharmacy admin registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						return;
 					}
 				});		
 				*/							
 			}
-			else if (roleId.localeCompare('dermatologist') == 0) {
+			
+			else if (parseInt(roleId) == 1) {
 				
 				var newDermatologist = {
 					"name": name,
@@ -116,25 +103,57 @@ $(document).ready(function () {
 					contentType: 'application/json',
 					data: JSON.stringify(newDermatologist),
 					success: function () {
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful dermatologist registration!'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						return;
 					},
 					error: function (jqXHR) {
 						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-							 'Unsuccessful registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							 'Unsuccessful dermatologist registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						return;
 					}
 				});				
 			}
 			
-			else if (roleId.localeCompare('system_admin') == 0) {
-				alert("system_admin")
+			else if (parseInt(roleId) == 3) {
+																
+				var newSystemAdmin = {
+					"name": name,
+					"surname": surname,
+					"telephone": telephone,
+					"dateOfBirth": dateOfBirth,
+					"countryId": parseInt(countryId),
+					"countryName": countryName,
+					"cityId": parseInt(cityZipCode),
+					"cityName": cityName,
+					"address": address,
+					"email": email,
+					"password": password,
+				};
+					
+				$.ajax({
+					url: "/api/system-admin/add",
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(newSystemAdmin),
+					success: function () {
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful system admin registration!'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+					},
+					error: function (jqXHR) {
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+							 'Unsuccessful system admin registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
+					}
+				});												
 			}
-			else if (roleId.localeCompare('supplier') == 0) {
-				alert("supplier")
+			
+			else if (parseInt(roleId) == 4) {
 								
 				var newSupplier = {
 					"name": name,
@@ -156,21 +175,19 @@ $(document).ready(function () {
 					contentType: 'application/json',
 					data: JSON.stringify(newSupplier),
 					success: function () {
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful registration!'
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful supplier registration!'
 							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						return;
 					},
 					error: function (jqXHR) {
 						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-							 'Unsuccessful registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							 'Unsuccessful supplier registration! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						return;
 					}
-				});				
-				
-			}
-	
+				});								
+			}	
 		}
 	});
 });
@@ -202,7 +219,7 @@ function getAllPharmacies() {
 
 		var id = $(this).children(":selected").attr("id");
 		
-		if (id.localeCompare('admin_pharmacy') == 0) {
+		if (parseInt(id) == 2) {
 			$.ajax({
 				url: "/api/pharmacy",
 				type: 'GET',
