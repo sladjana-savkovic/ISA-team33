@@ -1,4 +1,5 @@
-var patientId = 3;
+checkUserRole("ROLE_PATIENT");
+var patientId = getUserIdFromToken();
 var pharmacyId = 1;
 $(document).ready(function(){
 	
@@ -51,6 +52,9 @@ const appendAppointment = (apartment) => {
 	$.ajax({
 		type:"GET", 
 		url: "/api/doctor/" + apartment.idDoctor,
+		headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 		contentType: "application/json",
 		success:function(doctor){
 			name = doctor.name;

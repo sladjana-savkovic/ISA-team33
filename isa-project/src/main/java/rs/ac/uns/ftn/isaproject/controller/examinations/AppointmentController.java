@@ -131,6 +131,7 @@ public class AppointmentController {
 	
 
 	@GetMapping("/pharmacy/{pharmacyId}/created/{sort}")
+	
 	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId,@PathVariable String sort){
 		try {
 		Collection<AddAppointmentDTO> appointmentDTOs = 

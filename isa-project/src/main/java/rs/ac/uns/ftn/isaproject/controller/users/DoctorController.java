@@ -50,7 +50,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PATIENT', 'PHARMACIST')")
 	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
 			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
