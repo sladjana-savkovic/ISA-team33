@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="../../lib/mdb/css/mdb.min.css" rel="stylesheet">
+<title>Pharmacy profile</title>
+</head>
+<body>
+		
+	<div class="container w-50 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Pharmacies</strong></h5>
+			<div class="card-body px-lg-5">
+				<form style="color: #757575;" id="pharmacy_selct">
+					 
+					 <div class="form-row">
+                                <div class="form-group col">
+                                    <label style="margin-left: 10px; margin-bottom: 20px;" class="text-secondary mb-0">Choose pharmacy whose profile you want to view:</label><br>
+                                   <select style="margin-top: 20px;" id="pharmacies" class="custom-select" required>
+                                     <option value="" disabled selected hidden>Choose pharmacy</option>
+                            </select>
+                                    
+                                </div>
+                            </div>
+					 
+					  <button class="btn btn-primary btn-rounded btn-block my-4 waves-effect" type="submit" id="find_pharmacy">View</button>
+			    </form>
+		    </div>
+	    </div>
+    </div>
+
+
+	<div class="container w-50 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header info-color white-text text-center py-4"><strong>Pharmacy profile information</strong></h5>
+			<div class="card-body px-lg-5">
+				<form style="color: #757575;" id="pharmacy_profile">
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Name of pharmacy:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 			<label id="name" class="text mb-0"></label>
+					 	</div>
+					 </div>
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Address:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<label id="address" class="text mb-0"></label>
+					 	</div>
+					 </div>
+					 
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
+					 		<label class="text-secondary mb-0">Average grade:</label><br>
+					 	</div>
+					 	<div class="col">
+					 		<label id="grade" class="text mb-0"></label>
+					 	</div>
+					 </div>
+			    </form>
+		    </div>
+	    </div>
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Dermatologists and pharmacists in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="doctors">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Name</th>
+			        			<th scope="col" style="width: 400px;">Surname</th>
+			        			<th scope="col">Type of medical staff</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_doctors"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Drugs in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="drugs">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Name</th>
+			        			<th scope="col" style="width: 400px;">Producer</th>
+			        			<th scope="col" style="width: 400px;">Drug type</th>
+			        			<th scope="col">Drug form</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_drugs"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Free appointments in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="appointments">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Start time</th>
+			        			<th scope="col" style="width: 400px;">Medical staff</th>
+			        			<th scope="col">Price</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_appointments"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+  	<br>
+	<br>
+	<div>
+     	<button style="margin-left:320px; margin-bottom:20px;" onclick="window.location.href='/html/patient/drug_reservation.html'" class="btn btn-link float-left pl-0">Reserve a drug</button>
+    	<button style="margin-left:40px; margin-bottom:20px;" onclick="window.location.href='/html/patient/schedule_appointment.html'" class="btn btn-link float-left pl-0">Schedule a new appointment</button>
+     	<button style="margin-left:40px; margin-bottom:20px;" onclick="window.location.href='/html/patient/pharmacy_action.html'" class="btn btn-link float-left pl-0">Subscribe to thh pharmacy actions</button>
+     </div>
+
+	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="../../js/patient/pharmacy_profile.js"></script>
+</body>
+</html>

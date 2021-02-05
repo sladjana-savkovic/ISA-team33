@@ -5,6 +5,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
-import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.PatientMapper;
-import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 
 @RestController
@@ -48,6 +46,7 @@ public class PatientController {
 	}
 	
 	@PutMapping("/{id}/increase-penalty")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Void> increasePenalty(@PathVariable int id){
 		try {
 			patientService.increasePenalty(id);
@@ -70,6 +69,7 @@ public class PatientController {
 	}
 	
 	@GetMapping("/{id}/allergy/{drugId}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Boolean> checkAllergyOnDrug(@PathVariable int id, @PathVariable int drugId){
 		try {
 			return new ResponseEntity<Boolean>(patientService.checkAllergyOnDrug(id, drugId), HttpStatus.OK);

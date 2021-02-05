@@ -3,13 +3,12 @@ package rs.ac.uns.ftn.isaproject.controller.users;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -29,6 +26,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
@@ -52,6 +50,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
 			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
@@ -63,6 +62,7 @@ public class DoctorController {
 	}
 	
 	@PutMapping(consumes = "application/json")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> updateInfo(@RequestBody DoctorDTO doctorDTO){
 		try {
 			doctorService.updateInfo(doctorDTO);
@@ -74,6 +74,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}/pharmacies")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> doctorPharmacies(@PathVariable int id){
 		try {
 			Collection<DoctorPharmacyDTO> doctorPharmacyDTOs = DoctorMapper.toDoctorPharmacyDTOs(doctorService.getOne(id));
@@ -107,16 +108,29 @@ public class DoctorController {
 		return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
 	}
 	
-	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(path = "/add/pharmacist", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody AddDoctorDTO doctorDTO){
 		try {
-			doctorService.add(doctorDTO);
+			doctorService.addPharmacist(doctorDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	
+	@RequestMapping(path = "/add/dermatologist", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Void> add(@RequestBody AddDermatologistDTO dermatologistDTO){
+		try {
+			doctorService.add(dermatologistDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	@PutMapping("/{id_doctor}/pharmacy/{id_pharmacy}/delete")
 	public ResponseEntity<Void> deleteDoctor(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
@@ -154,4 +168,25 @@ public class DoctorController {
 		
 	}
 	
+	@PutMapping("/{id_doctor}/pharmacy/{id_pharmacy}/add-dermatologist")
+	public ResponseEntity<Void> addDermatologistInPharmacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
+		try {
+			doctorService.addDermatologistInPharmacy(id_doctor, id_pharmacy);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/{id}/not-pharmacy")
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findDoctorNotInPharmacy(@PathVariable int id) {
+		try {
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.findDoctorNotInPharmacy(id));
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }

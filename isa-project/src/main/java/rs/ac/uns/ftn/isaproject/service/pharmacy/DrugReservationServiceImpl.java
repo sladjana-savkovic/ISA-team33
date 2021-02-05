@@ -37,12 +37,10 @@ public class DrugReservationServiceImpl implements DrugReservationService{
 	}
 
 	@Override
-	public void confirmReservation(int id) {
+	public DrugReservation confirmReservation(int id) {
 		DrugReservation drugReservation = drugReservationRepository.getOne(id);
 		drugReservation.setDone(true);
-		drugReservationRepository.save(drugReservation);
-		
-		//TODO: Nakon preuzimanja rezervisanog lijeka, poslati potrvdu na mejl pacijenta
+		return drugReservationRepository.save(drugReservation);
 	}
 
 }

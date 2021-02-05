@@ -62,12 +62,10 @@ function rejectRequest(id){
 						success:function(doctor){
 							
 							$.ajax({
-								url: "/api/email",
+								url: "/api/email/" + doctor.id,
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
-									email: doctor.email, 
-									name: doctor.name, 
 									subject: "Rejection of vacation requests",
 									message: reason}),
 								success: function () {
@@ -117,12 +115,10 @@ function acceptRequest(id){
 						contentType: "application/json",
 						success:function(doctor){
 							$.ajax({
-								url: "/api/email",
+								url: "/api/email/" + doctor.id,
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
-									email: doctor.email, 
-									name: doctor.name, 
 									subject: "Accepting vacation requests",
 									message: "Your vacation request has been accepted."}),
 								success: function () {

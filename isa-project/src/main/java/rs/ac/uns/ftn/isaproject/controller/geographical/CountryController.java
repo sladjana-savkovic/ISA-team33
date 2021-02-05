@@ -25,7 +25,7 @@ public class CountryController {
 	}
 	
 	@GetMapping
-	//@PreAuthorize("hasRole('PATIENT')")
+	@PreAuthorize("hasAnyRole('PATIENT', 'DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<CountryDTO>> findAll(){
 		Collection<CountryDTO> countries = CountryMapper.toCountryDTOs(countryService.findAll());
 		return new ResponseEntity<>(countries, HttpStatus.OK);

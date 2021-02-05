@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import java.nio.file.AccessDeniedException;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.AddSupplierDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.service.users.SupplierService;
@@ -29,10 +33,10 @@ public class SupplierController {
 	}
 	
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<SupplierDTO> findOneById(@PathVariable int id) {
+	@GetMapping("/account/{id}")
+	public ResponseEntity<SupplierDTO> findOneById(@PathVariable long id) throws AccessDeniedException {
 		try {
-			SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(supplierService.getOne(id));
+			SupplierDTO supplierDTO = SupplierMapper.toSupplierAccountDTO(supplierService.getOne(id));
 			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
@@ -45,5 +49,17 @@ public class SupplierController {
 		supplierService.updateInfo(supplierDTO);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+	
+	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Void> add(@RequestBody AddSupplierDTO supplierDTO){
+		try {
+			supplierService.add(supplierDTO);
+			return new ResponseEntity<Void>(HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 }

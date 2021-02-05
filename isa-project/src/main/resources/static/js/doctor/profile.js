@@ -1,11 +1,17 @@
-var doctorId = appConfig.doctorId;
-var doctorAccountId = appConfig.doctorId;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
+var doctorAccountId = getUserAccountIdFromToken();
 var doctorObj = null;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/country",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(countries){
 			$('#countrySelect').empty();
@@ -22,6 +28,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/doctor/" + doctorId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(doctor){
 			doctorObj = doctor;
@@ -47,6 +56,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"PUT", 
 				url: "/api/doctor",
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
 				data: JSON.stringify({ 
 					id:doctorId,
 					name: $('#name').val(), 
@@ -91,6 +103,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"PUT", 
 			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			contentType: "application/json",
 			success:function(){
 				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
@@ -175,6 +190,9 @@ function getCities(countryId){
 	$.ajax({
 		type:"GET", 
 		url: "/api/city/country/" + countryId,
+		headers: {
+	        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	    },
 		contentType: "application/json",
 		success:function(cities){
 			$('#citySelect').empty();
@@ -186,4 +204,8 @@ function getCities(countryId){
 			console.log(xhr.responseText);
 		}
 	});
+}
+
+function clearLocalStorage(){
+	localStorage.removeItem("appointmentId");
 }
