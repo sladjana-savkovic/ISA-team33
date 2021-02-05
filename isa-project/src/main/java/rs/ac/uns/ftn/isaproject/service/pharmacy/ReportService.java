@@ -5,5 +5,7 @@ import java.util.Map;
 
 public interface ReportService {
 
-	public Collection<Map<String, Object>> report(int idPharmacy);
+	public Collection<Map<String, Object>> reportAppointment(int idPharmacy);
+	public Collection<Map<String, Object>> reportDrug(int idPharmacy);
+	
 }

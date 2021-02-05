@@ -14,6 +14,9 @@ $(document).ready(function () {
 			
 			let a2 = '<a style="margin-left: 50px;" href="http://localhost:8080/api/report/' + pharmacyId + '/appointment" target="_blank">Report about performed appointment</a>'
 			$('#report_appointment_div').append(a2);
+			
+			let a3 = '<a style="margin-left: 50px;" href="http://localhost:8080/api/report/' + pharmacyId + '/drug" target="_blank">Report about drug consumption</a>'
+			$('#report_drug_div').append(a3);
 		},
 		error:function(){
 			console.log('error getting pharmacy administrator');
