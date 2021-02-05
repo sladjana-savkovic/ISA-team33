@@ -1,11 +1,9 @@
 package rs.ac.uns.ftn.isaproject.controller.geographical;
 
 import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +24,6 @@ public class CityController {
 	}
 	
 	@GetMapping("/country/{id}")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> findAllByCountryId(@PathVariable int id){
 		try {
 			Collection<CityDTO> cityDTOs = CityMapper.toCityDTOs(cityService.findAllByCountryId(id));
