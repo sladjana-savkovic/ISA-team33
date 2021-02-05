@@ -1,4 +1,5 @@
-var patientId = 3;
+checkUserRole("ROLE_PATIENT");
+var patientId = getUserIdFromToken();
 
 $(document).ready(function () {
 	
@@ -35,6 +36,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/patient/" + patientId,
+		headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 		contentType: "application/json",
 		success:function(patient){
 			addPatientInfo(patient);
@@ -67,6 +71,10 @@ $(document).ready(function () {
 			$.ajax({
 				type:"PUT", 
 				url: "/api/patient",
+				headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	      		  },
+				contentType: "application/json",
 				data: JSON.stringify({ 
 					id:patientId,
 					name: $('#name').val(), 
@@ -78,7 +86,6 @@ $(document).ready(function () {
 					address: $('#address').val(),
 					allergies: amenities,
 					cityId: $("#citySelect option:selected").val()}),
-				contentType: "application/json",
 				success:function(){
 					location.reload();
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed profile informations.'
@@ -103,7 +110,7 @@ function enableFields(){
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
 	//$('#email').attr("disabled",false);
-	$('#password').attr("disabled",false);
+	//$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -184,6 +191,9 @@ function addDrug(drug, patientId){
 	$.ajax({
 		type:"GET", 
 		url: "/api/patient/" + patientId + "/allergy/" + drug.id,
+		headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 		contentType: "application/json",
 		success:function(check){
 				if(check == true){
