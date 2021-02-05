@@ -56,7 +56,7 @@ public class DrugController {
 	}
 	
 	@GetMapping("/{id}/substitute")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	//@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<DrugDTO>> getSubstituteDrugs(@PathVariable int id){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getSubstituteDrugs(id));
