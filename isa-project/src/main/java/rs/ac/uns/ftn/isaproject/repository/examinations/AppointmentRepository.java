@@ -2,8 +2,12 @@ package rs.ac.uns.ftn.isaproject.repository.examinations;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
@@ -26,6 +30,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@Query(value = "select * from appointment a where a.patient_id=?1", nativeQuery = true)
 	Collection<Appointment> getPatientAppointments(int patientId);
 	
+	Collection<Appointment> findAllByDoctorTypeOfDoctorAndStatusAndPharmacyId(TypeOfDoctor type, int id);
+
 	@Query(value = "select * from appointment a where a.doctor_id=?1 and a.status = 1", nativeQuery = true)
 	Collection<Appointment> getScheduledAppointmentsByDoctor(int doctorId);
 	
