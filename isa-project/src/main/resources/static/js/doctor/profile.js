@@ -102,9 +102,6 @@ $(document).ready(function () {
 		$.ajax({
 			type:"PUT", 
 			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
-			headers: {
-	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-	        },
 			contentType: "application/json",
 			success:function(){
 				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'

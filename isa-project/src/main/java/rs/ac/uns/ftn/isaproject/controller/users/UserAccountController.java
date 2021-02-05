@@ -39,7 +39,6 @@ public class UserAccountController {
 	}
 	
 	@PutMapping("/{id}/password/{oldPassword}/{newPassword}")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> updatePassword(@PathVariable Long id,@PathVariable String oldPassword, @PathVariable String newPassword){
 		try {
 			userAccountService.updatePassword(id,oldPassword, newPassword);
