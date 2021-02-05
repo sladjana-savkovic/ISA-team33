@@ -4,7 +4,7 @@ $(document).ready(function () {
         + '<div class="collapse navbar-collapse" id="navbarNav">'
         + ' <ul class="navbar-nav">'
 		+ ' <li class="nav-item">'
-        + '  <a class="nav-link" href="">xxxxx</a>'
+        + '  <a class="nav-link" href="/html/system_admin/adding_drug.html">Adding drug</a>'
         + '  </li>'
 		+ '  <li class="nav-item">'
         + '  <a class="nav-link" href="/html/system_admin/user_registration.html">User registration</a>'
