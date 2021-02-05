@@ -3,6 +3,7 @@ $(document).ready(function () {
     token = localStorage.getItem("token");
 
     if (token == null) {
+		localStorage.clear();
         if (window.location.href != "../user/login.html")
             window.location.href = "../user/login.html";
         return;
@@ -87,6 +88,6 @@ function checkUserRole(trueRole) {
 }
 
 function logOut() {
-    window.localStorage.clear();
+    localStorage.clear();
     window.location.href = "../user/login.html";
 }
