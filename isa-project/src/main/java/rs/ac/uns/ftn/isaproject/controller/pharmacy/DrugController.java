@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugSearchDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
@@ -89,10 +90,9 @@ public class DrugController {
 		}
 	}
 	
-	@PostMapping("/search/{name}/{grade}/{type}")
-	public ResponseEntity<Collection<DrugDTO>> searchByName(@PathVariable String name, @PathVariable double grade,
-															@PathVariable String type, @RequestBody ArrayList<DrugDTO> drugDTOs){
-		Collection<DrugDTO> searchResult = drugService.searchByNameAndGradeAndType(name, grade, type,drugDTOs);
+	@PostMapping("/search")
+	public ResponseEntity<Collection<DrugDTO>> searchByName(@RequestBody DrugSearchDTO drugDTOs){
+		Collection<DrugDTO> searchResult = drugService.searchByNameAndGradeAndType(drugDTOs);
 		return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
 	}
 

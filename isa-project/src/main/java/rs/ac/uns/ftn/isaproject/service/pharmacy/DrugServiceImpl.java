@@ -9,6 +9,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Ingredient;
 import rs.ac.uns.ftn.isaproject.dto.AddDrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugSearchDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrug;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrugsForm;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
@@ -67,14 +68,20 @@ public class DrugServiceImpl implements DrugService{
 	}
 
 	@Override
-	public Collection<DrugDTO> searchByNameAndGradeAndType(String name, double grade, String typeOfDrug, Collection<DrugDTO> drugDTOs) {		
-		Collection<DrugDTO> searchResult = new ArrayList<>();		
-		for(DrugDTO drug : drugDTOs) {
-			if(drug.name.toLowerCase().contains(name.toLowerCase()) & (grade == drug.grade) & (drug.typeOfDrug.equals(typeOfDrug))) {
-				searchResult.add(drug);
+	public Collection<DrugDTO> searchByNameAndGradeAndType(DrugSearchDTO dto) {			
+		Collection<DrugDTO> searchResult = new ArrayList<>();			
+		for(DrugDTO drug : dto.drugDTOs) {
+			if(drug.name.toLowerCase().contains(dto.name.toLowerCase()) & (drug.typeOfDrug.contains(dto.type))) {
+				if (dto.grade == -1) {
+					searchResult.add(drug);
+				}	
+				else if (dto.grade == drug.grade) {
+					searchResult.add(drug);
+				}
 			}
 		}
 		return searchResult;
 	}
+	
 	
 }

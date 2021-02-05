@@ -6,25 +6,30 @@ var drugList = null;
 $(document).ready(function () {
 
 	getAllDrugs();
-
+	
 });
 
 
-function searchDrug() {
-	
+function searchDrug() {	
+	$('div#div_drugs').empty();	
 	let name = $('#name').val();
 	let grade = $('#grade').val();
-	let type = $("#drug_type option:selected").val();
-	
-	alert(name + grade + type);
-	
+	let type = $("#drug_type option:selected").val();	
+	if (grade.length == 0) {
+		grade = -1;
+	}	
+	searchDTO = {
+		"name": name,
+		"grade": grade,
+		"type": type,
+		"drugDTOs": drugList
+	}		
     $.ajax({
-        url: "/api/drug/search/" + name + "/" + grade + "/" + type,
+        url: "/api/drug/search",
 		type: 'POST',
 		contentType: 'application/json',
-		data: JSON.stringify(drugList),
+		data: JSON.stringify(searchDTO),
         success: function (drugs) {
-			$('div#div_drugs').empty();
             if (drugs.length == 0) {
                 let alert = '<div id="loading" class="alert alert-info" role="alert"> No drugs found. </div>';
                 $("#loading").hide();
@@ -44,9 +49,6 @@ function searchDrug() {
         }
     });			
 }
-
-
-
 
 
 function getAllDrugs() {		
@@ -77,7 +79,6 @@ function getAllDrugs() {
         }
     });	
 }
-
 
 
 function addDrugRow(drug) {
@@ -111,7 +112,6 @@ function addDrugRow(drug) {
     );
     $('div#div_drugs').append(divElement);
 }
-
 
 
 function showSubstituteDrugs(drugId) {
@@ -158,9 +158,6 @@ function showSubstituteDrugs(drugId) {
 }
 
 
-
-
-
 function showSpecification(drugId) {	
 	ingredientsList = drugMap[drugId].ingredients[0].name;
 	for (let i = 1; i < drugMap[drugId].ingredients.length; i++) {		
@@ -177,7 +174,6 @@ function showSpecification(drugId) {
 	$('#report_content').append(table1);
 	$('#bottomModalSuccess').modal('show');
 };
-
 
 
 function showPharmacies(drugId) {
