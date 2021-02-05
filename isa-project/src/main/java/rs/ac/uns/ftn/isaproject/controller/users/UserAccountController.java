@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.controller.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,6 +39,7 @@ public class UserAccountController {
 	}
 	
 	@PutMapping("/{id}/password/{oldPassword}/{newPassword}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> updatePassword(@PathVariable Long id,@PathVariable String oldPassword, @PathVariable String newPassword){
 		try {
 			userAccountService.updatePassword(id,oldPassword, newPassword);

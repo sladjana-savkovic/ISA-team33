@@ -1,14 +1,18 @@
-var doctorId = appConfig.doctorId;
-var doctorRole = appConfig.doctorRole;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
+var doctorRole = getRoleFromToken();
 var examinedPatients = [];
 var futurePatients = [];
 $(document).ready(function () {
 	
-	localStorage.clear();
+	clearLocalStorage();
 
 	$.ajax({
 		type:"GET", 
 		url: "/api/examination-report/doctor/" + doctorId + "/status/3",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(patients){
 			$('#body_patients').empty();
@@ -28,6 +32,9 @@ $(document).ready(function () {
 		$.ajax({
 		type:"GET", 
 		url: "/api/examination-report/doctor/" + doctorId + "/status/1",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(patients){
 			$('#body_patients_future').empty();
@@ -62,6 +69,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report/search/" + name + "/" + surname,
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			data: JSON.stringify(examinedPatients),
 			contentType: "application/json",
 			success:function(searchResult){
@@ -97,6 +107,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report/search/" + name + "/" + surname,
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			data: JSON.stringify(futurePatients),
 			contentType: "application/json",
 			success:function(searchResult){
@@ -169,6 +182,9 @@ function patientExaminations(patientId, type){
 			$.ajax({
 				type:"GET", 
 				url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId,
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
 				contentType: "application/json",
 				success:function(reports){
 					$('#body_pExaminations').empty();
@@ -273,3 +289,6 @@ function sortTable(n) {
   }
 }
 
+function clearLocalStorage(){
+	localStorage.removeItem("appointmentId");
+}
