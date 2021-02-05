@@ -121,5 +121,7 @@ function addReservationInfo(reservation){
 };
 
 function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
 	localStorage.removeItem("appointmentId");
 }

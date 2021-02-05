@@ -206,6 +206,9 @@ function patientExaminations(patientId, type){
 			$.ajax({
 				type:"GET", 
 				url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId,
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
 				contentType: "application/json",
 				success:function(reports){
 					$('#body_pExaminations').empty();
@@ -290,5 +293,7 @@ function sortTable(n) {
 }
 
 function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
 	localStorage.removeItem("appointmentId");
 }
