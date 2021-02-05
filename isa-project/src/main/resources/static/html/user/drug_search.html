@@ -19,16 +19,15 @@
         <div class="container mt-5 pt-4 pl-5 ml-5 mb-4">
             <div class="row pl-5">
                 <div class="col">
-                    <form id="search_drugs">
                         <div class="card">
                             <div class="card-header border border-info">
-                                <button style="margin-left: 90px" type="submit" class="btn btn-success">Search</button>
+                                <button style="margin-left: 90px" type="button" onclick="searchDrug()" class="btn btn-success">Search</button>
                             </div>
 
                             <div class="card-body border border-info p-3">	
                                 <div class="form-row pt-2">
                                     <div class="form-group col">
-                                        <select id="doc_type" class="custom-select" required>
+                                        <select id="drug_type" class="custom-select" required>
                                             <option value="Capsule" id="0" selected>Capsule</option>
                                             <option value="Tablet" id="1">Tablet</option>
                                             <option value="Injection" id="2">Injection</option>
@@ -46,13 +45,13 @@
 
                                 <div class="form-row">
                                     <div class="form-group col">
-                                        <label id="grade" for="drug_exam_name" class="text-secondary">Grade</label>
+                                        <label for="grade" class="text-secondary">Grade</label>
                                         <input placeholder="Enter grade" type="text" class="form-control" id="grade" name="grade">
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                         </div>
+                         
                 </div>
             </div>
         </div>

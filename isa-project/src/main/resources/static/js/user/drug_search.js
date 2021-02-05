@@ -1,21 +1,51 @@
 //ova stranica je dostupna svim korisnicima
 
 var drugMap = {};
+var drugList = null;
 
 $(document).ready(function () {
 
 	getAllDrugs();
 
-/*
-    $('form#search_drugs').submit(function (event) {
-        $('#search_drugs').find(":submit").prop('disabled', true);
-        event.preventDefault()
-        $("#loading").show();
-        $("#div_drugs").empty();
-
-    });
-*/
 });
+
+
+function searchDrug() {
+	
+	let name = $('#name').val();
+	let grade = $('#grade').val();
+	let type = $("#drug_type option:selected").val();
+	
+	alert(name + grade + type);
+	
+    $.ajax({
+        url: "/api/drug/search/" + name + "/" + grade + "/" + "Antiseptic",
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(drugList),
+        success: function (drugs) {
+			$('div#div_drugs').empty();
+            if (drugs.length == 0) {
+                let alert = '<div id="loading" class="alert alert-info" role="alert"> No drugs found. </div>';
+                $("#loading").hide();
+                $("#div_drugs").prepend(alert);
+            }
+            else {
+                for (let i = 0; i < drugs.length; i++) {
+                    addDrugRow(drugs[i]);
+                }
+                $("#loading").hide();
+            }
+        },
+        error: function (jqXHR) {
+            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseJSON + '</div>';
+            $("#loading").hide();
+            $("#div_drugs").prepend(alert);
+        }
+    });			
+}
+
+
 
 
 
@@ -27,6 +57,7 @@ function getAllDrugs() {
         processData: false,
         contentType: false,
         success: function (drugs) {
+			drugList = drugs;
             if (drugs.length == 0) {
                 let alert = '<div id="loading" class="alert alert-info" role="alert"> No drugs found. </div>';
                 $("#loading").hide();

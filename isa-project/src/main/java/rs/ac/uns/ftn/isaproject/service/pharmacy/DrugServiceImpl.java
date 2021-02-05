@@ -1,7 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +64,18 @@ public class DrugServiceImpl implements DrugService{
 	@Override
 	public Drug getById(int id) {
 		return drugRepository.getOne(id);
+	}
+
+	@Override
+	public Collection<DrugDTO> searchByNameAndGradeAndType(String name, double grade, String typeOfDrug, Collection<DrugDTO> drugDTOs) {
+		
+		Collection<DrugDTO> searchResult = new ArrayList<>();		
+		for(DrugDTO drug : drugDTOs) {
+			if(drug.name.toLowerCase().contains(name.toLowerCase()) & (grade == drug.grade) & (drug.typeOfDrug.equals(typeOfDrug))) {
+				searchResult.add(drug);
+			}
+		}
+		return searchResult;
 	}
 	
 }
