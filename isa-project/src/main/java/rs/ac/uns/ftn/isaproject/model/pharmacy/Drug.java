@@ -26,7 +26,7 @@ public class Drug {
 	@Column(unique = false, nullable = false)
 	private String name;
 	
-	@Column(unique = true, nullable = true)
+	@Column(unique = true, nullable = false)
 	private String code;
 	
 	@Column(unique = false, nullable = true)
