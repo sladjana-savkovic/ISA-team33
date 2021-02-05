@@ -4,7 +4,7 @@ var doctorAccountId = getUserAccountIdFromToken();
 var doctorObj = null;
 $(document).ready(function () {
 	
-	clearLocalStorage();
+	//clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
@@ -65,7 +65,6 @@ $(document).ready(function () {
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),
 					phoneNumber: $('#phone').val(),
-					email: $('#email').val(),
 					address: $('#address').val(),
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
@@ -129,7 +128,6 @@ function enableFields(){
 	$('#surname').attr("disabled",false);
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	$('#email').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -144,17 +142,17 @@ function addDoctorInfo(doctor){
 	$('#surname').val(doctor.surname);
 	$('#dateOfBirth').val(doctor.dateOfBirth);
 	$('#phone').val(doctor.phoneNumber);
-	$('#email').val(doctor.email);
+	$('#email').text(doctor.email);
 	$('#address').val(doctor.address);
 	
-	changeInputFiledsStatus(false);
+	changeInputFieldsStatus(false);
 	changeSelectOptionsStatus(true);
 	$("#countryInput").val(doctor.countryName);
 	$("#cityInput").val(doctor.cityName);
 	
 }
 
-function changeInputFiledsStatus(hidden){
+function changeInputFieldsStatus(hidden){
 	if(hidden){
 		$("#countryInput").attr("hidden",true);
 		$("#cityInput").attr("hidden",true);
