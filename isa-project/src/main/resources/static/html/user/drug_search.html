@@ -27,11 +27,13 @@
                             <div class="card-body border border-info p-3">	
                                 <div class="form-row pt-2">
                                     <div class="form-group col">
-                                        <select id="drug_type" class="custom-select" required>
-                                            <option value="Capsule" id="0" selected>Capsule</option>
-                                            <option value="Tablet" id="1">Tablet</option>
-                                            <option value="Injection" id="2">Injection</option>
-                                            <option value="Liquid" id="3">Liquid</option>
+                                        <select id="drug_type" class="custom-select">
+                                            <option value="" disabled selected hidden>Choose type</option>
+                                        	<option id="0" value="Antibiotic">Antibiotic</option>
+  											<option id="1" value="Antiseptic">Antiseptic</option>
+  											<option id="2" value="Probiotic">Probiotic</option>
+  											<option id="3" value="Antipyretic">Antipyretic</option>
+  											<option id="4" value="Analgetics">Analgetics</option>
                                         </select>
                                     </div>
                                 </div>
@@ -46,7 +48,7 @@
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label for="grade" class="text-secondary">Grade</label>
-                                        <input placeholder="Enter grade" type="text" class="form-control" id="grade" name="grade">
+                                        <input placeholder="Enter grade" type="number" step="0.01" min="0" max="10" class="form-control" id="grade" name="grade">
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +123,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="../../js/user/drug_search.js"></script>
-
+	<script type="text/javascript" src="../../js/navbars/unauthenticated_user.js"></script>
 
 </body>
 </html>

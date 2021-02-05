@@ -19,7 +19,7 @@ function searchDrug() {
 	alert(name + grade + type);
 	
     $.ajax({
-        url: "/api/drug/search/" + name + "/" + grade + "/" + "Antiseptic",
+        url: "/api/drug/search/" + name + "/" + grade + "/" + type,
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(drugList),

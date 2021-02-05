@@ -67,8 +67,7 @@ public class DrugServiceImpl implements DrugService{
 	}
 
 	@Override
-	public Collection<DrugDTO> searchByNameAndGradeAndType(String name, double grade, String typeOfDrug, Collection<DrugDTO> drugDTOs) {
-		
+	public Collection<DrugDTO> searchByNameAndGradeAndType(String name, double grade, String typeOfDrug, Collection<DrugDTO> drugDTOs) {		
 		Collection<DrugDTO> searchResult = new ArrayList<>();		
 		for(DrugDTO drug : drugDTOs) {
 			if(drug.name.toLowerCase().contains(name.toLowerCase()) & (grade == drug.grade) & (drug.typeOfDrug.equals(typeOfDrug))) {
