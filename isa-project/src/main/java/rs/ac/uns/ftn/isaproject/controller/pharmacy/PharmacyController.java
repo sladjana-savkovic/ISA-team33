@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
@@ -69,6 +72,17 @@ public class PharmacyController {
 	@GetMapping()
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
+		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
+	}
+	
+	@PostMapping("/available")
+	public ResponseEntity<Collection<PharmacyDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO){
+		LocalDateTime date = LocalDateTime.parse(appointmentDTO.startTime);
+		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAvailablePharmacy(date));
+		for(PharmacyDTO p: pharmacyDTOs) {
+			p.doctors = null;
+			p.appointments = null;
+		}
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
 	}
 

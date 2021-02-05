@@ -1,11 +1,14 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
+import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -28,6 +32,12 @@ public class DoctorServiceImpl implements DoctorService {
 	private CityRepository cityRepository;
 	private PharmacyRepository pharmacyRepository;
 	private UserAccountService userAccountService;
+	@Autowired
+	private VacationRequestService vacationRequestService;
+	@Autowired
+	private WorkingTimeService workingTimeService;
+	@Autowired
+	private AppointmentService appointmentService;
 	
 	@Autowired
 	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository, UserAccountService userAccountService) {
@@ -189,6 +199,19 @@ public class DoctorServiceImpl implements DoctorService {
 			if(!d.getPharmacies().contains(pharmacy) && d.isIsDeleted() == false) {
 				doctors.add(d);
 			}
+		}
+		return doctors;
+	}
+	
+	@Override
+	public Collection<Doctor> findAvailableDoctor(LocalDateTime date, Long idPharmacy) {
+		Collection<Doctor> doctors= doctorRepository.findByTypeOfDoctor(TypeOfDoctor.Pharmacist);
+		doctors = doctors.stream().filter(d-> !vacationRequestService.isDoctorOnVacation(d.getId(), d.getPharmacies().stream().findFirst().get().getId(), date.toLocalDate()))
+		.filter(d->workingTimeService.checkIfDoctorWorkInPharmacy(d.getPharmacies().stream().findFirst().get().getId(),d.getId(), date.toLocalTime(), date.toLocalTime().plusMinutes(30)))
+		.filter(d->appointmentService.isDoctorAvailableForChosenTime(d.getId(),date.toLocalDate(), date.toLocalTime(), date.toLocalTime().plusMinutes(30))).collect(Collectors.toList());
+		
+		if(idPharmacy != null) {
+			doctors = doctors.stream().filter(d-> d.getPharmacies().stream().findFirst().get().getId() == idPharmacy).collect(Collectors.toList());
 		}
 		return doctors;
 	}

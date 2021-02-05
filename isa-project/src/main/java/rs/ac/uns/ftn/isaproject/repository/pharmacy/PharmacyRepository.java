@@ -7,4 +7,5 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 public interface PharmacyRepository extends JpaRepository<Pharmacy, Integer> {
 
 	Pharmacy findOneById(int id);
+	
 }

@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.EntityNotFoundException;
@@ -25,12 +26,15 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorPharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
+import rs.ac.uns.ftn.isaproject.mapper.PharmacyMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ViewSearchedDoctorMapper;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
@@ -184,5 +188,12 @@ public class DoctorController {
 		catch(EntityNotFoundException exception) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	@PostMapping("/available")
+	public ResponseEntity<Collection<DoctorDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO){
+		LocalDateTime date = LocalDateTime.parse(appointmentDTO.startTime);
+		Collection<DoctorDTO> pharmacyDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findAvailableDoctor(date, (long)appointmentDTO.idPharmacy));
+		
+		return new ResponseEntity<Collection<DoctorDTO>>(pharmacyDTOs, HttpStatus.OK);
 	}
 }
