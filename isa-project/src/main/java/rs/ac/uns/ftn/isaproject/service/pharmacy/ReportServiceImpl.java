@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
+import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.repository.examinations.AppointmentRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 
@@ -28,14 +29,20 @@ public class ReportServiceImpl implements ReportService{
 	@Override
 	public Collection<Map<String, Object>> report(int idPharmacy) {
 		Collection<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		Collection<Doctor> doctors = new ArrayList<Doctor>();
 		Pharmacy pharmacy = pharmacyRepository.getOne(idPharmacy);
 		for(Appointment a : appointmentRepository.getAppointmentsInPharamacy(idPharmacy)) {
-			
+			if(!doctors.contains(a.getDoctor())) {
+			Map<String, Object> item = new HashMap<>();
+			item.put("id", a.getId());
+			item.put("pharmacyName", pharmacy.getName());
+			item.put("price", a.getPrice());
+			item.put("doctorSurname", "Dr. " + a.getDoctor().getSurname());
+			result.add(item);
+			doctors.add(a.getDoctor());
+			}
 		}
-		Map<String, Object> item = new HashMap<>();
-		item.put("zakazano", 33);
-		item.put("otkazano", 44);
-		result.add(item);
+		
 		return result;
 	}
 	
