@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.service.examinations;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -175,4 +176,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointmentRepository.save(appointment);
 	}
 
+	@Override
+	public Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType) {
+		Collection<Appointment> appointments = appointmentRepository.findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(patientId,doctorType,AppointmentStatus.Scheduled);
+		return appointments;
+	}
+	@Override
+	public void cancelAppointment(int id) throws Exception {
+		Appointment appointment = appointmentRepository.findById(id).get();
+		
+		if(appointment.getStatus() != AppointmentStatus.Scheduled || !appointment.getStartTime().isAfter(LocalDateTime.now().plus(Period.ofDays(1))))
+			throw new BadRequestException("The appointment cannot be cancelled.");
+		
+		appointment.setStatus(AppointmentStatus.Canceled);
+		appointment.setPatient(null);
+		appointmentRepository.save(appointment);
+	}
+	
 }

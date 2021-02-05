@@ -26,6 +26,7 @@ import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.utils.GradeComparator;
 import rs.ac.uns.ftn.isaproject.model.utils.Order;
 import rs.ac.uns.ftn.isaproject.model.utils.PriceComparator;
@@ -217,5 +218,29 @@ public class AppointmentController {
 		}
 	}
 
+	@GetMapping("/patient/{id_patient}/{doctorType}/scheduled")
+	@PreAuthorize("hasAnyRole('PATIENT')")
+	public ResponseEntity<Collection<AddAppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
+		try {
+			TypeOfDoctor type = doctorType.equals("dermatologists") ? TypeOfDoctor.Dermatologist : TypeOfDoctor.Pharmacist;
+			Collection<AddAppointmentDTO> appointmentDTOs = AppointmentMapper.toAddAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDoctor(id_patient, type));
+			return new ResponseEntity<Collection<AddAppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	@PutMapping("/{id}/cancel")
+	@PreAuthorize("hasAnyRole('PATIENT')")
+	public ResponseEntity<?> cancelAppointment(@PathVariable int id){
+		try {
+			appointmentService.cancelAppointment(id);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("An error occurred while changing appointment status to cancelled.", HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 }
