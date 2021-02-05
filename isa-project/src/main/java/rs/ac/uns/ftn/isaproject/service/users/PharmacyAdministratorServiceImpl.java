@@ -31,6 +31,7 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 	@Override
 	public PharmacyAdministrator getOne(int id) {
 		return administratorRepository.getOne(id);
+
 	}
 
 	@Override
