@@ -31,6 +31,7 @@ public class DrugServiceImpl implements DrugService{
 		Drug drug = new Drug();		
 		drug.setName(drugDTO.name);
 		drug.setCode(drugDTO.code);
+		drug.setGrade(0);
 		drug.setContraindication(drugDTO.contraindication);
 		drug.setNotes(drugDTO.notes);
 		drug.setProducer(drugDTO.producer);		

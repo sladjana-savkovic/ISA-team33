@@ -29,6 +29,9 @@ public class Drug {
 	@Column(unique = true, nullable = false)
 	private String code;
 	
+	@Column(unique = false, nullable = false)
+	private double grade;
+	
 	@Column(unique = false, nullable = true)
 	private String notes;	
 	
@@ -152,6 +155,14 @@ public class Drug {
 
 	public void setAllowedOnPrescription(boolean isAllowedOnPrescription) {
 		this.isAllowedOnPrescription = isAllowedOnPrescription;
+	}
+
+	public double getGrade() {
+		return grade;
+	}
+
+	public void setGrade(double grade) {
+		this.grade = grade;
 	}	
 	
 }

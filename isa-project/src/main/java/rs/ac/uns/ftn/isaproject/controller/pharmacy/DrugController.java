@@ -58,7 +58,6 @@ public class DrugController {
 	}
 	
 	@GetMapping("/{id}/substitute")
-	//@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<DrugDTO>> getSubstituteDrugs(@PathVariable int id){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getSubstituteDrugs(id));
@@ -71,7 +70,7 @@ public class DrugController {
 	@GetMapping()
 	public ResponseEntity<Collection<DrugDTO>> getAllDrugs(){
 		try {
-			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getAllDrugs());
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugSearchDTOs(drugService.getAllDrugs());
 			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
