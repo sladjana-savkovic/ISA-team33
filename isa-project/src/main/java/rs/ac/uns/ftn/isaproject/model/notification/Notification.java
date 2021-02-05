@@ -1,6 +1,9 @@
 package rs.ac.uns.ftn.isaproject.model.notification;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,6 +21,9 @@ public class Notification {
 	@SequenceGenerator(name = "notificationSeqGen", sequenceName = "notificationSeq", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notificationSeqGen")
 	private int id;
+	
+	@Column(unique=false, nullable=false)
+	private LocalDateTime creationDate;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Drug drug;
@@ -47,6 +53,14 @@ public class Notification {
 
 	public void setPharmacy(Pharmacy pharmacy) {
 		this.pharmacy = pharmacy;
+	}
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 }

@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.notification;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.NotificationDTO;
@@ -32,8 +35,14 @@ public class NotificationServiceImpl implements NotificationService {
 		
 		notification.setDrug(drug);
 		notification.setPharmacy(pharmacy);
+		notification.setCreationDate(LocalDateTime.now());
 		
 		notificationRepository.save(notification);
+	}
+
+	@Override
+	public Collection<Notification> findByPharmacyId(int id) {
+		return notificationRepository.findByPharmacyId(id);
 	}
 
 }

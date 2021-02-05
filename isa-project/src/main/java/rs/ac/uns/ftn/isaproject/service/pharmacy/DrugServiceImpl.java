@@ -1,33 +1,52 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
 import java.util.Collection;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Ingredient;
+import rs.ac.uns.ftn.isaproject.dto.AddDrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrug;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrugsForm;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.IngredientRepository;
 
 @Service
 public class DrugServiceImpl implements DrugService{
 
 	private DrugRepository drugRepository;
+	private IngredientRepository ingredientRepository;
 	
 	@Autowired
-	public DrugServiceImpl(DrugRepository drugRepository) {
+	public DrugServiceImpl(DrugRepository drugRepository, IngredientRepository ingredientRepository) {
 		this.drugRepository = drugRepository;
+		this.ingredientRepository = ingredientRepository;
 	}
 	
 	@Override
-	public void add(DrugDTO drugDTO) {
-		Drug drug = new Drug();
-		
+	public void add(AddDrugDTO drugDTO) {
+		Drug drug = new Drug();		
 		drug.setName(drugDTO.name);
-		drug.setProducer(drugDTO.producer);
-		drug.setTypeOfDrug(TypeOfDrug.valueOf(drugDTO.typeOfDrug));
-		drug.setTypeOfDrugsForm(TypeOfDrugsForm.valueOf(drugDTO.typeOfDrugsForm));
+		drug.setCode(drugDTO.code);
+		drug.setContraindication(drugDTO.contraindication);
+		drug.setNotes(drugDTO.notes);
+		drug.setProducer(drugDTO.producer);		
+		drug.setTypeOfDrug(TypeOfDrug.valueOf(drugDTO.typeOfDrug));		
+		drug.setTypeOfDrugsForm(TypeOfDrugsForm.valueOf(drugDTO.drugForm));
+		drug.setAllowedOnPrescription(drugDTO.prescription);
+		drug.setDailyDose(drugDTO.dailyDose);
 		
+		Collection<Drug> substituteDrugs = drugRepository.findByIds(drugDTO.substituteDrugList);
+		Collection<Ingredient> ingredients = ingredientRepository.findByIds(drugDTO.drugIngredientsList);		
+		for (Ingredient i : ingredients) {
+			drug.getIngredients().add(i);			
+		}
+		for (Drug d : substituteDrugs) {
+			drug.getSubstituteDrugs().add(d);			
+		}				
 		drugRepository.save(drug);
 	}
 
