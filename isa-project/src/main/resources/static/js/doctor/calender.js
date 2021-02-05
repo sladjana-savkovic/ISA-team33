@@ -50,5 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function clearLocalStorage(){
 	localStorage.removeItem("appointmentId");
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
 }
 	
