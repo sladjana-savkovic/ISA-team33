@@ -219,17 +219,19 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/patient/{id_patient}/{doctorType}/scheduled")
-	public ResponseEntity<Collection<AppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
+	@PreAuthorize("hasAnyRole('PATIENT')")
+	public ResponseEntity<Collection<AddAppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
 		try {
 			TypeOfDoctor type = doctorType.equals("dermatologists") ? TypeOfDoctor.Dermatologist : TypeOfDoctor.Pharmacist;
-			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDoctor(id_patient, type));
-			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+			Collection<AddAppointmentDTO> appointmentDTOs = AppointmentMapper.toAddAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDoctor(id_patient, type));
+			return new ResponseEntity<Collection<AddAppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	@PutMapping("/{id}/cancel")
+	@PreAuthorize("hasAnyRole('PATIENT')")
 	public ResponseEntity<?> cancelAppointment(@PathVariable int id){
 		try {
 			appointmentService.cancelAppointment(id);
