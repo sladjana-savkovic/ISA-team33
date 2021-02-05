@@ -16,6 +16,7 @@ public class DoctorDTO {
 	public double averageGrade;
 	public String typeOfDoctor;
 	public String phoneNumber;
+	public String email;
 	
 	public DoctorDTO() {}
 
@@ -34,6 +35,11 @@ public class DoctorDTO {
 		this.averageGrade = averageGrade;
 		this.typeOfDoctor = typeOfDoctor;
 		this.phoneNumber = phoneNumber;
-	}	
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	
 }

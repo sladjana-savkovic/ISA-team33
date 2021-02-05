@@ -3,6 +3,7 @@ $(document).ready(function () {
     token = localStorage.getItem("token");
 
     if (token == null) {
+		localStorage.clear();
         if (window.location.href != "../user/login.html")
             window.location.href = "../user/login.html";
         return;
@@ -62,14 +63,31 @@ function getUserAccountIdFromToken(){
 function checkUserRole(trueRole) {
     var role = getRoleFromToken();
     if (role != trueRole) {
-        if (role != "ROLE_PHARMACIST" && role != "ROLE_DERMATOLOGIST" && trueRole == "ROLE_DERMATOLOGIST_PHARMACIST") {
+		if( (role == "ROLE_PHARMACIST" || role == "ROLE_DERMATOLOGIST") && trueRole == "ROLE_DERMATOLOGIST_PHARMACIST"){
+			return;
+		}
+        else if (role == "ROLE_PHARMACIST" || role == "ROLE_DERMATOLOGIST") {
             window.location.href = "../doctor/calendar.html";
         }
-		
+		else if(role == "ROLE_PATIENT"){
+			window.location.href = "../patient/patient_profile.html";
+		}
+		else if(role == "ROLE_PATIENT"){
+			window.location.href = "../patient/patient_profile.html";
+		}
+		else if(role == "ROLE_SYSTEMADMIN"){
+			window.location.href = "../system_admin/user_registration.html";
+		}
+		else if(role == "ROLE_PHARMACYADMIN"){
+			window.location.href = "../pharmacy_administrator/profile.html";
+		}
+		else if(role == "ROLE_SUPPLIER"){
+			window.location.href = "../supplier/supplier_profile.html";
+		}
 	}
 }
 
 function logOut() {
-    window.localStorage.clear();
+    localStorage.clear();
     window.location.href = "../user/login.html";
 }

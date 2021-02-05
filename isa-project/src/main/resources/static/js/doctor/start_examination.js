@@ -109,9 +109,6 @@ $(document).ready(function () {
 					$.ajax({
 						type:"GET", 
 						url: "/api/drug/" + drugId + "/substitute",
-						headers: {
-				            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-				        },
 						contentType: "application/json",
 						success:function(substituteDrugs){		
 							
@@ -359,16 +356,18 @@ function addDrug(drug){
 	drugs.push({"drugId":drug.id, "drugName":drug.name, "typeOfDrug":drug.typeOfDrug, "typeOfDrugsForm":drug.typeOfDrugsForm,
 				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients});
 				
-	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
+	let option = $('<option data-tokens="' + drug.name + '" value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drugs').append(option);
 };
 
 function addSubstituteDrug(drug){
-	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
+	let option = $('<option data-tokens="' + drug.name + '" value="' + drug.id +'">' + drug.name + '</option>');
 	$('#substituteDrugs').append(option);
 }
 
 
 function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
 	localStorage.removeItem("appointmentId");
 }

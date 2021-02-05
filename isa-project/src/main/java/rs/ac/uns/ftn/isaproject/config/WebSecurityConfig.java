@@ -59,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
-				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().antMatchers("/api/**").permitAll()
+				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().
+				antMatchers("/api/country").permitAll().antMatchers("/api/city/**").permitAll()
 				
 				.anyRequest().authenticated().and()
 				.cors().and()
@@ -74,6 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 		web.ignoring().antMatchers(HttpMethod.POST, "/api/patient");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/drug");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/drug/**/substitute");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 				"/**/*.css", "/**/*.js");
 	}
