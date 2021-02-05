@@ -109,9 +109,6 @@ $(document).ready(function () {
 					$.ajax({
 						type:"GET", 
 						url: "/api/drug/" + drugId + "/substitute",
-						headers: {
-				            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-				        },
 						contentType: "application/json",
 						success:function(substituteDrugs){		
 							
