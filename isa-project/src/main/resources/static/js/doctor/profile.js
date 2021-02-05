@@ -5,6 +5,8 @@ var doctorObj = null;
 $(document).ready(function () {
 	
 	clearLocalStorage();
+	$('#change_pass').attr("disabled",false);
+	$('#change').attr("disabled",false);
 	
 	$.ajax({
 		type:"GET", 
@@ -136,7 +138,7 @@ function enableFields(){
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
 	
-	changeInputFiledsStatus(true);
+	changeInputFieldsStatus(true);
 	changeSelectOptionsStatus(false);
 };
 
@@ -206,5 +208,7 @@ function getCities(countryId){
 }
 
 function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
 	localStorage.removeItem("appointmentId");
 }
