@@ -4,14 +4,11 @@ var doctorAccountId = getUserAccountIdFromToken();
 var doctorObj = null;
 $(document).ready(function () {
 	
-	//clearLocalStorage();
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/country",
-		headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
 		contentType: "application/json",
 		success:function(countries){
 			$('#countrySelect').empty();
@@ -99,21 +96,31 @@ $(document).ready(function () {
 			return;
 		}
 		
+		$('#change_pass').attr("disabled",true);
+		
 		$.ajax({
-			type:"PUT", 
-			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
+			type:"POST", 
+			url: "/auth/change-password",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+			data: JSON.stringify({ 
+				oldPassword:oldPass,
+				newPassword: newPass}),
 			contentType: "application/json",
 			success:function(){
-				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.Please, log in again.'
 				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
-				window.setTimeout(function(){location.reload()},1000)
+				localStorage.clear();
+				window.setTimeout(function(){location.href = "../user/login.html";},1000)
 				return;
 			},
 			error:function(xhr){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + JSON.parse(xhr.responseText).message
 				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
+				$('#change_pass').attr("disabled",false);
 				return;
 			}
 		});
@@ -185,9 +192,6 @@ function getCities(countryId){
 	$.ajax({
 		type:"GET", 
 		url: "/api/city/country/" + countryId,
-		headers: {
-	        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-	    },
 		contentType: "application/json",
 		success:function(cities){
 			$('#citySelect').empty();
