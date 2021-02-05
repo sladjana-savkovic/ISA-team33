@@ -35,17 +35,20 @@ import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ViewSearchedDoctorMapper;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
+import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
 @RestController
 @RequestMapping(value = "api/doctor")
 public class DoctorController {
 
 	private DoctorService doctorService;
+	private UserAccountService userAccountService;
 	private AppointmentService appointmentService;
 	
 	@Autowired
-	public DoctorController(DoctorService doctorService, AppointmentService appointmentService) {
+	public DoctorController(DoctorService doctorService, AppointmentService appointmentService,UserAccountService userAccountService) {
 		this.doctorService = doctorService;
+		this.userAccountService = userAccountService;
 		this.appointmentService = appointmentService;
 	}
 	
@@ -54,6 +57,7 @@ public class DoctorController {
 	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
 			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
+			doctorDTO.setEmail(userAccountService.findByUserId(id).getUsername());
 			return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
 		}
 		catch(Exception e) {
