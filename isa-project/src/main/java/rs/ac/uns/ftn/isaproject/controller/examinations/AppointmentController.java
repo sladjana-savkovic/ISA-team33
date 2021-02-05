@@ -97,7 +97,7 @@ public class AppointmentController {
 	}
 	
 	@PutMapping("{id}/patient/{patientId}/schedule")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PATIENT', 'PHARMACIST')")
 	public ResponseEntity<?> schedulePredefinedAppointment(@PathVariable int id, @PathVariable int patientId){
 		try {
 			appointmentService.schedulePredefinedAppointment(id, patientId);
@@ -131,7 +131,7 @@ public class AppointmentController {
 	
 
 	@GetMapping("/pharmacy/{pharmacyId}/created/{sort}")
-	
+	@PreAuthorize("hasAnyRole('PATIENT')")
 	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId,@PathVariable String sort){
 		try {
 		Collection<AddAppointmentDTO> appointmentDTOs = 
