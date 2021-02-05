@@ -29,9 +29,9 @@ $(document).ready(function () {
 					localStorage.setItem('token', token.accessToken);
 					redirectUser(token.accessToken);
 				},
-				error: function (jqXHR) {
+				error: function () {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Bad credentials. '
-						+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
