@@ -37,7 +37,7 @@ public class DrugQuantityPharmacyController {
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Boolean> checkAvailability(@PathVariable int drugId, @PathVariable int pharmacyId){
 		boolean availability = quantityPharmacyService.checkDrugAvailability(drugId, pharmacyId);
-		
+
 		if(!availability) {
 			notificationService.add(new NotificationDTO(drugId, pharmacyId));
 		}
