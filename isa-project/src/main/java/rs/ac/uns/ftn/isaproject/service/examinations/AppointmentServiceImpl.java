@@ -112,7 +112,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public Collection<Appointment> findAllCreatedByPharmacyDermatologist(int pharmacyId) {
-		Collection<Appointment> appointments = appointmentRepository.findAllByDoctorTypeOfDoctorAndStatusAndPharmacyId(TypeOfDoctor.Dermatologist, pharmacyId);
+		Collection<Appointment> appointments = appointmentRepository.findAllByDoctorTypeOfDoctorAndPharmacyId(TypeOfDoctor.Dermatologist, pharmacyId);
 		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
 		for (Appointment a : appointments) {
 			if (a.getStatus() == AppointmentStatus.Canceled || a.getStatus() == AppointmentStatus.Created) {
