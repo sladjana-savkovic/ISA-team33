@@ -310,6 +310,18 @@ insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_
 			values (nextval('reservation_seq'),'2021-02-20 15:00:00',false,4,2,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2021-01-30 12:00:00',false,3,1,2);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-04 12:00:00',true,3,2,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-07 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-16 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-31 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-02-02 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-02-04 12:00:00',true,3,1,1);
 
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','12:00:00',1,1);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);

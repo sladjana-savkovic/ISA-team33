@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -53,6 +54,23 @@ public class ReportController {
 		response.setContentType("text/html; charset=UTF-8");
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportService.reportDrug(id));
 		InputStream inputStream = this.getClass().getResourceAsStream("/reports/drug_report.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
+		HtmlExporter exporter = new HtmlExporter(DefaultJasperReportsContext.getInstance());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleHtmlExporterOutput(response.getWriter()));
+		exporter.exportReport();
+		return null;
+		
+	}
+	
+	@GetMapping("/{id}/income/{start}/{end}")
+	public ResponseEntity<Void> reportIncome(HttpServletResponse response, @PathVariable int id, @PathVariable String start, @PathVariable String end) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		LocalDate startDate = LocalDate.parse(start);
+		LocalDate endDate = LocalDate.parse(end);
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportService.reportIncomePharmacy(id, startDate, endDate));
+		InputStream inputStream = this.getClass().getResourceAsStream("/reports/income_report.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
 		HtmlExporter exporter = new HtmlExporter(DefaultJasperReportsContext.getInstance());

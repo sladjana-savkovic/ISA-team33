@@ -6,7 +6,6 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
@@ -36,6 +35,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	Collection<Appointment> getScheduledAppointmentsByDoctor(int doctorId);
 	
 	@Query(value = "select * from Appointment a where a.pharmacy_id=?1 and a.status = 3", nativeQuery = true)
-	Collection<Appointment> getAppointmentsInPharamacy(int pharmacyId);
+	Collection<Appointment> getPerformedAppointmentsInPharamacy(int pharmacyId);
 	
 }
