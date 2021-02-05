@@ -9,7 +9,7 @@ import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
-public class AppointmentEventDTOMapper {
+public class AppointmentEventMapper {
 
 	public static Collection<AppointmentEventDTO> toAppointmentEventDTOs(Collection<Appointment> appointments){
 		Collection<AppointmentEventDTO> appointmentEventDTOs = new ArrayList<>();
@@ -38,7 +38,7 @@ public class AppointmentEventDTOMapper {
 				else {
 					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + " " + title; 
 				}
-				url = "http://localhost:8080/html/doctor/start_examination.html?" + a.getId();
+				url = Integer.toString(a.getId());
 				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#fe0202"));
 			}
 			

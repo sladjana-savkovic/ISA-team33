@@ -7,7 +7,8 @@ import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 
 public interface ExaminationReportService {
 
-	Collection<ExaminationReport> findAllFinishedByDoctorId(int id);
+	Collection<ExaminationReport> findAllByDoctorIdAndStatus(int doctorId, int status);
 	ExaminationReport add(AddExaminationReportDTO examinationReportDTO);
 	Collection<ExaminedPatientDTO> searchByNameAndSurname(String name, String surname,Collection<ExaminedPatientDTO> examinedPatientDTOs);
+	Collection<ExaminationReport> getByPatientAtDoctor(int patientId, int doctorId);
 }

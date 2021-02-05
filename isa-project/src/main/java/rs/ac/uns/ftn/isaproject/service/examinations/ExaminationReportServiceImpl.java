@@ -24,20 +24,33 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 	}
 
 	@Override
-	public Collection<ExaminationReport> findAllFinishedByDoctorId(int id) {
-	
-		Collection<ExaminationReport> examinationReports = examinationReportRepository.findAllFinishedByDoctorId(id);
-		Collection<Integer> patientsId = new ArrayList<>();
-		Collection<ExaminationReport> uniqueReportsByPatient = new ArrayList<>();
+	public Collection<ExaminationReport> findAllByDoctorIdAndStatus(int doctorId, int status) {
 		
-		for(ExaminationReport report:examinationReports) {
-			if(!patientsId.contains(report.getAppointment().getPatient().getId())) {
-				uniqueReportsByPatient.add(report);
-				patientsId.add(report.getAppointment().getPatient().getId());
+		if(status == 1) { //Scheduled
+			Collection<ExaminationReport> myExaminationReports = examinationReportRepository.findAllFinishedByDoctor(doctorId);
+			Collection<Appointment> scheduledAppointment = appointmentRepository.getScheduledAppointmentsByDoctor(doctorId);
+			Collection<Integer> myExaminedPatientIds = new ArrayList<Integer>();
+			Collection<ExaminationReport> allReports = new ArrayList<ExaminationReport>();
+			
+			for(ExaminationReport report:myExaminationReports) {
+				if(!myExaminedPatientIds.contains(report.getAppointment().getPatient().getId())) {
+					myExaminedPatientIds.add(report.getAppointment().getPatient().getId());
+				}
 			}
+			
+			for(Appointment appointment:scheduledAppointment) {
+				if(!myExaminedPatientIds.contains(appointment.getPatient().getId())) {
+					allReports.addAll(examinationReportRepository.findAllExaminationReportByPatient(appointment.getPatient().getId()));
+				}
+			}
+			
+			return findUniqueReportsByPatient(allReports);
+		}else if(status == 3){ //Finished
+			Collection<ExaminationReport> examinationReports = examinationReportRepository.findAllFinishedByDoctor(doctorId);
+			return findUniqueReportsByPatient(examinationReports);
 		}
 		
-		return uniqueReportsByPatient;
+		return new ArrayList<ExaminationReport>();
 	}
 
 	@Override
@@ -64,6 +77,24 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 			}
 		}
 		return searchResult;
+	}
+
+	@Override
+	public Collection<ExaminationReport> getByPatientAtDoctor(int patientId, int doctorId) {
+		return examinationReportRepository.getByPatientAtDoctor(patientId, doctorId);
+	}
+
+	private Collection<ExaminationReport> findUniqueReportsByPatient(Collection<ExaminationReport> examinationReports){
+		Collection<Integer> patientsId = new ArrayList<>();
+		Collection<ExaminationReport> uniqueReportsByPatient = new ArrayList<>();
+		
+		for(ExaminationReport report:examinationReports) {
+			if(!patientsId.contains(report.getAppointment().getPatient().getId())) {
+				uniqueReportsByPatient.add(report);
+				patientsId.add(report.getAppointment().getPatient().getId());
+			}
+		}
+		return uniqueReportsByPatient;
 	}
 
 }

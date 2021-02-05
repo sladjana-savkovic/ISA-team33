@@ -332,12 +332,10 @@ function acceptOffer(id){
 						contentType: "application/json",
 						success:function(supplier){
 							$.ajax({
-								url: "/api/email",
+								url: "/api/email/" + supplier.id,
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
-									email: supplier.email, 
-									name: supplier.name, 
 									subject: "Accepting drug offer",
 									message: "Your offer has been accepted."}),
 								success: function () {
@@ -390,12 +388,10 @@ function acceptOffer(id){
 										contentType: "application/json",
 										success:function(supplier){
 											$.ajax({
-											url: "/api/email",
+											url: "/api/email/" + supplier.id,
 											type: 'POST',
 											contentType: 'application/json',
 											data: JSON.stringify({ 
-											email: supplier.email, 
-											name: supplier.name, 
 											subject: "Rejection drug offer",
 											message: "Your offer has been rejected."}),
 											success: function () {

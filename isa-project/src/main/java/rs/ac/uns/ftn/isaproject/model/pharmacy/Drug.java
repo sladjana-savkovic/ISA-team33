@@ -26,6 +26,12 @@ public class Drug {
 	@Column(unique = false, nullable = false)
 	private String name;
 	
+	@Column(unique = true, nullable = false)
+	private String code;
+	
+	@Column(unique = false, nullable = true)
+	private String notes;	
+	
 	@Column(unique = false, nullable = false)
 	private TypeOfDrug typeOfDrug;
 	
@@ -123,5 +129,29 @@ public class Drug {
 	public void setDailyDose(int dailyDose) {
 		this.dailyDose = dailyDose;
 	}
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	public boolean isAllowedOnPrescription() {
+		return isAllowedOnPrescription;
+	}
+
+	public void setAllowedOnPrescription(boolean isAllowedOnPrescription) {
+		this.isAllowedOnPrescription = isAllowedOnPrescription;
+	}	
 	
 }

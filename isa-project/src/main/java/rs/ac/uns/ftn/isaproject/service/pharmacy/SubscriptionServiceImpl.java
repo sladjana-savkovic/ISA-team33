@@ -25,13 +25,13 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 	}
 
 	@Override
-	public Collection<String> getEmailsOfSubscriptionPatients(int pharmacyId) {
-		Collection<String> emails = new ArrayList<String>();
+	public Collection<Integer> getSubscribedPatientsByPharmacy(int pharmacyId) {
+		Collection<Integer> idies = new ArrayList<Integer>();
 		Collection<Subscription> subscriptions = findByPharmacyId(pharmacyId);
 		for(Subscription s : subscriptions) {
-			emails.add(s.getPatient().getEmail());
+			idies.add(s.getPatient().getId());
 		}
-		return emails;
+		return idies;
 	}
 
 }

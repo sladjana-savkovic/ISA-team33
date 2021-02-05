@@ -1,4 +1,5 @@
-var patientId = 3;
+checkUserRole("ROLE_PATIENT");
+var patientId = getUserIdFromToken();
 var pharmacyId = 1;
 $(document).ready(function(){
 	
@@ -13,7 +14,10 @@ $(document).ready(function(){
 		$.ajax({
 			type:"GET",
 			url:"/api/appointment/pharmacy/"+pharmacyId+"/created/"+sorting,
-			contentType:"application/json",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+			contentType: "application/json",
 			success:function(appointments){
 				appointments.forEach(a => appendAppointment(a));
 			},
@@ -33,7 +37,10 @@ const getAllAppointments = () => {
 	$.ajax({
 		type:"GET",
 		url:"/api/appointment/pharmacy/"+pharmacyId+"/created/PRICE_ASC",
-		contentType:"application/json",
+		headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+		contentType: "application/json",
 		success:function(appointments){
 			appointments.forEach(a => appendAppointment(a));
 		},
@@ -51,6 +58,9 @@ const appendAppointment = (apartment) => {
 	$.ajax({
 		type:"GET", 
 		url: "/api/doctor/" + apartment.idDoctor,
+		headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 		contentType: "application/json",
 		success:function(doctor){
 			name = doctor.name;
@@ -74,7 +84,7 @@ const appendAppointment = (apartment) => {
 				`
 				
 			oneElement = oneElement + `
-			<button class="btn btn-success btn-light"  id="modalButton" onclick="scheduleAppointment('${apartment.id}')">Schedule</button>
+			<button class="btn btn-success btn-light"  id="modalButton" onclick="scheduleAppointment('${apartment.idAppointment}')">Schedule</button>
 			`
 		
 	oneElement = oneElement + `</div></div></div>`
@@ -92,6 +102,10 @@ const scheduleAppointment = apartmentId =>{
 	$.ajax({
 		type:"PUT",
 		url: "/api/appointment/"+ apartmentId+"/patient/"+patientId+"/schedule",
+		headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+		contentType: "application/json",
 		success:function(){
 			window.location.reload()
 		},

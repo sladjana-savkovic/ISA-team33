@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.NotificationDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
+import rs.ac.uns.ftn.isaproject.service.notification.NotificationService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 
 @RestController
@@ -22,19 +25,28 @@ import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 public class DrugQuantityPharmacyController {
 
 	private DrugQuantityPharmacyService quantityPharmacyService;
+	private NotificationService notificationService;
 	
 	@Autowired
-	public DrugQuantityPharmacyController(DrugQuantityPharmacyService quantityPharmacyService) {
+	public DrugQuantityPharmacyController(DrugQuantityPharmacyService quantityPharmacyService, NotificationService notificationService) {
 		this.quantityPharmacyService = quantityPharmacyService;
+		this.notificationService = notificationService;
 	}
 	
 	@GetMapping("/{drugId}/{pharmacyId}/availability")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Boolean> checkAvailability(@PathVariable int drugId, @PathVariable int pharmacyId){
 		boolean availability = quantityPharmacyService.checkDrugAvailability(drugId, pharmacyId);
+		
+		if(!availability) {
+			notificationService.add(new NotificationDTO(drugId, pharmacyId));
+		}
+		
 		return new ResponseEntity<Boolean>(availability, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{pharmacyId}/available")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<DrugDTO>> findAvailableDrugsByPharmacyId(@PathVariable int pharmacyId){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(quantityPharmacyService.findAvailableDrugsByPharmacyId(pharmacyId));

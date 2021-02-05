@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,9 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 //Sem nad putanjama navedenim u WebSecurityConfig.configure(WebSecurity web)
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-
 	private TokenUtils tokenUtils;
-
 	private UserDetailsService userDetailsService;
 
 	public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService userDetailsService) {

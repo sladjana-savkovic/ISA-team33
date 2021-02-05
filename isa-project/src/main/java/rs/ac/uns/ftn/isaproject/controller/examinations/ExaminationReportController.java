@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
+import rs.ac.uns.ftn.isaproject.dto.ExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
+import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ExaminedPatientMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
@@ -41,20 +44,23 @@ public class ExaminationReportController {
 		this.quantityPharmacyService = quantityPharmacyService;
 	}
 	
-	@GetMapping("/doctor/{id}")
-	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllByDoctorIdOrderByDate(@PathVariable int id){
+	@GetMapping("/doctor/{id}/status/{status}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<Collection<ExaminedPatientDTO>> findAllByDoctorIdAndStatus(@PathVariable int id, @PathVariable int status){
 		Collection<ExaminedPatientDTO> examinationReports = 
-				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllFinishedByDoctorId(id));
+				ExaminedPatientMapper.toExaminedPatientDTOs(examinationReportService.findAllByDoctorIdAndStatus(id, status));
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinationReports, HttpStatus.OK);
 	}
 	
 	@PostMapping("/search/{name}/{surname}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<ExaminedPatientDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ExaminedPatientDTO> examinedPatientDTOs){
 		Collection<ExaminedPatientDTO> searchResult = examinationReportService.searchByNameAndSurname(name, surname, examinedPatientDTOs);
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
 		try {
 			ExaminationReport examinationReport = examinationReportService.add(examinationReportDTO);
@@ -69,6 +75,17 @@ public class ExaminationReportController {
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while saving the examination report.",HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/patient/{patientId}/doctor/{doctorId}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<?> getByPatientAtDoctor(@PathVariable int patientId, @PathVariable int doctorId){
+		try {
+			Collection<ExaminationReportDTO> examinationReportDTOs = ExaminationReportMapper.toExaminationReportDTO(examinationReportService.getByPatientAtDoctor(patientId, doctorId));
+			return new ResponseEntity<Collection<ExaminationReportDTO>>(examinationReportDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>("The patient hasn't had any examinations.",HttpStatus.NOT_FOUND);
 		}
 	}
 }
