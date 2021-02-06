@@ -79,5 +79,13 @@ public class PharmacyOrder {
 	public void setPharmacyAdministrator(PharmacyAdministrator pharmacyAdministrator) {
 		this.pharmacyAdministrator = pharmacyAdministrator;
 	}
+
+	public Set<DrugQuantityOrder> getDrugQuantityOrders() {
+		return drugQuantityOrders;
+	}
+
+	public void setDrugQuantityOrders(Set<DrugQuantityOrder> drugQuantityOrders) {
+		this.drugQuantityOrders = drugQuantityOrders;
+	}
 	
 }

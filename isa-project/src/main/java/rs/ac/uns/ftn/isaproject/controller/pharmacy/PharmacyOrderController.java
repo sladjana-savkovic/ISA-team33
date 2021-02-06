@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityOrderDTO;
+import rs.ac.uns.ftn.isaproject.dto.OrderAndQuantityDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyOrderDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugQuantityOrderMapper;
+import rs.ac.uns.ftn.isaproject.mapper.OrderAndQuantityMapper;
 import rs.ac.uns.ftn.isaproject.mapper.PharmacyOrderMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityOrder;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
@@ -107,14 +109,14 @@ public class PharmacyOrderController {
 	
 	
 	@GetMapping("/all")
-	public ResponseEntity<Collection<PharmacyOrderDTO>> getAllPharmacyOrders() {
+	public ResponseEntity<Collection<OrderAndQuantityDTO>> getAllPharmacyOrders() {
 		try {
 			Collection<PharmacyOrder> pharmacyOrders = pharmacyOrderService.findAll();			
 			if (pharmacyOrders == null) {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			}
-			Collection<PharmacyOrderDTO> pharmacyOrderDTOs = PharmacyOrderMapper.toPharmacyOrderDTOs(pharmacyOrders);
-			return new ResponseEntity<>(pharmacyOrderDTOs, HttpStatus.OK);
+			Collection<OrderAndQuantityDTO> orderAndQuantityDTOs = OrderAndQuantityMapper.toOrderAndQuantityDTOs(pharmacyOrders);
+			return new ResponseEntity<>(orderAndQuantityDTOs, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}		
