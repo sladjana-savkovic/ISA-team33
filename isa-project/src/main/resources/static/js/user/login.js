@@ -46,6 +46,9 @@ function redirectUser(token){
 	if(role == "ROLE_PHARMACIST" || role == "ROLE_DERMATOLOGIST"){
     	 window.location.href = "../doctor/calendar.html";
 	}
+	if(role == "ROLE_PHARMACYADMIN"){
+    	 window.location.href = "../pharmacy_administrator/pharmacy_profile.html";
+	}
 }
 
 function decodeToken(token) {

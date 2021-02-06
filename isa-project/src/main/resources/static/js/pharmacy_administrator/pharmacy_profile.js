@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -12,6 +18,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/pharmacy/" + pharmacyId,
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(pharmacy){
 					addPharmacyInfo(pharmacy);
@@ -74,6 +83,9 @@ $(document).ready(function () {
 					$.ajax({
 						type:"GET", 
 						url: "/api/drug/" + pharmacyId + "/pharmacy",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(drugs){	
 							for(i = 0; i < drugs.length; i++){
@@ -144,5 +156,9 @@ function transliterate(word){
 };
 
 function initMap() {
-    // Google maps are now initialized.
+    // maps are now initialized.
+}
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
 }
