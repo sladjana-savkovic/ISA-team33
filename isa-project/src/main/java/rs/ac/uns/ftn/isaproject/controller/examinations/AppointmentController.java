@@ -164,6 +164,7 @@ public class AppointmentController {
 	}
 
 	@PostMapping(value="/create", consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<?> createFreeAppointment(@RequestBody AddAppointmentDTO appointmentDTO) {
 		try {
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();

@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -12,6 +18,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/working-time/" + pharmacyId + "/pharmacy",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+       			 },
 				contentType: "application/json",
 				success:function(working_times){
 					
@@ -28,6 +37,9 @@ $(document).ready(function () {
 				$.ajax({
 				type:"GET", 
 				url: "/api/doctor/" + pharmacyId + "/pharmacy/without/working-time",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(dd){
 					
@@ -59,6 +71,9 @@ $(document).ready(function () {
 				$.ajax({
 				type:"POST", 
 				url: "/api/working-time",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					doctorId: doctorId, 
 					pharmacyId: pharmacyId, 
@@ -101,3 +116,7 @@ function addDoctorInComboBox(doctor) {
 	let doctor_option = $('<option id="' + doctor.id + '" value = "' + doctor.id + '">' + doctor.name + ' ' + doctor.surname + ' '+ doctor.typeOfDoctor + '</option>');
 	$('select#doctors').append(doctor_option);
 };
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}
