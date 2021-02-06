@@ -91,9 +91,14 @@ public class DrugController {
 	}
 	
 	@PostMapping("/search")
-	public ResponseEntity<Collection<DrugDTO>> searchByName(@RequestBody DrugSearchDTO drugDTOs){
-		Collection<DrugDTO> searchResult = drugService.searchByNameAndGradeAndType(drugDTOs);
-		return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
-	}
-
+	public ResponseEntity<Collection<DrugDTO>> searchByNameAndGradeAndType(@RequestBody DrugSearchDTO drugDTOs){
+		try {
+			Collection<DrugDTO> searchResult = drugService.searchByNameAndGradeAndType(drugDTOs);
+			return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}	
+	
+	
 }

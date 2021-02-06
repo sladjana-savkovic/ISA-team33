@@ -1,10 +1,14 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.dto.PharmacyPriceDTO;
 import rs.ac.uns.ftn.isaproject.dto.PricelistDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -44,4 +48,18 @@ public class PricelistServiceImpl implements PricelistService {
 		pricelistRepository.save(pricelist);
 		
 	}
+	
+	
+	public Collection<Pricelist> getPharmaciesAndPriceByDrugId(int drugId) {		
+		Collection<Pricelist> newPricelist = new ArrayList<Pricelist>();		
+		Collection<Pricelist> pricelist = pricelistRepository.getByDrugId(drugId);
+		for (Pricelist p : pricelist) {			
+			if (LocalDate.now().isAfter(p.getStartDate()) && LocalDate.now().isBefore(p.getEndDate())) {
+				newPricelist.add(p);				
+			}			
+		}		
+		return newPricelist;
+	}
+	
+	
 }
