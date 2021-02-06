@@ -179,6 +179,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if(status == AppointmentStatus.Scheduled) {
 			Patient patient = patientRepository.getOne(appointmentDTO.idPatient);
 			appointment.setPatient(patient);
+			appointment.setPrice(pharmacy.getPharmacistPrice());
 		}
 		
 		appointmentRepository.save(appointment);

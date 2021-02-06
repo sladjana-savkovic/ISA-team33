@@ -1,12 +1,18 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 var doctorPharmacies = '';
 var forFilter = [];
 $(document).ready(function () {
 	
+	clearLocalStorage();
+	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -14,6 +20,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/doctor/" + pharmacyId + "/pharmacy",
+				headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(doctors){
 					forFilter = doctors;
@@ -41,6 +50,9 @@ $(document).ready(function () {
 						$.ajax({
 							type:"POST", 
 							url: "/api/doctor/search/" + name + "/" + surname,
+							headers: {
+            					'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        					},
 							data: JSON.stringify(doctors),
 							contentType: "application/json",
 							success:function(searchResult){
@@ -72,6 +84,9 @@ $(document).ready(function () {
 						$.ajax({
 							type:"POST", 
 							url: "/api/doctor/filter/" + type + "/" + grade_int,
+							headers: {
+            					'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        					},
 							data: JSON.stringify(forFilter),
 							contentType: "application/json",
 							success:function(filterResult){
@@ -118,6 +133,9 @@ function deleteDoctor(id){
 			$.ajax({
 				type:"PUT", 
 				url: "/api/doctor/" + id + "/pharmacy/" + pharmacyId + "/delete",
+				headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(){
 					location.reload();
@@ -135,3 +153,6 @@ function deleteDoctor(id){
 			});
 };
 
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

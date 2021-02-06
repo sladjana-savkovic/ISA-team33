@@ -16,10 +16,11 @@ public class PharmacyDTO {
 	public double longitude;
 	public Collection<DoctorDTO> doctors;
 	public Collection<AppointmentDTO> appointments;
+	public double pharmacistPrice;
 	
 	public PharmacyDTO() {}
 
-	public PharmacyDTO(int id, String name, double averagePrice, String address, int cityId, String cityName, String countryName, Collection<AppointmentDTO> appointments, Collection<DoctorDTO> doctors, double latitude, double longitude) {
+	public PharmacyDTO(int id, String name, double averagePrice, String address, int cityId, String cityName, String countryName, Collection<AppointmentDTO> appointments, Collection<DoctorDTO> doctors, double latitude, double longitude, double pharmacistPrice) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -32,6 +33,7 @@ public class PharmacyDTO {
 		this.appointments = appointments;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.pharmacistPrice = pharmacistPrice;
 	}
 	
 }

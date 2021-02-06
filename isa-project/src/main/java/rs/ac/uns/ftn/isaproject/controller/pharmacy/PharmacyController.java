@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,7 @@ public class PharmacyController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'PATIENT')")
 	public ResponseEntity<PharmacyDTO> getPharmacyById(@PathVariable int id) {
 
 		Pharmacy pharmacy = pharmacyService.findOneById(id);
@@ -49,7 +51,7 @@ public class PharmacyController {
 		
 		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacy(id));
 		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
-		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, pharmacy.getLatitude(), pharmacy.getLongitude());
+		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, pharmacy.getLatitude(), pharmacy.getLongitude(), pharmacy.getPharmacistPrice());
 		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
 	}
 

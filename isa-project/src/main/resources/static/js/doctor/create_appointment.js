@@ -107,8 +107,7 @@ $(document).ready(function () {
 				endTime : endTime,
 				idDoctor: doctorId,
 				idPharmacy: pharmacyId,
-				idPatient: patientId,
-				price: 800}),
+				idPatient: patientId}),
 			contentType: "application/json",
 			success:function(){
 				
