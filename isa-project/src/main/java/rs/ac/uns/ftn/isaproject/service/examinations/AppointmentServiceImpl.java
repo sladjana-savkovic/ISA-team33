@@ -114,6 +114,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId) {
 		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointmentsInPharamacy(doctorId,
 				pharmacyId);
@@ -159,21 +160,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Collection<Appointment> patientAppointments = appointmentRepository.getPatientAppointments(patientId);
 		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
 	}
-	
-	private boolean checkIfAppointmentMathces(Collection<Appointment> appointments, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		for(Appointment a : appointments) {
-			if(date.equals(a.getStartTime().toLocalDate()) && 
-			 (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && 
-			 ((startTime.equals(a.getStartTime().toLocalTime()) && endTime.equals(a.getEndTime().toLocalTime())) || 
-			  (startTime.isAfter(a.getStartTime().toLocalTime()) && endTime.isBefore(a.getEndTime().toLocalTime()))  || 
-			  (startTime.isBefore(a.getStartTime().toLocalTime()) && endTime.isAfter(a.getEndTime().toLocalTime())) || 
-			  (startTime.isAfter(a.getStartTime().toLocalTime()) && startTime.isBefore(a.getEndTime().toLocalTime())) || 
-			  (startTime.isBefore(a.getStartTime().toLocalTime()) && endTime.isAfter(a.getStartTime().toLocalTime())))) {
-					return true;
-			}
-		}
-		return false;
-	}
+
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
@@ -225,4 +212,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.info("< save");
 	}
 	
+	private boolean checkIfAppointmentMathces(Collection<Appointment> appointments, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		for(Appointment a : appointments) {
+			if(date.equals(a.getStartTime().toLocalDate()) && 
+			 (a.getStatus().equals(AppointmentStatus.Created) || a.getStatus().equals(AppointmentStatus.Scheduled)) && 
+			 ((startTime.equals(a.getStartTime().toLocalTime()) && endTime.equals(a.getEndTime().toLocalTime())) || 
+			  (startTime.isAfter(a.getStartTime().toLocalTime()) && endTime.isBefore(a.getEndTime().toLocalTime()))  || 
+			  (startTime.isBefore(a.getStartTime().toLocalTime()) && endTime.isAfter(a.getEndTime().toLocalTime())) || 
+			  (startTime.isAfter(a.getStartTime().toLocalTime()) && startTime.isBefore(a.getEndTime().toLocalTime())) || 
+			  (startTime.isBefore(a.getStartTime().toLocalTime()) && endTime.isAfter(a.getStartTime().toLocalTime())))) {
+					return true;
+			}
+		}
+		return false;
+	}
 }
