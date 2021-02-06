@@ -74,8 +74,7 @@ public class ExaminationReportController {
 			return new ResponseEntity<>("A report already exists for the selected appointment.",HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
-			String msg = "An error occurred while saving the examination report.";
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while saving the examination report.",HttpStatus.BAD_REQUEST);
 		}
 	}
 	

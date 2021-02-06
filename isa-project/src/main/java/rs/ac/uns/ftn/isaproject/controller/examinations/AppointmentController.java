@@ -6,7 +6,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.LockTimeoutException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -201,21 +205,27 @@ public class AppointmentController {
 			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
 			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
 			
+			if(!appointmentService.isPatientAvailableForChosenTime(appointmentDTO.idPatient, date, startTime, endTime)) {
+				return new ResponseEntity<>("The patient is busy for a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			
 			if(vacationRequestService.isDoctorOnVacation(appointmentDTO.idDoctor,appointmentDTO.idPharmacy, date)) {
 				return new ResponseEntity<>("The doctor is on vacation at a chosen time.", HttpStatus.BAD_REQUEST);
 			}
 			if(!workingTimeService.checkIfDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, startTime, endTime)) {
 					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
 			}
-			if(!appointmentService.isDoctorAvailableForChosenTime(appointmentDTO.idDoctor, date, startTime, endTime)) {
-				return new ResponseEntity<>("The doctor is busy for a chosen time.", HttpStatus.BAD_REQUEST);
-			}
-			if(!appointmentService.isPatientAvailableForChosenTime(appointmentDTO.idPatient, date, startTime, endTime)) {
-				return new ResponseEntity<>("The patient is busy for a chosen time.", HttpStatus.BAD_REQUEST);
-			}
+		
+			appointmentService.checkDoctorAvailabilityAndAddAppointment(appointmentDTO.idDoctor, date, startTime, endTime, 
+																		appointmentDTO, AppointmentStatus.Scheduled);
 			
-			appointmentService.add(appointmentDTO, AppointmentStatus.Scheduled);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (LockTimeoutException  e) {
+			return new ResponseEntity<>("Your request has waited too long to be executed. Please try again.", HttpStatus.BAD_REQUEST);
+		}
+		catch (PessimisticLockingFailureException e) {
+			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while scheduling an appointment.", HttpStatus.BAD_REQUEST);
