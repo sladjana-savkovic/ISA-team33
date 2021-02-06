@@ -12,6 +12,7 @@ public class DrugDTO {
 	public Collection<IngredientDTO> ingredients;
 	public String contraindication;
 	public int dailyDose;
+	public double grade;
 	
 	public DrugDTO() {}
 	
@@ -28,4 +29,18 @@ public class DrugDTO {
 		this.dailyDose = dailyDose;
 	}
 	
+	
+	public DrugDTO(int id, String name, String typeOfDrug, String typeOfDrugsForm, String producer, Collection<IngredientDTO> ingredientDTOs,
+			String contraindication, int dailyDose, double grade) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.typeOfDrug = typeOfDrug;
+		this.typeOfDrugsForm = typeOfDrugsForm;
+		this.producer = producer;
+		this.ingredients = ingredientDTOs;
+		this.contraindication = contraindication;
+		this.dailyDose = dailyDose;
+		this.grade = grade;
+	}	
 }

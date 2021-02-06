@@ -10,14 +10,17 @@ $(document).ready(function () {
 		$('#div_alert').empty();
 
 		let name = $('#name').val();
+		let appointmentPrice = $('#appointment_price').val();
 		let countryId = $("#countries option:selected").attr("id");
 		let countryName = $("#countries").val();
 		let cityZipCode = $("#cities option:selected").attr("id");
 		let cityName = $("#cities").val();
 		let address = $('#address').val();
 		
+		
 		var newPharmacy = {
 			"name": name,
+			"pharmacistPrice": appointmentPrice,
 			"countryId": parseInt(countryId),
 			"countryName": countryName,
 			"cityId": parseInt(cityZipCode),
