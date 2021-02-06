@@ -2,10 +2,8 @@ package rs.ac.uns.ftn.isaproject.repository.examinations;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
