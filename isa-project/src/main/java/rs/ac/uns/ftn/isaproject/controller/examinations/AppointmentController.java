@@ -205,20 +205,20 @@ public class AppointmentController {
 			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
 			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
 			
+			if(!appointmentService.isPatientAvailableForChosenTime(appointmentDTO.idPatient, date, startTime, endTime)) {
+				return new ResponseEntity<>("The patient is busy for a chosen time.", HttpStatus.BAD_REQUEST);
+			}
+			
 			if(vacationRequestService.isDoctorOnVacation(appointmentDTO.idDoctor,appointmentDTO.idPharmacy, date)) {
 				return new ResponseEntity<>("The doctor is on vacation at a chosen time.", HttpStatus.BAD_REQUEST);
 			}
 			if(!workingTimeService.checkIfDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, startTime, endTime)) {
 					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
 			}
-			if(!appointmentService.isDoctorAvailableForChosenTime(appointmentDTO.idDoctor, date, startTime, endTime)) {
-				return new ResponseEntity<>("The doctor is busy for a chosen time.", HttpStatus.BAD_REQUEST);
-			}
-			if(!appointmentService.isPatientAvailableForChosenTime(appointmentDTO.idPatient, date, startTime, endTime)) {
-				return new ResponseEntity<>("The patient is busy for a chosen time.", HttpStatus.BAD_REQUEST);
-			}
+		
+			appointmentService.checkDoctorAvailabilityAndAddAppointment(appointmentDTO.idDoctor, date, startTime, endTime, 
+																		appointmentDTO, AppointmentStatus.Scheduled);
 			
-			appointmentService.add(appointmentDTO, AppointmentStatus.Scheduled);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		catch (LockTimeoutException  e) {

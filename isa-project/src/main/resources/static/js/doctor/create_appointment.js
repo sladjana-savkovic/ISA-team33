@@ -129,7 +129,7 @@ $(document).ready(function () {
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						clearLocalStorage();
-						window.setTimeout(function(){location.href = "calendar.html"},500)
+						window.setTimeout(function(){location.href = "calendar.html"},700)
 						return;
 					},
 					error: function () {
@@ -139,7 +139,7 @@ $(document).ready(function () {
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#div_alert').append(alert);
 						clearLocalStorage();
-						window.setTimeout(function(){location.href = "calendar.html"},500)
+						window.setTimeout(function(){location.href = "calendar.html"},700)
 						return;
 					}
 				});	
