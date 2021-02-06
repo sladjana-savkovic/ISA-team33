@@ -135,11 +135,11 @@ public class Pharmacy {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	public double getpharmacistPrice() {
+	public double getPharmacistPrice() {
 		return pharmacistPrice;
 	}
 
-	public void setpharmacistPrice(double pharmacistPrice) {
+	public void setPharmacistPrice(double pharmacistPrice) {
 		this.pharmacistPrice = pharmacistPrice;
 	}
 
