@@ -54,7 +54,6 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 				return true;
 		}
 		
-		//TODO: Ako lijek nije dostupan salje se notifikacija adminu apoteke
 		return false;
 	}
 
@@ -64,7 +63,7 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		
 		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
 			if(!drugQuantity.isDeleted() && drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
-				if(drugQuantity.getQuantity() - 1 > 0) {
+				if(drugQuantity.getQuantity() - 1 >= 0) {
 					drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
 					quantityPharmacyRepository.save(drugQuantity);
 					return true;

@@ -14,6 +14,7 @@ checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
 var doctorId = getUserIdFromToken();
 var appointment = null;
 var therapies = [];
+var therapyId = 1;
 var drugs = [];
 $(document).ready(function () {
 		
@@ -234,7 +235,8 @@ $(document).ready(function () {
 		$('#btn_close').click();
 		let duration = $('#duration').val();
 		
-		therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
+		therapies.push({"therapyId":therapyId, "drugId": drugId,"drugName" : drugName, "duration": duration});
+		therapyId = therapyId + 1;
 		reloadTherapies();
 	});
 	
@@ -247,7 +249,8 @@ $(document).ready(function () {
 		$('#btn_close_substitute').click();
 		let duration = $('#durationSubstitute').val();
 		
-		therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		therapies.push({"therapyId":therapyId, "drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		therapyId = therapyId + 1;
 		reloadTherapies();
 	});
 	
@@ -261,7 +264,8 @@ $(document).ready(function () {
 		
 		let therapyDTOs = [];
 		for(let t of therapies){
-			therapyDTOs.push({"drugId":t.drugId, "duration":t.duration});
+			therapyDTOs.push({"therapyId":therapyId ,"drugId":t.drugId, "duration":t.duration});
+			therapyId = therapyId + 1;
 		}
 				
 		$.ajax({
@@ -336,8 +340,23 @@ function disableFields(){
 function reloadTherapies(){
 	$('#body_therapies').empty();
 	for(let t of therapies){
-		let row = $('<tr><td>'+ t.drugName +'</td><td>' + t.duration + '</td></tr>');	
+		let row = $('<tr><td style="vertical-align: middle;">'+ t.drugName +'</td><td style="vertical-align: middle;">' + t.duration + '</td>'
+		+ '<td><button class="btn btn-danger" type="button" id="' + t.therapyId +'" onclick="removeTherapy(this.id)">Remove</button></td></tr>');	
 		$('#therapies').append(row);
+	}
+}
+
+function removeTherapy(therapyId){
+	let index = -1;
+	for(let i=0; i<therapies.length; i++){
+		if (therapies[i].therapyId == therapyId){
+			index = i;
+			break;
+		}
+	}
+	if(index != -1){
+		therapies.splice(index, 1);
+		reloadTherapies();
 	}
 }
 
