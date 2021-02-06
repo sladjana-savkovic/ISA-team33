@@ -45,6 +45,9 @@ public class Pharmacy {
 	@Column(unique=false, nullable=true)
 	private double averageGrade;
 	
+	@Column(unique=false, nullable=false)
+	private double pharmacistPrice;
+	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private City city;
 	
@@ -132,5 +135,12 @@ public class Pharmacy {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
-	
+	public double getpharmacistPrice() {
+		return pharmacistPrice;
+	}
+
+	public void setpharmacistPrice(double pharmacistPrice) {
+		this.pharmacistPrice = pharmacistPrice;
+	}
+
 }

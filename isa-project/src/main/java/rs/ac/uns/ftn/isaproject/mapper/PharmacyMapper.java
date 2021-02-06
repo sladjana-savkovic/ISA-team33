@@ -17,7 +17,7 @@ public class PharmacyMapper {
 		for(Pharmacy p:pharmacies) {
 			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(p.getAppointments());
 			Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(p.getDoctors());
-			phamracyDTOs.add(new PharmacyDTO(p.getId(), p.getName(), p.getAverageGrade(), p.getAddress(), p.getCity().getId(), p.getCity().getName(), p.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, p.getLatitude(), p.getLongitude()));
+			phamracyDTOs.add(new PharmacyDTO(p.getId(), p.getName(), p.getAverageGrade(), p.getAddress(), p.getCity().getId(), p.getCity().getName(), p.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, p.getLatitude(), p.getLongitude(), p.getpharmacistPrice()));
 		}
 		
 		return phamracyDTOs;
