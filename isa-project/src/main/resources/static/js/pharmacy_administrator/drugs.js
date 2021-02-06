@@ -1,9 +1,12 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 var orderId;
 var searchDrugs = [];
 var selectedDrugs = [];
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$('#limitDate').prop("min",new Date().toISOString().split("T")[0]);
 				
@@ -25,6 +28,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -69,6 +75,9 @@ $(document).ready(function () {
 		$.ajax({
 				type:"POST", 
 				url: "/api/order",
+				headers: {
+       	     	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					limitDate: limitDate, 
 					isFinished: false,
@@ -95,6 +104,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"GET", 
 			url: "/api/order/last",
+			headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			contentType: "application/json",
 			success:function(id){	
 				orderId = id;
@@ -104,6 +116,9 @@ $(document).ready(function () {
 				$.ajax({
 				type:"POST", 
 				url: "/api/order/drug-quantity",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					idDrug: drug, 
 					quantity: quantity,
@@ -137,6 +152,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"GET", 
 			url: "/api/order/" + pharmacyId + "/pharmacy",
+			headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			contentType: "application/json",
 			success:function(orders){	
 				for(i = 0; i < orders.length; i++){
@@ -151,6 +169,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"GET", 
 			url: "/api/drug-quantity-pharmacy/" + pharmacyId,
+			headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			contentType: "application/json",
 			success:function(drugs){	
 				searchDrugs = drugs;
@@ -176,6 +197,9 @@ $(document).ready(function () {
 		$.ajax({
 				type:"POST", 
 				url: "/api/drug-quantity-pharmacy/search/" + drug_name,
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify(searchDrugs),
 				contentType: "application/json",
 				success:function(searchResult){
@@ -211,6 +235,9 @@ function deleteDrug(id){
 			$.ajax({
 				type:"PUT", 
 				url: "/api/drug-quantity-pharmacy/" + id + "/" + pharmacyId + "/delete",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(){
 					location.reload();
@@ -246,6 +273,9 @@ function addOrder(order, i){
 	$.ajax({
 			type:"GET", 
 			url: "/api/order/" + order.id + "/drug-quantity",
+			headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			contentType: "application/json",
 			success:function(drugs){	
 				for(i = 0; i < drugs.length; i++){
@@ -260,6 +290,9 @@ function addOrder(order, i){
 	$.ajax({
 			type:"GET", 
 			url: "/api/drug-offer/" + order.id + "/pharmacy-order",
+			headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			contentType: "application/json",
 			success:function(offers){	
 				for(i = 0; i < offers.length; i++){
@@ -321,6 +354,9 @@ function acceptOffer(id){
 			$.ajax({
 				type:"PUT", 
 				url: "/api/drug-offer/" + id,
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(){
 					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully accept offer.'
@@ -329,6 +365,9 @@ function acceptOffer(id){
 					$.ajax({
 						type:"GET", 
 						url: "/api/drug-offer/" + id + "/supplier",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(supplier){
 							$.ajax({
@@ -367,11 +406,17 @@ function acceptOffer(id){
 			$.ajax({
 			type:"GET", 
 			url: "/api/drug-offer/" + id,
+			headers: {
+   				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			contentType: "application/json",
 			success:function(offer){	
 				$.ajax({
 					type:"GET", 
 					url: "/api/drug-offer/" + offer.pharmacyOrderId + "/pharmacy-order",
+					headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        			},
 					contentType: "application/json",
 					success:function(offers){	
 						for(i = 0; i < offers.length; i++){
@@ -379,12 +424,18 @@ function acceptOffer(id){
 								$.ajax({
 									type:"PUT", 
 									url: "/api/drug-offer/" + offers[i].id + "/reject",
+									headers: {
+            							'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        							},
 									contentType: "application/json",
 									success:function(){
 									
 									$.ajax({
 										type:"GET", 
 										url: "/api/drug-offer/" + id + "/supplier",
+										headers: {
+            								'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        								},
 										contentType: "application/json",
 										success:function(supplier){
 											$.ajax({
@@ -424,6 +475,9 @@ function acceptOffer(id){
 								$.ajax({
 									type:"GET", 
 									url: "/api/order/" + offer.pharmacyOrderId  + "/drug-quantity",
+									headers: {
+            							'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        							},
 									contentType: "application/json",
 									success:function(drugQuantities){	
 										for(i = 0; i < drugQuantities.length; i++){
@@ -432,12 +486,18 @@ function acceptOffer(id){
 											$.ajax({
 												type:"PUT", 
 												url: "/api/drug-quantity-pharmacy/" + drug_id + "/" + pharmacyId + "/" + quantity + "/increase",
+												headers: {
+            										'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        										},
 												contentType: "application/json",
 												success:function(result){
 													if(result == false){
 														$.ajax({
 															type:"POST", 
 															url: "/api/drug-quantity-pharmacy",
+															headers: {
+            													'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        													},
 															data: JSON.stringify({ 
 															drugId: drug_id, 
 															pharmacyId: pharmacyId,
@@ -488,3 +548,7 @@ function acceptOffer(id){
 			});		
 			
 };
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

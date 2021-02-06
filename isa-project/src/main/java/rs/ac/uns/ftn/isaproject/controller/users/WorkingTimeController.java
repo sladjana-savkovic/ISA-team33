@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class WorkingTimeController {
 	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> add(@RequestBody WorkingTimeDTO workingTimeDTO){
 		try {
 			workingTimeService.add(workingTimeDTO);
@@ -42,6 +44,7 @@ public class WorkingTimeController {
 	}
 	
 	@GetMapping("/{id}/pharmacy")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewWorkingTimeDTO>> findByPharmacyId(@PathVariable int id) {
 		try {
 			Collection<ViewWorkingTimeDTO> workingTimeDTOs = ViewWorkingTimeMapper.toViewWorkingTimeDTOs(workingTimeService.findByPharmacyId(id));

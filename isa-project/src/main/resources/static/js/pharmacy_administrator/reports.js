@@ -1,6 +1,9 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$('#startDate').prop("max",new Date().toISOString().split("T")[0]);
 	$('#endDate').prop("max",new Date().toISOString().split("T")[0]);
@@ -8,6 +11,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -39,7 +45,6 @@ $(document).ready(function () {
 				return;
 		}
 		
-		//window.location.href = "http://localhost:8080/api/report/" + pharmacyId + "/income/" + startDate + "/" + endDate;
 		window.open('http://localhost:8080/api/report/' + pharmacyId + '/income/' + startDate + '/' + endDate,'_blank');
 	});
 			
@@ -50,3 +55,7 @@ $(document).ready(function () {
 	});
 	
 });
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

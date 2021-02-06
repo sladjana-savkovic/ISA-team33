@@ -90,6 +90,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}/pharmacy")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findByPharmacyId(@PathVariable int id) {
 		try {
 			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.findByPharmacyId(id));
@@ -101,18 +102,21 @@ public class DoctorController {
 	}
 	
 	@PostMapping("/search/{name}/{surname}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
 		Collection<ViewSearchedDoctorDTO> searchResult = doctorService.searchByNameAndSurname(name, surname, doctorDTOs);
 		return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 	@PostMapping("/filter/{type}/{grade}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> filterByGradeAndType(@PathVariable String type,@PathVariable int grade,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
 		Collection<ViewSearchedDoctorDTO> searchResult = doctorService.filterByGradeAndType(type, grade, doctorDTOs);
 		return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 	@RequestMapping(path = "/add/pharmacist", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> add(@RequestBody AddDoctorDTO doctorDTO){
 		try {
 			doctorService.addPharmacist(doctorDTO);
@@ -137,6 +141,7 @@ public class DoctorController {
 	
 	
 	@PutMapping("/{id_doctor}/pharmacy/{id_pharmacy}/delete")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> deleteDoctor(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
 		if(appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy).isEmpty()) {
 			doctorService.deleteDoctor(id_doctor);
@@ -147,6 +152,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}/pharmacy/without/working-time")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findDoctorWithoutWorkingTime(@PathVariable int id) {
 		try {
 			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.getDoctorWithoutWorkingTime(id));
@@ -173,6 +179,7 @@ public class DoctorController {
 	}
 	
 	@PutMapping("/{id_doctor}/pharmacy/{id_pharmacy}/add-dermatologist")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> addDermatologistInPharmacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
 		try {
 			doctorService.addDermatologistInPharmacy(id_doctor, id_pharmacy);
@@ -184,6 +191,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/{id}/not-pharmacy")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findDoctorNotInPharmacy(@PathVariable int id) {
 		try {
 			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.findDoctorNotInPharmacy(id));

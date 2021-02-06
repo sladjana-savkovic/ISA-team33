@@ -79,7 +79,7 @@ function checkUserRole(trueRole) {
 			window.location.href = "../system_admin/user_registration.html";
 		}
 		else if(role == "ROLE_PHARMACYADMIN"){
-			window.location.href = "../pharmacy_administrator/profile.html";
+			window.location.href = "../pharmacy_administrator/pharmacy_profile.html";
 		}
 		else if(role == "ROLE_SUPPLIER"){
 			window.location.href = "../supplier/supplier_profile.html";
