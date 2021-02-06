@@ -5,6 +5,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +35,7 @@ public class PharmacyAdministratorController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<PharmacyAdministratorDTO> findOneById(@PathVariable int id) {
 		try {
 			PharmacyAdministratorDTO pharmacyAdministratorDTO = PharmacyAdministratorMapper.toPharmacyAdministratorDTO(administratorService.getOne(id));
@@ -48,12 +50,14 @@ public class PharmacyAdministratorController {
 	}
 	
 	@PutMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> updateInfo(@RequestBody PharmacyAdministratorDTO pharmacyAdministratorDTO){
 		administratorService.updateInfo(pharmacyAdministratorDTO);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/{id}/password/{value}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> updatePassword(@PathVariable int id, @PathVariable String value){
 		try{
 		UserAccount account = userAccountService.findByUserId(id);
@@ -64,7 +68,6 @@ public class PharmacyAdministratorController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody AddPharmacyAdministratorDTO pharmacyAdministratorDTO){

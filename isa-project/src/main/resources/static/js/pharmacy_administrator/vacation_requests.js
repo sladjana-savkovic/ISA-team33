@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -12,6 +18,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/vacation/pharmacy/" + pharmacyId,
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(vacations){
 					
@@ -49,6 +58,9 @@ function rejectRequest(id){
 			$.ajax({
 				type:"PUT", 
 				url: "/api/vacation/" + id + "/reason/" + reason,
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(){
 					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully reject vacation request.'
@@ -58,6 +70,9 @@ function rejectRequest(id){
 					$.ajax({
 						type:"GET", 
 						url: "/api/vacation/" + id + "/doctor",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(doctor){
 							
@@ -102,6 +117,9 @@ function acceptRequest(id){
 			$.ajax({
 				type:"PUT", 
 				url: "/api/vacation/" + id,
+				headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(){
 					
@@ -112,6 +130,9 @@ function acceptRequest(id){
 					$.ajax({
 						type:"GET", 
 						url: "/api/vacation/" + id + "/doctor",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(doctor){
 							$.ajax({
@@ -146,6 +167,9 @@ function acceptRequest(id){
 					return;
 				}
 			});
-			
-			
+					
 };
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

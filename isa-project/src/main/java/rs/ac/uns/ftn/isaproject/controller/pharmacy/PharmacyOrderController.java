@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ public class PharmacyOrderController {
 	}
 	
 	@RequestMapping(path = "/drug-quantity", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> addDrugQuantity(@RequestBody DrugQuantityOrderDTO drugQuantityDTO) {
 		try {
 			pharmacyOrderService.addDrugQuantity(drugQuantityDTO);
@@ -43,6 +45,7 @@ public class PharmacyOrderController {
 	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> add(@RequestBody PharmacyOrderDTO pharmacyOrderDTO) {
 		try {
 			pharmacyOrderService.add(pharmacyOrderDTO);
@@ -53,6 +56,7 @@ public class PharmacyOrderController {
 	}
 	
 	@GetMapping("/last")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Integer> findByMaxId(){
 		try {
 			return new ResponseEntity<>(pharmacyOrderService.findByMaxId(), HttpStatus.OK);
@@ -74,6 +78,7 @@ public class PharmacyOrderController {
 	}
 	
 	@GetMapping(value = "/{id}/drug-quantity")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<DrugQuantityOrderDTO>> getDrugQuantityByPharmacyOrderId(@PathVariable int id) {
 
 		Collection<DrugQuantityOrder> drugs = pharmacyOrderService.findByPharmacyOrderId(id);
@@ -88,6 +93,7 @@ public class PharmacyOrderController {
 	}
 	
 	@GetMapping("/{id}/pharmacy")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<PharmacyOrderDTO>> getByPharmacyId(@PathVariable int id) {
 
 		Collection<PharmacyOrder> pharmacyOrders = pharmacyOrderService.findByPharmacyId(id);

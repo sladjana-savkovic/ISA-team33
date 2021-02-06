@@ -1,7 +1,10 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$('#startDateAction').prop("min",new Date().toISOString().split("T")[0]);
 	$('#endDateAction').prop("min",new Date().toISOString().split("T")[0]);
@@ -11,6 +14,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -18,12 +24,18 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/pharmacy/" + pharmacyId,
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(pharmacy){
 					
 					$.ajax({
 						type:"GET", 
 						url: "/api/drug/" + pharmacyId + "/pharmacy",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(drugs){	
 							for(i = 0; i < drugs.length; i++){
@@ -64,6 +76,9 @@ $(document).ready(function () {
 		$.ajax({
 				type:"POST", 
 				url: "/api/action",
+				headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					name: name, 
 					description: description, 
@@ -79,6 +94,9 @@ $(document).ready(function () {
 					$.ajax({
 						type:"GET", 
 						url: "/api/subscription/" + pharmacyId + "/pharmacy-patients",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(idies){
 							for(i = 0; i < idies.length; i++){
@@ -141,6 +159,9 @@ $(document).ready(function () {
 		$.ajax({
 				type:"POST", 
 				url: "/api/pricelist",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					price: price, 
 					idPharmacy: pharmacyId, 
@@ -177,3 +198,7 @@ function addDrugsInCombo(drug){
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drug').append(option);
 };
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

@@ -1,34 +1,9 @@
 checkUserRole("ROLE_PATIENT");
 var patientId = getUserIdFromToken();
-var pharmacyId = 1;
 $(document).ready(function(){
 	
 	getAllAppointments();
 	
-	$('form#search').submit(function(event){
-		event.preventDefault()
-		
-
-		let sorting = $('#sort').val();
-		$("#apartment-cards").empty();
-		$.ajax({
-			type:"GET",
-			url:"/api/appointment/pharmacy/"+pharmacyId+"/created/"+sorting,
-			headers: {
-	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-	        },
-			contentType: "application/json",
-			success:function(appointments){
-				appointments.forEach(a => appendAppointment(a));
-			},
-			error: function (jqXHR) {
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-							 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
-			}
-		})
-	})
 	
 })
 
@@ -36,7 +11,7 @@ const getAllAppointments = () => {
 	$("#apartment-cards").empty();
 	$.ajax({
 		type:"GET",
-		url:"/api/appointment/pharmacy/"+pharmacyId+"/created/PRICE_ASC",
+		url:"/api/appointment/patient/"+patientId+"/pharmacist/scheduled",
 		headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
@@ -84,24 +59,24 @@ const appendAppointment = (apartment) => {
 				`
 				
 			oneElement = oneElement + `
-			<button class="btn btn-success btn-light"  id="modalButton" onclick="scheduleAppointment('${apartment.idAppointment}')">Schedule</button>
+			<button class="btn btn-success btn-light"  id="modalButton" onclick="cancelAppointment('${apartment.idAppointment}')">Cancel</button>
 			`
 		
 	oneElement = oneElement + `</div></div></div>`
-	$("#apartment-cards").append(oneElement);
+	$("#apartment-cards").append(oneElement); 
 		},
 		error:function(xhr){
 			console.log(xhr.responseText);
 		}
-	});
+	}); 
 	
 }
 
 
-const scheduleAppointment = apartmentId =>{
+const cancelAppointment = apartmentId =>{
 	$.ajax({
 		type:"PUT",
-		url: "/api/appointment/"+ apartmentId+"/patient/"+patientId+"/schedule",
+		url: "/api/appointment/"+ apartmentId+"/cancel",
 		headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
@@ -117,5 +92,3 @@ const scheduleAppointment = apartmentId =>{
 		}
 	})
 }
-
-

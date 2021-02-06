@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -12,6 +18,9 @@ $(document).ready(function () {
 					$.ajax({
 						type:"GET", 
 						url: "/api/notification/" + pharmacyId + "/pharmacy",
+						headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        				},
 						contentType: "application/json",
 						success:function(drugs){	
 							for(i = 0; i < drugs.length; i++){
@@ -37,3 +46,6 @@ function addDrug(drug){
 	$('#drugs').append(row);
 };
 
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

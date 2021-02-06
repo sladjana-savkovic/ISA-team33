@@ -1,12 +1,18 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$('#startDate').prop("min",new Date().toISOString().split("T")[0]);
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -14,6 +20,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/doctor/" + pharmacyId + "/pharmacy",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(dd){
 					
@@ -68,6 +77,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"POST", 
 				url: "/api/appointment/create",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					startTime: startDate, 
 					endTime: endDate,
@@ -104,4 +116,9 @@ function addDoctorInComboBox(doctor) {
 	let doctor_option = $('<option id="' + doctor.id + '" value = "' + doctor.name + '">' + doctor.name + ' ' + doctor.surname + '</option>');
 	$('select#doctors').append(doctor_option);
 };
+
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}
 

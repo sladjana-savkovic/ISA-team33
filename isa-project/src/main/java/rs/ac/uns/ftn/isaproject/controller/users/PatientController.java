@@ -17,21 +17,27 @@ import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.mapper.PatientMapper;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
+import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
 @RestController
 @RequestMapping(value = "api/patient")
 public class PatientController {
 
 	private PatientService patientService;
+	private UserAccountService userAccountService;
 	
 	@Autowired
-	public PatientController(PatientService patientService) {
+	public PatientController(PatientService patientService, UserAccountService userAccountService) {
 		this.patientService = patientService;
+		this.userAccountService = userAccountService;
 	}
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('PATIENT')")
 	public ResponseEntity<PatientDTO> findOneById(@PathVariable int id) {
 		try {
 			PatientDTO patientDTO = PatientMapper.toPatientDTO(patientService.getOne(id));
+			patientDTO.setEmail(userAccountService.findByUserId(id).getUsername());
+			patientDTO.setPassword(userAccountService.findByUserId(id).getPassword());
 			return new ResponseEntity<PatientDTO>(patientDTO, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
@@ -40,6 +46,7 @@ public class PatientController {
 	}
 	
 	@PutMapping(consumes = "application/json")
+	@PreAuthorize("hasAnyRole('PATIENT')")
 	public ResponseEntity<Void> updateInfo(@RequestBody PatientDTO patientDTO){
 		patientService.updateInfo(patientDTO);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -69,7 +76,7 @@ public class PatientController {
 	}
 	
 	@GetMapping("/{id}/allergy/{drugId}")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST','PATIENT', 'PHARMACIST')")
 	public ResponseEntity<Boolean> checkAllergyOnDrug(@PathVariable int id, @PathVariable int drugId){
 		try {
 			return new ResponseEntity<Boolean>(patientService.checkAllergyOnDrug(id, drugId), HttpStatus.OK);

@@ -33,8 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				  eventClick: function(info) {
 						info.jsEvent.preventDefault(); // don't let the browser navigate
 	
-						window.location.href = "start_examination.html"
-						localStorage.setItem("appointmentId", info.event.url);
+						if(info.event.url){
+							window.location.href = "start_examination.html"
+							localStorage.setItem("appointmentId", info.event.url);
+						}
 				  }
 		      });
 		

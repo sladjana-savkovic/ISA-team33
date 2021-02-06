@@ -29,8 +29,8 @@ $(document).ready(function () {
 					localStorage.setItem('token', token.accessToken);
 					redirectUser(token.accessToken);
 				},
-				error: function () {
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Bad credentials. '
+				error: function (xhr) {
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
@@ -45,6 +45,9 @@ function redirectUser(token){
 	let role = decodeToken(token).role;
 	if(role == "ROLE_PHARMACIST" || role == "ROLE_DERMATOLOGIST"){
     	 window.location.href = "../doctor/calendar.html";
+	}
+	if(role == "ROLE_PHARMACYADMIN"){
+    	 window.location.href = "../pharmacy_administrator/pharmacy_profile.html";
 	}
 }
 

@@ -44,24 +44,28 @@ public class VacationRequestController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> acceptRequest(@PathVariable int id){
 		vacationService.acceptRequest(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping("/{id}/reason/{value}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> rejectRequest(@PathVariable int id, @PathVariable String value){
 		vacationService.rejectRequest(id, value);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/pharmacy/{id}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<ViewVacationRequestDTO>> findCreatedByPharmacyId(@PathVariable int id){
 		Collection<ViewVacationRequestDTO> vacationRequestDTOs = VacationRequestMapper.toViewVacationRequestDTOs(vacationService.findCreatedByPharmacyId(id));
 		return new ResponseEntity<Collection<ViewVacationRequestDTO>>(vacationRequestDTOs, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}/doctor")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<DoctorDTO> findDoctorById(@PathVariable int id){
 		DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(vacationService.findDoctorById(id));
 		return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
