@@ -1,5 +1,6 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddDrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugSearchDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
@@ -70,7 +72,7 @@ public class DrugController {
 	@GetMapping()
 	public ResponseEntity<Collection<DrugDTO>> getAllDrugs(){
 		try {
-			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugService.getAllDrugs());
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugSearchDTOs(drugService.getAllDrugs());
 			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -87,5 +89,16 @@ public class DrugController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	
+	@PostMapping("/search")
+	public ResponseEntity<Collection<DrugDTO>> searchByNameAndGradeAndType(@RequestBody DrugSearchDTO drugDTOs){
+		try {
+			Collection<DrugDTO> searchResult = drugService.searchByNameAndGradeAndType(drugDTOs);
+			return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}	
+	
+	
 }

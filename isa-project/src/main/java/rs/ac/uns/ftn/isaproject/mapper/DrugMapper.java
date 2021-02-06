@@ -21,4 +21,17 @@ public class DrugMapper {
 		
 		return drugDTOs;
 	}
+	
+	public static Collection<DrugDTO> toDrugSearchDTOs(Collection<Drug> drugs){
+		
+		Collection<DrugDTO> drugDTOs = new ArrayList<>();
+		
+		for(Drug d:drugs) {
+			Collection<IngredientDTO> ingredients = IngredientMapper.toIngredientDTOs(d.getIngredients());
+			drugDTOs.add(new DrugDTO(d.getId(), d.getName(), d.getTypeOfDrug().name(), d.getTypeOfDrugsForm().name(), d.getProducer(), ingredients,
+									d.getContraindication(),d.getDailyDose(),d.getGrade()));
+		}
+		
+		return drugDTOs;
+	}
 }
