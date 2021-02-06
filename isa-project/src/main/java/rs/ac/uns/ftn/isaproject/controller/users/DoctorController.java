@@ -207,6 +207,7 @@ public class DoctorController {
 	}
 
 	@PostMapping("/available")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<Collection<DoctorDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO){
 		LocalDateTime date = LocalDateTime.parse(appointmentDTO.startTime);
 		Collection<DoctorDTO> pharmacyDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findAvailableDoctor(date, (long)appointmentDTO.idPharmacy));

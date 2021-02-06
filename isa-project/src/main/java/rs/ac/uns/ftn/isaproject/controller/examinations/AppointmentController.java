@@ -132,7 +132,7 @@ public class AppointmentController {
 	
 
 	@GetMapping("/pharmacy/{pharmacyId}/created/{sort}")
-	@PreAuthorize("hasAnyRole('PATIENT')")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId,@PathVariable String sort){
 		try {
 		Collection<AddAppointmentDTO> appointmentDTOs = 
@@ -191,7 +191,7 @@ public class AppointmentController {
 	}
 	
 	@PostMapping(value="/schedule", consumes = "application/json")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'PATIENT')")
 	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
 		try {
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
@@ -220,7 +220,7 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/patient/{id_patient}/{doctorType}/scheduled")
-	@PreAuthorize("hasAnyRole('PATIENT')")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<Collection<AddAppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
 		try {
 			TypeOfDoctor type = doctorType.equals("dermatologists") ? TypeOfDoctor.Dermatologist : TypeOfDoctor.Pharmacist;
@@ -232,7 +232,7 @@ public class AppointmentController {
 		}
 	}
 	@PutMapping("/{id}/cancel")
-	@PreAuthorize("hasAnyRole('PATIENT')")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<?> cancelAppointment(@PathVariable int id){
 		try {
 			appointmentService.cancelAppointment(id);

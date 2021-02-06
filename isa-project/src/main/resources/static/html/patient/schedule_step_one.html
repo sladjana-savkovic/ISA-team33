@@ -35,14 +35,14 @@
                         <input placeholder="Enter end date" type="time" class="form-control" id="appStartTime" required>
                     </div>
                 </div>
-                <div class="form-row pt-2">
+               <!-- <div class="form-row pt-2">
                     <div class="form-group col">
                         <label for="appTime" class="text-secondary" style="float: left">Enter end time *</label>
                         <input placeholder="Enter end date" type="time" class="form-control" id="appEndTime" required>
                     </div>
-                </div>
+                </div> -->
 				</div>
-	            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="createAppBtn">Create appointment</button>
+	            <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="createAppBtn" onclick="location.href='http://localhost:8080/html/patient/schedule_step_two.html';">Next</button>
 	        </form>
    		 </div>
 		</div>
@@ -54,7 +54,7 @@
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../../js/jwt_check.js"></script>
-    
+    <script type="text/javascript" src="../../js/jwt_check.js"></script> 
+    <script type="text/javascript" src="../../js/patient/schedule_step_one.js"></script>
 </body>
 </html>
