@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,29 +34,29 @@ public class DrugOfferController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> acceptOffer(@PathVariable int id){
-		//ici ce id ulogovanog adminitratora apoteke
-		if(pharmacyOrderService.findById(id).getPharmacyAdministrator().getId() == 6) {
 			drugOfferService.acceptOffer(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-		}
+		
 	}
 	
 	@GetMapping("/{id}/pharmacy-order")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<DrugOfferDTO>> findByPharmacyOrderId(@PathVariable int id){
 		Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyOrderId(id));
 		return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}/pharmacy")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<DrugOfferDTO>> findByPharmacyId(@PathVariable int id){
 		Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyId(id));
 		return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}/reject")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> rejectOffer(@PathVariable int id){
 		drugOfferService.rejectOffer(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -63,6 +64,7 @@ public class DrugOfferController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<DrugOfferDTO> findById(@PathVariable int id){
 		DrugOffer drugOffer = drugOfferService.findById(id);
 		DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
@@ -70,6 +72,7 @@ public class DrugOfferController {
 	}
 	
 	@GetMapping("/{id}/supplier")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<SupplierDTO> findSupplierById(@PathVariable int id){
 		SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
 		return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);

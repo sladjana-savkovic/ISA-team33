@@ -1,12 +1,16 @@
-var doctorId = appConfig.doctorId;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
 
 document.addEventListener('DOMContentLoaded', function() {
 	
-	localStorage.clear();
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/doctor/" + doctorId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(appointments){
 						
@@ -29,8 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 				  eventClick: function(info) {
 						info.jsEvent.preventDefault(); // don't let the browser navigate
 	
-						window.location.href = "start_examination.html"
-						localStorage.setItem("appointmentId", info.event.url);
+						if(info.event.url){
+							window.location.href = "start_examination.html"
+							localStorage.setItem("appointmentId", info.event.url);
+						}
 				  }
 		      });
 		
@@ -43,4 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	
 });
+
+function clearLocalStorage(){
+	localStorage.removeItem("appointmentId");
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
+}
 	

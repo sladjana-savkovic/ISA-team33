@@ -1,9 +1,12 @@
-var doctorId = appConfig.doctorId;
-var doctorAccountId = appConfig.doctorId;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
+var doctorAccountId = getUserAccountIdFromToken();
 var doctorObj = null;
 $(document).ready(function () {
 	
-	localStorage.clear();
+	clearLocalStorage();
+	$('#change_pass').attr("disabled",false);
+	$('#change').attr("disabled",false);
 	
 	$.ajax({
 		type:"GET", 
@@ -24,6 +27,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/doctor/" + doctorId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(doctor){
 			doctorObj = doctor;
@@ -49,13 +55,15 @@ $(document).ready(function () {
 			$.ajax({
 				type:"PUT", 
 				url: "/api/doctor",
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
 				data: JSON.stringify({ 
 					id:doctorId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),
 					phoneNumber: $('#phone').val(),
-					email: $('#email').val(),
 					address: $('#address').val(),
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
@@ -90,21 +98,31 @@ $(document).ready(function () {
 			return;
 		}
 		
+		$('#change_pass').attr("disabled",true);
+		
 		$.ajax({
-			type:"PUT", 
-			url: "/api/user/" + doctorAccountId + "/password/" + oldPass+ "/" + newPass,
+			type:"POST", 
+			url: "/auth/change-password",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+			data: JSON.stringify({ 
+				oldPassword:oldPass,
+				newPassword: newPass}),
 			contentType: "application/json",
 			success:function(){
-				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.Please, log in again.'
 				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
-				window.setTimeout(function(){location.reload()},1000)
+				localStorage.clear();
+				window.setTimeout(function(){location.href = "../user/login.html";},1000)
 				return;
 			},
 			error:function(xhr){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + JSON.parse(xhr.responseText).message
 				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
+				$('#change_pass').attr("disabled",false);
 				return;
 			}
 		});
@@ -116,12 +134,11 @@ function enableFields(){
 	$('#surname').attr("disabled",false);
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	$('#email').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
 	
-	changeInputFiledsStatus(true);
+	changeInputFieldsStatus(true);
 	changeSelectOptionsStatus(false);
 };
 
@@ -131,17 +148,17 @@ function addDoctorInfo(doctor){
 	$('#surname').val(doctor.surname);
 	$('#dateOfBirth').val(doctor.dateOfBirth);
 	$('#phone').val(doctor.phoneNumber);
-	$('#email').val(doctor.email);
+	$('#email').text(doctor.email);
 	$('#address').val(doctor.address);
 	
-	changeInputFiledsStatus(false);
+	changeInputFieldsStatus(false);
 	changeSelectOptionsStatus(true);
 	$("#countryInput").val(doctor.countryName);
 	$("#cityInput").val(doctor.cityName);
 	
 }
 
-function changeInputFiledsStatus(hidden){
+function changeInputFieldsStatus(hidden){
 	if(hidden){
 		$("#countryInput").attr("hidden",true);
 		$("#cityInput").attr("hidden",true);
@@ -188,4 +205,10 @@ function getCities(countryId){
 			console.log(xhr.responseText);
 		}
 	});
+}
+
+function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
+	localStorage.removeItem("appointmentId");
 }

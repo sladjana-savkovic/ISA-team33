@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
@@ -92,6 +98,9 @@ $(document).ready(function () {
 			$.ajax({
 				url: "/api/doctor/add/pharmacist",
 				type: 'POST',
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: 'application/json',
 				data: JSON.stringify(newDoctor),
 				success: function () {
@@ -180,3 +189,7 @@ function addCityInComboBox(city) {
 	let city_option = $('<option id="' + city.id + '" value = "' + city.name + '">' + city.name + '</option>');
 	$('select#cities').append(city_option);
 };
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

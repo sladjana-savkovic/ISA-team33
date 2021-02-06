@@ -6,11 +6,12 @@ try {
 	}
 }
 catch(err) {
-   localStorage.clear();
+   clearLocalStorage();
    window.location.href = "calendar.html";
 }
 
-var doctorId = appConfig.doctorId;
+checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
+var doctorId = getUserIdFromToken();
 var appointment = null;
 var therapies = [];
 var drugs = [];
@@ -19,6 +20,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/" + appointmentId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(appointment_for_examination){
 			appointment = appointment_for_examination;
@@ -26,6 +30,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"GET", 
 				url: "/api/drug-quantity-pharmacy/" + appointment.pharmacyId + "/available",
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
 				contentType: "application/json",
 				success:function(drugs){
 					for (let d of drugs) {
@@ -55,13 +62,16 @@ $(document).ready(function () {
 			$.ajax({
 				type:"PUT", 
 				url: "/api/appointment/" + appointment.appointmentId + "/patient/" + appointment.patientId + "/unperformed",
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
 				contentType: "application/json",
 				success:function(){
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
 					+'Successfully changed appointment status and increased penalties for patient.'
 					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
-					localStorage.clear();
+					clearLocalStorage();
 					window.setTimeout(function(){location.href = "calendar.html"},500);
 					return;
 				},
@@ -83,6 +93,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"GET", 
 			url: "/api/drug-quantity-pharmacy/" + drugId + "/" + appointment.pharmacyId + "/availability",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			contentType: "application/json",
 			success:function(availability){
 
@@ -113,7 +126,7 @@ $(document).ready(function () {
 								for(let d of substituteDrugs){
 								addSubstituteDrug(d);
 							}
-							}
+						}
 									
 						},
 						error:function(){
@@ -162,6 +175,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"GET", 
 			url: "/api/patient/" + appointment.patientId + "/allergy/" + drugId,
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			contentType: "application/json",
 			success:function(hasAllergy){				
 				if(hasAllergy){
@@ -190,6 +206,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"GET", 
 			url: "/api/patient/" + appointment.patientId + "/allergy/" + substituteDrugId,
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			contentType: "application/json",
 			success:function(hasAllergy){				
 				if(hasAllergy){
@@ -248,6 +267,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			data: JSON.stringify({ 
 				appointmentId: appointmentId, 
 				diagnosis: $('#diagnosis').val(),
@@ -273,7 +295,7 @@ $(document).ready(function () {
 	
 	
 	$('#newApp').click(function(){
-		localStorage.clear();
+		clearLocalStorage();
 		window.location.href = "create_appointment.html"
 		localStorage.setItem("patientId", appointment.patientId);
 		localStorage.setItem("pharmacyId", appointment.pharmacyId);
@@ -281,7 +303,7 @@ $(document).ready(function () {
 	
 	
 	$('#finish').click(function(){
-		localStorage.clear();
+		clearLocalStorage();
 		window.location.href = "calendar.html";
 	});
 	
@@ -334,11 +356,18 @@ function addDrug(drug){
 	drugs.push({"drugId":drug.id, "drugName":drug.name, "typeOfDrug":drug.typeOfDrug, "typeOfDrugsForm":drug.typeOfDrugsForm,
 				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients});
 				
-	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
+	let option = $('<option data-tokens="' + drug.name + '" value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drugs').append(option);
 };
 
 function addSubstituteDrug(drug){
-	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
+	let option = $('<option data-tokens="' + drug.name + '" value="' + drug.id +'">' + drug.name + '</option>');
 	$('#substituteDrugs').append(option);
+}
+
+
+function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
+	localStorage.removeItem("appointmentId");
 }

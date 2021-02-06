@@ -43,23 +43,23 @@ insert into patient(id, name, surname, telephone, city_id, penalty, address, dat
 					values (nextval('users_seq'),'Ana','Anić', '0632145214', 1,1,'Maksima Gorkog 4','1957-03-05');
 insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
 					values (nextval('users_seq'),'Lana','Ilić', '0632145555', 1,0,'Maksima Gorkog 15','1988-03-10');
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'sladjasavkovic333+1@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 3);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'sladjasavkovic333+11@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 4);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (5, 'lana.ilic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 5);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'pera.peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 3);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'ana.anic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 4);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'lana.ilic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 5);
 
 
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Amoksicilin', 1, 1, 'Hemofarm', 3, 'Amoksicilin se ne smije primijeniti u slučaju preosjetljivosti na penicilin te u bolesnika s infektivnom mononukleozom i limfatičkom leukemijom zbog učestale pojave osipa.', false);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Cefaleksin', 1, 2, 'Hemofarm', 2, 'Cefaleksin se ne smije primjenjivati u osoba preosjetljivih na cefaleksin i druge cefalosporine, odnosno na neki od pomoćnih sastojaka lijeka.', false);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Brufen', 0, 0, 'Hemofarm', 3, 'Kontraindikacije za upotrebu lijeka Brufen su: teška insuficijencija jetre, stanja koja uključuju povećanu mogućnost krvarenja, teška insuficijencija bubrega.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Probiotik Forte', 3, 3, 'Hemofarm', 3, 'Uzimanje probiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Dexomen', 1, 1, 'Bosna lijek', 1, 'Uzimanje lijeka povećava rizik od bakterijskih infekcija.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Panklav', 0, 0, 'Hemofarm', 3, 'Uzimanje antibiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Paracetamol', 1, 1, 'Hemofarm', 2, 'Paracetamol ne smije primjenjivati kod bolesnika s anamnezom anafilaktičke (tj. po život opasne) reakcije na bilo koji sastojaka.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Metalyse', 2, 1, 'Hemofarm', 3, 'Metalyse ne smije primjenjivati kod bolesnika s anamnezom anafilaktičke (tj. po život opasne) reakcije na bilo koji sastojaka.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Hemomycin', 0, 0, 'Hemofarm', 3, 'Kontraindikacije za upotrebu lijeka Hemomycin su ošamućenost, glavobolja, trnjenje, poremećaj ukusa, oštećenje vida, gluvoća,povraćanje, otežano varenje, svrab, ospa, bol u zglobovima, malaksalost.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Sabax', 1, 1, 'Bosna lijek', 3, 'Kontraindikacije za upotrebu lijeka Sabax su: groznica; nemir, vrtoglavica, konfuzija (zbunjenost), halucinacije, nesanica, pospanost (somnolencija), poremećaji vida; zapaljenje jezika (glositis).', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Ketonal', 1, 0, 'Bosna lijek', 2, 'Lijek Ketonal je kontraindikovan kod pacijenata sa anamnestičkim podacima o reakcijama preosetljivosti kao što su bronhospazam, astmatični napadi, rinitis, urtikarija ili drugim oblicima alergijskih reakcija.', true);
-insert into drug (id, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'Tamsol', 1, 0, 'Bosna lijek', 2, 'Lijek Tamsol je kontraindikovan kod pacijenata sa anamnestičkim podacima o reakcijama preosetljivosti kao što su bronhospazam, astmatični napadi, rinitis, urtikarija ili drugim oblicima alergijskih reakcija.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra1', 'Amoksicilin', 1, 1, 'Hemofarm', 3, 'Amoksicilin se ne smije primijeniti u slučaju preosjetljivosti na penicilin te u bolesnika s infektivnom mononukleozom i limfatičkom leukemijom zbog učestale pojave osipa.', false);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra2', 'Cefaleksin', 1, 2, 'Hemofarm', 2, 'Cefaleksin se ne smije primjenjivati u osoba preosjetljivih na cefaleksin i druge cefalosporine, odnosno na neki od pomoćnih sastojaka lijeka.', false);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra3', 'Brufen', 0, 0, 'Hemofarm', 3, 'Kontraindikacije za upotrebu lijeka Brufen su: teška insuficijencija jetre, stanja koja uključuju povećanu mogućnost krvarenja, teška insuficijencija bubrega.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra4', 'Probiotik Forte', 3, 3, 'Hemofarm', 3, 'Uzimanje probiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra5', 'Dexomen', 1, 1, 'Bosna lijek', 1, 'Uzimanje lijeka povećava rizik od bakterijskih infekcija.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra6', 'Panklav', 0, 0, 'Hemofarm', 3, 'Uzimanje antibiotika povećava rizik od ozbiljnijih infekcija jer se nove bakterije ubacuju u organizam.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra7', 'Paracetamol', 1, 1, 'Hemofarm', 2, 'Paracetamol ne smije primjenjivati kod bolesnika s anamnezom anafilaktičke (tj. po život opasne) reakcije na bilo koji sastojaka.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra8', 'Metalyse', 2, 1, 'Hemofarm', 3, 'Metalyse ne smije primjenjivati kod bolesnika s anamnezom anafilaktičke (tj. po život opasne) reakcije na bilo koji sastojaka.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra9', 'Hemomycin', 0, 0, 'Hemofarm', 3, 'Kontraindikacije za upotrebu lijeka Hemomycin su ošamućenost, glavobolja, trnjenje, poremećaj ukusa, oštećenje vida, gluvoća,povraćanje, otežano varenje, svrab, ospa, bol u zglobovima, malaksalost.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra10', 'Sabax', 1, 1, 'Bosna lijek', 3, 'Kontraindikacije za upotrebu lijeka Sabax su: groznica; nemir, vrtoglavica, konfuzija (zbunjenost), halucinacije, nesanica, pospanost (somnolencija), poremećaji vida; zapaljenje jezika (glositis).', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra11', 'Ketonal', 1, 0, 'Bosna lijek', 2, 'Lijek Ketonal je kontraindikovan kod pacijenata sa anamnestičkim podacima o reakcijama preosetljivosti kao što su bronhospazam, astmatični napadi, rinitis, urtikarija ili drugim oblicima alergijskih reakcija.', true);
+insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription) values (nextval('drugs_seq'), 'sifra12', 'Tamsol', 1, 0, 'Bosna lijek', 2, 'Lijek Tamsol je kontraindikovan kod pacijenata sa anamnestičkim podacima o reakcijama preosetljivosti kao što su bronhospazam, astmatični napadi, rinitis, urtikarija ili drugim oblicima alergijskih reakcija.', true);
 
 insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (1,3);
 insert into drug_substitute_drugs (drug_id,substitute_drugs_id) values (2,1);
@@ -310,6 +310,18 @@ insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_
 			values (nextval('reservation_seq'),'2021-02-20 15:00:00',false,4,2,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2021-01-30 12:00:00',false,3,1,2);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-04 12:00:00',true,3,2,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-07 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-16 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-01-31 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-02-02 12:00:00',true,3,1,1);
+insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
+			values (nextval('reservation_seq'),'2020-02-04 12:00:00',true,3,1,1);
 
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','12:00:00',1,1);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);
@@ -350,21 +362,21 @@ insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (
 insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
 					values (nextval('users_seq'),'Sima','Simić', '0668989985', 0,'Kralja Petra I','1963-07-13');
 insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
-				    values (nextval('users_seq'),'Pera','Perić', '0668989985', 0,'Kralja Petra I','1963-07-13');
+				    values (nextval('users_seq'),'Mika','Mikić', '0668989985', 0,'Kralja Petra I','1963-07-13');
 
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'pera7peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (1, 'mika.mikic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13);
 
 
-insert into notification (id, drug_id, pharmacy_id) values (nextval('notification_seq'), 1, 1);
-insert into notification (id, drug_id, pharmacy_id) values (nextval('notification_seq'), 3, 1);
-insert into notification (id, drug_id, pharmacy_id) values (nextval('notification_seq'), 2, 2);
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 1, 1, '2021-01-25 15:00:00');
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 3, 1, '2021-02-01 10:00:00');
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 2, 2, '2021-01-30 12:00:00');
 
 
 /*Ubacivanje dodatnog farmaceuta i definisanje zavrsenog pregleda*/
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
 					values (nextval('users_seq'),'Petar','Petrić', '063752014', 4.2, 1, 2,'Šekspirova 40','1978-10-13', false);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (3, 'petar.peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 14);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (3, 'petar.petric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 14);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,14);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status)
 					values (nextval('appointments_seq'),'2021-03-01 07:30:00','2021-03-01 08:00:00',600,14,1,5,3);

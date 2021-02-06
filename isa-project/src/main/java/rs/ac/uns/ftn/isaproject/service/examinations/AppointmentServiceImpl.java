@@ -3,8 +3,11 @@ package rs.ac.uns.ftn.isaproject.service.examinations;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
+import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
@@ -40,10 +44,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public void changeStatus(int id, AppointmentStatus status) throws Exception {
 		Appointment appointment = appointmentRepository.getOne(id);
-		
-		if(appointment.getStatus() == status)
+
+		if (appointment.getStatus() == status)
 			throw new BadRequestException("The appointment already has a changed status.");
-		
+
 		appointment.setStatus(status);
 		appointmentRepository.save(appointment);
 	}
@@ -85,21 +89,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs) {
 		Collection<AppointmentDTO> searchResult = new ArrayList<>();
-		
-		for(AppointmentDTO dto:appointmentDTOs) {
-			if(dto.startTime.contains(startTime)){
+
+		for (AppointmentDTO dto : appointmentDTOs) {
+			if (dto.startTime.contains(startTime)) {
 				searchResult.add(dto);
 			}
 		}
-		
+
 		return searchResult;
 	}
 
 	public Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId) {
-		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointmentsInPharamacy(doctorId, pharmacyId);
+		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointmentsInPharamacy(doctorId,
+				pharmacyId);
 		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
-		for(Appointment a : appointments) {
-			if(a.getStatus() == AppointmentStatus.Scheduled) {
+		for (Appointment a : appointments) {
+			if (a.getStatus() == AppointmentStatus.Scheduled) {
 				resultAppointments.add(a);
 			}
 		}
@@ -107,6 +112,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
+	public Collection<Appointment> findAllCreatedByPharmacyDermatologist(int pharmacyId) {
+		Collection<Appointment> appointments = appointmentRepository.findAllByDoctorTypeOfDoctorAndPharmacyId(TypeOfDoctor.Dermatologist, pharmacyId);
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for (Appointment a : appointments) {
+			if (a.getStatus() == AppointmentStatus.Canceled || a.getStatus() == AppointmentStatus.Created) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
+	}
+	
 	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
 		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
 	}
@@ -159,4 +175,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 		
 		appointmentRepository.save(appointment);
 	}
+
+	@Override
+	public Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType) {
+		Collection<Appointment> appointments = appointmentRepository.findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(patientId,doctorType,AppointmentStatus.Scheduled);
+		return appointments;
+	}
+	@Override
+	public void cancelAppointment(int id) throws Exception {
+		Appointment appointment = appointmentRepository.findById(id).get();
+		
+		if(appointment.getStatus() != AppointmentStatus.Scheduled || !appointment.getStartTime().isAfter(LocalDateTime.now().plus(Period.ofDays(1))))
+			throw new BadRequestException("The appointment cannot be cancelled.");
+		
+		appointment.setStatus(AppointmentStatus.Canceled);
+		appointment.setPatient(null);
+		appointmentRepository.save(appointment);
+	}
+	
 }

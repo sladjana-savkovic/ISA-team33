@@ -153,6 +153,7 @@ public class DoctorServiceImpl implements DoctorService {
 		Pharmacy pharmacy = pharmacyRepository.getOne(idPharmacy);
 		for(Doctor d : findByPharmacyId(idPharmacy)) {
 			Map<String, Object> item = new HashMap<>();
+			item.put("id", d.getId());
 			item.put("pharmacyName", pharmacy.getName());
 			item.put("pharmacyGrade", pharmacy.getAverageGrade());
 			item.put("name", d.getName());

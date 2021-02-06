@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
 
+	clearLocalStorage();
+	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 			pharmacyId=admin.pharmacyId;
@@ -25,6 +31,9 @@ $(document).ready(function () {
 			$.ajax({
 				type:"PUT", 
 				url: "/api/pharmacy-admin",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					id: pharmacyAdminId,
 					name: $('#name').val(), 
@@ -69,6 +78,9 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"PUT", 
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				url: "/api/pharmacy-admin/" + pharmacyAdminId + "/password/" + new_pass1 ,
 				contentType: "application/json",
 				success:function(){
@@ -98,7 +110,6 @@ function enableFields(){
 	$('#name').attr("disabled",false);
 	$('#surname').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	$('#email').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -160,4 +171,8 @@ function changeCity(countryId){
 			console.log('error getting admin cities');
 		}
 	});
+}
+
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
 }

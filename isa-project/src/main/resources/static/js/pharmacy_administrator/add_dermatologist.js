@@ -1,10 +1,16 @@
-var pharmacyAdminId = 6;
+checkUserRole("ROLE_PHARMACYADMIN");
+var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 $(document).ready(function () {
+	
+	clearLocalStorage();
 	
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(admin){
 		pharmacyId = admin.pharmacyId;
@@ -12,6 +18,9 @@ $(document).ready(function () {
 		$.ajax({
 				type:"GET", 
 				url: "/api/doctor/" + pharmacyId + "/not-pharmacy",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(dd){
 					
@@ -38,6 +47,9 @@ $(document).ready(function () {
 		$.ajax({
 				type:"PUT", 
 				url: "/api/doctor/" + doctor + "/pharmacy/" + pharmacyId + "/add-dermatologist",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(){
 					location.reload()
@@ -71,4 +83,6 @@ function addDoctorInComboBox(doctor) {
 	$('select#derma').append(derma_option);
 };
 
-
+function clearLocalStorage(){
+	localStorage.removeItem("pharmacyId");
+}

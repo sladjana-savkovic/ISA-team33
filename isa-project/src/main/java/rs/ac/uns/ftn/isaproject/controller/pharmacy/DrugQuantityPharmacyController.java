@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,9 +34,10 @@ public class DrugQuantityPharmacyController {
 	}
 	
 	@GetMapping("/{drugId}/{pharmacyId}/availability")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Boolean> checkAvailability(@PathVariable int drugId, @PathVariable int pharmacyId){
 		boolean availability = quantityPharmacyService.checkDrugAvailability(drugId, pharmacyId);
-		
+
 		if(!availability) {
 			notificationService.add(new NotificationDTO(drugId, pharmacyId));
 		}
@@ -44,6 +46,7 @@ public class DrugQuantityPharmacyController {
 	}
 	
 	@GetMapping("/{pharmacyId}/available")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<DrugDTO>> findAvailableDrugsByPharmacyId(@PathVariable int pharmacyId){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(quantityPharmacyService.findAvailableDrugsByPharmacyId(pharmacyId));
@@ -54,12 +57,14 @@ public class DrugQuantityPharmacyController {
 	}
 	
 	@PutMapping("/{drugId}/{pharmacyId}/{quantity}/increase")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Boolean> increaseDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId, @PathVariable int quantity){
 		boolean result = quantityPharmacyService.increaseDrugQuantityPharmacy(drugId, pharmacyId, quantity);
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
 	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> add(@RequestBody DrugQuantityPharmacyDTO drugQuantityDTO) {
 		try {
 			quantityPharmacyService.addDrugQuantityPharmacy(drugQuantityDTO);
@@ -70,6 +75,7 @@ public class DrugQuantityPharmacyController {
 	}
 	
 	@GetMapping("/{pharmacyId}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<DrugDTO>> findDrugsByPharmacyId(@PathVariable int pharmacyId){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(quantityPharmacyService.findDrugsByPharmacyId(pharmacyId));
@@ -80,12 +86,14 @@ public class DrugQuantityPharmacyController {
 	}
 	
 	@PostMapping("/search/{name}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Collection<DrugDTO>> searchByName(@PathVariable String name, @RequestBody ArrayList<DrugDTO> drugDTOs){
 		Collection<DrugDTO> searchResult = quantityPharmacyService.searchByName(name, drugDTOs);
 		return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 	@PutMapping("/{drugId}/{pharmacyId}/delete")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<Void> increaseDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId){
 		quantityPharmacyService.deleteDrugQuantityPharmacy(drugId, pharmacyId);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
