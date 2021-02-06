@@ -8,6 +8,7 @@ public class OrderAndQuantityDTO {
 	public int id;
 	public LocalDate limitDate;
 	public boolean isFinished;
+	public String pharmacyName;
 	public Collection<DrugQuantityOrderDTO> drugQuantityDTOs; 
 	
 	public OrderAndQuantityDTO() { }
