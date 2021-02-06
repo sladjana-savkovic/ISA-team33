@@ -80,7 +80,7 @@ const appendAppointment = (apartment) => {
 				<h3 class="text-light">Doctor's grade: ${grade}</h3>
 			</div>
 			<div class="col d-flex flex-column justify-content-center align-items-center">
-				<h3 class="text-light">Price: ${apartment.price}$</h3>
+				<h3 class="text-light">Price: ${apartment.price}din</h3>
 				`
 				
 			oneElement = oneElement + `
