@@ -78,4 +78,10 @@ public class PharmacyOrderServiceImpl implements PharmacyOrderService{
 	public Collection<PharmacyOrder> findByPharmacyId(int id) {
 		return pharmacyOrderRepository.findByPharmacyId(id);
 	}
+	
+	@Override
+	public Collection<PharmacyOrder> findAll() {
+		return pharmacyOrderRepository.findAll();		
+	}		
+	
 }

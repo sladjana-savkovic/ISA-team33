@@ -1,6 +1,8 @@
 package rs.ac.uns.ftn.isaproject.model.pharmacy;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import rs.ac.uns.ftn.isaproject.model.users.PharmacyAdministrator;
@@ -27,6 +30,9 @@ public class PharmacyOrder {
 	
 	@Column(unique=false, nullable=false)
 	private boolean isFinished;
+	
+	@OneToMany(mappedBy = "pharmacyOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<DrugQuantityOrder> drugQuantityOrders = new HashSet<DrugQuantityOrder>();
 	
 	//@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//private Set<DrugQuantity> orderedDrugs = new HashSet<DrugQuantity>();

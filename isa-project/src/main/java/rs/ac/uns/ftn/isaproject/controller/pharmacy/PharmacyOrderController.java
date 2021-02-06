@@ -105,5 +105,20 @@ public class PharmacyOrderController {
 		return new ResponseEntity<>(pharmacyOrderDTOs, HttpStatus.OK);
 	}
 	
+	
+	@GetMapping("/all")
+	public ResponseEntity<Collection<PharmacyOrderDTO>> getAllPharmacyOrders() {
+		try {
+			Collection<PharmacyOrder> pharmacyOrders = pharmacyOrderService.findAll();			
+			if (pharmacyOrders == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			Collection<PharmacyOrderDTO> pharmacyOrderDTOs = PharmacyOrderMapper.toPharmacyOrderDTOs(pharmacyOrders);
+			return new ResponseEntity<>(pharmacyOrderDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}
+	
 }
 
