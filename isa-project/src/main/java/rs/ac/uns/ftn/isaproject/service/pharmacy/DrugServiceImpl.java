@@ -1,7 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Ingredient;
 import rs.ac.uns.ftn.isaproject.dto.AddDrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugSearchDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrug;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDrugsForm;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
@@ -31,6 +32,7 @@ public class DrugServiceImpl implements DrugService{
 		Drug drug = new Drug();		
 		drug.setName(drugDTO.name);
 		drug.setCode(drugDTO.code);
+		drug.setGrade(0);
 		drug.setContraindication(drugDTO.contraindication);
 		drug.setNotes(drugDTO.notes);
 		drug.setProducer(drugDTO.producer);		
@@ -64,5 +66,22 @@ public class DrugServiceImpl implements DrugService{
 	public Drug getById(int id) {
 		return drugRepository.getOne(id);
 	}
+
+	@Override
+	public Collection<DrugDTO> searchByNameAndGradeAndType(DrugSearchDTO dto) {			
+		Collection<DrugDTO> searchResult = new ArrayList<>();			
+		for(DrugDTO drug : dto.drugDTOs) {
+			if(drug.name.toLowerCase().contains(dto.name.toLowerCase()) & (drug.typeOfDrug.contains(dto.type))) {
+				if (dto.grade == -1) {
+					searchResult.add(drug);
+				}	
+				else if (dto.grade == drug.grade) {
+					searchResult.add(drug);
+				}
+			}
+		}
+		return searchResult;
+	}
+	
 	
 }
