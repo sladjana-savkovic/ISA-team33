@@ -373,17 +373,22 @@ insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextv
 insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 2, 2, '2021-01-30 12:00:00');
 
 
-/*Ubacivanje dodatnog farmaceuta i definisanje zavrsenog pregleda*/
+/*Ubacivanje dodatnog farmaceuta i definisanje 1 zavrsenog pregleda*/
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
 					values (nextval('users_seq'),'Petar','Petrić', '063752014', 4.2, 1, 2,'Šekspirova 40','1978-10-13', false);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id) VALUES (3, 'petar.petric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 14);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,14);
+insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','16:00:00',14,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-01 07:30:00','2021-03-01 08:00:00',600,14,1,5,3,1);
 insert into examination_report (id,diagnosis,appointment_id) 
 					values (nextval('examinations_seq'),'Redovno uzimati terapiju sledecih 10 dana',34);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 10, 2, 8);
 					
-/*Definisem zakazan pregled kod prvog farmaceuta za pacijenta kojeg nije nikada pregledao*/
+/*Definisem zakazan pregled kod prvog farmaceuta (Marija) za pacijenta kojeg nije nikada pregledao*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-05 07:30:00','2021-03-05 08:00:00',600,2,1,5,1,1);
+
+/*Definisem zakazan pregled kod drugog farmaceuta (Petar) kako bi se moglo testirati dodavanje izvjestaja i zakazivanje novog pregleda*/
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-02-25 10:30:00','2021-02-25 11:00:00',600,14,1,3,1,1);
