@@ -58,16 +58,13 @@ $(document).ready(function () {
 		enableFields();
 		$('#change').text("Save");
 		
-		var amenities = []
-		var $boxes = $('input[name=amenities]:checked');
-		$boxes.each(function(){
-			amenities.push({"id":$(this).val()})
-		})
-		
-		
 		$('#edit_profile').submit(function(event){
 			event.preventDefault();
-			
+			var amenities = []
+			var $boxes = $('input[name=amenities]:checked');
+			$boxes.each(function(){
+				amenities.push({"id":$(this).val()})
+			})
 			$.ajax({
 				type:"PUT", 
 				url: "/api/patient",
