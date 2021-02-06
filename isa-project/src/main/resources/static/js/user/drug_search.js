@@ -104,9 +104,9 @@ function addDrugRow(drug) {
         + '<div class="card-header bg-info text-white">'
         + '<h5 class="card-title mb-0">' + drug.name + '</h5></div>'
         + '<div class="card-body p-3">'
-        + '<label class="text-secondary mb-0">Grade:</label><br>'
+        + '<label class="text-secondary mb-0">Grade: &nbsp; </label>'
         + '<label>' + drug.grade + '</label><br>'
-        + '<label class="text-secondary mb-0">Type of drug:</label><br>'
+        + '<label class="text-secondary mb-0">Type of drug: &nbsp; </label>'
         + '<label>' + drug.typeOfDrug + '</label><br>'
         + '</div>' + button + '</div></div></div>'
     );
@@ -146,9 +146,8 @@ function showSubstituteDrugs(drugId) {
             }
         },
         error: function (jqXHR) {
-            substituteList = 'Error! ' + jqXHR.responseJSON;
 			let table = '<table style="margin-left:20px; margin-right:20px; margin-top:25px; margin-bottom:25px; width:300px;">'
-					+ '<tr><td>' + substituteList + ' </td></tr>'
+					+ '<tr><td> Error! ' + jqXHR.responseJSON + ' </td></tr>'
 					+ '</table>';		
 				$('#substitute_content').empty();
 				$('#substitute_content').append(table);
@@ -177,47 +176,34 @@ function showSpecification(drugId) {
 
 
 function showPharmacies(drugId) {
-/*
     $.ajax({
-        url: '/api/drug/',
+        url: '/api/pricelist/' + drugId + '/drug',
         type: 'GET',
         dataType: 'json',
         processData: false,
         contentType: false,
         success: function (pharmacies) {
             if (pharmacies.length == 0) {
-                let alert = '<div id="loading" class="alert alert-info" role="alert"> No pharmacies found. </div>';
-                $("#loading").hide();
-                $("#div_drugs").prepend(alert);
+				$('#pharmaciesTable').empty();
+				$('#pharmaciesTable').append('<tr><td><b><strong> No pharmacy found </b></strong></td></tr>');
+				$('#topModalSuccess').modal('show');
             }
             else {
-                for (let i = 0; i < pharmacies.length; i++) {
-                    addPharmacyRow(pharmacies[i]);
-                }
-                $("#loading").hide();
+				$('#pharmaciesTable').empty();
+				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th> Price </th></tr>');
+	            for (let i = 0; i < pharmacies.length; i++) {
+					pharmacy = '<tr><td>' + pharmacies[i].pharmacyName + '</td><td>' + pharmacies[i].price + '</td></tr>' ;
+					$('#pharmaciesTable').append(pharmacy);
+                }				
+				$('#topModalSuccess').modal('show');
             }
         },
         error: function (jqXHR) {
-            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseJSON + '</div>';
-            $("#loading").hide();
-            $("#div_drugs").prepend(alert);
+			$('#pharmaciesTable').empty();
+			$('#pharmaciesTable').append('<tr><td> Error! ' + jqXHR.responseJSON + ' </td></tr>');
+			$('#topModalSuccess').modal('show');
         }
     });		
-			
-	let table = '<table style="margin-left:40px; margin-right:40px; margin-top:30px; margin-bottom:30px; width:300px;">'
-		+ '<tr><td><b><strong>Pharmacies: </b></strong></td><td>' + pharmaciesList + '</td></tr>'
-		+ '</table>';
-
-	$('#pharmacies_content').empty();
-	$('#pharmacies_content').append(table);
-	$('#topModalSuccess').modal('show');
-*/
 };
-
-
-
-
-
-
 
 
