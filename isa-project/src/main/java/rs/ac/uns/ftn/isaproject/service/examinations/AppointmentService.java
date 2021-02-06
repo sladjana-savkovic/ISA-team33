@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.Collection;
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
-import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
@@ -16,7 +15,7 @@ public interface AppointmentService {
 	Appointment getOne(int id);
 	Collection<Appointment> getDoctorAppointments(int id);
 	Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId);
-	void schedulePredefinedAppointment(int id, int patientId) throws BadRequestException;
+	void schedulePredefinedAppointment(int id, int patientId) throws Exception;
 	Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs);
 	Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId);
 	Collection<Appointment> findAllCreatedByPharmacyDermatologist(int pharmacyId);
@@ -26,5 +25,5 @@ public interface AppointmentService {
 	void add(AddAppointmentDTO appointmentDTO, AppointmentStatus status);
 	Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType);
 	void cancelAppointment(int id) throws Exception;
-	
+	void save(Appointment appointment);
 }
