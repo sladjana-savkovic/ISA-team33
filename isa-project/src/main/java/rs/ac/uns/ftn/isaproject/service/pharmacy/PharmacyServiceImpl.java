@@ -37,6 +37,10 @@ public class PharmacyServiceImpl implements PharmacyService {
 		pharmacy.setCity(city);				
 		pharmacy.setName(pharmacyDTO.name);
 		pharmacy.setAddress(pharmacyDTO.address);
+		pharmacy.setpharmacistPrice(pharmacyDTO.pharmacistPrice);
+		pharmacy.setLatitude(0);
+		pharmacy.setLongitude(0);
+		pharmacy.setAverageGrade(0);
 		
 		pharmacyRepository.save(pharmacy);			
 	}
