@@ -86,7 +86,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if(appointment.getStatus() == AppointmentStatus.Scheduled) 
 			throw new BadRequestException("An appointment has already been scheduled.");
 		
-		Collection<Appointment> appointments = appointmentRepository.checkIfPatientHasAppointment(patientId, appointment.getStartTime());
+		Collection<Appointment> appointments = appointmentRepository.checkIfPatientHasScheduledAppointment(patientId, appointment.getStartTime());
 		if(appointments.size() > 0) {
 			throw new BadRequestException("The patient is busy for the chosen appointment.");
 		}
@@ -150,14 +150,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		Collection<Appointment> doctorAppointments = appointmentRepository.getDoctorAppointments(doctorId);
+		Collection<Appointment> doctorAppointments = appointmentRepository.getCreatedAndScheduledDoctorAppointments(doctorId);
 		return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		Collection<Appointment> patientAppointments = appointmentRepository.getPatientAppointments(patientId);
+		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
 		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
 	}
 
