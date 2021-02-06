@@ -145,12 +145,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
 		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public Collection<Appointment> getCreatedAndScheduledDoctorAppointments(int doctorId){
+		logger.info("> getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
+		Collection<Appointment> doctorAppointments = appointmentRepository.getCreatedAndScheduledDoctorAppointments(doctorId);
+		logger.info("< getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
+		return doctorAppointments;
+	}
 
 
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS)
 	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		Collection<Appointment> doctorAppointments = appointmentRepository.getCreatedAndScheduledDoctorAppointments(doctorId);
+		Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
 		return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
 	}
 
