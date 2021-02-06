@@ -29,7 +29,7 @@ public class DrugOffer {
 	@Column(unique = false, nullable = false)
 	private OfferStatus status;
 	
-	@Column(unique=false, nullable=false)
+	@Column(unique = false, nullable=false)
 	private LocalDate limitDate;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)

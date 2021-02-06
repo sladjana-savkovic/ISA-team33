@@ -1,3 +1,6 @@
+var orderMap = {};
+var drugList = null;
+
 $(document).ready(function () {
 
 	//checkUserRole("ROLE_SUPPLIER");
@@ -35,6 +38,7 @@ $(document).ready(function () {
 
 
 function addOrderTable(order, i) {	
+	orderMap[order.id] = order
 	drugsList = '';
 	for (let i = 0; i < order.drugQuantityDTOs.length; i++) {
 		drugsList = drugsList + '<p>' + order.drugQuantityDTOs[i].drugName + ' ' + order.drugQuantityDTOs[i].quantity + '</p>';
@@ -50,40 +54,47 @@ function addOrderTable(order, i) {
 		+ order.id
 		+ '" onclick="makeOffer(this.id)">Make offer</button>'
 		+ '</footer ></blockquote ></div >'
-		//+ '<div name="alert_container" class="card-footer bg-transpartent border-top-0" id="a' + order.id + '"></div >'
+		+ '<div name="alert_container" class="card-footer bg-transpartent border-top-0" id="a' + order.id + '">'
 		+ '</div ></div ></div >');
-
-		$('div#view_orders').append(oneOrder);
+	$('div#view_orders').append(oneOrder);
 }
 
 //*********************************************************************************************************** 
 
-
-
 function makeOffer(orderId) {
+	$('#makeOfferModal').modal('show');
+	
+	/* on submit: */
+}
+
+
+
+
+
+function addOffer(orderId) {
 	let loading = $('<div class="alert alert-info m-1" role="alert">Publishing...</div >')
-	$('#' + feedbackId).prop("disabled", true);
-	$('#a' + feedbackId).prepend(loading);
+	$('#' + orderId).prop("disabled", true);
+	$('#a' + orderId).prepend(loading);
 
 	$.ajax({
 		type: "POST",
-		url: "/api/feedback/" + feedbackId,
+		url: "/api/offer/add",
 		contentType: 'application/json',
-		headers: {
-			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-		},
+		//headers: {
+		//	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		//},
 		success: function () {
-	        let alert = $('<div name="alert_msg" class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
-			$('#' + feedbackId).remove();
-			$('#a' + feedbackId).empty();
-			$('#a' + feedbackId).prepend(alert);
+	        let alert = $('<div name="alert_msg" class="alert alert-success m-1" role="alert">Order ....</div >')
+			$('#' + orderId).remove();
+			$('#a' + orderId).empty();
+			$('#a' + orderId).prepend(alert);
 		},
 		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + jqXHR.responseJSON
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error! ' + jqXHR.responseJSON
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('#a' + feedbackId).empty();
-			$('#' + feedbackId).prop("disabled", false);
-			$('#a' + feedbackId).prepend(alert);
+			$('#a' + orderId).empty();
+			$('#' + orderId).prop("disabled", false);
+			$('#a' + orderId).prepend(alert);
 		}
 	});
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 
 public class DrugOfferMapper {
@@ -15,4 +16,5 @@ public class DrugOfferMapper {
 		}
 		return drugOfferDTOs;
 	}
+	
 }
