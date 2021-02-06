@@ -6,10 +6,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -106,6 +106,9 @@ public class AppointmentController {
 		}
 		catch (BadRequestException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		catch (ObjectOptimisticLockingFailureException e) {
+			return new ResponseEntity<>("Someone has scheduled an appointment. Please choose another one.", HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while scheduling an appointment.", HttpStatus.BAD_REQUEST);

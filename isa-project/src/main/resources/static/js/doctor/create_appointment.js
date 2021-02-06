@@ -36,69 +36,6 @@ $(document).ready(function () {
 		}
 	});
 	
-	$(document).on("click", "#appointments tbody tr", function() {
-		
-		let appointmentId = $(this).attr('id');
-		
-		$('#scheduleAppModal').modal('toggle');
-		$('#scheduleAppModal').modal('show');
-		
-		$('#schedule').click(function(){
-			
-			$('#schedule').attr("disabled",true);
-			
-			$.ajax({
-				type:"PUT", 
-				url: "/api/appointment/" + appointmentId + "/patient/" + patientId + "/schedule",
-				headers: {
-		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-		        },
-				contentType: "application/json",
-				success:function(){
-					
-					let message = "You have a new scheduled examination. See a list of future appointments.";
-					
-					$.ajax({
-						url: "/api/email/" + patientId,
-						headers: {
-				            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-				        },
-						type: 'POST',
-						contentType: 'application/json',
-						data: JSON.stringify({ 
-							 subject: "Scheduling new appointment",
-							 message: message}),
-						success: function () {
-							$('#close_btn').click();
-							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							clearLocalStorage();
-							window.setTimeout(function(){location.href = "calendar.html"},500)
-							return;
-						},
-						error: function () {
-							$('#close_btn').click();
-							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
-							+ 'Successfully appointment scheduling, but an error occurred while sending an email.'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-							$('#div_alert').append(alert);
-							clearLocalStorage();
-							window.setTimeout(function(){location.href = "calendar.html"},500)
-							return;
-						}
-					});	
-				},
-				error:function(xhr){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					$('#schedule').attr("disabled",false);
-					return;
-				}
-			});
-		});
-    });
 
 	$('#searchApp').submit(function(event){
 		event.preventDefault();
@@ -226,8 +163,64 @@ function addAppointment(a){
 	let startTime = a.startTime.split("T")[0] + " " + a.startTime.split("T")[1];
 	let endTime = a.endTime.split("T")[0] + " " + a.endTime.split("T")[1];
 	
-	let row = $('<tr id="' + a.id + '"><td>'+ startTime +'</td><td>' + endTime + '</td><td>' + a.price + '</td></tr>');	
+	let row = $('<tr id="' + a.id + '"><td style="vertical-align: middle;">'+ startTime +'</td><td style="vertical-align: middle;">' + endTime + '</td><td style="vertical-align: middle;">' + a.price + '</td>'
+	     	  + '<td><button class="btn btn-info" type="button" id="' + a.id +'" onclick="schedulePredefinedApp(this.id)" style="margin-left:30px;">Schedule</button></td></tr>');	
 	$('#appointments').append(row);
+};
+
+function schedulePredefinedApp(appointmentId){
+				
+	$.ajax({
+		type:"PUT", 
+		url: "/api/appointment/" + appointmentId + "/patient/" + patientId + "/schedule",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+		contentType: "application/json",
+		success:function(){
+			
+			let message = "You have a new scheduled examination. See a list of future appointments.";
+			
+			$.ajax({
+				url: "/api/email/" + patientId,
+				headers: {
+		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		        },
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({ 
+					 subject: "Scheduling new appointment",
+					 message: message}),
+				success: function () {
+					$('#close_btn').click();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					clearLocalStorage();
+					window.setTimeout(function(){location.href = "calendar.html"},700)
+					return;
+				},
+				error: function () {
+					$('#close_btn').click();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
+					+ 'Successfully appointment scheduling, but an error occurred while sending an email.'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					clearLocalStorage();
+					window.setTimeout(function(){location.href = "calendar.html"},700)
+					return;
+				}
+			});	
+		},
+		error:function(xhr){
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			$('#schedule').attr("disabled",false);
+			return;
+		}
+	});
+		
 };
 
 

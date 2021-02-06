@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Version;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
@@ -34,6 +35,9 @@ public class Appointment {
 	
 	@Column(unique=false, nullable=false)
 	private double price;
+	
+	@Version
+	private Long version;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private Doctor doctor;
@@ -106,6 +110,14 @@ public class Appointment {
 
 	public void setStatus(AppointmentStatus status) {
 		this.status = status;
+	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
 	}
 	
 }
