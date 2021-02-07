@@ -157,12 +157,13 @@ $(document).ready(function () {
 				$('#dContra').text(d["contraindication"]);
 				$('#dDose').text(d["dailyDose"]);
 								
-				let ingredients = "";
+				let ingredientNames = [];
 				for(let i of d.ingredients){
-					ingredients += i.name + "\n";
+					ingredientNames.push(i.name);
 				}
 				
-				$('#dIngredients').text(ingredients);
+				$('#dIngredients').text(ingredientNames);
+				$('#dSubstitute').text(d["substitute"]);
 			}
 		}
 		
@@ -386,7 +387,8 @@ function fillInBasicInfo(){
 
 function addDrug(drug){
 	drugs.push({"drugId":drug.id, "drugName":drug.name, "typeOfDrug":drug.typeOfDrug, "typeOfDrugsForm":drug.typeOfDrugsForm,
-				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients});
+				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients,
+				"substitute": drug.substituteDrugs});
 				
 	let option = $('<option data-tokens="' + drug.name + '" value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drugs').append(option);

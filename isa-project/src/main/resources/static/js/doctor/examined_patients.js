@@ -290,7 +290,8 @@ function sortTable(n) {
       }
     }
   }
-}
+};
+
 
 function clearLocalStorage(){
 	localStorage.removeItem("patientId");

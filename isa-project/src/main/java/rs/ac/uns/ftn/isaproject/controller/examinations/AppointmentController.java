@@ -99,7 +99,7 @@ public class AppointmentController {
 	}
 	
 	@PutMapping("{id}/patient/{patientId}/schedule")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PATIENT', 'PHARMACIST')")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PATIENT')")
 	public ResponseEntity<?> schedulePredefinedAppointment(@PathVariable int id, @PathVariable int patientId){
 		try {
 			appointmentService.schedulePredefinedAppointment(id, patientId);

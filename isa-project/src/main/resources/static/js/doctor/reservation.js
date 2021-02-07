@@ -60,7 +60,7 @@ $(document).ready(function () {
 			contentType: "application/json",
 			success:function(patientId){
 				
-				let message = "You have successfully taken the reserved drug.";
+				let message = "You have successfully taken the reserved drug (reservation identification number =  " + reservationId + ").";
 					
 				$.ajax({
 					url: "/api/email/" + patientId,
