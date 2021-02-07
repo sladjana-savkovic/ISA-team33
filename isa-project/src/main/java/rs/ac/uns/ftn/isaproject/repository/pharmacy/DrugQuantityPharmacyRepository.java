@@ -9,7 +9,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
 
 public interface DrugQuantityPharmacyRepository extends JpaRepository<DrugQuantityPharmacy, Integer> {
 
-	@Query("select d from DrugQuantityPharmacy d where d.pharmacy.id = ?1")
+	@Query("select d from DrugQuantityPharmacy d where d.pharmacy.id = ?1 and is_deleted = false")
 	Collection<DrugQuantityPharmacy> findByPharmacyId(int id);
 	
 	@Query(value = "select * from drug_quantity_pharmacy d where d.pharmacy_id = ?1 and d.quantity > 0 and d.is_deleted = false", nativeQuery = true)

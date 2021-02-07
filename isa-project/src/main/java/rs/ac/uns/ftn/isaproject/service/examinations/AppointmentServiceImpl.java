@@ -57,11 +57,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public Appointment getOne(int id ) {
-		return appointmentRepository.getOne(id);
-	}
-
-	@Override
 	public Collection<Appointment> getDoctorAppointments(int id) {
 		return appointmentRepository.getDoctorAppointments(id);
 	}
@@ -152,6 +147,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.info("> schedule id:{}", id);
 		
 		Appointment appointment = getOne(id);
+		logger.info("< getOne");
 		if(appointment.getStatus() == AppointmentStatus.Scheduled) 
 			throw new BadRequestException("An appointment has already been scheduled.");
 		
@@ -168,6 +164,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.info("< schedule id:{}", id);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Appointment getOne(int id ) {
+		logger.info("> getOne");
+		return appointmentRepository.getOne(id);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void save(Appointment appointment) {
+		logger.info("> save");
+		appointmentRepository.save(appointment);		
+		logger.info("< save");
+	}
 	
 	@Override
 	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
@@ -185,7 +195,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 	
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
+	@Transactional(readOnly = false)
 	public Collection<Appointment> getCreatedAndScheduledDoctorAppointments(int doctorId){
 		logger.info("> getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
 		Collection<Appointment> doctorAppointments = appointmentRepository.getCreatedAndScheduledDoctorAppointments(doctorId);
@@ -194,7 +204,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 	
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
+	@Transactional(readOnly = false)
 	public void add(AddAppointmentDTO appointmentDTO, AppointmentStatus status) {
 		logger.info("> add new appointment");
 		
@@ -218,13 +228,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.info("< add new appointment");
 	}
 	
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
-	public void save(Appointment appointment) {
-		logger.info("> save");
-		appointmentRepository.save(appointment);		
-		logger.info("< save");
-	}
 	
 	private boolean checkIfAppointmentMathces(Collection<Appointment> appointments, LocalDate date, LocalTime startTime, LocalTime endTime) {
 		for(Appointment a : appointments) {

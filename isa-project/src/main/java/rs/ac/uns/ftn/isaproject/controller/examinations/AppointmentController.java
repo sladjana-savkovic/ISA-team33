@@ -6,9 +6,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.persistence.LockTimeoutException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
@@ -220,9 +217,6 @@ public class AppointmentController {
 																		appointmentDTO, AppointmentStatus.Scheduled);
 			
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		catch (LockTimeoutException  e) {
-			return new ResponseEntity<>("Your request has waited too long to be executed. Please try again.", HttpStatus.BAD_REQUEST);
 		}
 		catch (PessimisticLockingFailureException e) {
 			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);

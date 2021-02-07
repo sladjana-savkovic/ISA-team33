@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Version;
 
 
 @Entity
@@ -24,6 +25,9 @@ public class DrugQuantityPharmacy {
 	
 	@Column(unique = false, nullable = false)
 	private boolean isDeleted;
+	
+	@Version
+	private Long version;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Drug drug;
@@ -70,4 +74,13 @@ public class DrugQuantityPharmacy {
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+	
 }

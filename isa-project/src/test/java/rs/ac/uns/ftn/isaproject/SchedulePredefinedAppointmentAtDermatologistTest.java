@@ -57,7 +57,7 @@ public class SchedulePredefinedAppointmentAtDermatologistTest {
 			future1.get();
 		});
 		
-		System.out.println("Exception from thread " + thrown.getCause().getClass()); // u pitanju je bas ObjectOptimisticLockingFailureException
+		System.out.println("Exception from thread " + thrown.getCause().getClass()); 
 		
 		assertTrue(thrown.getMessage().contains("ObjectOptimisticLockingFailureException"));
 		
