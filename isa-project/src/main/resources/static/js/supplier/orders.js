@@ -58,7 +58,7 @@ function addOrderTable(order, i) {
 		drugsList = drugsList + '<p>' + order.drugQuantityDTOs[i].drugName + ':  ' + order.drugQuantityDTOs[i].quantity + '</p>';
 	}
 	let oneOrder = $('<div class="row"><div class="col p-4"><div class="card">' 
-		+ '<div class="card-header bg-info text-white">' + (i+1) + '. order </div>'
+		+ '<div class="card-header bg-info text-white">' + (i+1) + '. order  (ID = ' + order.id + ')</div>'
 		+ '<div class="card-body"><p> Limit date: &nbsp;' + order.limitDate + ' </p></br>'
 		+ '<p> Quantity: </p>'
 		+ drugsList
@@ -88,9 +88,7 @@ function sendOffer() {
 	$('#div_alert').empty();		
 	let limitDate = $('#limitDate').val();
 	let totalPrice = $('#totalPrice').val();
-		
-	alert(currentOrder + " " + supplierId +" " + totalPrice );
-		
+				
 	var newOffer = {
 		"limitDate": limitDate,
 		"totalPrice": totalPrice,

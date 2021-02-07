@@ -19,6 +19,8 @@ public interface DrugOfferRepository extends JpaRepository<DrugOffer, Integer> {
 	@Query("select o.supplier from DrugOffer o where o.id = ?1")
 	Supplier findSupplierById(int id);
 	
-	@Query(value = "select * from Drug_Offer o where o.supplier_id = ?1 and o.pharmacy_order_id = ?2 limit 1", nativeQuery = true)
+	@Query(value = "select * from Drug_Offer o where o.supplier_id = ?1 and o.pharmacy_order_id = ?2 " +
+					"and (status = 2 or status = 0) limit 1", nativeQuery = true)
 	DrugOffer findOfferIdBySupplierAndOrder(int supplierId, int orderId);	
+	
 }

@@ -12,7 +12,7 @@ public class OrderAndQuantityMapper {
 	public static Collection<OrderAndQuantityDTO> toOrderAndQuantityDTOs(Collection<PharmacyOrder> pharmacyOrders){
 		Collection<OrderAndQuantityDTO> orderAndQuantityDTOs = new ArrayList<>();
 		for(PharmacyOrder o : pharmacyOrders) {
-			if (o.getLimitDate().isBefore(LocalDate.now())) 
+			if (o.getLimitDate().isBefore(LocalDate.now()) || o.isFinished()) 
 				continue;			
 			OrderAndQuantityDTO dto = new OrderAndQuantityDTO();
 			dto.id = o.getId();
