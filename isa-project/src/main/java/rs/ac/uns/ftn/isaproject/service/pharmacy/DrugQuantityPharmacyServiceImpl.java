@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
+import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
@@ -56,21 +57,29 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 		
 		return false;
 	}
-
+	
 	@Override
-	public boolean reduceDrugQuantity(int drugId, int pharmacyId) {
-		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
-		
-		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
-			if(!drugQuantity.isDeleted() && drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
-				if(drugQuantity.getQuantity() - 1 >= 0) {
+	public Collection<DrugQuantityPharmacy> reduceDrugQuantitiesOrReturnMissingDrugs(int pharmacyId, Collection<AddTherapyDTO> therapyDTOs) {
+		Collection<DrugQuantityPharmacy> missingDrugIds = new ArrayList<DrugQuantityPharmacy>();
+		Collection<DrugQuantityPharmacy> pharmacyQuantities = quantityPharmacyRepository.findByPharmacyId(pharmacyId);
+				
+		for (AddTherapyDTO therapyDTO:therapyDTOs) {
+			for(DrugQuantityPharmacy drugQuantity:pharmacyQuantities) {
+				if(drugQuantity.getDrug().getId() == therapyDTO.drugId && !drugQuantity.isDeleted() && (drugQuantity.getQuantity() -1 >=0)) {
 					drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
-					quantityPharmacyRepository.save(drugQuantity);
-					return true;
+				}
+				else if(drugQuantity.getDrug().getId() == therapyDTO.drugId && (drugQuantity.isDeleted() || (drugQuantity.getQuantity() -1 < 0))) {
+					missingDrugIds.add(drugQuantity);
 				}
 			}
 		}
-		return false;
+		
+		if(missingDrugIds.size() > 0) {
+			return missingDrugIds;
+		}
+		
+		quantityPharmacyRepository.saveAll(pharmacyQuantities);
+		return null;
 	}
 
 	@Override

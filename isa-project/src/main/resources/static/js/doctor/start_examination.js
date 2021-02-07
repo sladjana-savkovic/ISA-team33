@@ -264,10 +264,10 @@ $(document).ready(function () {
 		
 		let therapyDTOs = [];
 		for(let t of therapies){
-			therapyDTOs.push({"therapyId":therapyId ,"drugId":t.drugId, "duration":t.duration});
-			therapyId = therapyId + 1;
+			therapyDTOs.push({"drugId":t.drugId, "duration":t.duration});
 		}
-				
+		
+		//Saljem zahtjev da provjerim da li su svi prepisani lijekovi jos uvijek dostupni i ako jesu dodajem izvjestaj
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report",
@@ -280,13 +280,25 @@ $(document).ready(function () {
 				pharmacyId : appointment.pharmacyId,
 				therapyDTOs: therapyDTOs}),
 			contentType: "application/json",
-			success:function(){
-				disableFields();
-		
-				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
-				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				return;
+			success:function(data,textStatus, xhr){
+				if(xhr.status == 200){
+					let missingDrugs = [];
+					for(let drug of data){
+						missingDrugs.push(drug.drugName);
+					}
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+					+'Drug(s) ' + missingDrugs + ' are no longer available. Please remove them from therapy. '
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+				else{
+					disableFields();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
 			},
 			error:function(xhr){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText

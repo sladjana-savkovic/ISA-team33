@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.dto.NotificationDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
+import rs.ac.uns.ftn.isaproject.mapper.DrugQuantityPharmacyMapper;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
 import rs.ac.uns.ftn.isaproject.service.notification.NotificationService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 
@@ -99,5 +102,19 @@ public class DrugQuantityPharmacyController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	
+	@PostMapping(value="/{pharmacyId}/therapies-availability", consumes = "application/json")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<?> checkAvailabilityOrReturnMissingDrugs(@PathVariable int pharmacyId, @RequestBody ArrayList<AddTherapyDTO> therapyDTOs){
+		try {
+			Collection<DrugQuantityPharmacy> missingDrugs = quantityPharmacyService.reduceDrugQuantitiesOrReturnMissingDrugs(pharmacyId, therapyDTOs);
+			if(missingDrugs != null) {
+				return new ResponseEntity<Collection<DrugQuantityPharmacyDTO>>(DrugQuantityPharmacyMapper.toDrugQuantityPharmacyDTOs(missingDrugs),HttpStatus.OK);
+			}
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while checking therapies availability.",HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 }
