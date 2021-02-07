@@ -256,7 +256,7 @@ insert into patient_allergies (patient_id,allergies_id) values (4,2);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,1,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),12,2,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,3,1,false,1);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),65,4,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,4,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),66,5,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),85,6,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),15,7,1,false,1);
