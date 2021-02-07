@@ -158,7 +158,9 @@ $(document).ready(function () {
 			contentType: "application/json",
 			success:function(orders){	
 				for(i = 0; i < orders.length; i++){
-					addOrder(orders[i], i+1);
+					if(orders[i].isDeleted == false){
+						addOrder(orders[i], i+1);
+					}
 				}
 			},
 			error:function(){
@@ -262,13 +264,37 @@ function addDrugsInCombo(drug){
 
 function addOrder(order, i){
 	
-	let order_div = '<div class="card" id="div' + order.id + '"><table id="table' + order.id + '" style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+	let order_div1 = '<div class="card" id="div' + order.id + '"><table id="table' + order.id + '" style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
                        + '<tr> <td><h5>Order' + ' ' + i + '</h5></td> </tr>'
 						+ '<tr> <td>Limit date:</td><td>' + order.limitDate + '</td><td></td></tr>' 
 						+ '<tr> <td><b>Ordered drugs:</b></td> </tr>'
                         + '</table></div>';
-
-	$('#order_content').append(order_div);
+	
+	let order_div2 = '<div class="card" id="div' + order.id + '"><table id="table' + order.id + '" style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                       + '<tr> <td><h5>Order' + ' ' + i + '</h5></td> </tr>'
+						+ '<tr> <td>Limit date:</td><td>' + order.limitDate + '</td><td>' + '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + order.id + '" onclick="deleteOrder(this.id)">Delete</button>' + '</td>' + '<td>' + '<button name="editButton" type = "button" class="btn btn-warning float-right" id="' + order.id + '" onclick="editOrder(this.id)">Edit</button>' + '</td>' + '</tr>' 
+						+ '<tr> <td><b>Ordered drugs:</b></td> </tr>'
+                        + '</table></div>';
+	
+	$.ajax({
+			type:"GET", 
+			url: "/api/order/" + order.id + "/check-offer",
+			headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
+			contentType: "application/json",
+			success:function(check){	
+				if(check == true){
+					$('#order_content').append(order_div1);
+				}else{
+					$('#order_content').append(order_div2);
+				}
+			},
+			error:function(){
+				console.log('error getting checking order');
+			}
+		});
+	
 	
 	$.ajax({
 			type:"GET", 
@@ -334,6 +360,7 @@ function addOffer(offer, id, date, admin, i){
 						+ '<tr> <td>Limit date:</td><td>' + offer.limitDate + '</td><td>' + '<button name="acceptButton" type = "button" class="btn btn-success float-right" id="' + offer.id + '" onclick="acceptOffer(this.id)">Accept</button>' + '</td> </tr>' 
 						+ '<tr> <td>Total price:</td><td>' + offer.totalPrice + '</td> </tr>' 
                         + '</table></div>';
+	
 	
 	let t = '#div' + id;
 	
@@ -548,6 +575,33 @@ function acceptOffer(id){
 			});		
 			
 };
+
+function deleteOrder(id){
+	
+	$.ajax({
+				type:"PUT", 
+				url: "/api/order/" + id + "/delete",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
+				contentType: "application/json",
+				success:function(){
+					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully delete order.'
+																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+																$('#div_alert').append(a);
+																location.reload();
+																return;
+					
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept offer.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+	
+}
 
 function clearLocalStorage(){
 	localStorage.removeItem("pharmacyId");
