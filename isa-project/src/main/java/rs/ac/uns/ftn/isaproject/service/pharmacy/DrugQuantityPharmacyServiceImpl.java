@@ -1,10 +1,17 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
 import java.util.Collection;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 
+import rs.ac.uns.ftn.isaproject.dto.AddTherapyDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
@@ -19,6 +26,8 @@ import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 @Service
 public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyService{
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private DrugQuantityPharmacyRepository quantityPharmacyRepository;
 	private DrugRepository drugRepository;
 	private PharmacyRepository pharmacyRepository;
@@ -54,24 +63,47 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 				return true;
 		}
 		
-		//TODO: Ako lijek nije dostupan salje se notifikacija adminu apoteke
 		return false;
 	}
-
+	
 	@Override
-	public boolean reduceDrugQuantity(int drugId, int pharmacyId) {
-		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
-		
-		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
-			if(!drugQuantity.isDeleted() && drugQuantity.getDrug().getId() == drugId && drugQuantity.getPharmacy().getId() == pharmacyId) {
-				if(drugQuantity.getQuantity() - 1 > 0) {
-					drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
-					quantityPharmacyRepository.save(drugQuantity);
-					return true;
+	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
+	public Collection<DrugQuantityPharmacy> reduceDrugQuantitiesOrReturnMissingDrugs(int pharmacyId, Collection<AddTherapyDTO> therapyDTOs) throws Exception {
+		logger.info("> reduceDrugQuantitiesOrReturnMissingDrugs ");
+		Collection<DrugQuantityPharmacy> missingDrugIds = new ArrayList<DrugQuantityPharmacy>();
+		Collection<DrugQuantityPharmacy> pharmacyQuantities = findByPharmacyId(pharmacyId);
+		logger.info("< findByPharmacyId ");
+				
+		for (AddTherapyDTO therapyDTO:therapyDTOs) 
+			for(DrugQuantityPharmacy drugQuantity:pharmacyQuantities) 
+				if(drugQuantity.getDrug().getId() == therapyDTO.drugId) {
+					if((drugQuantity.getQuantity() > 0))
+						drugQuantity.setQuantity(drugQuantity.getQuantity() - 1);
+					else
+						missingDrugIds.add(drugQuantity);
 				}
-			}
-		}
-		return false;
+			
+		if(missingDrugIds.size() > 0)  return missingDrugIds;
+		
+		saveAll(pharmacyQuantities);
+		
+		logger.info("< reduceDrugQuantitiesOrReturnMissingDrugs ");
+		return null;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Collection<DrugQuantityPharmacy> findByPharmacyId(int pharmacyId) {
+		logger.info("> findByPharmacyId ");
+		return quantityPharmacyRepository.findByPharmacyId(pharmacyId);
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void saveAll(Collection<DrugQuantityPharmacy> quantityPharmacies) {
+		logger.info("> saveAll ");
+		quantityPharmacyRepository.saveAll(quantityPharmacies);
+		logger.info("< saveAll ");
 	}
 
 	@Override

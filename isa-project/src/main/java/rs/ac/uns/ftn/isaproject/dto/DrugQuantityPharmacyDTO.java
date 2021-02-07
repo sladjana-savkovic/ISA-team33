@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.dto;
 public class DrugQuantityPharmacyDTO {
 	public int id;
 	public int drugId;
+	public String drugName;
 	public int pharmacyId;
 	public int quantity;
 	
@@ -16,4 +17,9 @@ public class DrugQuantityPharmacyDTO {
 		this.quantity = quantity;
 	}
 
+	public DrugQuantityPharmacyDTO(int drugId, String drugName) {
+		super();
+		this.drugId = drugId;
+		this.drugName = drugName;
+	}
 }
