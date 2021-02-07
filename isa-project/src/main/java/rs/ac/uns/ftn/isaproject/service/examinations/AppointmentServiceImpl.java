@@ -6,14 +6,12 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
@@ -29,7 +27,6 @@ import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
 
 @Service
-@Transactional(readOnly = true)
 public class AppointmentServiceImpl implements AppointmentService {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -38,6 +35,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private PatientRepository patientRepository;
 	private DoctorRepository doctorRepository;
 	private PharmacyRepository pharmacyRepository;
+	
 	
 	@Autowired
 	public AppointmentServiceImpl(AppointmentRepository appointmentRepository,PatientRepository patientRepository,DoctorRepository doctorRepository,PharmacyRepository pharmacyRepository) {
@@ -48,7 +46,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	@Transactional(readOnly = false,propagation = Propagation.SUPPORTS)
 	public void changeStatus(int id, AppointmentStatus status) throws Exception {
 		Appointment appointment = appointmentRepository.getOne(id);
 
@@ -60,23 +57,95 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
 	public Appointment getOne(int id ) {
 		return appointmentRepository.getOne(id);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
 	public Collection<Appointment> getDoctorAppointments(int id) {
 		return appointmentRepository.getDoctorAppointments(id);
 	}
 
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
 	public Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId) {
 		return appointmentRepository.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, doctorId);
 	}
 
+
+	@Override
+	public Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs) {
+		Collection<AppointmentDTO> searchResult = new ArrayList<>();
+
+		for (AppointmentDTO dto : appointmentDTOs) {
+			if (dto.startTime.contains(startTime)) {
+				searchResult.add(dto);
+			}
+		}
+
+		return searchResult;
+	}
+
+	@Override
+	public Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId) {
+		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointmentsInPharamacy(doctorId,
+				pharmacyId);
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for (Appointment a : appointments) {
+			if (a.getStatus() == AppointmentStatus.Scheduled) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
+	}
+
+	@Override
+	public Collection<Appointment> findAllCreatedByPharmacyDermatologist(int pharmacyId) {
+		Collection<Appointment> appointments = appointmentRepository.findAllByDoctorTypeOfDoctorAndPharmacyId(TypeOfDoctor.Dermatologist, pharmacyId);
+		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
+		for (Appointment a : appointments) {
+			if (a.getStatus() == AppointmentStatus.Canceled || a.getStatus() == AppointmentStatus.Created) {
+				resultAppointments.add(a);
+			}
+		}
+		return resultAppointments;
+	}
+	
+	@Override
+	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
+		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
+	}
+	
+
+	@Override
+	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
+		return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
+	}
+
+	@Override
+	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
+		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
+	}
+
+	@Override
+	public Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType) {
+		Collection<Appointment> appointments = appointmentRepository.findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(patientId,doctorType,AppointmentStatus.Scheduled);
+		return appointments;
+	}
+	
+	@Override
+	public void cancelAppointment(int id) throws Exception {
+		Appointment appointment = appointmentRepository.findById(id).get();
+		
+		if(appointment.getStatus() != AppointmentStatus.Scheduled || !appointment.getStartTime().isAfter(LocalDateTime.now().plus(Period.ofDays(1))))
+			throw new BadRequestException("The appointment cannot be cancelled.");
+		
+		appointment.setStatus(AppointmentStatus.Canceled);
+		appointment.setPatient(null);
+		appointmentRepository.save(appointment);
+	}
+	
 	@Override
 	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
 	public void schedulePredefinedAppointment(int id, int patientId) throws Exception {
@@ -99,72 +168,36 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.info("< schedule id:{}", id);
 	}
 
+	
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public Collection<AppointmentDTO> searchByStartTime(String startTime, Collection<AppointmentDTO> appointmentDTOs) {
-		Collection<AppointmentDTO> searchResult = new ArrayList<>();
-
-		for (AppointmentDTO dto : appointmentDTOs) {
-			if (dto.startTime.contains(startTime)) {
-				searchResult.add(dto);
-			}
+	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
+	public void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime,
+			LocalTime endTime, AddAppointmentDTO appointmentDTO, AppointmentStatus status) throws Exception {
+		logger.info("> checkDoctorAvailabilityAndAddAppointment");
+		
+		Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
+		if(checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime)) { //termin se preklapa sa nekim drugim
+			throw new BadRequestException("The doctor is busy for a chosen time.");
 		}
-
-		return searchResult;
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public Collection<Appointment> getDoctorScheduledAppointmentsInPharamacy(int doctorId, int pharmacyId) {
-		Collection<Appointment> appointments = appointmentRepository.getDoctorAppointmentsInPharamacy(doctorId,
-				pharmacyId);
-		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
-		for (Appointment a : appointments) {
-			if (a.getStatus() == AppointmentStatus.Scheduled) {
-				resultAppointments.add(a);
-			}
-		}
-		return resultAppointments;
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public Collection<Appointment> findAllCreatedByPharmacyDermatologist(int pharmacyId) {
-		Collection<Appointment> appointments = appointmentRepository.findAllByDoctorTypeOfDoctorAndPharmacyId(TypeOfDoctor.Dermatologist, pharmacyId);
-		Collection<Appointment> resultAppointments = new ArrayList<Appointment>();
-		for (Appointment a : appointments) {
-			if (a.getStatus() == AppointmentStatus.Canceled || a.getStatus() == AppointmentStatus.Created) {
-				resultAppointments.add(a);
-			}
-		}
-		return resultAppointments;
+		
+		add(appointmentDTO, status);
+		logger.info("< checkDoctorAvailabilityAndAddAppointment");
 	}
 	
 	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public Collection<Appointment> findAllCreatedByPharmacy(int pharmacyId) {
-		return appointmentRepository.findAllCreatedByPharmacy(pharmacyId);
-	}
-
-
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
+	public Collection<Appointment> getCreatedAndScheduledDoctorAppointments(int doctorId){
+		logger.info("> getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
 		Collection<Appointment> doctorAppointments = appointmentRepository.getCreatedAndScheduledDoctorAppointments(doctorId);
-		return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
+		logger.info("< getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
+		return doctorAppointments;
 	}
-
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
-		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
-	}
-
-
+	
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
 	public void add(AddAppointmentDTO appointmentDTO, AppointmentStatus status) {
+		logger.info("> add new appointment");
+		
 		Appointment appointment = new Appointment();
 		Doctor doctor = doctorRepository.getOne(appointmentDTO.idDoctor);
 		Pharmacy pharmacy = pharmacyRepository.getOne(appointmentDTO.idPharmacy);
@@ -181,30 +214,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 			appointment.setPatient(patient);
 			appointment.setPrice(pharmacy.getPharmacistPrice());
 		}
-		
-		appointmentRepository.save(appointment);
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.SUPPORTS)
-	public Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType) {
-		Collection<Appointment> appointments = appointmentRepository.findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(patientId,doctorType,AppointmentStatus.Scheduled);
-		return appointments;
+		save(appointment);
+		logger.info("< add new appointment");
 	}
 	
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
-	public void cancelAppointment(int id) throws Exception {
-		Appointment appointment = appointmentRepository.findById(id).get();
-		
-		if(appointment.getStatus() != AppointmentStatus.Scheduled || !appointment.getStartTime().isAfter(LocalDateTime.now().plus(Period.ofDays(1))))
-			throw new BadRequestException("The appointment cannot be cancelled.");
-		
-		appointment.setStatus(AppointmentStatus.Canceled);
-		appointment.setPatient(null);
-		appointmentRepository.save(appointment);
-	}
-
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
 	public void save(Appointment appointment) {

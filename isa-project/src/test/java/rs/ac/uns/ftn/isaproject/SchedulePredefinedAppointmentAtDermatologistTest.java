@@ -26,8 +26,8 @@ public class SchedulePredefinedAppointmentAtDermatologistTest {
 		this.appointmentService = appointmentService;
 	}
 	
-	@Test()
-	public void testOptimisticLockingScenario() throws Throwable {	
+	@Test
+	public void testOptimisticLockingScenario() {	
 		
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 		Future<?> future1 = executor.submit(new Runnable() {
