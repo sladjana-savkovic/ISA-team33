@@ -12,8 +12,8 @@ public class OrderAndQuantityMapper {
 	public static Collection<OrderAndQuantityDTO> toOrderAndQuantityDTOs(Collection<PharmacyOrder> pharmacyOrders){
 		Collection<OrderAndQuantityDTO> orderAndQuantityDTOs = new ArrayList<>();
 		for(PharmacyOrder o : pharmacyOrders) {
-			//if (o.getLimitDate().isBefore(LocalDate.now())) 
-			//	continue;			
+			if (o.getLimitDate().isBefore(LocalDate.now())) 
+				continue;			
 			OrderAndQuantityDTO dto = new OrderAndQuantityDTO();
 			dto.id = o.getId();
 			dto.isFinished = o.isFinished();

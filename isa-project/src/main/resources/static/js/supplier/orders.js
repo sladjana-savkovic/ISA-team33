@@ -1,9 +1,22 @@
 var orderMap = {};
 var drugList = null;
+supplierId = 8;
 
 $(document).ready(function () {
 
 	//checkUserRole("ROLE_SUPPLIER");
+	
+	var dtToday = new Date();
+	var month = dtToday.getMonth() + 1;
+	var day = dtToday.getDate();
+	var year = dtToday.getFullYear();
+	if (month < 10)
+		month = '0' + month.toString();
+	if (day < 10)
+		day = '0' + day.toString();
+	var minDate = year + '-' + month + '-' + day;
+	
+	//document.getElementById("limitDate").min = minDate;
 
 	$.ajax({
 		url: "/api/order/all",
@@ -59,42 +72,44 @@ function addOrderTable(order, i) {
 	$('div#view_orders').append(oneOrder);
 }
 
-//*********************************************************************************************************** 
+
 
 function makeOffer(orderId) {
 	$('#makeOfferModal').modal('show');
 	
 	/* on submit: */
-}
-
-
-
-
-
-function addOffer(orderId) {
-	let loading = $('<div class="alert alert-info m-1" role="alert">Publishing...</div >')
-	$('#' + orderId).prop("disabled", true);
-	$('#a' + orderId).prepend(loading);
-
-	$.ajax({
-		type: "POST",
-		url: "/api/offer/add",
-		contentType: 'application/json',
-		//headers: {
-		//	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-		//},
-		success: function () {
-	        let alert = $('<div name="alert_msg" class="alert alert-success m-1" role="alert">Order ....</div >')
-			$('#' + orderId).remove();
-			$('#a' + orderId).empty();
-			$('#a' + orderId).prepend(alert);
-		},
-		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error! ' + jqXHR.responseJSON
-				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('#a' + orderId).empty();
-			$('#' + orderId).prop("disabled", false);
-			$('#a' + orderId).prepend(alert);
+	$('form#createOffer').submit(function (event) {
+		event.preventDefault();
+		$('#div_alert').empty();
+		let limitDate = $('#limitDate').val();
+		let totalPrice = $('#totalPrice').val();
+		
+		var newOffer = {
+			"limitDate": limitDate,
+			"totalPrice": totalPrice,
+			"orderId": orderId,
+			"supplierId": supplierId
 		}
+		
+		$.ajax({
+			url: "/api/drug-offer",
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(newOffer),
+			success: function () {
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successful!'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			},
+			error: function (jqXHR) {
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
+						'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
+		});						
 	});
 }
+
+

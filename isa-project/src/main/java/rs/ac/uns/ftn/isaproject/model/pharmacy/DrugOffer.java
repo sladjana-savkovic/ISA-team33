@@ -77,5 +77,13 @@ public class DrugOffer {
 	public void setPharmacyOrder(PharmacyOrder pharmacyOrder) {
 		this.pharmacyOrder = pharmacyOrder;
 	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 	
 }

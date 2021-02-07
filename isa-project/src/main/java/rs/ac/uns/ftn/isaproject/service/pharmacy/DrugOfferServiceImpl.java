@@ -4,23 +4,32 @@ import java.time.LocalDate;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
 import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugOfferRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantitySupplierRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.SupplierRepository;
 
 @Service
 public class DrugOfferServiceImpl implements DrugOfferService{
 	
 	private DrugOfferRepository drugOfferRepository;
 	private PharmacyOrderRepository pharmacyOrderRepository;
+	private DrugQuantitySupplierRepository drugQuantitySupplierRepository;
+	private SupplierRepository supplierRepository;
 	
 	@Autowired
-	public DrugOfferServiceImpl(DrugOfferRepository drugOfferRepository, PharmacyOrderRepository pharmacyOrderRepository) {
+	public DrugOfferServiceImpl(DrugOfferRepository drugOfferRepository, PharmacyOrderRepository pharmacyOrderRepository, 
+								DrugQuantitySupplierRepository drugQuantitySupplierRepository, SupplierRepository supplierRepository) {
 		this.drugOfferRepository = drugOfferRepository;
 		this.pharmacyOrderRepository = pharmacyOrderRepository;
+		this.drugQuantitySupplierRepository = drugQuantitySupplierRepository;
+		this.supplierRepository = supplierRepository;
 	}
 
 	@Override
@@ -59,6 +68,29 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	@Override
 	public Supplier findSupplierById(int id) {
 		return drugOfferRepository.findSupplierById(id);
+	}
+
+	@Override
+	public void add(AddDrugOfferDTO drugOfferDTO) throws Exception {
+	    PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugOfferDTO.orderId);		
+	    
+	    if (drugOfferDTO.limitDate.isAfter(pharmacyOrder.getLimitDate())) {	    	
+	    	 throw new Exception("The delivery date is not valid.");
+	    }	    
+	    if (pharmacyOrder.getDrugQuantityOrders().size() > drugQuantitySupplierRepository.getNumberOfAvailableDrugs(drugOfferDTO.supplierId, drugOfferDTO.orderId) ) {
+	    	throw new Exception("No drugs available.");	    	
+	    }
+	    
+	    //fali provera da li vec postoji...
+	    
+	    Supplier supplier = supplierRepository.getOne(drugOfferDTO.supplierId);
+	    DrugOffer drugOffer = new DrugOffer();
+	    drugOffer.setLimitDate(drugOfferDTO.limitDate);
+	    drugOffer.setPharmacyOrder(pharmacyOrder);
+	    drugOffer.setTotalPrice(drugOfferDTO.totalPrice);
+	    drugOffer.setStatus(OfferStatus.Waiting);
+	    drugOffer.setSupplier(supplier);
+	    drugOfferRepository.save(drugOffer);
 	}
 
 
