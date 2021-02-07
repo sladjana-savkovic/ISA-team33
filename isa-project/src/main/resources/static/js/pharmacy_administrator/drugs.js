@@ -3,6 +3,7 @@ var pharmacyAdminId = getUserIdFromToken();
 var pharmacyId;
 var orderId;
 var searchDrugs = [];
+var searchOrders = [];
 var selectedDrugs = [];
 $(document).ready(function () {
 	
@@ -157,6 +158,7 @@ $(document).ready(function () {
         	},
 			contentType: "application/json",
 			success:function(orders){	
+				searchOrders = orders;
 				for(i = 0; i < orders.length; i++){
 					if(orders[i].isDeleted == false){
 						addOrder(orders[i], i+1);
@@ -167,6 +169,38 @@ $(document).ready(function () {
 				console.log('error getting drugs');
 			}
 		});
+		
+		$('#filter').submit(function(event){
+						event.preventDefault();
+		
+						let status = $('#status option:selected').val();
+						let status_bool = false;
+						if(status == "finish"){
+							status_bool = true;
+						}
+
+						$.ajax({
+							type:"POST", 
+							url: "/api/order/filter/" + status_bool,
+							headers: {
+            					'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        					},
+							data: JSON.stringify(searchOrders),
+							contentType: "application/json",
+							success:function(filterResult){
+								$('#order_content').empty();
+								for(i = 0; i < filterResult.length; i++){
+									addOrder(filterResult[i], i+1);
+								}
+						},
+						error:function(){
+							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error filtering orders.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+							return;
+						}
+						});
+					});
 		
 		$.ajax({
 			type:"GET", 
