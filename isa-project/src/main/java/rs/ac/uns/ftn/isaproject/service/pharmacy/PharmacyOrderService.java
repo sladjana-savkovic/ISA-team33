@@ -15,4 +15,5 @@ public interface PharmacyOrderService {
 	int findByMaxId();
 	Collection<DrugQuantityOrder> findByPharmacyOrderId(int id);
 	Collection<PharmacyOrder> findByPharmacyId(int id);
+	Collection<PharmacyOrder> findAll();
 }

@@ -190,7 +190,7 @@ function showPharmacies(drugId) {
             }
             else {
 				$('#pharmaciesTable').empty();
-				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th> Price </th></tr>');
+				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th> Price (din)</th></tr>');
 	            for (let i = 0; i < pharmacies.length; i++) {
 					pharmacy = '<tr><td>' + pharmacies[i].pharmacyName + '</td><td>' + pharmacies[i].price + '</td></tr>' ;
 					$('#pharmaciesTable').append(pharmacy);
