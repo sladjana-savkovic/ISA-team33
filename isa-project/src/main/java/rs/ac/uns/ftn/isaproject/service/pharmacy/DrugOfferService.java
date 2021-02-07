@@ -12,6 +12,7 @@ public interface DrugOfferService {
 	void rejectOffer(int id);
 	Collection<DrugOffer> findByPharmacyOrderId(int id);
 	Collection<DrugOffer> findByPharmacyId(int id);
+	Collection<DrugOffer> findAllBySupplierId(int id);
 	DrugOffer findById(int id);
 	Supplier findSupplierById(int id);
 	void add(AddDrugOfferDTO drugOfferDTO) throws Exception;

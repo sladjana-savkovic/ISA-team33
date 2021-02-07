@@ -102,5 +102,9 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	    drugOfferRepository.save(drugOffer);
 	}
 
+	@Override
+	public Collection<DrugOffer> findAllBySupplierId(int id) {
+		return drugOfferRepository.findAllBySupplierId(id);
+	}
 
 }

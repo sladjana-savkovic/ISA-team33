@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
@@ -80,6 +81,7 @@ public class DrugOfferController {
 	
 	
 	@PostMapping(consumes = "application/json")
+	//@PreAuthorize("hasAnyRole('SUPPLIER')")
 	public ResponseEntity<String> add(@RequestBody AddDrugOfferDTO offerDTO) {
 		try {
 			drugOfferService.add(offerDTO);
@@ -91,5 +93,15 @@ public class DrugOfferController {
 	}
 	
 	
+	@GetMapping("/all/{id}/supplier")
+	//@PreAuthorize("hasAnyRole('SUPPLIER')")
+	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplierId(@PathVariable int id){
+		try {
+			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierId(id));
+			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(drugOfferAndOrderDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
 }

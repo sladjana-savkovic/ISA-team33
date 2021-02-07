@@ -7,7 +7,7 @@ $(document).ready(function () {
         + '  <a class="nav-link" href="/html/supplier/orders.html">Orders received</a>'
         + '  </li>'
 		+ '  <li class="nav-item">'
-        + '  <a class="nav-link" href="">Add offer</a>'
+        + '  <a class="nav-link" href="/html/supplier/offer_search.html">Offer search</a>'
         + '  </li>'
 		+ ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/supplier/supplier_profile.html">Profile</a>'

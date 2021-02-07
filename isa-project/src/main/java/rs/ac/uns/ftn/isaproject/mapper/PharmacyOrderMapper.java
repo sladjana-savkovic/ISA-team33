@@ -15,4 +15,9 @@ public class PharmacyOrderMapper {
 		}
 		return pharmacyOrderDTOs;
 	}
+	
+	
+	public static PharmacyOrderDTO toPharmacyOrderDTO(PharmacyOrder pharmacyOrder){				
+		return new PharmacyOrderDTO(pharmacyOrder.getId(), pharmacyOrder.getLimitDate(), pharmacyOrder.isFinished(), pharmacyOrder.getPharmacyAdministrator().getId());
+	}
 }
