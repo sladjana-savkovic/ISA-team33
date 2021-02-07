@@ -72,24 +72,33 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 
 	@Override
 	public void add(AddDrugOfferDTO drugOfferDTO) throws Exception {
-	    PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugOfferDTO.orderId);		
+	    PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugOfferDTO.orderId);
 	    
 	    if (drugOfferDTO.limitDate.isAfter(pharmacyOrder.getLimitDate())) {	    	
 	    	 throw new Exception("The delivery date is not valid.");
 	    }	    
 	    if (pharmacyOrder.getDrugQuantityOrders().size() > drugQuantitySupplierRepository.getNumberOfAvailableDrugs(drugOfferDTO.supplierId, drugOfferDTO.orderId) ) {
 	    	throw new Exception("No drugs available.");	    	
+	    }	 
+	    
+	    Supplier supplier = supplierRepository.getOne(drugOfferDTO.supplierId);	
+	    DrugOffer drugOffer = drugOfferRepository.findOfferIdBySupplierAndOrder(drugOfferDTO.supplierId, drugOfferDTO.orderId);
+	    	    
+	    if (drugOffer == null) {
+	    	drugOffer = new DrugOffer();	    		    	
 	    }
-	    
-	    //fali provera da li vec postoji...
-	    
-	    Supplier supplier = supplierRepository.getOne(drugOfferDTO.supplierId);
-	    DrugOffer drugOffer = new DrugOffer();
-	    drugOffer.setLimitDate(drugOfferDTO.limitDate);
-	    drugOffer.setPharmacyOrder(pharmacyOrder);
+	    else if (drugOffer.getStatus().equals(OfferStatus.Rejected)) {
+	    	drugOffer = new DrugOffer();
+	    }
+	    else if (drugOffer.getStatus().equals(OfferStatus.Accepted)) {
+	    	throw new Exception("The offer has already been accepted.");	
+	    }	    
+	    drugOffer.setPharmacyOrder(pharmacyOrder);	    	
+    	drugOffer.setSupplier(supplier);
+	    drugOffer.setLimitDate(drugOfferDTO.limitDate);	    
 	    drugOffer.setTotalPrice(drugOfferDTO.totalPrice);
 	    drugOffer.setStatus(OfferStatus.Waiting);
-	    drugOffer.setSupplier(supplier);
+	    	    
 	    drugOfferRepository.save(drugOffer);
 	}
 

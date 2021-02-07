@@ -72,7 +72,6 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Override
 	public UserAccount getOne(long id) throws AccessDeniedException {
-		//return userAccountRepository.getOne(id);
 		return userAccountService.findById(id);
 	}
 	
