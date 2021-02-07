@@ -17,5 +17,7 @@ public interface DrugQuantityPharmacyService {
 	void addDrugQuantityPharmacy(DrugQuantityPharmacyDTO drugQuantityDTO);
 	public Collection<DrugDTO> searchByName(String name, Collection<DrugDTO> drugDTOs);
 	void deleteDrugQuantityPharmacy(int idDrug, int idPharmacy);
-	Collection<DrugQuantityPharmacy> reduceDrugQuantitiesOrReturnMissingDrugs(int pharmacyId, Collection<AddTherapyDTO> therapyDTOs);
+	Collection<DrugQuantityPharmacy> reduceDrugQuantitiesOrReturnMissingDrugs(int pharmacyId, Collection<AddTherapyDTO> therapyDTOs)  throws Exception;
+	Collection<DrugQuantityPharmacy> findByPharmacyId(int pharmacyId);
+	void saveAll(Collection<DrugQuantityPharmacy> quantityPharmacies);
 }

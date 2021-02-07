@@ -333,6 +333,7 @@ function disableFields(){
 	$('#prescribe').attr("disabled",true);
 	$('#specification').attr("disabled",true);
 	$('#create').attr("disabled",true);
+	$('.removeTherapyBtn').attr("hidden",true);
 	
 	$('#collapseTwo').removeClass();
 	$('#collapseTwo').addClass("collapse");
@@ -353,7 +354,7 @@ function reloadTherapies(){
 	$('#body_therapies').empty();
 	for(let t of therapies){
 		let row = $('<tr><td style="vertical-align: middle;">'+ t.drugName +'</td><td style="vertical-align: middle;">' + t.duration + '</td>'
-		+ '<td><button class="btn btn-danger" type="button" id="' + t.therapyId +'" onclick="removeTherapy(this.id)">Remove</button></td></tr>');	
+		+ '<td><button class="btn btn-danger removeTherapyBtn" type="button" id="' + t.therapyId +'" onclick="removeTherapy(this.id)">Remove</button></td></tr>');	
 		$('#therapies').append(row);
 	}
 }
