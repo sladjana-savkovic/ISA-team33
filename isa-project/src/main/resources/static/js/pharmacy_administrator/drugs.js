@@ -272,7 +272,7 @@ function addOrder(order, i){
 	
 	let order_div2 = '<div class="card" id="div' + order.id + '"><table id="table' + order.id + '" style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
                        + '<tr> <td><h5>Order' + ' ' + i + '</h5></td> </tr>'
-						+ '<tr> <td>Limit date:</td><td>' + order.limitDate + '</td><td>' + '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + order.id + '" onclick="deleteOrder(this.id)">Delete</button>' + '</td>' + '<td>' + '<button name="editButton" type = "button" class="btn btn-warning float-right" id="' + order.id + '" onclick="editOrder(this.id)">Edit</button>' + '</td>' + '</tr>' 
+						+ '<tr> <td>Limit date:</td><td>' + order.limitDate + '</td><td>' + '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + order.id + '" onclick="deleteOrder(this.id)">Delete</button>' + '</td>' + '<td>' + '<button name="editButton" type = "button"  data-toggle="modal" data-target="#modalConfirmEdit" class="btn btn-warning float-right" id="' + order.id + '" onclick="editOrder(this.id)">Edit</button>' + '</td>' + '</tr>' 
 						+ '<tr> <td><b>Ordered drugs:</b></td> </tr>'
                         + '</table></div>';
 	
@@ -594,13 +594,61 @@ function deleteOrder(id){
 					
 				},
 				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept offer.'
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error deleting order.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
 			});
 	
+}
+
+function editOrder(id){
+	
+		$.ajax({
+			type:"GET", 
+			url: "/api/order/" + id,
+			headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
+			contentType: "application/json",
+			success:function(order){	
+				$('#newLimitDate').val(order.limitDate);
+			},
+			error:function(){
+				console.log('error getting order');
+			}
+		});
+		
+	$('a#submit_edit').click(function(event){
+		
+		event.preventDefault();
+	
+		let newLimitDate = $('#newLimitDate').val();
+	
+		$.ajax({
+				type:"PUT", 
+				url: "/api/order/" + id + "/" + newLimitDate + "/edit",
+				headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
+				contentType: "application/json",
+				success:function(){
+					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully edit order.'
+																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+																$('#div_alert').append(a);
+																location.reload();
+																return;
+					
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error editing order.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+	});
 }
 
 function clearLocalStorage(){

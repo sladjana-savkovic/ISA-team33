@@ -71,6 +71,7 @@ public class PharmacyOrderController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<PharmacyOrderDTO> getById(@PathVariable int id) {
 
 		PharmacyOrder pharmacyOrder = pharmacyOrderService.findById(id);
