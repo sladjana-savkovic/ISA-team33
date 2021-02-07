@@ -34,6 +34,20 @@ public class ReportController {
 		this.reportService = reportService;
 	}
 	
+	@GetMapping("/{id}/pharmacy")
+	public ResponseEntity<Void> report(HttpServletResponse response, @PathVariable int id) throws Exception {
+		response.setContentType("text/html; charset=UTF-8");
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportService.reportPharmacy(id));
+		InputStream inputStream = this.getClass().getResourceAsStream("/reports/pharmacy_report.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(inputStream);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
+		HtmlExporter exporter = new HtmlExporter(DefaultJasperReportsContext.getInstance());
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.setExporterOutput(new SimpleHtmlExporterOutput(response.getWriter()));
+		exporter.exportReport();
+		return null;	
+	}
+	
 	@GetMapping("/{id}/appointment")
 	public ResponseEntity<Void> reportAppointment(HttpServletResponse response, @PathVariable int id) throws Exception {
 		response.setContentType("text/html; charset=UTF-8");

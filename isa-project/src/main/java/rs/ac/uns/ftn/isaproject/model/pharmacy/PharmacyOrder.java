@@ -31,11 +31,11 @@ public class PharmacyOrder {
 	@Column(unique=false, nullable=false)
 	private boolean isFinished;
 	
+	@Column(unique=false, nullable=false)
+	private boolean isDeleted;
+	
 	@OneToMany(mappedBy = "pharmacyOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<DrugQuantityOrder> drugQuantityOrders = new HashSet<DrugQuantityOrder>();
-	
-	//@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	//private Set<DrugQuantity> orderedDrugs = new HashSet<DrugQuantity>();
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private PharmacyAdministrator pharmacyAdministrator;
@@ -55,14 +55,6 @@ public class PharmacyOrder {
 	public void setLimitDate(LocalDate limitDate) {
 		this.limitDate = limitDate;
 	}
-
-	/*public Set<DrugQuantity> getOrderedDrugs() {
-		return orderedDrugs;
-	}
-
-	public void setOrderedDrugs(Set<DrugQuantity> orderedDrugs) {
-		this.orderedDrugs = orderedDrugs;
-	}*/
 
 	public boolean isFinished() {
 		return isFinished;
@@ -86,6 +78,14 @@ public class PharmacyOrder {
 
 	public void setDrugQuantityOrders(Set<DrugQuantityOrder> drugQuantityOrders) {
 		this.drugQuantityOrders = drugQuantityOrders;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 	
 }
