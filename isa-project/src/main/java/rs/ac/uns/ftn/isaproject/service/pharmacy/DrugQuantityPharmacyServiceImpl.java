@@ -161,22 +161,27 @@ public class DrugQuantityPharmacyServiceImpl implements DrugQuantityPharmacyServ
 
 	@Override
 	public void deleteDrugQuantityPharmacy(int idDrug, int idPharmacy) {
-		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();
-		Collection<DrugReservation> drugReservations = drugReservationRepository.findAll();
-		
-		boolean can_delete = false;
-		for(DrugReservation drugReservation:drugReservations) {
-			if(drugReservation.getDrug().getId() == idDrug && drugReservation.getPharmacy().getId() == idPharmacy && drugReservation.isDone()==true) {
-				can_delete = true;
-			}
-		}	
+		Collection<DrugQuantityPharmacy> quantityPharmacies = quantityPharmacyRepository.findAll();	
 		
 		for(DrugQuantityPharmacy drugQuantity:quantityPharmacies) {
-			if(drugQuantity.getDrug().getId() == idDrug && drugQuantity.getPharmacy().getId() == idPharmacy && can_delete == true) {
+			if(drugQuantity.getDrug().getId() == idDrug && drugQuantity.getPharmacy().getId() == idPharmacy && checkIfDrugCanDelete(idDrug, idPharmacy) == true) {
 				drugQuantity.setDeleted(true);
 				quantityPharmacyRepository.save(drugQuantity);
 			}
 		}	
+	}
+
+	@Override
+	public boolean checkIfDrugCanDelete(int idDrug, int idPharmacy) {
+		Collection<DrugReservation> drugReservations = drugReservationRepository.findAll();
+		for(DrugReservation drugReservation:drugReservations) {
+			if(drugReservation.getDrug().getId() == idDrug && drugReservation.getPharmacy().getId() == idPharmacy) {
+				if(drugReservation.isDone()==false) {
+					return false;
+				}
+			}
+		}	
+		return true;
 	}
 
 }

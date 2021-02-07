@@ -1,7 +1,6 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
 import java.util.Collection;
-import java.util.Map;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
@@ -20,7 +19,6 @@ public interface DoctorService {
 	Collection<ViewSearchedDoctorDTO> filterByGradeAndType(String typeOfDoctor, int grade, Collection<ViewSearchedDoctorDTO> doctorDTOs);
 	void deleteDoctor(int id);
 	Collection<Doctor> getDoctorWithoutWorkingTime(int id);
-	Collection<Map<String, Object>> report(int idPharmacy);
 	void addDermatologistInPharmacy(int id, int idPharmacy);
 	Collection<Doctor> findDoctorNotInPharmacy(int id);
 }

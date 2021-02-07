@@ -20,4 +20,5 @@ public interface DrugQuantityPharmacyService {
 	Collection<DrugQuantityPharmacy> reduceDrugQuantitiesOrReturnMissingDrugs(int pharmacyId, Collection<AddTherapyDTO> therapyDTOs)  throws Exception;
 	Collection<DrugQuantityPharmacy> findByPharmacyId(int pharmacyId);
 	void saveAll(Collection<DrugQuantityPharmacy> quantityPharmacies);
+	boolean checkIfDrugCanDelete(int idDrug, int idPharmacy);
 }

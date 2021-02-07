@@ -97,9 +97,19 @@ public class DrugQuantityPharmacyController {
 	
 	@PutMapping("/{drugId}/{pharmacyId}/delete")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> increaseDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId){
-		quantityPharmacyService.deleteDrugQuantityPharmacy(drugId, pharmacyId);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> deleteDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId){
+		try {
+			
+			if(!quantityPharmacyService.checkIfDrugCanDelete(drugId, pharmacyId)) {
+				return new ResponseEntity<>("The drug is reserved.", HttpStatus.BAD_REQUEST);
+			}
+			
+			quantityPharmacyService.deleteDrugQuantityPharmacy(drugId, pharmacyId);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while deleting drug.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PostMapping(value="/{pharmacyId}/therapies-availability", consumes = "application/json")
