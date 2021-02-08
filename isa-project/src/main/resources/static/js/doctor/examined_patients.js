@@ -3,6 +3,7 @@ var doctorId = getUserIdFromToken();
 var doctorRole = getRoleFromToken();
 var examinedPatients = [];
 var futurePatients = [];
+var sortingType = "asc";
 $(document).ready(function () {
 	
 	clearLocalStorage();
@@ -292,6 +293,51 @@ function sortTable(n) {
   }
 };
 
+function sortDates(arg){
+	data = [];
+	if(arg == 0){
+		data = examinedPatients;
+	}
+	else{
+		data = futurePatients;
+	}
+	
+	$.ajax({
+		type:"POST", 
+		url: "/api/examination-report/sort/date/" + sortingType,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+		data: JSON.stringify(data),
+		contentType: "application/json",
+		success:function(sortResult){
+			if(arg == 0){
+				$('#body_patients').empty();
+				for (let p of sortResult){
+					addPatient(p);
+				}
+			}else{
+				$('#body_patients_future').empty();
+				for (let p of sortResult){
+					addFuturePatient(p);
+				}
+			}
+			
+			if(sortingType == "asc"){
+				sortingType = "desc";
+			}
+			else{
+				sortingType = "asc";
+			}
+		},
+		error:function(){
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+	});
+};
 
 function clearLocalStorage(){
 	localStorage.removeItem("patientId");

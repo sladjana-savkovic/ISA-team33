@@ -181,11 +181,10 @@ public class AppointmentController {
 			if(!workingTimeService.checkIfDoctorWorkInPharmacy(appointmentDTO.idPharmacy, appointmentDTO.idDoctor, startTime, endTime)) {
 					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
 			}
-			if(!appointmentService.isDoctorAvailableForChosenTime(appointmentDTO.idDoctor, date, startTime, endTime)) {
-				return new ResponseEntity<>("The doctor is busy for a chosen time.", HttpStatus.BAD_REQUEST);
-			}
+		
+			appointmentService.checkDoctorAvailabilityAndAddAppointment(appointmentDTO.idDoctor, date, startTime, endTime, 
+					appointmentDTO, AppointmentStatus.Created);
 			
-			appointmentService.add(appointmentDTO, AppointmentStatus.Created);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {

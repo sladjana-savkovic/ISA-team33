@@ -18,7 +18,7 @@ import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
-	@Query(value = "select * from appointment a where a.doctor_id=?1", nativeQuery = true)
+	@Query(value = "select * from appointment a where a.doctor_id=?1 and (a.status = 0 or a.status = 1)", nativeQuery = true)
 	Collection<Appointment> getDoctorAppointments(int doctorId);
 	
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
@@ -26,7 +26,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
 	Collection<Appointment> getCreatedAndScheduledDoctorAppointments(@Param("doctorId")int doctorId);
 	
-	@Query(value = "select * from appointment a where a.pharmacy_id=?1 and a.doctor_id=?2 and (a.status = 0 or a.status = 2)", nativeQuery = true)
+	@Query(value = "select * from appointment a where a.pharmacy_id=?1 and a.doctor_id=?2 and a.status = 0", nativeQuery = true)
 	Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId);
 	
 	@Query(value = "select * from appointment a where a.doctor_id=?1 and a.pharmacy_id=?2", nativeQuery = true)

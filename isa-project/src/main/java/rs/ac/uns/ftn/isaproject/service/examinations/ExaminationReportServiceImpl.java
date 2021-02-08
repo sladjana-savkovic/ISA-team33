@@ -67,6 +67,17 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 		}
 		return searchResult;
 	}
+	
+	@Override
+	public Collection<ExaminedPatientDTO> sortByDate(String sortingType, ArrayList<ExaminedPatientDTO> examinedPatientDTOs) {
+		if(sortingType.equals("asc")) {
+			examinedPatientDTOs.sort((a,b)->a.dateOfLastExamination.compareTo(b.dateOfLastExamination));
+		}else {
+			examinedPatientDTOs.sort((a,b)->b.dateOfLastExamination.compareTo(a.dateOfLastExamination));
+			
+		}
+		return examinedPatientDTOs;
+	}
 
 	@Override
 	public Collection<ExaminationReport> getByPatientAtDoctor(int patientId, int doctorId) {
@@ -96,7 +107,6 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 		examinationReport.setAppointment(appointment);
 		
 		return examinationReportRepository.save(examinationReport);
-	}
-		
+	}	
 
 }

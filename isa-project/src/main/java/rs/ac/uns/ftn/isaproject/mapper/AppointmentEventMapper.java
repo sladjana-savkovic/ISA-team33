@@ -42,9 +42,6 @@ public class AppointmentEventMapper {
 				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#fe0202"));
 			}
 			
-			if(a.getStatus() == AppointmentStatus.Canceled) {
-				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#dfff03"));
-			}
 		}
 		
 		return appointmentEventDTOs;
