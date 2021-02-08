@@ -4,8 +4,13 @@ $(document).ready(function () {
 
     if (token == null) {
 		localStorage.clear();
-        if (window.location.href != "../user/login.html")
+		
+		if(window.location.href.indexOf("drug_search.html") > -1){			
+			document.body.appendChild(document.createElement('script')).src='../../js/navbars/unauthenticated_user.js';
+		}
+        else if (window.location.href.indexOf("login.html") ==  -1)
             window.location.href = "../user/login.html";
+
         return;
     }
     else
@@ -14,11 +19,14 @@ $(document).ready(function () {
 			document.body.appendChild(document.createElement('script')).src='../../js/navbars/pharmacist.js';
 			$('#searchPredefinedAppointments').attr('hidden',true);
 			$('#freeAppText').attr('hidden',true);
+			
 		}else if(getRoleFromToken() == "ROLE_DERMATOLOGIST"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/dermatologist.js';
+				
 		}else if(getRoleFromToken() == "ROLE_SUPPLIER"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/supplier.js';
 		}
+		
         return;
     }
 
@@ -80,9 +88,6 @@ function checkUserRole(trueRole) {
         else if (role == "ROLE_PHARMACIST" || role == "ROLE_DERMATOLOGIST") {
             window.location.href = "../doctor/calendar.html";
         }
-		else if(role == "ROLE_PATIENT"){
-			window.location.href = "../patient/patient_profile.html";
-		}
 		else if(role == "ROLE_PATIENT"){
 			window.location.href = "../patient/patient_profile.html";
 		}
