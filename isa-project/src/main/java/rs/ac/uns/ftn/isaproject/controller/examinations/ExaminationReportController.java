@@ -62,6 +62,13 @@ public class ExaminationReportController {
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(searchResult, HttpStatus.OK);
 	}
 	
+	@PostMapping("/sort/date/{sortingType}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public  ResponseEntity<Collection<ExaminedPatientDTO>> sortByDate(@PathVariable String sortingType,@RequestBody ArrayList<ExaminedPatientDTO> examinedPatientDTOs){
+		Collection<ExaminedPatientDTO> sortResult = examinationReportService.sortByDate(sortingType, examinedPatientDTOs);
+		return new ResponseEntity<Collection<ExaminedPatientDTO>>(sortResult, HttpStatus.OK);
+	}
+	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> add(@RequestBody AddExaminationReportDTO examinationReportDTO){

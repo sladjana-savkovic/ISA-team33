@@ -52,9 +52,22 @@ const getAllAppointments = () => {
 		}
 	})
 }
+
 const appendAppointment = (apartment) => {
 	let startTime = apartment.startTime.split("T")[0] + ", " + apartment.startTime.split("T")[1]+ "h";
 	let name;let surname;let grade;
+	
+	let oneElement = `
+	<div class="card bg-info mx-5 my-2">
+		<div class="row">
+			<div id="${apartment.idAppointment}" class="col d-flex flex-column justify-content-center align-items-center">
+				<h3 class="font-weight-bold text-light">Start time: ${startTime}</h3>
+			</div>
+			</div></div>
+	
+	`;
+	$("#apartment-cards").append(oneElement);
+
 	$.ajax({
 		type:"GET", 
 		url: "/api/doctor/" + apartment.idDoctor,
@@ -67,12 +80,7 @@ const appendAppointment = (apartment) => {
 			surname = doctor.surname;
 			grade = doctor.averageGrade;
 			let oneElement = `
-		<div class="card bg-info mx-5 my-2">
-		<div class="row">
-			<div id="${apartment.id}" class="col d-flex flex-column justify-content-center align-items-center">
-				<h3 class="font-weight-bold text-light">Start time: ${startTime}</h3>
-				
-			</div>
+		
 			<div class="col d-flex flex-column justify-content-center align-items-center">
 				<h3 class="text-light">Doctor: ${name} ${surname}</h3>
 			</div>
@@ -81,14 +89,12 @@ const appendAppointment = (apartment) => {
 			</div>
 			<div class="col d-flex flex-column justify-content-center align-items-center">
 				<h3 class="text-light">Price: ${apartment.price}din</h3>
-				`
-				
-			oneElement = oneElement + `
 			<button class="btn btn-success btn-light"  id="modalButton" onclick="scheduleAppointment('${apartment.idAppointment}')">Schedule</button>
+			</div>
 			`
 		
-	oneElement = oneElement + `</div></div></div>`
-	$("#apartment-cards").append(oneElement);
+
+	$("#"+apartment.idAppointment).parent().append(oneElement);
 		},
 		error:function(xhr){
 			console.log(xhr.responseText);
@@ -96,7 +102,6 @@ const appendAppointment = (apartment) => {
 	});
 	
 }
-
 
 const scheduleAppointment = apartmentId =>{
 	$.ajax({

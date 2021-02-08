@@ -60,6 +60,9 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
 	@Override
 	public boolean checkIfDoctorWorkInPharmacy(int pharmacyId, int doctorId, LocalTime startTime, LocalTime endTime) {
 		WorkingTime workingTime = workingTimeRepository.findByPharmacyDoctorId(pharmacyId, doctorId);
+		if(workingTime == null) {
+			return false;
+		}
 		if((startTime.isAfter(workingTime.getStartTime()) || startTime.equals(workingTime.getStartTime())) && 
 			(endTime.isBefore(workingTime.getEndTime()) || endTime.equals(workingTime.getEndTime()))) {
 				return true;

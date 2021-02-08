@@ -58,16 +58,13 @@ $(document).ready(function () {
 		enableFields();
 		$('#change').text("Save");
 		
-		var amenities = []
-		var $boxes = $('input[name=amenities]:checked');
-		$boxes.each(function(){
-			amenities.push({"id":$(this).val()})
-		})
-		
-		
 		$('#edit_profile').submit(function(event){
 			event.preventDefault();
-			
+			var amenities = []
+			var $boxes = $('input[name=amenities]:checked');
+			$boxes.each(function(){
+				amenities.push({"id":$(this).val()})
+			})
 			$.ajax({
 				type:"PUT", 
 				url: "/api/patient",
@@ -114,6 +111,7 @@ function enableFields(){
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
+	$('input[name=amenities]').attr("disabled",false);
 	
 	changeInputFiledsStatus(true);
 	changeSelectOptionsStatus(false);
@@ -186,7 +184,7 @@ function getCities(countryId){
 
 function addDrug(drug, patientId){
 	let div = $('<div class="form-check"></div>')
-	let input = $('<input type="checkbox" class="form-check-input" id="' + drug.id + '" name="amenities" value="' + drug.id + '" >')
+	let input = $('<input disabled type="checkbox" class="form-check-input" id="' + drug.id + '" name="amenities" value="' + drug.id + '" >')
 	let label =  $('<label class="form-check-label" for="' + drug.id + '">' + drug.name + '</label>')
 	$.ajax({
 		type:"GET", 

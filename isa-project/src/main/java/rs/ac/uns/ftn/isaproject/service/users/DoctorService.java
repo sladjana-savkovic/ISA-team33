@@ -1,11 +1,13 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 
 public interface DoctorService {
@@ -21,4 +23,5 @@ public interface DoctorService {
 	Collection<Doctor> getDoctorWithoutWorkingTime(int id);
 	void addDermatologistInPharmacy(int id, int idPharmacy);
 	Collection<Doctor> findDoctorNotInPharmacy(int id);
+	Collection<Doctor> findAvailableDoctor(LocalDateTime date,Long idPharmacy);
 }
