@@ -20,9 +20,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			      headerToolbar: {
 			        left: 'prev,next today',
 			        center: 'title',
-			        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+			        right: 'timeGridDay,timeGridWeek,dayGridMonth,timeGridYear'
 			      },
-			      initialDate: '2021-02-01',
+                  views: {
+				      timeGridYear: {
+				      type: 'listWeek',
+				      duration: { days: 365 },
+					  dateIncrement: { years: 1 },
+                      slotDuration: { months: 1 },
+				      buttonText: 'year'
+				    }
+                  },
+			      initialDate: '2021-01-01',
 			      navLinks: true, // can click day/week names to navigate views
 			      nowIndicator: true,
 			      weekNumbers: true,
