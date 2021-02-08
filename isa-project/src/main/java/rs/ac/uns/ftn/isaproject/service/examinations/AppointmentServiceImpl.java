@@ -237,4 +237,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return false;
 	}
+	@Override
+	@Transactional(readOnly = false)
+    public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+        Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
+        return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
+    }
 }
