@@ -60,6 +60,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		UserAccount user = (UserAccount) loadUserByUsername(username);
 		
+		if(!user.isActive()) {
+			user.setActive(true);
+		}
+		
 		user.setPassword(passwordEncoder.encode(newPassword));
 		userRepository.save(user);
 	}

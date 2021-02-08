@@ -71,9 +71,9 @@ function getUserAccountIdFromToken(){
 }
 
 
-function isEnabledFromToken(){
+function isActiveFromToken(){
 	try{
-		return decodeToken(localStorage.getItem("token")).isEnabled;
+		return decodeToken(localStorage.getItem("token")).isActive;
 	}
 	catch(err){
 		window.location.href = "../user/login.html";

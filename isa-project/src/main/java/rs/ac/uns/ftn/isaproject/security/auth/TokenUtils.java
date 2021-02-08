@@ -42,7 +42,7 @@ public class TokenUtils {
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
 
-	public String generateToken(String username, Long userAccountId, String role, int userId, boolean enabled) {
+	public String generateToken(String username, Long userAccountId, String role, int userId, boolean active) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
 				.setSubject(username) //email
@@ -53,7 +53,7 @@ public class TokenUtils {
 				.claim("userAccountId", userAccountId)
 				.claim("userId", userId)
 				.claim("role", role)
-				.claim("isEnabled",enabled)
+				.claim("isActive",active)
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 	}
 
