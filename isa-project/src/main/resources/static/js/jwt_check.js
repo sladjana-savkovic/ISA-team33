@@ -16,6 +16,8 @@ $(document).ready(function () {
 			$('#freeAppText').attr('hidden',true);
 		}else if(getRoleFromToken() == "ROLE_DERMATOLOGIST"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/dermatologist.js';
+		}else if(getRoleFromToken() == "ROLE_SUPPLIER"){
+			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/supplier.js';
 		}
         return;
     }
@@ -45,6 +47,15 @@ function getRoleFromToken() {
 function getUserIdFromToken(){
 	try{
 		return decodeToken(localStorage.getItem("token")).userId;
+	}
+    catch(err){
+		window.location.href = "../user/login.html";
+	}
+}
+
+function getUserAccountIdFromToken(){
+	try{
+		return decodeToken(localStorage.getItem("token")).userAccountId;
 	}
     catch(err){
 		window.location.href = "../user/login.html";

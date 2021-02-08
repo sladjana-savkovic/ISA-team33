@@ -12,7 +12,7 @@ public class OrderAndQuantityMapper {
 	public static Collection<OrderAndQuantityDTO> toOrderAndQuantityDTOs(Collection<PharmacyOrder> pharmacyOrders){
 		Collection<OrderAndQuantityDTO> orderAndQuantityDTOs = new ArrayList<>();
 		for(PharmacyOrder o : pharmacyOrders) {
-			if (o.getLimitDate().isBefore(LocalDate.now()) || o.isFinished()) 
+			if (o.getLimitDate().isBefore(LocalDate.now()) || o.isFinished() || o.isDeleted()) 
 				continue;			
 			OrderAndQuantityDTO dto = new OrderAndQuantityDTO();
 			dto.id = o.getId();
@@ -23,6 +23,16 @@ public class OrderAndQuantityMapper {
 			orderAndQuantityDTOs.add(dto);
 		}
 		return orderAndQuantityDTOs;
+	}
+	
+	public static OrderAndQuantityDTO toOrderAndQuantityDTO(PharmacyOrder pharmacyOrder){		
+			OrderAndQuantityDTO dto = new OrderAndQuantityDTO();
+			dto.id = pharmacyOrder.getId();
+			dto.isFinished = pharmacyOrder.isFinished();
+			dto.limitDate = pharmacyOrder.getLimitDate();
+			dto.pharmacyName = pharmacyOrder.getPharmacyAdministrator().getPharmacy().getName();
+			dto.drugQuantityDTOs = DrugQuantityOrderMapper.toDrugQuantityOrderDTOs(pharmacyOrder.getDrugQuantityOrders());
+		return dto;
 	}
 		
 }
