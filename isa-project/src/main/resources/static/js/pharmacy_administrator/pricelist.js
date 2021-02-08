@@ -53,6 +53,26 @@ $(document).ready(function () {
 				}
 				});
 				
+			$.ajax({
+				type:"GET", 
+				url: "/api/pricelist/" + pharmacyId + "/pharmacy",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
+				contentType: "application/json",
+				success:function(pricelists){	
+					for(i = 0; i < pricelists.length; i++){
+						addPricelist(pricelists[i]);
+					}
+				},
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});		
+				
 		$('#action').submit(function(event){
 		event.preventDefault();
 		
@@ -200,6 +220,11 @@ $(document).ready(function () {
 function addDrugsInCombo(drug){
 	let option = $('<option value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drug').append(option);
+};
+
+function addPricelist(pricelist){
+	 let row = $('<tr><td>'+ pricelist.drugName +'</td><td>' + pricelist.price + '</td><td>' + pricelist.startDate + '</td><td>'  + pricelist.endDate + '</td></tr>');	
+	$('#prices').append(row);
 };
 
 function clearLocalStorage(){

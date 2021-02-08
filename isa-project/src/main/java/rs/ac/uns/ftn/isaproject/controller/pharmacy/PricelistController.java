@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyPriceDTO;
 import rs.ac.uns.ftn.isaproject.dto.PricelistDTO;
 import rs.ac.uns.ftn.isaproject.mapper.PharmacyPriceMapper;
+import rs.ac.uns.ftn.isaproject.mapper.PricelistMapper;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PricelistService;
 
 @RestController
@@ -41,7 +42,6 @@ public class PricelistController {
 		}
 	}
 	
-	
 	@GetMapping(value = "/{id}/drug")
 	public ResponseEntity<Collection<PharmacyPriceDTO>> getPharmaciesAndPriceByDrugId(@PathVariable int id) {		
 		try {
@@ -52,5 +52,16 @@ public class PricelistController {
 		}
 	}
 	
-	
+	@GetMapping(value = "/{id}/pharmacy")
+	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
+	public ResponseEntity<?> getPricelistByPharmacy(@PathVariable int id) {		
+		try {
+			Collection<PricelistDTO> pricelistDTOs  = PricelistMapper.toPricelistDTOs(pricelistService.getPricelistByPharmacy(id));
+			return new ResponseEntity<Collection<PricelistDTO>>(pricelistDTOs, HttpStatus.OK);
+		} 
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy pricelist items.", HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 }
