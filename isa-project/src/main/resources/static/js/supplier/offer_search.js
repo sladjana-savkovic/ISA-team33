@@ -75,21 +75,16 @@ function addOfferCard(offer) {
 }
 
 
-
-//************************************************** 
-
-
-
 function searchOffer() {	
 	$('div#div_offers').empty();	
 	let status = $("#offer_status option:selected").val();	
 
 	searchDTO = {
 		"status": status,
-		"drugDTOs": offersList
+		"offerDTOs": offersList
 	}		
     $.ajax({
-        //url: "/api/drug/search",
+        url: "/api/drug-offer/search",
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(searchDTO),
@@ -113,10 +108,4 @@ function searchOffer() {
         }
     });			
 }
-
-
-
-
-
-
 

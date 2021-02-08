@@ -1,11 +1,15 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
@@ -107,4 +111,18 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 		return drugOfferRepository.findAllBySupplierId(id);
 	}
 
+	@Override
+	public Collection<DrugOfferAndOrderDTO> searchByStatus(DrugOfferSearchDTO offerSearchDTO) {
+		Collection<DrugOfferAndOrderDTO> searchResult = new ArrayList<>();	
+		if (offerSearchDTO.status.equals(""))
+			return offerSearchDTO.offerDTOs;
+		for(DrugOfferAndOrderDTO dto : offerSearchDTO.offerDTOs) {			
+			if(OfferStatus.valueOf(offerSearchDTO.status).equals(dto.drugOfferDTO.status)) {
+				searchResult.add(dto);
+			}
+		}
+		return searchResult;		
+	}
+
+	
 }
