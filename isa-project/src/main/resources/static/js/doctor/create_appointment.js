@@ -111,6 +111,13 @@ $(document).ready(function () {
 			contentType: "application/json",
 			success:function(){
 				
+				$('#close_btn').click();
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				clearLocalStorage();
+				window.setTimeout(function(){location.href = "calendar.html"},1000)
+				
 				let message = "You have a new scheduled examination. See a list of future appointments.";
 					
 				$.ajax({
@@ -124,22 +131,11 @@ $(document).ready(function () {
 						 subject: "Scheduling new appointment",
 						 message: message}),
 					success: function () {
-						$('#close_btn').click();
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						clearLocalStorage();
-						window.setTimeout(function(){location.href = "calendar.html"},500)
+						console.log("Successfully sent an email.");
 						return;
 					},
 					error: function () {
-						$('#close_btn').click();
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
-						+ 'Successfully appointment scheduling, but an error occurred while sending an email'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						clearLocalStorage();
-						window.setTimeout(function(){location.href = "calendar.html"},500)
+						console.log("Unsuccessfully sent an email.");
 						return;
 					}
 				});	
@@ -164,7 +160,7 @@ function addAppointment(a){
 	let endTime = a.endTime.split("T")[0] + " " + a.endTime.split("T")[1];
 	
 	let row = $('<tr id="' + a.id + '"><td style="vertical-align: middle;">'+ startTime +'</td><td style="vertical-align: middle;">' + endTime + '</td><td style="vertical-align: middle;">' + a.price + '</td>'
-	     	  + '<td><button class="btn btn-info" type="button" id="' + a.id +'" onclick="schedulePredefinedApp(this.id)" style="margin-left:30px;">Schedule</button></td></tr>');	
+	     	  + '<td><button class="btn btn-info" type="button" id="' + a.id +'" onclick="schedulePredefinedApp(this.id,)" style="margin-left:30px;">Schedule</button></td></tr>');	
 	$('#appointments').append(row);
 };
 
@@ -179,6 +175,13 @@ function schedulePredefinedApp(appointmentId){
 		contentType: "application/json",
 		success:function(){
 			
+			$('#close_btn').click();
+			let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
+			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			clearLocalStorage();
+			window.setTimeout(function(){location.href = "calendar.html"},1000)
+			
 			let message = "You have a new scheduled examination. See a list of future appointments.";
 			
 			$.ajax({
@@ -192,22 +195,11 @@ function schedulePredefinedApp(appointmentId){
 					 subject: "Scheduling new appointment",
 					 message: message}),
 				success: function () {
-					$('#close_btn').click();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully appointment scheduling.'
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					clearLocalStorage();
-					window.setTimeout(function(){location.href = "calendar.html"},700)
+					console.log("Successfully sent an email.");
 					return;
 				},
 				error: function () {
-					$('#close_btn').click();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">' 
-					+ 'Successfully appointment scheduling, but an error occurred while sending an email.'
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					clearLocalStorage();
-					window.setTimeout(function(){location.href = "calendar.html"},700)
+					console.log("Unsuccessfully sent an email.");
 					return;
 				}
 			});	

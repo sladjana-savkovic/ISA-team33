@@ -253,35 +253,50 @@ insert into patient_allergies (patient_id,allergies_id) values (3,1);
 insert into patient_allergies (patient_id,allergies_id) values (4,2);
 
 
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),33,1,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),12,2,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),45,3,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),65,4,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),66,5,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),85,6,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),15,7,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),5,8,1,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),33,1,2,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),12,4,2,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),66,11,2,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),45,10,2,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),99,9,2,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),17,6,3,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),18,7,3,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),51,10,3,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),33,1,3,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),12,2,4,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),3,10,4,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),33,11,4,false);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted) values (nextval('quantity_pharmacy_seq'),44,12,4,false);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,1,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),12,2,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,3,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,4,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),66,5,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),85,6,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),15,7,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),5,8,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,1,2,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),12,4,2,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),66,11,2,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),45,10,2,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),99,9,2,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),17,6,3,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),18,7,3,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),51,10,3,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,1,3,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),12,2,4,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),3,10,4,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,11,4,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),44,12,4,false,1);
 
-insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-02-03', true, 6);
-insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id) values (nextval('orders_seq'), '2021-03-03', false, 6);
+insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id, is_deleted) values (nextval('orders_seq'), '2021-01-31', true, 6, false);
+insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id, is_deleted) values (nextval('orders_seq'), '2021-03-03', false, 6, false);
+insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id, is_deleted) values (nextval('orders_seq'), '2021-04-03', false, 6, false);
+insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id, is_deleted) values (nextval('orders_seq'), '2021-03-13', false, 6, false);
+insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id, is_deleted) values (nextval('orders_seq'), '2021-02-02', false, 6, false);
+insert into pharmacy_order (id, limit_date, is_finished, pharmacy_administrator_id, is_deleted) values (nextval('orders_seq'), '2021-03-25', false, 6, false);
 
 insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),33,1,1);
-insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,1);
-insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),45,1,2);
-
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),30,9,1);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),40,6,1);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),12,2,2);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),30,1,3);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),9,1,4);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),30,1,4);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),20,9,4);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),10,1,2);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),15,5,2);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),66,5,6);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),20,6,6);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),30,8,6);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),15,10,5);
+insert into drug_quantity_order (id, quantity, drug_id, pharmacy_order_id) values (nextval('drugquantities_seq'),34,11,5);
 
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 1);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 2, 3, 2);
@@ -291,18 +306,38 @@ insert into therapy (id, duration, drug_id,examination_id) values (nextval('ther
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 5, 2, 5);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 6, 1, 6);
 
-insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-22', 22000, 1, 8, 2);
-insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-25', 21000, 1, 8, 2);
-insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-22', 54000, 2, 8, 2);
-insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-27', 56000, 2, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-01', 22000, 1, 8, 0);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-01', 21000, 2, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-22', 54000, 3, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-26', 56000, 4, 9, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-26', 38000, 5, 8, 2);
+insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-28', 39000, 5, 9, 2);
 
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-02-28', 350, 1, 1, '2020-12-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 380, 1, 1, '2021-01-15');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 370, 1, 1, '2021-01-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 340, 2, 1, '2020-12-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-02-28', 770, 1, 2, '2020-12-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 1650, 1, 3, '2020-12-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-02-28', 150, 1, 4, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 350, 1, 1, '2020-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 380, 1, 1, '2021-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 370, 1, 2, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 770, 1, 3, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 870, 1, 4, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 1370, 1, 5, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 580, 1, 6, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 360, 1, 7, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 450, 1, 8, '2021-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 750, 2, 1, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 330, 2, 1, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 990, 2, 4, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 890, 2, 11, '2020-01-20');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 790, 2, 10, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 1270, 2, 9, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 770, 3, 6, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 6, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 7, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 10, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 1, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 1650, 4, 2, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 2, '2020-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 10, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 11, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 12, '2020-01-31');
 
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2020-12-30 12:00:00',true,3,1,1);
@@ -354,9 +389,9 @@ insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (next
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'gold', 10, 100, 51);
 insert into user_category (id, name, discount, upper_limit, lower_limit) values (nextval('category_seq'), 'silver', 5, 50, 21);
 
-insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 33, 1, 8);
-insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 12, 2, 8);
-insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 45, 1, 8);
+insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 40, 1, 8);
+insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 15, 2, 8);
+insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 5, 3, 8);
 
 
 insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 

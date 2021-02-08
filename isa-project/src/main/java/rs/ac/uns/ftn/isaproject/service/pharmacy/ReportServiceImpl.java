@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantityPharmacyReposito
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugReservationRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PricelistRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
 
 @Service
 public class ReportServiceImpl implements ReportService{
@@ -30,14 +31,16 @@ public class ReportServiceImpl implements ReportService{
 	private DrugQuantityPharmacyRepository drugRepository;
 	private DrugReservationRepository reservationRepository;
 	private PricelistRepository pricelistRepository;
+	private DoctorRepository doctorRepository;
 	
 	@Autowired
-	public ReportServiceImpl(PharmacyRepository pharmacyRepository, AppointmentRepository appointmentRepository, DrugQuantityPharmacyRepository drugRepository, DrugReservationRepository reservationRepository, PricelistRepository pricelistRepository) {
+	public ReportServiceImpl(PharmacyRepository pharmacyRepository, AppointmentRepository appointmentRepository, DrugQuantityPharmacyRepository drugRepository, DrugReservationRepository reservationRepository, PricelistRepository pricelistRepository, DoctorRepository doctorRepository) {
 		this.pharmacyRepository = pharmacyRepository;
 		this.appointmentRepository = appointmentRepository;
 		this.drugRepository = drugRepository;
 		this.reservationRepository = reservationRepository;
 		this.pricelistRepository = pricelistRepository;
+		this.doctorRepository = doctorRepository;
 	}
 
 	@Override
@@ -110,6 +113,24 @@ public class ReportServiceImpl implements ReportService{
 			item_app.put("priceName", "Medical examination income");
 			result.add(item_app);
 		
+		return result;
+	}
+
+	@Override
+	public Collection<Map<String, Object>> reportPharmacy(int idPharmacy) {
+		Collection<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		Pharmacy pharmacy = pharmacyRepository.getOne(idPharmacy);
+		for(Doctor d : doctorRepository.findByPharmacyId(idPharmacy)) {
+			Map<String, Object> item = new HashMap<>();
+			item.put("id", d.getId());
+			item.put("pharmacyName", pharmacy.getName());
+			item.put("pharmacyGrade", pharmacy.getAverageGrade());
+			item.put("name", d.getName());
+			item.put("surname", d.getSurname());
+			item.put("typeOfDoctor", d.getTypeOfDoctor());
+			item.put("averageGrade", d.getAverageGrade());
+			result.add(item);
+		}
 		return result;
 	}
 	

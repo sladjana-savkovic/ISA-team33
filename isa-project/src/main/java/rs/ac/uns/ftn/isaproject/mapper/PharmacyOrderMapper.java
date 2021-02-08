@@ -11,8 +11,13 @@ public class PharmacyOrderMapper {
 	public static Collection<PharmacyOrderDTO> toPharmacyOrderDTOs(Collection<PharmacyOrder> pharmacyOrders){
 		Collection<PharmacyOrderDTO> pharmacyOrderDTOs = new ArrayList<>();
 		for(PharmacyOrder d:pharmacyOrders) {
-			pharmacyOrderDTOs.add(new PharmacyOrderDTO(d.getId(), d.getLimitDate(), d.isFinished(), d.getPharmacyAdministrator().getId()));
+			pharmacyOrderDTOs.add(new PharmacyOrderDTO(d.getId(), d.getLimitDate(), d.isFinished(), d.getPharmacyAdministrator().getId(), d.isDeleted()));
 		}
 		return pharmacyOrderDTOs;
+	}
+	
+	
+	public static PharmacyOrderDTO toPharmacyOrderDTO(PharmacyOrder pharmacyOrder){				
+		return new PharmacyOrderDTO(pharmacyOrder.getId(), pharmacyOrder.getLimitDate(), pharmacyOrder.isFinished(), pharmacyOrder.getPharmacyAdministrator().getId());
 	}
 }

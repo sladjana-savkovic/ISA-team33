@@ -12,11 +12,16 @@ public class DrugMapper {
 	public static Collection<DrugDTO> toDrugDTOs(Collection<Drug> drugs){
 		
 		Collection<DrugDTO> drugDTOs = new ArrayList<>();
+		Collection<String> substituteDrugs;
 		
 		for(Drug d:drugs) {
 			Collection<IngredientDTO> ingredients = IngredientMapper.toIngredientDTOs(d.getIngredients());
+			substituteDrugs = new ArrayList<>();
+			for(Drug drug:d.getSubstituteDrugs()) {
+				substituteDrugs.add(drug.getName());
+			}
 			drugDTOs.add(new DrugDTO(d.getId(), d.getName(), d.getTypeOfDrug().name(), d.getTypeOfDrugsForm().name(), d.getProducer(), ingredients,
-									d.getContraindication(),d.getDailyDose()));
+									d.getContraindication(),d.getDailyDose(), substituteDrugs));
 		}
 		
 		return drugDTOs;

@@ -8,29 +8,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
 import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
-import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyOrderService;
 
 @RestController
 @RequestMapping(value = "api/drug-offer")
 public class DrugOfferController {
 
 	private DrugOfferService drugOfferService;
-	private PharmacyOrderService pharmacyOrderService;
 	
 	@Autowired
-	public DrugOfferController(DrugOfferService drugOfferService, PharmacyOrderService pharmacyOrderService) {
+	public DrugOfferController(DrugOfferService drugOfferService) {
 		this.drugOfferService = drugOfferService;
-		this.pharmacyOrderService = pharmacyOrderService;
 	}
 	
 	@PutMapping("/{id}")
@@ -77,4 +79,39 @@ public class DrugOfferController {
 		SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
 		return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 	}
+		
+	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ResponseEntity<String> add(@RequestBody AddDrugOfferDTO offerDTO) {
+		try {
+			drugOfferService.add(offerDTO);
+			return new ResponseEntity<String>(HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+		
+	@GetMapping("/all/{id}/supplier")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplierId(@PathVariable int id){
+		try {
+			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierId(id));
+			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(drugOfferAndOrderDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PostMapping("/search")
+	@PreAuthorize("hasRole('SUPPLIER')")
+	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> searchByStatus(@RequestBody DrugOfferSearchDTO offerDTOs){
+		try {
+			Collection<DrugOfferAndOrderDTO> searchResult = drugOfferService.searchByStatus(offerDTOs);
+			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(searchResult, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}		
+	
 }

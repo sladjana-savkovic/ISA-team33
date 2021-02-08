@@ -10,56 +10,52 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.*;
-import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
-import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
+import org.springframework.test.context.junit4.SpringRunner;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SchedulePredefinedAppointmentAtDermatologistTest {
-	
+public class ScheduleConsultationAtPharmacistTest {
+
 	private AppointmentService appointmentService;
 
 	@Autowired
-	public SchedulePredefinedAppointmentAtDermatologistTest(AppointmentService appointmentService) {
+	public ScheduleConsultationAtPharmacistTest(AppointmentService appointmentService) {
 		this.appointmentService = appointmentService;
 	}
 	
 	@Test
-	public void testOptimisticLockingScenario() {	
+	public void testPessimisticLockingScenario() throws Throwable  {
 		
 		ExecutorService executor = Executors.newFixedThreadPool(2);
-		Future<?> future1 = executor.submit(new Runnable() {
-			
-			@Override
-			public void run() {
-		        System.out.println("Startovan Thread 1");
-				Appointment appointmentToSchedule = appointmentService.getOne(2);
-				appointmentToSchedule.setStatus(AppointmentStatus.Scheduled);
-				try { Thread.sleep(3000); } catch (InterruptedException e) {}
-				appointmentService.save(appointmentToSchedule);// baca ObjectOptimisticLockingFailureException
-				
-			}
-		});
+		
 		executor.submit(new Runnable() {
 			
 			@Override
 			public void run() {
+		        System.out.println("Startovan Thread 1");
+		        appointmentService.getCreatedAndScheduledDoctorAppointments(1);
+				
+			}
+		});
+		
+		Future<?> future2 = executor.submit(new Runnable() {
+			
+			@Override
+			public void run() {
 		        System.out.println("Startovan Thread 2");
-		        Appointment appointmentToSchedule = appointmentService.getOne(2);
-				appointmentToSchedule.setStatus(AppointmentStatus.Scheduled);
-				appointmentService.save(appointmentToSchedule);
+		        try { Thread.sleep(50); } catch (InterruptedException e) { }
+		        appointmentService.getCreatedAndScheduledDoctorAppointments(1); // baca PessimisticLockingFailureException
 			}
 		});
 		
 		ExecutionException thrown = assertThrows(ExecutionException.class, () -> {
-			future1.get();
+			future2.get();
 		});
 		
 		System.out.println("Exception from thread " + thrown.getCause().getClass()); 
 		
-		assertTrue(thrown.getMessage().contains("ObjectOptimisticLockingFailureException"));
+		assertTrue(thrown.getMessage().contains("PessimisticLockingFailureException"));
 		
 		executor.shutdown();
 	}

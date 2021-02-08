@@ -54,17 +54,6 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 	}
 
 	@Override
-	public ExaminationReport add(AddExaminationReportDTO examinationReportDTO) {
-		Appointment appointment = appointmentRepository.getOne(examinationReportDTO.appointmentId);
-		ExaminationReport examinationReport = new ExaminationReport();
-		
-		examinationReport.setDiagnosis(examinationReportDTO.diagnosis);
-		examinationReport.setAppointment(appointment);
-		
-		return examinationReportRepository.save(examinationReport);
-	}
-
-	@Override
 	public Collection<ExaminedPatientDTO> searchByNameAndSurname(String name, String surname,Collection<ExaminedPatientDTO> examinedPatientDTOs) {
 		Collection<ExaminedPatientDTO> searchResult = new ArrayList<>();
 		
@@ -77,6 +66,17 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 			}
 		}
 		return searchResult;
+	}
+	
+	@Override
+	public Collection<ExaminedPatientDTO> sortByDate(String sortingType, ArrayList<ExaminedPatientDTO> examinedPatientDTOs) {
+		if(sortingType.equals("asc")) {
+			examinedPatientDTOs.sort((a,b)->a.dateOfLastExamination.compareTo(b.dateOfLastExamination));
+		}else {
+			examinedPatientDTOs.sort((a,b)->b.dateOfLastExamination.compareTo(a.dateOfLastExamination));
+			
+		}
+		return examinedPatientDTOs;
 	}
 
 	@Override
@@ -96,5 +96,17 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 		}
 		return uniqueReportsByPatient;
 	}
+
+	
+	@Override
+	public ExaminationReport add(AddExaminationReportDTO examinationReportDTO) {
+		Appointment appointment = appointmentRepository.getOne(examinationReportDTO.appointmentId);
+		ExaminationReport examinationReport = new ExaminationReport();
+		
+		examinationReport.setDiagnosis(examinationReportDTO.diagnosis);
+		examinationReport.setAppointment(appointment);
+		
+		return examinationReportRepository.save(examinationReport);
+	}	
 
 }

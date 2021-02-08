@@ -49,6 +49,9 @@ function redirectUser(token){
 	if(role == "ROLE_PHARMACYADMIN"){
     	 window.location.href = "../pharmacy_administrator/pharmacy_profile.html";
 	}
+	if(role == "ROLE_SUPPLIER"){
+    	 window.location.href = "../supplier/offer_search.html";
+	}
 }
 
 function decodeToken(token) {

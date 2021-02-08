@@ -81,6 +81,23 @@
 			<h5 class="card-header info-color white-text text-center py-4"><strong>Orders and offers of the pharmacy:</strong></h5>
 			<div class="card-body px-lg-5">
 				
+				<form id="filter">
+					<div class="form-row">
+					 	<div class="form-group col" style="margin-top: 5px; margin-left: 15px;">
+					 	<label for="type" class="text-secondary">Order status:</label>
+					 		<select id="status" class="custom-select" required>
+					 		<option value="" disabled selected hidden>Choose type</option>
+                                        <option value="finish" id="finish">Finished</option>
+                                         <option value="not_finish" id="not_finish" selected>Waiting for an offer</option>
+					 		</select>
+					 	</div>
+					 	
+					 	<div class="form-group col" style="margin-top: 15px; margin-right: 45px; margin-left: 7px;">
+					 		<button class="btn btn-primary btn-rounded btn-block waves-effect" type="submit">Filter</button>
+					 	</div>
+					</div>
+				</form>
+				
 				<div id="order_content">
 				</div>
 			    
@@ -152,6 +169,33 @@
   </div>
 </div>
 <!--Modal: modalConfirmDelete-->
+
+<!--Modal: modalConfirmEdit-->
+  <div class="modal fade" id="modalConfirmEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-warning" role="document">
+    <!--Content-->
+    <div class="modal-content text-center">
+      <!--Header-->
+      <div class="modal-header d-flex justify-content-center">
+        <p class="heading">Edit order</p>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+		<label>Limit date:</label><br>
+        <input type="date" class="form-control" id="newLimitDate" required>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer flex-center">
+        <a href="" class="btn  btn-outline-warning" id="submit_edit">Submit</a>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!--Modal: modalConfirmEdit-->
 	
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

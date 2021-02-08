@@ -14,6 +14,7 @@ checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
 var doctorId = getUserIdFromToken();
 var appointment = null;
 var therapies = [];
+var therapyId = 1;
 var drugs = [];
 $(document).ready(function () {
 		
@@ -156,12 +157,13 @@ $(document).ready(function () {
 				$('#dContra').text(d["contraindication"]);
 				$('#dDose').text(d["dailyDose"]);
 								
-				let ingredients = "";
+				let ingredientNames = [];
 				for(let i of d.ingredients){
-					ingredients += i.name + "\n";
+					ingredientNames.push(i.name);
 				}
 				
-				$('#dIngredients').text(ingredients);
+				$('#dIngredients').text(ingredientNames);
+				$('#dSubstitute').text(d["substitute"]);
 			}
 		}
 		
@@ -234,7 +236,8 @@ $(document).ready(function () {
 		$('#btn_close').click();
 		let duration = $('#duration').val();
 		
-		therapies.push({"drugId": drugId,"drugName" : drugName, "duration": duration});
+		therapies.push({"therapyId":therapyId, "drugId": drugId,"drugName" : drugName, "duration": duration});
+		therapyId = therapyId + 1;
 		reloadTherapies();
 	});
 	
@@ -247,7 +250,8 @@ $(document).ready(function () {
 		$('#btn_close_substitute').click();
 		let duration = $('#durationSubstitute').val();
 		
-		therapies.push({"drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		therapies.push({"therapyId":therapyId, "drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
+		therapyId = therapyId + 1;
 		reloadTherapies();
 	});
 	
@@ -263,7 +267,8 @@ $(document).ready(function () {
 		for(let t of therapies){
 			therapyDTOs.push({"drugId":t.drugId, "duration":t.duration});
 		}
-				
+		
+		//Saljem zahtjev da provjerim da li su svi prepisani lijekovi jos uvijek dostupni i ako jesu dodajem izvjestaj
 		$.ajax({
 			type:"POST", 
 			url: "/api/examination-report",
@@ -276,13 +281,25 @@ $(document).ready(function () {
 				pharmacyId : appointment.pharmacyId,
 				therapyDTOs: therapyDTOs}),
 			contentType: "application/json",
-			success:function(){
-				disableFields();
-		
-				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
-				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				return;
+			success:function(data,textStatus, xhr){
+				if(xhr.status == 200){
+					let missingDrugs = [];
+					for(let drug of data){
+						missingDrugs.push(drug.drugName);
+					}
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+					+'Drug(s) ' + missingDrugs + ' are no longer available. Please remove them from therapy. '
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+				else{
+					disableFields();
+					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully saving examination report.'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
 			},
 			error:function(xhr){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
@@ -317,6 +334,7 @@ function disableFields(){
 	$('#prescribe').attr("disabled",true);
 	$('#specification').attr("disabled",true);
 	$('#create').attr("disabled",true);
+	$('.removeTherapyBtn').attr("hidden",true);
 	
 	$('#collapseTwo').removeClass();
 	$('#collapseTwo').addClass("collapse");
@@ -336,8 +354,23 @@ function disableFields(){
 function reloadTherapies(){
 	$('#body_therapies').empty();
 	for(let t of therapies){
-		let row = $('<tr><td>'+ t.drugName +'</td><td>' + t.duration + '</td></tr>');	
+		let row = $('<tr><td style="vertical-align: middle;">'+ t.drugName +'</td><td style="vertical-align: middle;">' + t.duration + '</td>'
+		+ '<td><button class="btn btn-danger removeTherapyBtn" type="button" id="' + t.therapyId +'" onclick="removeTherapy(this.id)">Remove</button></td></tr>');	
 		$('#therapies').append(row);
+	}
+}
+
+function removeTherapy(therapyId){
+	let index = -1;
+	for(let i=0; i<therapies.length; i++){
+		if (therapies[i].therapyId == therapyId){
+			index = i;
+			break;
+		}
+	}
+	if(index != -1){
+		therapies.splice(index, 1);
+		reloadTherapies();
 	}
 }
 
@@ -354,7 +387,8 @@ function fillInBasicInfo(){
 
 function addDrug(drug){
 	drugs.push({"drugId":drug.id, "drugName":drug.name, "typeOfDrug":drug.typeOfDrug, "typeOfDrugsForm":drug.typeOfDrugsForm,
-				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients});
+				"producer":drug.producer, "contraindication":drug.contraindication, "dailyDose":drug.dailyDose, "ingredients":drug.ingredients,
+				"substitute": drug.substituteDrugs});
 				
 	let option = $('<option data-tokens="' + drug.name + '" value="' + drug.id +'">' + drug.name + '</option>');
 	$('#drugs').append(option);
