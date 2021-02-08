@@ -41,7 +41,7 @@ $(document).ready(function () {
 	var address = inputAddress;
 		if(lat == null && lng==null){
 		lat = 45.267136;
-		lng =19.833549;
+		lng = 19.833549;
 		}
 	var lat_select = lat;
 	var lng_select = lng;
@@ -82,7 +82,7 @@ $(document).ready(function () {
 					
 					$.ajax({
 						type:"GET", 
-						url: "/api/drug/" + pharmacyId + "/pharmacy",
+						url: "/api/drug-quantity-pharmacy/" + pharmacyId,
 						headers: {
             				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         				},
@@ -98,14 +98,20 @@ $(document).ready(function () {
 					});
 					
 				},
-				error:function(){
-					console.log('error getting pharmacy');
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 				}
 				});
 			
 		},
-		error:function(){
-			console.log('error getting pharmacy administrator');
+		error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 		}
 	});
 	

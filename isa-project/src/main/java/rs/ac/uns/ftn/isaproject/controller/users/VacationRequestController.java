@@ -45,29 +45,49 @@ public class VacationRequestController {
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> acceptRequest(@PathVariable int id){
-		vacationService.acceptRequest(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> acceptRequest(@PathVariable int id){
+		try {
+			vacationService.acceptRequest(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while acception doctor's vacation request.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("/{id}/reason/{value}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> rejectRequest(@PathVariable int id, @PathVariable String value){
-		vacationService.rejectRequest(id, value);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> rejectRequest(@PathVariable int id, @PathVariable String value){
+		try {
+			vacationService.rejectRequest(id, value);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while rejection doctor's vacation request.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/pharmacy/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<ViewVacationRequestDTO>> findCreatedByPharmacyId(@PathVariable int id){
-		Collection<ViewVacationRequestDTO> vacationRequestDTOs = VacationRequestMapper.toViewVacationRequestDTOs(vacationService.findCreatedByPharmacyId(id));
-		return new ResponseEntity<Collection<ViewVacationRequestDTO>>(vacationRequestDTOs, HttpStatus.OK);
+	public ResponseEntity<?> findCreatedByPharmacyId(@PathVariable int id){
+		try {
+			Collection<ViewVacationRequestDTO> vacationRequestDTOs = VacationRequestMapper.toViewVacationRequestDTOs(vacationService.findCreatedByPharmacyId(id));
+			return new ResponseEntity<Collection<ViewVacationRequestDTO>>(vacationRequestDTOs, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting doctor's vacation request.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/{id}/doctor")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<DoctorDTO> findDoctorById(@PathVariable int id){
-		DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(vacationService.findDoctorById(id));
-		return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
+	public ResponseEntity<?> findDoctorById(@PathVariable int id){
+		try {
+			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(vacationService.findDoctorById(id));
+			return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while gettion doctor with vacation request.", HttpStatus.BAD_REQUEST);
+		}
 	}
 }

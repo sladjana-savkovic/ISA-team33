@@ -149,13 +149,13 @@ insert into pharmacy_action (id, description, end_date, name, start_date, pharma
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-23 09:30:00','2021-02-23 10:00:00',800,1,1,null,0,1);					
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-16 07:30:00','2021-02-16 8:00:00',1000,1,1,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-26 07:30:00','2021-02-26 8:00:00',1000,1,1,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-16 08:30:00','2021-02-16 9:00:00',1000,1,2,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-25 08:30:00','2021-02-25 9:00:00',1000,1,2,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-17 07:30:00','2021-02-17 8:00:00',1000,1,2,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-27 07:30:00','2021-02-27 8:00:00',1000,1,2,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-13 07:30:00','2021-02-13 8:00:00',1000,1,1,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-28 07:30:00','2021-02-28 8:00:00',1000,1,1,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-01 09:30:00','2021-03-01 10:00:00',1000,1,1,null,0,1);
 

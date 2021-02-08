@@ -29,9 +29,12 @@ $(document).ready(function () {
 					}			
 					
 				},
-				error:function(){
-					console.log('error getting working time');
-				}
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}	
 				});
 				
 				$.ajax({
@@ -48,8 +51,11 @@ $(document).ready(function () {
 					}			
 					
 				},
-				error:function(){
-					console.log('error getting doctors');
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 				}
 				});
 				
@@ -88,18 +94,21 @@ $(document).ready(function () {
 					return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error creating working-time.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert_action').append(alert);
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
 					return;
 				}
 		});
 	});
 			
 		},
-		error:function(){
-			console.log('error getting pharmacy administrator');
+		error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 		}
 	});
 	

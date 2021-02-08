@@ -61,39 +61,51 @@ public class DrugQuantityPharmacyController {
 	
 	@PutMapping("/{drugId}/{pharmacyId}/{quantity}/increase")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Boolean> increaseDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId, @PathVariable int quantity){
-		boolean result = quantityPharmacyService.increaseDrugQuantityPharmacy(drugId, pharmacyId, quantity);
-		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
-	}
+	public ResponseEntity<?> increaseDrugQuantityPharmacy(@PathVariable int drugId, @PathVariable int pharmacyId, @PathVariable int quantity){
+		try {
+			boolean result = quantityPharmacyService.increaseDrugQuantityPharmacy(drugId, pharmacyId, quantity);
+			return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while increase drug quantity.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> add(@RequestBody DrugQuantityPharmacyDTO drugQuantityDTO) {
+	public ResponseEntity<?> add(@RequestBody DrugQuantityPharmacyDTO drugQuantityDTO) {
 		try {
 			quantityPharmacyService.addDrugQuantityPharmacy(drugQuantityDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
-		}catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while add drug in pharmacy.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/{pharmacyId}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<DrugDTO>> findDrugsByPharmacyId(@PathVariable int pharmacyId){
+	public ResponseEntity<?> findDrugsByPharmacyId(@PathVariable int pharmacyId){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(quantityPharmacyService.findDrugsByPharmacyId(pharmacyId));
 			return new ResponseEntity<Collection<DrugDTO>>(drugDTOs, HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting offer.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PostMapping("/search/{name}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<DrugDTO>> searchByName(@PathVariable String name, @RequestBody ArrayList<DrugDTO> drugDTOs){
-		Collection<DrugDTO> searchResult = quantityPharmacyService.searchByName(name, drugDTOs);
-		return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
-	}
+	public ResponseEntity<?> searchByName(@PathVariable String name, @RequestBody ArrayList<DrugDTO> drugDTOs){
+		try {
+			Collection<DrugDTO> searchResult = quantityPharmacyService.searchByName(name, drugDTOs);
+			return new ResponseEntity<Collection<DrugDTO>>(searchResult, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while searching drugs in pharmacy.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@PutMapping("/{drugId}/{pharmacyId}/delete")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")

@@ -41,18 +41,22 @@ public class PharmacyController {
 	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'PATIENT')")
-	public ResponseEntity<PharmacyDTO> getPharmacyById(@PathVariable int id) {
+	public ResponseEntity<?> getPharmacyById(@PathVariable int id) {
+		try {
+			Pharmacy pharmacy = pharmacyService.findOneById(id);
 
-		Pharmacy pharmacy = pharmacyService.findOneById(id);
-
-		if (pharmacy == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+			if (pharmacy == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		
-		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacy(id));
-		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
-		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, pharmacy.getLatitude(), pharmacy.getLongitude(), pharmacy.getPharmacistPrice());
-		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacy(id));
+			Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
+			PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, pharmacy.getLatitude(), pharmacy.getLongitude(), pharmacy.getPharmacistPrice());
+			return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy information.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
 		

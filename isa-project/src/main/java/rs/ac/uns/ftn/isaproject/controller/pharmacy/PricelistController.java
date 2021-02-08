@@ -31,12 +31,13 @@ public class PricelistController {
 	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> add(@RequestBody PricelistDTO pricelistDTO) {
+	public ResponseEntity<?> add(@RequestBody PricelistDTO pricelistDTO) {
 		try {
 			pricelistService.save(pricelistDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while creating pricelist item.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

@@ -35,48 +35,76 @@ public class DrugOfferController {
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> acceptOffer(@PathVariable int id){
+	public ResponseEntity<?> acceptOffer(@PathVariable int id){
+		try {
 			drugOfferService.acceptOffer(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while accepting offer.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/{id}/pharmacy-order")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<DrugOfferDTO>> findByPharmacyOrderId(@PathVariable int id){
-		Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyOrderId(id));
-		return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
-	}
+	public ResponseEntity<?> findByPharmacyOrderId(@PathVariable int id){
+		try {
+			Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyOrderId(id));
+			return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy orders.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@GetMapping("/{id}/pharmacy")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<DrugOfferDTO>> findByPharmacyId(@PathVariable int id){
-		Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyId(id));
-		return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
-	}
+	public ResponseEntity<?> findByPharmacyId(@PathVariable int id){
+		try {
+			Collection<DrugOfferDTO> drugOfferDTOs =DrugOfferMapper.toDrugOfferDTOs(drugOfferService.findByPharmacyId(id));
+			return new ResponseEntity<Collection<DrugOfferDTO>>(drugOfferDTOs, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy offers.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@PutMapping("/{id}/reject")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> rejectOffer(@PathVariable int id){
-		drugOfferService.rejectOffer(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		
+	public ResponseEntity<?> rejectOffer(@PathVariable int id){
+		try {
+			drugOfferService.rejectOffer(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while rejection offer.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<DrugOfferDTO> findById(@PathVariable int id){
-		DrugOffer drugOffer = drugOfferService.findById(id);
-		DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
-		return new ResponseEntity<DrugOfferDTO>(drugOfferDTO, HttpStatus.OK);
+	public ResponseEntity<?> findById(@PathVariable int id){
+		try {
+			DrugOffer drugOffer = drugOfferService.findById(id);
+			DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
+			return new ResponseEntity<DrugOfferDTO>(drugOfferDTO, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting offer.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/{id}/supplier")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<SupplierDTO> findSupplierById(@PathVariable int id){
-		SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
-		return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
-	}
+	public ResponseEntity<?> findSupplierById(@PathVariable int id){
+		try {
+			SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
+			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting offer.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	
 	@PostMapping(consumes = "application/json")

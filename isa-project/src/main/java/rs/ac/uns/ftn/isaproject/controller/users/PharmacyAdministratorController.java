@@ -1,7 +1,5 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +34,7 @@ public class PharmacyAdministratorController {
 	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<PharmacyAdministratorDTO> findOneById(@PathVariable int id) {
+	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
 			PharmacyAdministratorDTO pharmacyAdministratorDTO = PharmacyAdministratorMapper.toPharmacyAdministratorDTO(administratorService.getOne(id));
 			UserAccount account = userAccountService.findByUserId(id);
@@ -44,28 +42,20 @@ public class PharmacyAdministratorController {
 			pharmacyAdministratorDTO.setPassword(account.getPassword());
 			return new ResponseEntity<PharmacyAdministratorDTO>(pharmacyAdministratorDTO, HttpStatus.OK);
 		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy administrator.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> updateInfo(@RequestBody PharmacyAdministratorDTO pharmacyAdministratorDTO){
-		administratorService.updateInfo(pharmacyAdministratorDTO);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
-	
-	@PutMapping("/{id}/password/{value}")
-	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> updatePassword(@PathVariable int id, @PathVariable String value){
-		try{
-		UserAccount account = userAccountService.findByUserId(id);
-		userAccountService.updatePassword(account.getId(), account.getPassword(), value);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<?> updateInfo(@RequestBody PharmacyAdministratorDTO pharmacyAdministratorDTO){
+		try {
+			administratorService.updateInfo(pharmacyAdministratorDTO);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while updating pharmacy administrator's information.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

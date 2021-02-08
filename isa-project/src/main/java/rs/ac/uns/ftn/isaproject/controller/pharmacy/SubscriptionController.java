@@ -26,12 +26,12 @@ public class SubscriptionController {
 
 	@GetMapping("/{id}/pharmacy-patients")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<Integer>> getEmailsOfSubscriptionPatients(@PathVariable int id){
+	public ResponseEntity<?> getEmailsOfSubscriptionPatients(@PathVariable int id){
 		try {
 			return new ResponseEntity<Collection<Integer>>(subscriptionService.getSubscribedPatientsByPharmacy(id), HttpStatus.OK);
 		}
-		catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting subscribed patients.", HttpStatus.BAD_REQUEST);
 		}
 	}
 }

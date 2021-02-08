@@ -88,12 +88,12 @@ $(document).ready(function () {
 					return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error creating order limit date.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
+				error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
 		});
 		
 	});
@@ -133,18 +133,21 @@ $(document).ready(function () {
 					return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error adding drug in order.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
+				error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
 			});
 		}
 				
 			},
-			error:function(){
-				console.log('error getting last order');
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 		
@@ -165,8 +168,11 @@ $(document).ready(function () {
 					}
 				}
 			},
-			error:function(){
-				console.log('error getting drugs');
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 		
@@ -193,10 +199,10 @@ $(document).ready(function () {
 									addOrder(filterResult[i], i+1);
 								}
 						},
-						error:function(){
-							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error filtering orders.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
+						error:function(xhr){
+							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							$('#div_alert').append(alert);
 							return;
 						}
 						});
@@ -215,8 +221,11 @@ $(document).ready(function () {
 					addDrugInPharmacy(drugs[i]);
 				}
 			},
-			error:function(){
-				console.log('error getting drugs from pharmacy');
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 		
@@ -244,10 +253,10 @@ $(document).ready(function () {
 						addDrugInPharmacy(d);
 					}
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching drugs.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
 					return;
 				}
 		});
@@ -255,8 +264,11 @@ $(document).ready(function () {
 		
 			
 		},
-		error:function(){
-			console.log('error getting pharmacy administrator');
+		error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 		}
 	});
 	
@@ -282,9 +294,9 @@ function deleteDrug(id){
 					$('#div_alert').append(alert);
 					return;
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error deleting drug.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
@@ -324,8 +336,11 @@ function addOrder(order, i){
 					$('#order_content').append(order_div2);
 				}
 			},
-			error:function(){
-				console.log('error getting checking order');
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 	
@@ -342,8 +357,11 @@ function addOrder(order, i){
 					addDrug(drugs[i], order.id);
 				}
 			},
-			error:function(){
-				console.log('error getting drugs');
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 	});
 	
@@ -359,8 +377,11 @@ function addOrder(order, i){
 					addOffer(offers[i], order.id, order.limitDate, order.idPharmacyAdmn, i + 1);
 				}
 			},
-			error:function(){
-				console.log('error getting offers');
+			error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 			}
 		});
 		
@@ -441,17 +462,20 @@ function acceptOffer(id){
 								success: function () {
 								location.reload();	
 							},
-							error: function (jqXHR) {
-								let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 		'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-								$('#div_alert').append(a);
+							error:function(){
+								let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + 'Successfully accept offer, but an error occurred while sending an email.'
+								+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+								$('#div_alert').append(alert);
 								return;
 							}
 							});	
 					
 					},
-					error:function(){
-						console.log('error getting doctor');
+					error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 					}
 					});
 					
@@ -509,26 +533,29 @@ function acceptOffer(id){
 											success: function () {
 											location.reload();	
 											},
-											error: function (jqXHR) {
-											let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 					'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-											$('#div_alert').append(a);
-										return;
-										}
+											error:function(){
+												let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + 'Successfully reject offer, but an error occurred while sending an email.'
+												+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+												$('#div_alert').append(alert);
+												return;
+											}
 									});	
 					
 					},
-					error:function(){
-						console.log('error getting supplier');
+					error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 					}
 					});
 									
 								},
-									error:function(){
-									let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject offer.'
+									error:function(xhr){
+										let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 										+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-										$('#div_alert').append(a);
-										return;
+										$('#div_alert').append(alert);
+									return;
 									}
 								});
 									}
@@ -571,40 +598,49 @@ function acceptOffer(id){
 																return;
 					
 															},
-															error:function(){
-																let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error adding new drug.'
-																+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-																$('#div_alert').append(a);
-																return;
+															error:function(xhr){
+															let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+															+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+															$('#div_alert').append(alert);
+															return;
 															}
 														});
 													
 												}
 											
 											},
-											error:function(){
-											let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept offer.'
-												+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-												$('#div_alert').append(alert);
-													return;
-												}
+											error:function(xhr){
+											let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+											+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+											$('#div_alert').append(alert);
+											return;
+									}
 										});
 										}
 									},
-									error:function(){
-										console.log('error getting drug quantities');
+									error:function(xhr){
+										let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+										+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+										$('#div_alert').append(alert);
+										return;
 									}
 								});
 								
 					},
-					error:function(){
-						console.log('error getting offer');
+					error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 					}
 				});
 				
 			},
-			error:function(){
-				console.log('error getting offer');
+			error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 			}
 			});		
 			
@@ -627,12 +663,12 @@ function deleteOrder(id){
 																return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error deleting order.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
+				error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
 			});
 	
 }
@@ -649,8 +685,11 @@ function editOrder(id){
 			success:function(order){	
 				$('#newLimitDate').val(order.limitDate);
 			},
-			error:function(){
-				console.log('error getting order');
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 		
@@ -675,12 +714,12 @@ function editOrder(id){
 																return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error editing order.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
+				error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
 			});
 	});
 }

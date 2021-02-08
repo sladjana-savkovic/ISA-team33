@@ -69,7 +69,7 @@ $(document).ready(function () {
 		if(de < ds){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The start date must be less than the end date.'
 			    +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert_action').append(alert);
+				$('#div_alert').append(alert);
 				return;
 		}
 		
@@ -89,7 +89,7 @@ $(document).ready(function () {
 				success:function(){
 					let a = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully created pharmacy action.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert_action').append(a);
+					$('#div_alert').append(a);
 				
 					$.ajax({
 						type:"GET", 
@@ -111,12 +111,12 @@ $(document).ready(function () {
 									success: function () {
 									location.reload();	
 									},
-									error: function (jqXHR) {
-										let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 			'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-										$('#div_alert').append(a);
-								return;
-							}
+									error:function(xhr){
+										let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+										+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+										$('#div_alert').append(alert);
+										return;
+									}
 							});	
 								
 							}
@@ -127,11 +127,11 @@ $(document).ready(function () {
 					});
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error creating pharmacy action.'
+				error:function(xhr){
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert_action').append(alert);
-					return;
+						$('#div_alert').append(alert);
+						return;
 				}
 		});
 	});
@@ -152,7 +152,7 @@ $(document).ready(function () {
 		if(de_price < ds_price){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">The start date must be less than the end date.'
 			    +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert_action').append(alert);
+				$('#div_alert').append(alert);
 				return;
 		}
 		
@@ -172,23 +172,26 @@ $(document).ready(function () {
 				success:function(){
 					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully created pricelist.'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert_action').append(alert);
+					$('#div_alert').append(alert);
 					location.reload();
 					return;
 					
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error creating pricelist.'
+				error:function(xhr){
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert_action').append(alert);
-					return;
+						$('#div_alert').append(alert);
+						return;
 				}
 		});
 	});
 			
 		},
-		error:function(){
-			console.log('error getting pharmacy administrator');
+		error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 		}
 	});
 	

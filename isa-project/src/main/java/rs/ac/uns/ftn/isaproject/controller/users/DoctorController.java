@@ -142,13 +142,13 @@ public class DoctorController {
 	
 	@GetMapping("/{id}/pharmacy/without/working-time")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findDoctorWithoutWorkingTime(@PathVariable int id) {
+	public ResponseEntity<?> findDoctorWithoutWorkingTime(@PathVariable int id) {
 		try {
 			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.getDoctorWithoutWorkingTime(id));
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting doctors without working time.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

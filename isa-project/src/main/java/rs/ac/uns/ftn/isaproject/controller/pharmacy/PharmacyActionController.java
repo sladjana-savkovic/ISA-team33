@@ -25,12 +25,13 @@ public class PharmacyActionController {
 	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> add(@RequestBody PharmacyActionDTO pharmacyActionDTO) {
+	public ResponseEntity<?> add(@RequestBody PharmacyActionDTO pharmacyActionDTO) {
 		try {
 			pharmacyActionService.save(pharmacyActionDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("An error occurred while creating new pharmacy action.", HttpStatus.NOT_FOUND);
 		}
 	}
 }
