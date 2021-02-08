@@ -32,19 +32,20 @@ public class DoctorServiceImpl implements DoctorService {
 	private CityRepository cityRepository;
 	private PharmacyRepository pharmacyRepository;
 	private UserAccountService userAccountService;
-	@Autowired
 	private VacationRequestService vacationRequestService;
-	@Autowired
 	private WorkingTimeService workingTimeService;
-	@Autowired
 	private AppointmentService appointmentService;
 	
 	@Autowired
-	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository, UserAccountService userAccountService) {
+	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository, UserAccountService userAccountService,
+			VacationRequestService vacationRequestService, WorkingTimeService workingTimeService, AppointmentService appointmentService) {
 		this.doctorRepository = doctorRepository;
 		this.cityRepository = cityRepository;
 		this.pharmacyRepository = pharmacyRepository;
 		this.userAccountService = userAccountService;
+		this.vacationRequestService = vacationRequestService;
+		this.workingTimeService = workingTimeService;
+		this.appointmentService = appointmentService;
 	}
 
 	@Override

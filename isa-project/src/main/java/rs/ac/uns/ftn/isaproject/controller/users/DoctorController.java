@@ -4,8 +4,11 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -31,12 +35,12 @@ import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
-import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorPharmacyDTO;
-import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
-import rs.ac.uns.ftn.isaproject.mapper.PharmacyMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ViewSearchedDoctorMapper;
+import rs.ac.uns.ftn.isaproject.model.utils.GradePharmacistComparator;
+import rs.ac.uns.ftn.isaproject.model.utils.Order;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
 import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
@@ -206,13 +210,22 @@ public class DoctorController {
 		}
 	}
 
-	@PostMapping("/available")
+	@PostMapping("/available/{sort}")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<Collection<DoctorDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO){
+	public ResponseEntity<Collection<DoctorDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO,@PathVariable String sort){
 		LocalDateTime date = LocalDateTime.parse(appointmentDTO.startTime);
-		Collection<DoctorDTO> pharmacyDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findAvailableDoctor(date, (long)appointmentDTO.idPharmacy));
-		
-		return new ResponseEntity<Collection<DoctorDTO>>(pharmacyDTOs, HttpStatus.OK);
+		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findAvailableDoctor(date, (long)appointmentDTO.idPharmacy));
+		switch (sort) {
+		case "GRADE_ASC":
+			((List<DoctorDTO>) doctorDTOs).sort(new GradePharmacistComparator(Order.ASC));
+			break;
+
+		case "GRADE_DESC":
+			((List<DoctorDTO>) doctorDTOs).sort(new GradePharmacistComparator(Order.DESC));
+			break;
+
+		}
+		return new ResponseEntity<Collection<DoctorDTO>>(doctorDTOs, HttpStatus.OK);
 	}
 }
 

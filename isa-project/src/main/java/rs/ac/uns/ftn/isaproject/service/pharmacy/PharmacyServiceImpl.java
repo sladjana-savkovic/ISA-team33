@@ -20,13 +20,13 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	private PharmacyRepository pharmacyRepository;
 	private CityRepository cityRepository;
-	@Autowired
 	private DoctorService doctorService;
 	
 	@Autowired
-	public PharmacyServiceImpl(PharmacyRepository pharmacyRepository, CityRepository cityRepository) {
+	public PharmacyServiceImpl(PharmacyRepository pharmacyRepository, CityRepository cityRepository,DoctorService doctorService) {
 		this.pharmacyRepository = pharmacyRepository;
 		this.cityRepository = cityRepository;
+		this.doctorService = doctorService;
 	}
 
 	@Override
@@ -61,7 +61,8 @@ public class PharmacyServiceImpl implements PharmacyService {
 		Collection<Doctor> doctors = doctorService.findAvailableDoctor(date, null);
 		HashSet<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 		for(Doctor d: doctors) {
-			pharmacies.add(d.getPharmacies().stream().findFirst().get());
+			for (Pharmacy p:d.getPharmacies())
+				pharmacies.add(p);
 		}
 		return pharmacies;
 	}

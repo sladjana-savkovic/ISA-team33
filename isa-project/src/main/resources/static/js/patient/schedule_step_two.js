@@ -4,7 +4,7 @@ $(document).ready(function(){
 	let startTime = localStorage.getItem('wantedTime');
 	$.ajax({
 			type:"POST", 
-			url: "/api/pharmacy/available",
+			url: "/api/pharmacy/available/PRICE_ASC",
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        }, 
@@ -23,7 +23,7 @@ $(document).ready(function(){
 				return;
 			}
 		});
-	/*
+	
 	
 	$('form#search').submit(function(event){
 		event.preventDefault()
@@ -32,24 +32,28 @@ $(document).ready(function(){
 		let sorting = $('#sort').val();
 		$("#apartment-cards").empty();
 		$.ajax({
-			type:"GET",
-			url:"/api/appointment/pharmacy/"+pharmacyId+"/created/"+sorting,
+			type:"POST", 
+			url: "/api/pharmacy/available/"+sorting,
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-	        },
+	        }, 
+			data: JSON.stringify({ 
+				startTime: startTime,
+				}),
 			contentType: "application/json",
-			success:function(appointments){
-				appointments.forEach(a => appendAppointment(a));
+			success:function(pharmacies){
+				pharmacies.forEach(a => appendPharmacy(a));
 			},
-			error: function (jqXHR) {
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-							 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				$('#createAppBtn').attr("disabled",false);
+				return;
 			}
-		})
+		});
 	})
-	*/
+	
 })
 
 
@@ -66,9 +70,9 @@ const appendPharmacy = (pharmacy) => {
 			</div>
 			<div class="col d-flex flex-column justify-content-center align-items-center">
 				<h3 class="text-light">Grade: ${pharmacy.averageGrade}</h3>
-		<!--	</div>
+			</div>
 			<div class="col d-flex flex-column justify-content-center align-items-center">
-				<h3 class="text-light">Price: ${pharmacy.price}$</h3> -->
+				<h3 class="text-light">Price: ${pharmacy.pharmacistPrice}din</h3>
 				`
 				
 			oneElement = oneElement + `
@@ -86,7 +90,7 @@ const choosePharmacy = pharmacyId =>{
 	let startTime = localStorage.getItem('wantedTime');
 	$.ajax({
 			type:"POST", 
-			url: "/api/doctor/available",
+			url: "/api/doctor/available/PRICE_ASC",
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        }, 

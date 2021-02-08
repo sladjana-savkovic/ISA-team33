@@ -3,7 +3,6 @@ var patientId = getUserIdFromToken();
 $(document).ready(function(){
 	var doctors = JSON.parse(localStorage.getItem('doctors'));
 	doctors.forEach(a => appendDoctor(a));
-	/*
 	
 	$('form#search').submit(function(event){
 		event.preventDefault()
@@ -11,25 +10,32 @@ $(document).ready(function(){
 
 		let sorting = $('#sort').val();
 		$("#apartment-cards").empty();
+		let startTime = localStorage.getItem('wantedTime');
+		let pharmacyId = localStorage.getItem('wantedPharmacyId');
 		$.ajax({
-			type:"GET",
-			url:"/api/appointment/pharmacy/"+pharmacyId+"/created/"+sorting,
+			type:"POST", 
+			url: "/api/doctor/available/"+sorting,
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-	        },
+	        }, 
+			data: JSON.stringify({ 
+				startTime: startTime,
+				idPharmacy : pharmacyId
+				}),
 			contentType: "application/json",
-			success:function(appointments){
-				appointments.forEach(a => appendAppointment(a));
+			success:function(doctors){
+				 doctors.forEach(a => appendDoctor(a));
 			},
-			error: function (jqXHR) {
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-							 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						return;
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				$('#createAppBtn').attr("disabled",false);
+				return;
 			}
-		})
+		});
 	})
-	*/
+	
 })
 
 

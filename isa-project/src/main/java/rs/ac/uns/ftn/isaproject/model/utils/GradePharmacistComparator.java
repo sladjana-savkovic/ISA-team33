@@ -2,20 +2,24 @@ package rs.ac.uns.ftn.isaproject.model.utils;
 
 import java.util.Comparator;
 
-import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
+import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 
-public class GradeComparator implements Comparator<AddAppointmentDTO>{
+public class GradePharmacistComparator implements Comparator<DoctorDTO>{
 	
 	private Order order;
 	
-	public GradeComparator(Order order) {
+	public GradePharmacistComparator(Order order) {
 		// TODO Auto-generated constructor stub
 		this.order = order;
 	}
 	@Override
-	public int compare(AddAppointmentDTO o1, AddAppointmentDTO o2) {
+	public int compare(DoctorDTO o1, DoctorDTO o2) {
 		Double diffAsc = o1.averageGrade - o2.averageGrade;
-		Double diffDesc = o2.averageGrade - o1.averageGrade;
+		if(diffAsc != 0) {
+			diffAsc = (double) (diffAsc > 0 ? 1 : -1);
+		}
+		Double diffDesc = -diffAsc;
+		
 		if (this.order == Order.ASC)
 			return diffAsc.intValue();
 		return diffDesc.intValue();

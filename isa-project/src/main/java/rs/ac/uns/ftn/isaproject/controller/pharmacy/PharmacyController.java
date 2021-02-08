@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,9 @@ import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.mapper.PharmacyMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
+import rs.ac.uns.ftn.isaproject.model.utils.GradePharmacyComparator;
+import rs.ac.uns.ftn.isaproject.model.utils.Order;
+import rs.ac.uns.ftn.isaproject.model.utils.PricePharmacyComparator;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
@@ -77,14 +81,32 @@ public class PharmacyController {
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
 	}
 	
-	@PostMapping("/available")
+	// dobijamo apoteke koje za dati termin imaju slobodnog bar 1 farmaceuta
+	@PostMapping("/available/{sort}")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<Collection<PharmacyDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO){
+	public ResponseEntity<Collection<PharmacyDTO>> getPharmacies(@RequestBody AddAppointmentDTO appointmentDTO,@PathVariable String sort){
 		LocalDateTime date = LocalDateTime.parse(appointmentDTO.startTime);
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAvailablePharmacy(date));
 		for(PharmacyDTO p: pharmacyDTOs) {
 			p.doctors = null;
 			p.appointments = null;
+		}
+		switch (sort) {
+		case "GRADE_ASC":
+			((List<PharmacyDTO>) pharmacyDTOs).sort(new GradePharmacyComparator(Order.ASC));
+			break;
+
+		case "GRADE_DESC":
+			((List<PharmacyDTO>) pharmacyDTOs).sort(new GradePharmacyComparator(Order.DESC));
+			break;
+
+		case "PRICE_ASC":
+			((List<PharmacyDTO>) pharmacyDTOs).sort(new PricePharmacyComparator(Order.ASC));
+			break;
+
+		case "PRICE_DESC":
+			((List<PharmacyDTO>) pharmacyDTOs).sort(new PricePharmacyComparator(Order.DESC));
+			break;
 		}
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
 	}

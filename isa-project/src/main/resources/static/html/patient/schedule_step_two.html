@@ -16,15 +16,39 @@
 	<!-- Search -->
 	<div class="bg-info py-2">
 		<div class="container">
-			<div class="row justify-content-center align-items-center"> 
+			<div class="row justify-content-center align-items-center">
 				<div class="col-md-10 ">
 					<div class="col-md-12">
-						<h3 class="text-center text-light mt-3">Available pharmacies</h3>
+						<form id="search">
+							<h3 class="text-center text-light mt-3">Available pharmacies</h3>
+							<div class="form-group">
+								<div class="row">
+									
+									<div class="col mt-3">
+										<select id="sort" name="sort" class="form-control">
+										<option selected="true" disabled="disabled">Sort by</option>
+									    	<option value="GRADE_ASC">Grade ascending</option>
+									    	<option value="GRADE_DESC">Grade descending</option>
+									    	<option value="PRICE_ASC">Price ascending</option>
+									    	<option value="PRICE_DESC">Price descending</option>
+									    	
+						    			</select>
+									</div>
+									</div>
+									<div class="row">
+									<div class="col mt-3">
+											<input type="submit" class="btn btn-light btn-md w-100" value="Sort" /> 
+									</div>
+									</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>			
+
+				
 
 	
     
