@@ -113,6 +113,7 @@ public class PharmacyOrderController {
 	
 	
 	@GetMapping("/all")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<Collection<OrderAndQuantityDTO>> getAllPharmacyOrders() {
 		try {
 			Collection<PharmacyOrder> pharmacyOrders = pharmacyOrderService.findAll();			

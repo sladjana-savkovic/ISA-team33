@@ -1,11 +1,11 @@
+checkUserRole("ROLE_SUPPLIER");
+var supplierId = getUserIdFromToken();
+
 var orderMap = {};
 var drugList = null;
-supplierId = 8;
 currentOrder = null;
 
 $(document).ready(function () {
-
-	//checkUserRole("ROLE_SUPPLIER");
 	
 	var dtToday = new Date();
 	var month = dtToday.getMonth() + 1;
@@ -22,9 +22,9 @@ $(document).ready(function () {
 	$.ajax({
 		url: "/api/order/all",
 		type: "GET",
-//		headers: {
-//			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-//		},
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -105,6 +105,9 @@ function sendOffer() {
 		
 	$.ajax({
 		url: "/api/drug-offer",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(newOffer),

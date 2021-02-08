@@ -81,7 +81,7 @@ public class DrugOfferController {
 	}
 		
 	@PostMapping(consumes = "application/json")
-	//@PreAuthorize("hasAnyRole('SUPPLIER')")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<String> add(@RequestBody AddDrugOfferDTO offerDTO) {
 		try {
 			drugOfferService.add(offerDTO);
@@ -93,7 +93,7 @@ public class DrugOfferController {
 	}
 		
 	@GetMapping("/all/{id}/supplier")
-	//@PreAuthorize("hasAnyRole('SUPPLIER')")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplierId(@PathVariable int id){
 		try {
 			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierId(id));
@@ -104,7 +104,7 @@ public class DrugOfferController {
 	}
 	
 	@PostMapping("/search")
-	//@PreAuthorize("hasAnyRole('SUPPLIER')")
+	@PreAuthorize("hasRole('SUPPLIER')")
 	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> searchByStatus(@RequestBody DrugOfferSearchDTO offerDTOs){
 		try {
 			Collection<DrugOfferAndOrderDTO> searchResult = drugOfferService.searchByStatus(offerDTOs);

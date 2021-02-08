@@ -1,6 +1,7 @@
 //ova stranica je dostupna dobavljacu
 
-supplierID = 8;
+checkUserRole("ROLE_SUPPLIER");
+var supplierId = getUserIdFromToken();
 offersList = null;
 
 $(document).ready(function () {
@@ -12,7 +13,10 @@ $(document).ready(function () {
 
 function getAllOffersBySupplier() {		
     $.ajax({
-        url: '/api/drug-offer/all/' + supplierID + '/supplier',
+        url: '/api/drug-offer/all/' + supplierId + '/supplier',
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         type: 'GET',
         dataType: 'json',
         processData: false,
@@ -85,6 +89,9 @@ function searchOffer() {
 	}		
     $.ajax({
         url: "/api/drug-offer/search",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify(searchDTO),

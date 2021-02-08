@@ -7,6 +7,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,20 +35,30 @@ public class SupplierController {
 	
 	
 	@GetMapping("/account/{id}")
-	public ResponseEntity<SupplierDTO> findOneById(@PathVariable long id) throws AccessDeniedException {
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ResponseEntity<?> findOneById(@PathVariable long id) throws AccessDeniedException {
 		try {
 			SupplierDTO supplierDTO = SupplierMapper.toSupplierAccountDTO(supplierService.getOne(id));
 			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("The requested supplier doesn't exist in the database.", HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("The requested supplier doesn't exist in the database.", HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@PutMapping(consumes = "application/json")
-	public ResponseEntity<Void> updateInfo(@RequestBody SupplierDTO supplierDTO){
-		supplierService.updateInfo(supplierDTO);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ResponseEntity<Void> updateInfo(@RequestBody SupplierDTO supplierDTO){		
+		try {
+			supplierService.updateInfo(supplierDTO);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
