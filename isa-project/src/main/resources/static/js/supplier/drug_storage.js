@@ -19,9 +19,12 @@ $(document).ready(function () {
 			"supplierId": supplierId,
 			"quantity": quantity 
 		}
-		/*
+		
 		$.ajax({
-			url: "/api/patient",
+			url: "/api/drug-quantity-supplier",
+			headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(newDrugQuantity),
@@ -34,7 +37,7 @@ $(document).ready(function () {
 				alert('Error update drug quantity!');
 				return;
 			}
-		});			*/		
+		});		
 	});			
 });
 
@@ -76,7 +79,7 @@ function getAllDrugs() {
         contentType: false,
         success: function (drugs) {
             for (let i = 0; i < drugs.length; i++) {
-            	$("select#drug").append('<option id="' + drug[i].id + '">' + drugs[i].name + '</option>');            
+            	$("select#drug").append('<option id="' + drugs[i].id + '">' + drugs[i].name + '</option>');            
             }
         },
         error: function (jqXHR) {
