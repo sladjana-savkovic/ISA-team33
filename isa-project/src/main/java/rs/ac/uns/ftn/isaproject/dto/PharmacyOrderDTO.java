@@ -21,5 +21,12 @@ public class PharmacyOrderDTO {
 		this.isDeleted = isDeleted;
 	}
 
+	public PharmacyOrderDTO(int id, LocalDate limitDate, boolean isFinished, int idPharmacyAdmn) {
+		super();
+		this.id = id;
+		this.limitDate = limitDate;
+		this.isFinished = isFinished;
+		this.idPharmacyAdmn = idPharmacyAdmn;
+	}
 	
 }

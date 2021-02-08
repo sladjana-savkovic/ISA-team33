@@ -1,4 +1,6 @@
-var supplierId = 8;
+checkUserRole("ROLE_SUPPLIER");
+var supplierId = getUserIdFromToken();
+var supplierAccountId = getUserAccountIdFromToken();
 
 $(document).ready(function () {
 	
@@ -20,13 +22,20 @@ $(document).ready(function () {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/supplier/account/" + supplierId,
+		url: "/api/supplier/account/" + supplierAccountId,
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(supplier){
 			addSupplierInfo(supplier);
 		},
 		error:function(){
 			console.log('error getting supplier');
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error getting profile informations.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
 		}
 	});
 	
@@ -45,13 +54,15 @@ $(document).ready(function () {
 			$.ajax({
 				type:"PUT", 
 				url: "/api/supplier",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				data: JSON.stringify({ 
 					id:supplierId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					telephone: $('#phone').val(),
 					//email: $('#email').val(),
-					//password: $('#password').val(),
 					address: $('#address').val(),
 					cityId: $("#citySelect option:selected").val()}),
 				contentType: "application/json",
@@ -78,7 +89,6 @@ function enableFields(){
 	$('#surname').attr("disabled",false);
 	$('#phone').attr("disabled",false);
 	//$('#email').attr("disabled",false);
-	//$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -93,7 +103,6 @@ function addSupplierInfo(supplier){
 	$('#surname').val(supplier.surname);
 	$('#phone').val(supplier.telephone);
 	$('#email').val(supplier.email);
-	//$('#password').val(supplier.password);
 	$('#address').val(supplier.address);
 	
 	changeInputFiledsStatus(false);

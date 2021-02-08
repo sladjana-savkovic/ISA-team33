@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
 import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
 import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
@@ -104,10 +106,10 @@ public class DrugOfferController {
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while getting offer.", HttpStatus.BAD_REQUEST);
 		}
-		}
-	
+	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<String> add(@RequestBody AddDrugOfferDTO offerDTO) {
 		try {
 			drugOfferService.add(offerDTO);
@@ -117,7 +119,27 @@ public class DrugOfferController {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+		
+	@GetMapping("/all/{id}/supplier")
+	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
+	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplierId(@PathVariable int id){
+		try {
+			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierId(id));
+			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(drugOfferAndOrderDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
-	
+	@PostMapping("/search")
+	@PreAuthorize("hasRole('SUPPLIER')")
+	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> searchByStatus(@RequestBody DrugOfferSearchDTO offerDTOs){
+		try {
+			Collection<DrugOfferAndOrderDTO> searchResult = drugOfferService.searchByStatus(offerDTOs);
+			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(searchResult, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}		
 	
 }
