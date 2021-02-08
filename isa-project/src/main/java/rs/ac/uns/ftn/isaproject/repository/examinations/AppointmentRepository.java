@@ -18,7 +18,7 @@ import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
-	@Query(value = "select * from appointment a where a.doctor_id=?1 and (a.status = 0 or a.status = 1)", nativeQuery = true)
+	@Query(value = "select * from appointment a where a.doctor_id=?1 and (a.status = 0 or a.status = 1 or a.status = 3 or a.status = 4)", nativeQuery = true)
 	Collection<Appointment> getDoctorAppointments(int doctorId);
 	
 	@Lock(LockModeType.PESSIMISTIC_WRITE)

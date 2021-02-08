@@ -32,14 +32,31 @@ public class AppointmentEventMapper {
 			}
 			
 			if(a.getStatus() == AppointmentStatus.Scheduled) {
-				if(a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Dermatologist) {
+				if(a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Dermatologist) 
 					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + ", " + title; 
-				}
-				else {
+				else 
 					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + " " + title; 
-				}
+				
 				url = Integer.toString(a.getId());
 				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#fe0202"));
+			}
+			
+			if(a.getStatus() == AppointmentStatus.Finished) {
+				if(a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Dermatologist) 
+					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + ", " + title; 
+				else 
+					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + " " + title; 
+				
+				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#f5ff00"));
+			}
+			
+			if(a.getStatus() == AppointmentStatus.Unperformed) {
+				if(a.getDoctor().getTypeOfDoctor() == TypeOfDoctor.Dermatologist) 
+					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + ", " + title; 
+				else 
+					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + " " + title; 
+				
+				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#000000"));
 			}
 			
 		}

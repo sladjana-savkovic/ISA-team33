@@ -29,6 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			      weekNumberCalculation: 'ISO',
 			      selectable: true,
 			      dayMaxEvents: true, // allow "more" link when too many events
+				  eventTimeFormat: { // like '14:30:00'
+				    hour: '2-digit',
+				    minute: '2-digit',
+				    meridiem: 'short'
+				  },
 			      events : appointments,
 				  eventClick: function(info) {
 						info.jsEvent.preventDefault(); // don't let the browser navigate
@@ -49,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	
 });
+
 
 function clearLocalStorage(){
 	localStorage.removeItem("appointmentId");
