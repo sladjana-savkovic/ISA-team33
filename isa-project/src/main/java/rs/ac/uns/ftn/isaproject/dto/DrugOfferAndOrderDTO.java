@@ -3,14 +3,14 @@ package rs.ac.uns.ftn.isaproject.dto;
 public class DrugOfferAndOrderDTO {
 
 	public DrugOfferDTO drugOfferDTO;
-	public PharmacyOrderDTO pharmacyOrderDTO;
+	public OrderAndQuantityDTO orderAndQuantityDTO;
 	
 	public DrugOfferAndOrderDTO() { }
 
-	public DrugOfferAndOrderDTO(DrugOfferDTO drugOfferDTO, PharmacyOrderDTO pharmacyOrderDTO) {
+	public DrugOfferAndOrderDTO(DrugOfferDTO drugOfferDTO, OrderAndQuantityDTO orderAndQuantityDTO) {
 		super();
 		this.drugOfferDTO = drugOfferDTO;
-		this.pharmacyOrderDTO = pharmacyOrderDTO;
+		this.orderAndQuantityDTO = orderAndQuantityDTO;
 	}
 	
 }

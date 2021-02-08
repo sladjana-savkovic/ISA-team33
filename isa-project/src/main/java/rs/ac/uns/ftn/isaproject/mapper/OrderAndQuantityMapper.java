@@ -24,5 +24,15 @@ public class OrderAndQuantityMapper {
 		}
 		return orderAndQuantityDTOs;
 	}
+	
+	public static OrderAndQuantityDTO toOrderAndQuantityDTO(PharmacyOrder pharmacyOrder){		
+			OrderAndQuantityDTO dto = new OrderAndQuantityDTO();
+			dto.id = pharmacyOrder.getId();
+			dto.isFinished = pharmacyOrder.isFinished();
+			dto.limitDate = pharmacyOrder.getLimitDate();
+			dto.pharmacyName = pharmacyOrder.getPharmacyAdministrator().getPharmacy().getName();
+			dto.drugQuantityDTOs = DrugQuantityOrderMapper.toDrugQuantityOrderDTOs(pharmacyOrder.getDrugQuantityOrders());
+		return dto;
+	}
 		
 }

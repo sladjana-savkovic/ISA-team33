@@ -24,7 +24,7 @@ public class DrugOfferMapper {
 	public static Collection<DrugOfferAndOrderDTO> toDrugOfferAndOrderDTOs(Collection<DrugOffer> drugOffers){
 		Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = new ArrayList<>();
 		for(DrugOffer d : drugOffers) {
-			drugOfferAndOrderDTOs.add(new DrugOfferAndOrderDTO(toDrugOfferDTO(d),  PharmacyOrderMapper.toPharmacyOrderDTO(d.getPharmacyOrder())));
+			drugOfferAndOrderDTOs.add(new DrugOfferAndOrderDTO(toDrugOfferDTO(d),  OrderAndQuantityMapper.toOrderAndQuantityDTO(d.getPharmacyOrder())));
 		}
 		return drugOfferAndOrderDTOs;
 	}
