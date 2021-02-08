@@ -70,11 +70,12 @@ function getUserAccountIdFromToken(){
 	}
 }
 
-function getUserAccountIdFromToken(){
+
+function isEnabledFromToken(){
 	try{
-		return decodeToken(localStorage.getItem("token")).userAccountId;
+		return decodeToken(localStorage.getItem("token")).isEnabled;
 	}
-    catch(err){
+	catch(err){
 		window.location.href = "../user/login.html";
 	}
 }
