@@ -4,6 +4,9 @@ $(document).ready(function () {
 	$.ajax({
 		type:"GET", 
 		url: "/api/pharmacy",
+		headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success:function(pharmacies){	
 			for(i = 0; i < pharmacies.length; i++){

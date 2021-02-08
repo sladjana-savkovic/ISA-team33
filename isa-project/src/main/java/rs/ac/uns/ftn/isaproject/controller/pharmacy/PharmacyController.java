@@ -76,6 +76,7 @@ public class PharmacyController {
 	
 			
 	@GetMapping()
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
