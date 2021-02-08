@@ -51,26 +51,6 @@ $(document).ready(function () {
 	    map.addLayer(marker);
 	    map.setView([lat,lng], 12);	  
 
-	  map.on('click', function (e) {
-		
-	    geocodeService.reverse().latlng(e.latlng).run(function (error, result) {
-	      if (error) {
-	        return;
-	      }
-	     
-	      if(marker != undefined){
-	    	  map.removeLayer(marker)
-	      }
-	      
-	       marker = new L.Marker(result.latlng);
-	       map.addLayer(marker);
-	       marker.bindPopup(transliterate(result.address.Match_addr)).openPopup();
-	       address = transliterate(result.address.Match_addr);
-	       lat_select = result.latlng.lat;
-	       lng_select = result.latlng.lng;
-	      
-	    });
-	  });
 					
 					for(i = 0; i < pharmacy.doctors.length; i++){
 						addDoctor(pharmacy.doctors[i]);
