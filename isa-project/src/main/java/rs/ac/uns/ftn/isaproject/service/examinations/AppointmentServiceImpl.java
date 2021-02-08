@@ -112,12 +112,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 
 	@Override
-	public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
-		return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
-	}
-
-	@Override
 	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
 		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
 		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);

@@ -60,7 +60,17 @@ $(document).ready(function () {
 			contentType: "application/json",
 			success:function(patientId){
 				
-				let message = "You have successfully taken the reserved drug.";
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
+				+'Successfully confirmed reservation.'
+				+ '<button type="button" id="close_alert" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				
+				window.setTimeout(function(){
+					$('#searchResult').attr("hidden",true);
+					$('#confirmReservation').attr("disabled",false);
+				},700)
+				
+				let message = "You have successfully taken the reserved drug (reservation identification number =  " + reservationId + ").";
 					
 				$.ajax({
 					url: "/api/email/" + patientId,
@@ -73,21 +83,11 @@ $(document).ready(function () {
 						 subject: "Confirmation of receipt of the reservation",
 						 message: message}),
 					success: function () {
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
-						+'Successfully confirmed reservation.'
-						+ '<button type="button" id="close_alert" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						$('#searchResult').attr("hidden",true);
-						$('#confirmReservation').attr("disabled",false);
+						console.log("Successfully sent an email.");
 						return;
 					},
 					error: function () {
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">'
-						+'Successfully confirmed reservation, but an error occurred while sending an email.'
-						+ '<button type="button" id="close_alert" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-						$('#div_alert').append(alert);
-						$('#searchResult').attr("hidden",true);
-						$('#confirmReservation').attr("disabled",false);
+						console.log("Unsuccessfully sent an email.");
 						return;
 					}
 				});	
