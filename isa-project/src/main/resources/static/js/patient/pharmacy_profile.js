@@ -120,6 +120,7 @@ function subscribe() {
 		data: JSON.stringify(dto),
 		success:function(jqXHR){	
 			alert(jqXHR);
+			window.location.href = "/html/patient/pharmacy_subscription.html";
 		},
 		error:function(jqXHR){
 			console.log('error');
