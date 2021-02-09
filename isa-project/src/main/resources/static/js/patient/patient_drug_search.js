@@ -102,8 +102,8 @@ function addDrugRow(drug) {
         '<div class="row">'
         + '<div class="col mb-4">'
         + '<div class="card">'
-        + '<div class="card-header bg-info text-white">'
-        + '<h5 class="card-title mb-0">' + drug.name + '</h5></div>'
+        + '<div class="card-header text-white" style="background-color: #00ACC1;">'
+        + '<h5 class="card-title mb-0" style="background-color: #00ACC1;">' + drug.name + '</h5></div>'
         + '<div class="card-body p-3">'
         + '<label class="text-secondary mb-0">Grade: &nbsp; </label>'
         + '<label>' + drug.grade + '</label><br>'
@@ -192,9 +192,9 @@ function showPharmacies(drugId) {
             }
             else {
 				$('#pharmaciesTable').empty();
-				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th> Price </th><th> </th></tr>');
+				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th style="padding-left:10px;"> Price </th><th> </th></tr>');
 	            for (let i = 0; i < pharmacies.length; i++) {
-					pharmacy = '<tr id='+pharmacies[i].pharmacyId+' ><td>' + pharmacies[i].pharmacyName + '</td><td>' + pharmacies[i].price + '</td><td><button  class="btn"  onclick="redirectToDatePage(this)" >Reserve</button></td></tr>' ;
+					pharmacy = '<tr id='+pharmacies[i].pharmacyId+' ><td>' + pharmacies[i].pharmacyName + '</td><td style="padding-left:10px;">' + pharmacies[i].price + '</td><td><button  class="btn"  onclick="redirectToDatePage(this)" >Reserve</button></td></tr>' ;
 					$('#pharmaciesTable').append(pharmacy);
                 }				
 				$('#topModalSuccess').modal('show');

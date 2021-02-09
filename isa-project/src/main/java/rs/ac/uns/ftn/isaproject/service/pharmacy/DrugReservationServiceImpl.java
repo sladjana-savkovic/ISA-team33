@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.DrugReservationDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
+import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -98,5 +99,16 @@ public class DrugReservationServiceImpl implements DrugReservationService {
 		drugQuantityPharmacyRepository.save(dq);
 		drugReservationRepository.delete(d);
 	}
+	
+	@Override
+	public Collection<DrugReservation> findUnfinishedReservationsByPatient(int patientId) {
+		return drugReservationRepository.findByPatientIdAndIsDone(patientId, false);
+		
+	}
 
+	@Override
+	public Collection<DrugReservation> findFinishedReservationsByPatient(int patientId) {
+		return drugReservationRepository.findByPatientIdAndIsDone(patientId, true);
+		
+	}
 }

@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugReservationDTO;
+import rs.ac.uns.ftn.isaproject.mapper.DrugMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DrugReservationMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugReservation;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugReservationService;
@@ -54,7 +58,7 @@ public class DrugReservationController {
 	
 	@PostMapping("")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<?> makeReservation(@RequestBody DrugReservationDTO drugReservation) {
+	public ResponseEntity<?> createReservation(@RequestBody DrugReservationDTO drugReservation) {
 		try {
 			DrugReservation DrugReservation = drugReservationService.createReservation(drugReservation);
 			return new ResponseEntity<DrugReservationDTO>(DrugReservationMapper.toDrugReservationDTO(DrugReservation),
@@ -75,4 +79,25 @@ public class DrugReservationController {
 		}
 	}
 	
+	@GetMapping("/patient/{id}")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<Collection<DrugReservationDTO>> getUnfinishedReservationsByPatient(@PathVariable int id){
+		try {
+			Collection<DrugReservationDTO> drugDTOs = DrugReservationMapper.toDrugReservationDTOs(drugReservationService.findUnfinishedReservationsByPatient(id));
+			return new ResponseEntity<Collection<DrugReservationDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/patient/{id}/finished")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<Collection<DrugReservationDTO>> getFinishedReservationsByPatient(@PathVariable int id){
+		try {
+			Collection<DrugReservationDTO> drugDTOs = DrugReservationMapper.toDrugReservationDTOs(drugReservationService.findFinishedReservationsByPatient(id));
+			return new ResponseEntity<Collection<DrugReservationDTO>>(drugDTOs, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }
