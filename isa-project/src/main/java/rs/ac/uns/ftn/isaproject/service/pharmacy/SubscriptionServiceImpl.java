@@ -60,5 +60,12 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 		Collection<Subscription> subscriptions = subscriptionRepository.findSubscriptionsByPatientId(id);			
 		return subscriptions;
 	}
+
+	@Override
+	public void cancelSubscription(int id) {
+		Subscription subscription = subscriptionRepository.getOne(id);
+		subscription.setCanceled(true);
+		subscriptionRepository.save(subscription);
+	}
 	
 }

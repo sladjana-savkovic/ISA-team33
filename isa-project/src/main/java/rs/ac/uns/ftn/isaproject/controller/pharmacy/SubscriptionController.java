@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,15 +56,27 @@ public class SubscriptionController {
 	}
 	
 	
-	@GetMapping("/{id}/patient")
+	@GetMapping("/{patientId}/patient")
 	@PreAuthorize("hasRole('ROLE_PATIENT')")
-	public ResponseEntity<Collection<SubscriptionDTO>> findSubscriptionsByPatientId(@PathVariable int id){
+	public ResponseEntity<Collection<SubscriptionDTO>> findSubscriptionsByPatientId(@PathVariable int patientId){
 		try {
-			Collection<SubscriptionDTO> subscriptionsDTOs = SubscriptionMapper.toSubscriptionDTOs(subscriptionService.findSubscriptionsByPatientId(id));
+			Collection<SubscriptionDTO> subscriptionsDTOs = SubscriptionMapper.toSubscriptionDTOs(subscriptionService.findSubscriptionsByPatientId(patientId));
 			return new ResponseEntity<Collection<SubscriptionDTO>>(subscriptionsDTOs, HttpStatus.OK);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping("/{subscriptionId}/cancel")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<Void> cancelSubscription(@PathVariable int subscriptionId){
+		try {
+			subscriptionService.cancelSubscription(subscriptionId);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
