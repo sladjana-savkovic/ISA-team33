@@ -36,6 +36,7 @@ public class DrugController {
 	
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody AddDrugDTO drugDTO) {
 		try {
 			drugService.add(drugDTO);
