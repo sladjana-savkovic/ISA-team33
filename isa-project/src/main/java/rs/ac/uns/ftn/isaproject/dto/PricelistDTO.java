@@ -10,10 +10,11 @@ public class PricelistDTO {
 	public double price;
 	public int idPharmacy;
 	public int idDrug;
+	public String drugName;
 	
 	public PricelistDTO() {}
 	
-	public PricelistDTO(int id, LocalDate startDate, LocalDate endDate, double price, int idPharmacy, int idDrug) {
+	public PricelistDTO(int id, LocalDate startDate, LocalDate endDate, double price, int idPharmacy, int idDrug, String drugName) {
 		super();
 		this.id = id;
 		this.startDate = startDate;
@@ -21,6 +22,7 @@ public class PricelistDTO {
 		this.price = price;
 		this.idPharmacy = idPharmacy;
 		this.idDrug = idDrug;
+		this.drugName = drugName;
 	}
 	
 }

@@ -9,4 +9,5 @@ public interface PricelistService {
 
 	void save(PricelistDTO pricelistDTO);
 	Collection<Pricelist> getPharmaciesAndPriceByDrugId(int drugId);
+	Collection<Pricelist> getPricelistByPharmacy(int pharmacyId);
 }

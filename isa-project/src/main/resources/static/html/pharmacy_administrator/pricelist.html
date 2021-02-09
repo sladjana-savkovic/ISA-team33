@@ -63,7 +63,7 @@
 	    </div>
     </div>
     
-    <div id="div_alert_action" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
+    <div id="div_alert" style="position: fixed; top: 73px; right:10px; width: 22%; z-index: 9999; border-radius: 0px"></div>
 
 	<div class="container w-50 mt-5 pt-5 mb-4">
 		<div class="card">
@@ -110,6 +110,27 @@
 			    </form>
 		    </div>
 	    </div>
+    </div>
+    
+    <div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Pricelist in the pharmacy</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+			        <table class="table" style="margin-top:50px;" id="prices">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" style="width: 400px;">Drug name</th>
+			        			<th scope="col" style="width: 400px;">Price</th>
+			        			<th scope="col" style="width: 400px;">Start date</th>
+			        			<th scope="col">End date</th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_prices"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
     </div>
 
 	<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>

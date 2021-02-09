@@ -40,75 +40,90 @@ public class PharmacyOrderController {
 	
 	@RequestMapping(path = "/drug-quantity", method = RequestMethod.POST, consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> addDrugQuantity(@RequestBody DrugQuantityOrderDTO drugQuantityDTO) {
+	public ResponseEntity<?> addDrugQuantity(@RequestBody DrugQuantityOrderDTO drugQuantityDTO) {
 		try {
 			pharmacyOrderService.addDrugQuantity(drugQuantityDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while adding drug quantity.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> add(@RequestBody PharmacyOrderDTO pharmacyOrderDTO) {
+	public ResponseEntity<?> add(@RequestBody PharmacyOrderDTO pharmacyOrderDTO) {
 		try {
 			pharmacyOrderService.add(pharmacyOrderDTO);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while creating pharmacy order.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/last")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Integer> findByMaxId(){
+	public ResponseEntity<?> findByMaxId(){
 		try {
 			return new ResponseEntity<>(pharmacyOrderService.findByMaxId(), HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while creating pharmacy order.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<PharmacyOrderDTO> getById(@PathVariable int id) {
+	public ResponseEntity<?> getById(@PathVariable int id) {
+		try {
+			PharmacyOrder pharmacyOrder = pharmacyOrderService.findById(id);
 
-		PharmacyOrder pharmacyOrder = pharmacyOrderService.findById(id);
-
-		if (pharmacyOrder == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			if (pharmacyOrder == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			PharmacyOrderDTO pharmacyOrderDTO = new PharmacyOrderDTO(pharmacyOrder.getId(), pharmacyOrder.getLimitDate(), pharmacyOrder.isFinished(), pharmacyOrder.getPharmacyAdministrator().getId(), pharmacyOrder.isDeleted());
+			return new ResponseEntity<>(pharmacyOrderDTO, HttpStatus.OK);
 		}
-		PharmacyOrderDTO pharmacyOrderDTO = new PharmacyOrderDTO(pharmacyOrder.getId(), pharmacyOrder.getLimitDate(), pharmacyOrder.isFinished(), pharmacyOrder.getPharmacyAdministrator().getId(), pharmacyOrder.isDeleted());
-		return new ResponseEntity<>(pharmacyOrderDTO, HttpStatus.OK);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy order.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping(value = "/{id}/drug-quantity")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<DrugQuantityOrderDTO>> getDrugQuantityByPharmacyOrderId(@PathVariable int id) {
+	public ResponseEntity<?> getDrugQuantityByPharmacyOrderId(@PathVariable int id) {
+		try {	
+			Collection<DrugQuantityOrder> drugs = pharmacyOrderService.findByPharmacyOrderId(id);
 
-		Collection<DrugQuantityOrder> drugs = pharmacyOrderService.findByPharmacyOrderId(id);
-
-		if (drugs == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			if (drugs == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		
+			Collection<DrugQuantityOrderDTO> drugDTOs = DrugQuantityOrderMapper.toDrugQuantityOrderDTOs(drugs);
+			
+			return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
 		}
-		
-		Collection<DrugQuantityOrderDTO> drugDTOs = DrugQuantityOrderMapper.toDrugQuantityOrderDTOs(drugs);
-		
-		return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting quantity in pharmacy order.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/{id}/pharmacy")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<PharmacyOrderDTO>> getByPharmacyId(@PathVariable int id) {
+	public ResponseEntity<?> getByPharmacyId(@PathVariable int id) {
+		try {
+			Collection<PharmacyOrder> pharmacyOrders = pharmacyOrderService.findByPharmacyId(id);
 
-		Collection<PharmacyOrder> pharmacyOrders = pharmacyOrderService.findByPharmacyId(id);
-
-		if (pharmacyOrders == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			if (pharmacyOrders == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			Collection<PharmacyOrderDTO> pharmacyOrderDTOs = PharmacyOrderMapper.toPharmacyOrderDTOs(pharmacyOrders);
+			return new ResponseEntity<>(pharmacyOrderDTOs, HttpStatus.OK);
 		}
-		Collection<PharmacyOrderDTO> pharmacyOrderDTOs = PharmacyOrderMapper.toPharmacyOrderDTOs(pharmacyOrders);
-		return new ResponseEntity<>(pharmacyOrderDTOs, HttpStatus.OK);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy order.", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	
@@ -129,43 +144,49 @@ public class PharmacyOrderController {
 	
 	@PutMapping("/{id}/delete")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> deleteOrder(@PathVariable int id){
+	public ResponseEntity<?> deleteOrder(@PathVariable int id){
 		try {
 			pharmacyOrderService.delete(id);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while deleting pharmacy order.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/{id}/{date}/edit")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> editOrder(@PathVariable int id, @PathVariable String date){
+	public ResponseEntity<?> editOrder(@PathVariable int id, @PathVariable String date){
 		try {
 			LocalDate parse_date = LocalDate.parse(date);
 			pharmacyOrderService.edit(id, parse_date);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while editing pharmacy order.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PostMapping("/filter/{finish}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<PharmacyOrderDTO>> filterByFinish(@PathVariable boolean finish, @RequestBody ArrayList<PharmacyOrderDTO> orderDTOs){
-		Collection<PharmacyOrderDTO> searchResult = pharmacyOrderService.filterByFinish(finish, orderDTOs);
-		return new ResponseEntity<Collection<PharmacyOrderDTO>>(searchResult, HttpStatus.OK);
-	}
+	public ResponseEntity<?> filterByFinish(@PathVariable boolean finish, @RequestBody ArrayList<PharmacyOrderDTO> orderDTOs){
+		try {
+			Collection<PharmacyOrderDTO> searchResult = pharmacyOrderService.filterByFinish(finish, orderDTOs);
+			return new ResponseEntity<Collection<PharmacyOrderDTO>>(searchResult, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while filtering pharmacy order.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@GetMapping("/{id}/check-offer")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Boolean> checkOffer(@PathVariable int id){
+	public ResponseEntity<?> checkOffer(@PathVariable int id){
 		try {
 			return new ResponseEntity<Boolean>(pharmacyOrderService.checkOrderHasOffer(id), HttpStatus.OK);
-		}catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while checking pharmacy order.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

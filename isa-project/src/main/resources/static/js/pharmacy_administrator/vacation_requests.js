@@ -29,14 +29,20 @@ $(document).ready(function () {
 					}
 					
 				},
-				error:function(){
-					console.log('error getting vacation requests');
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 				}
 				});
 			
 		},
-		error:function(){
-			console.log('error getting pharmacy administrator');
+		error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 		}
 	});
 	
@@ -86,25 +92,28 @@ function rejectRequest(id){
 								success: function () {
 								location.reload();	
 							},
-							error: function (jqXHR) {
-								let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 		'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-								$('#div_alert').append(a);
+							error:function(){
+								let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + 'Successfully reject request, but an error occurred while sending an email.'
+								+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+								$('#div_alert').append(alert);
 								return;
 							}
 							});	
 					
 					},
-					error:function(){
-						console.log('error getting doctor');
+					error:function(xhr){
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
 					}
 					});
 					
 				},
-				error:function(){
-					let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error reject vacation request.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(a);
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
 					return;
 				}
 			});
@@ -145,24 +154,27 @@ function acceptRequest(id){
 								success: function () {
 								location.reload();	
 							},
-							error: function (jqXHR) {
-								let a = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 		'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-								$('#div_alert').append(a);
+							error:function(){
+								let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + 'Successfully accept request, but an error occurred while sending an email.'
+								+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+								$('#div_alert').append(alert);
 								return;
 							}
 							});	
 					
 					},
-					error:function(){
-						console.log('error getting doctor');
+					error:function(xhr){
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#div_alert').append(alert);
+						return;
 					}
 					});
 				
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error accept vacation request.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
