@@ -114,7 +114,8 @@ public class AppointmentController {
 			return new ResponseEntity<>("Someone has scheduled an appointment. Please choose another one.", HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>("An error occurred while scheduling an appointment.", HttpStatus.BAD_REQUEST);
+			String msg = "An error occurred while scheduling an appointment.";
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -223,7 +224,8 @@ public class AppointmentController {
 			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>("An error occurred while scheduling an appointment.", HttpStatus.BAD_REQUEST);
+			String msg = "An error occurred while scheduling an appointment.";
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 

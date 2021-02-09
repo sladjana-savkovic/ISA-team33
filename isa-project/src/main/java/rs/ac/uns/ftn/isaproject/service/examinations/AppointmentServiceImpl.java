@@ -112,12 +112,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 
 	@Override
-	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
-		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
-	}
-
-	@Override
 	public Collection<Appointment> getPatientsScheduledAppointmentsDoctor(int patientId, TypeOfDoctor doctorType) {
 		Collection<Appointment> appointments = appointmentRepository.findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(patientId,doctorType,AppointmentStatus.Scheduled);
 		return appointments;
@@ -138,24 +132,33 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
 	public void schedulePredefinedAppointment(int id, int patientId) throws Exception {
-		logger.info("> schedule id:{}", id);
+		logger.info("> schedule appointmentId:{}", id);
 		
 		Appointment appointment = getOne(id);
 		logger.info("< getOne");
+		
 		if(appointment.getStatus() == AppointmentStatus.Scheduled) 
 			throw new BadRequestException("An appointment has already been scheduled.");
 		
-		Collection<Appointment> appointments = appointmentRepository.checkIfPatientHasScheduledAppointment(patientId, appointment.getStartTime());
-		if(appointments.size() > 0) {
+		if(!isPatientAvailableForChosenTime(patientId, appointment.getStartTime().toLocalDate(), appointment.getStartTime().toLocalTime(), appointment.getEndTime().toLocalTime()))
 			throw new BadRequestException("The patient is busy for the chosen appointment.");
-		}
+			
 		
 		Patient patient = patientRepository.getOne(patientId);
 		appointment.setPatient(patient);
 		appointment.setStatus(AppointmentStatus.Scheduled);
 		save(appointment);
 		
-		logger.info("< schedule id:{}", id);
+		logger.info("< schedule appointmentId:{}", id);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		logger.info("> isPatientAvailableForChosenTime");
+		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
+		logger.info("< isPatientAvailableForChosenTime");
+		return !checkIfAppointmentMathces(patientAppointments, date, startTime, endTime);
 	}
 
 	@Override
@@ -177,16 +180,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
 	public void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime,
 			LocalTime endTime, AddAppointmentDTO appointmentDTO, AppointmentStatus status) throws Exception {
-		logger.info("> checkDoctorAvailabilityAndAddAppointment");
 		
-		Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
-		if(checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime)) { //termin se preklapa sa nekim drugim
+		if(!isDoctorAvailableForChosenTime(doctorId, date, startTime, endTime)) {
 			throw new BadRequestException("The doctor is busy for a chosen time.");
 		}
+		logger.info("< isDoctorAvailableForChosenTime");
 		
 		add(appointmentDTO, status);
-		logger.info("< checkDoctorAvailabilityAndAddAppointment");
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+    public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
+		logger.info("> isDoctorAvailableForChosenTime");
+        Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
+        return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
+    }
 	
 	@Override
 	@Transactional(readOnly = false)
@@ -222,7 +231,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 		logger.info("< add new appointment");
 	}
 	
-	
 	private boolean checkIfAppointmentMathces(Collection<Appointment> appointments, LocalDate date, LocalTime startTime, LocalTime endTime) {
 		for(Appointment a : appointments) {
 			if(date.equals(a.getStartTime().toLocalDate()) && 
@@ -237,10 +245,5 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return false;
 	}
-	@Override
-	@Transactional(readOnly = false)
-    public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
-        return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
-    }
+	
 }
