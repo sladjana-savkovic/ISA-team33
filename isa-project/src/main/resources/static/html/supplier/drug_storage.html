@@ -14,23 +14,60 @@
 <title>Drug storage</title>
 </head>
 <body>
- 
 
-
-
-
-
-
-    <div class="mt-5" style="width: 66%; float:right;">
-        <div class="container w-75 mt-5 pt-4 pl-5 pr-5 mb-4">
-            <div id="loading" class="alert alert-info" role="alert">
-                Loading...
+    <div class="mt-5" style="width: 33%; height:100%; float:left; position:fixed">
+        <div class="container mt-5 pt-4 pl-5 ml-5 mb-4">
+        <form id="updateDrugQuantity">
+            <div class="row pl-5">
+                <div class="col">
+					<div class="card">
+						<div class="card-header border border-info">
+							<input style="margin-left: 38px" type="submit" value="Update drug quantity" id="update" class="btn btn-success">
+						</div>
+						<div class="card-body border border-info p-3">	
+							<div class="form-row pt-2">
+								<div class="form-group col">
+									<label for="drug" class="text-secondary">Drug:</label>
+									<select id="drug" class="custom-select" required>
+										<option id="-1" value="" selected disabled hidden="">Choose here</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-row pt-2">
+								<div class="form-group col">
+                                	<label for="quantity" class="text-secondary">Quantity:</label>
+                                	<input placeholder="Enter quantity" type="number" step="1" min="0" class="form-control" id="quantity" name="quantity" required>
+                                </div>
+							</div>
+						</div>
+					</div>                       
+                </div>
             </div>
-            <div id="div_storage">
-            </div>
+        </form>
         </div>
     </div>
 
+
+	<div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card float-right" style="width: 590px;">
+		<h5 class="card-header info-color white-text text-center "><strong>Drug storage</strong></h5>
+			<div class="card-body px-lg-5">
+				<div class="col w-100 p-3 h-50">			
+			        <table class="table" style="width: 450px; margin-top: 40px" id="times">
+			        	<thead>
+			        		<tr>
+			        			<th scope="col" ><b>Drug name</b></th>
+			        			<th scope="col" ><b>Quantity</b></th>
+			        		</tr>
+			        	</thead>
+			        	<tbody id="body_table"></tbody>
+			        </table>
+		        </div>
+		     </div>
+		 </div>    
+    </div>
+    
+    
  
     <script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

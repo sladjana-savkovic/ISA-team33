@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Appointments</title>
+<script type="text/javascript" src="../../lib/mdb/js/jquery.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/jwt_check.js"></script> 
+<script type="text/javascript" src="../../js/patient/schedule_step_three.js"></script>
+</head>
+<body>
+	
+	<!-- Search -->
+	<div class="bg-info py-2">
+		<div class="container">
+			<div class="row justify-content-center align-items-center">
+				<div class="col-md-10 ">
+					<div class="col-md-12">
+						<form id="search">
+							<h3 class="text-center text-light mt-3">Available pharmacists</h3>
+							<div class="form-group">
+								<div class="row">
+									
+									<div class="col mt-3">
+										<select id="sort" name="sort" class="form-control">
+										<option selected="true" disabled="disabled">Sort by</option>
+									    	<option value="GRADE_ASC">Grade ascending</option>
+									    	<option value="GRADE_DESC">Grade descending</option>
+									    	
+						    			</select>
+									</div>
+									</div>
+									<div class="row">
+									<div class="col mt-3">
+											<input type="submit" class="btn btn-light btn-md w-100" value="Sort" /> 
+									</div>
+									</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>			
+
+			
+
+	
+    
+<div id="apartment-cards" class="mx-5 my-2">
+	
+</div>
+
+</body>
+</html>

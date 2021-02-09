@@ -40,6 +40,9 @@ public class UserAccount implements UserDetails {
 
     @Column(unique=false, nullable=false)
     private boolean enabled;
+    
+    @Column(unique=false, nullable=false)
+    private boolean active;
 
     @Column(name = "last_password_reset_date")
     private Timestamp lastPasswordResetDate;
@@ -136,7 +139,12 @@ public class UserAccount implements UserDetails {
 		this.user = user;
 	}
 
-    
-    
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
     
 }

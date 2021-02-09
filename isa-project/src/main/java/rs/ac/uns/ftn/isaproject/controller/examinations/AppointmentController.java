@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentEventDTO;
@@ -28,9 +30,9 @@ import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
-import rs.ac.uns.ftn.isaproject.model.utils.GradeComparator;
+import rs.ac.uns.ftn.isaproject.model.utils.GradeDermatologistComparator;
 import rs.ac.uns.ftn.isaproject.model.utils.Order;
-import rs.ac.uns.ftn.isaproject.model.utils.PriceComparator;
+import rs.ac.uns.ftn.isaproject.model.utils.PriceDermatologistComparator;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 import rs.ac.uns.ftn.isaproject.service.users.VacationRequestService;
@@ -136,26 +138,26 @@ public class AppointmentController {
 	
 
 	@GetMapping("/pharmacy/{pharmacyId}/created/{sort}")
-	@PreAuthorize("hasAnyRole('PATIENT')")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<Collection<AddAppointmentDTO>> findAllCreatedByPharmacyDermatologist(@PathVariable int pharmacyId,@PathVariable String sort){
 		try {
 		Collection<AddAppointmentDTO> appointmentDTOs = 
 				AppointmentMapper.toAddAppointmentDTOs(appointmentService.findAllCreatedByPharmacyDermatologist(pharmacyId));
 		switch (sort) {
 		case "GRADE_ASC":
-			((List<AddAppointmentDTO>) appointmentDTOs).sort(new GradeComparator(Order.ASC));
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new GradeDermatologistComparator(Order.ASC));
 			break;
 
 		case "GRADE_DESC":
-			((List<AddAppointmentDTO>) appointmentDTOs).sort(new GradeComparator(Order.DESC));
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new GradeDermatologistComparator(Order.DESC));
 			break;
 
 		case "PRICE_ASC":
-			((List<AddAppointmentDTO>) appointmentDTOs).sort(new PriceComparator(Order.ASC));
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new PriceDermatologistComparator(Order.ASC));
 			break;
 
 		case "PRICE_DESC":
-			((List<AddAppointmentDTO>) appointmentDTOs).sort(new PriceComparator(Order.DESC));
+			((List<AddAppointmentDTO>) appointmentDTOs).sort(new PriceDermatologistComparator(Order.DESC));
 			break;
 		}
 		return new ResponseEntity<Collection<AddAppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
@@ -194,7 +196,7 @@ public class AppointmentController {
 	}
 	
 	@PostMapping(value="/schedule", consumes = "application/json")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'PATIENT')")
 	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
 		try {
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
@@ -226,7 +228,7 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/patient/{id_patient}/{doctorType}/scheduled")
-	@PreAuthorize("hasAnyRole('PATIENT')")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<Collection<AddAppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
 		try {
 			TypeOfDoctor type = doctorType.equals("dermatologists") ? TypeOfDoctor.Dermatologist : TypeOfDoctor.Pharmacist;
@@ -238,7 +240,7 @@ public class AppointmentController {
 		}
 	}
 	@PutMapping("/{id}/cancel")
-	@PreAuthorize("hasAnyRole('PATIENT')")
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<?> cancelAppointment(@PathVariable int id){
 		try {
 			appointmentService.cancelAppointment(id);
