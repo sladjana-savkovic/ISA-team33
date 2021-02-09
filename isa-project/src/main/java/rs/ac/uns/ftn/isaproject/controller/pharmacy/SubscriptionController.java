@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import rs.ac.uns.ftn.isaproject.dto.AddSubscriptionDTO;
-import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.SubscriptionDTO;
+import rs.ac.uns.ftn.isaproject.mapper.SubscriptionMapper;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Subscription;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.SubscriptionService;
 
 @RestController
@@ -48,7 +50,20 @@ public class SubscriptionController {
 			return new ResponseEntity<String>("Successful subscription!", HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<String>("Unuccessful subscription!", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	@GetMapping("/{id}/patient")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<Collection<SubscriptionDTO>> findSubscriptionsByPatientId(@PathVariable int id){
+		try {
+			Collection<SubscriptionDTO> subscriptionsDTOs = SubscriptionMapper.toSubscriptionDTOs(subscriptionService.findSubscriptionsByPatientId(id));
+			return new ResponseEntity<Collection<SubscriptionDTO>>(subscriptionsDTOs, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	

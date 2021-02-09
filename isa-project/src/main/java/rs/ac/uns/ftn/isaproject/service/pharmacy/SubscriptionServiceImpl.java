@@ -54,5 +54,11 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 		}
 		throw new Exception("There is already a subscription.");	  
 	}
+
+	@Override
+	public Collection<Subscription> findSubscriptionsByPatientId(int id) {
+		Collection<Subscription> subscriptions = subscriptionRepository.findSubscriptionsByPatientId(id);			
+		return subscriptions;
+	}
 	
 }

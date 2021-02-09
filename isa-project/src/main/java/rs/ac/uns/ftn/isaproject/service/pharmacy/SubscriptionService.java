@@ -9,5 +9,6 @@ public interface SubscriptionService {
 
 	Collection<Subscription> findByPharmacyId(int id);
 	Collection<Integer> getSubscribedPatientsByPharmacy(int pharmacyId);
-	void add(AddSubscriptionDTO dto)  throws Exception ;
+	void add(AddSubscriptionDTO dto)  throws Exception;
+	Collection<Subscription> findSubscriptionsByPatientId(int id);
 }

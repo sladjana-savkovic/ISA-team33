@@ -105,7 +105,6 @@ function addPharmacyToCombo(pharmacy) {
 
 /* Subscribe to the pharmacy actions */
 function subscribe() {
-	alert(patientId + " " + pharmacyId);
 	dto = {
 		"patientId": patientId,
 		"pharmacyId": pharmacyId
@@ -124,7 +123,7 @@ function subscribe() {
 		},
 		error:function(jqXHR){
 			console.log('error');
-			alert("Error! " + jqXHR);
+			alert("Error!");
 		}
 	});	
 }

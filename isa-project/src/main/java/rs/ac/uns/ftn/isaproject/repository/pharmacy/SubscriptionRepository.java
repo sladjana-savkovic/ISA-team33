@@ -15,5 +15,8 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Inte
 	
 	@Query(value = "select * from subscription s where s.pharmacy_id = ?1 and s.patient_id = ?2 and is_canceled = false limit 1",
 			nativeQuery = true)
-	Subscription findByPharmacyIdAndPatientId(int pharmacyId, int patientId);
+	Subscription findByPharmacyIdAndPatientId(int pharmacyId, int patientId);	
+	
+	@Query(value = "select * from subscription s where s.patient_id = ?1 and is_canceled = false", nativeQuery = true)
+	Collection<Subscription> findSubscriptionsByPatientId(int id);
 }
