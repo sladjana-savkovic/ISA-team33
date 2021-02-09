@@ -11,4 +11,6 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
 
 	@Query("select d from DrugReservation d where d.pharmacy.id = ?1")
 	Collection<DrugReservation> findByPharmacyId(int id);
+	
+	Collection<DrugReservation> findByPatientIdAndIsDone(int id, boolean isDone);
 }
