@@ -175,20 +175,20 @@
             <div class="modal-content">
             <form id="save_prescription">
                 <div class="modal-header">
-                    <p class="heading lead">Prescription</p>
+                    <p class="heading lead">Prescribe drug</p>
                     <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" id="prescribe_dialog">
-                	<p id="hasAllergy">The patient is allergic to the chosen drug.</p>
-                	<div class="row" id="noAllergy">
+                	<p id="hasAllergy" hidden="true">The patient is allergic to the chosen drug.</p>
+                	<div class="row" id="noAllergy" hidden="false">
                 		<label class="text-secondary mb-0">Duration of therapy (in days):</label><br>
 			            <input type="number" class="form-control" id="duration" min="1" required>
                 	</div>
                 </div>
                 <div class="modal-footer">
-			        <button type="submit" class="btn btn-success" id="save_changes">Save changes</button>
+			        <button type="submit" class="btn btn-success" id="save_changes">Prescribe</button>
 			     </div>
 			 </form>
             </div>
@@ -201,7 +201,7 @@
         <div class="modal-dialog modal-notify modal-info modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <p class="heading lead">Drug availability</p>
+                    <p class="heading lead">Prescribe substitute drug</p>
                     <button type="button" id="btn_close_substitute" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
                     </button>
@@ -224,12 +224,12 @@
 	                </div><br>
 	                <div class="row" id="allergySubstitute" hidden="true">
 	                	<div class="col">
-	                    	<p>The patient is allergic to the chosen substitute drug. Please choose another drug.</p>
+	                    	<p style="color:red;">The patient is allergic to the chosen substitute drug. Please choose another drug.</p>
 	                   	</div>
 	                </div><br>
                 </div>
                 <div class="modal-footer">
-			        <button class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect" type="submit" id="prescribeSubstitute">Prescribe</button>
+			        <button class="btn btn-success" type="button" id="prescribeSubstitute">Prescribe</button>
 			     </div>
 			     </form>
             </div>

@@ -21,6 +21,15 @@ insert into city (id,name,country_id) values (4,'Heceg Novi',3);
 insert into city (id,name,country_id) values (5,'Zagreb',4);
 insert into city (id,name,country_id) values (6,'Skoplje',5);
 insert into city (id,name,country_id) values (7,'Ljubljana',6);
+insert into city (id,name,country_id) values (8,'Sarajevo',2);
+insert into city (id,name,country_id) values (9,'Podgorica',3);
+insert into city (id,name,country_id) values (10,'Niš',1);
+insert into city (id,name,country_id) values (11,'Dubrovnik',4);
+insert into city (id,name,country_id) values (12,'Budva',3);
+insert into city (id,name,country_id) values (13,'Subotica',1);
+insert into city (id,name,country_id) values (14,'Kraljevo',1);
+insert into city (id,name,country_id) values (15,'Kragujevac',1);
+insert into city (id,name,country_id) values (16,'Zrenjanin',1);
 
 insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude, pharmacist_price) values (nextval('pharmacies_seq'),'Janković', 4.5, 2, 'Lasla Gala 15', 45.246101, 19.837765, 1000);
 insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude, pharmacist_price) values (nextval('pharmacies_seq'),'Betty', 5.0, 2, 'Danila Kiša 17', 45.247523, 19.836453, 900);
@@ -145,13 +154,13 @@ insert into pharmacy_action (id, description, end_date, name, start_date, pharma
 
 /*Slobodni (status = 0) termini kod dermatologa*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-24 09:30:00','2021-02-24 10:00:00',800,1,1,null,0,1);					
+					values (nextval('appointments_seq'),'2021-02-23 09:45:00','2021-02-23 10:00:00',800,1,1,null,0,1);			
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-26 07:30:00','2021-02-26 8:00:00',1000,1,1,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-22 14:30:00','2021-02-22 15:00:00',1000,1,2,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-27 13:30:00','2021-02-27 14:00:00',1000,1,2,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-23 09:45:00','2021-02-23 10:00:00',1000,1,2,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-27 07:30:00','2021-02-27 8:00:00',1000,1,1,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -162,20 +171,20 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 07:30:00','2021-02-25 8:00:00',1000,1,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status, version)
-					values (nextval('appointments_seq'),'2021-02-10 07:30:00','2021-02-10 8:00:00',1000,1,1,3,1,1);
+					values (nextval('appointments_seq'),'2021-02-17 07:30:00','2021-02-10 8:00:00',1000,1,1,3,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-13 12:30:00','2021-02-13 13:00:00',1000,1,2,4,1,1);
+					values (nextval('appointments_seq'),'2021-02-21 12:30:00','2021-02-13 13:00:00',1000,1,2,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-28 14:00:00','2021-02-28 14:15:00',600,1,2,3,1,1);
 
 					
 /*Otkazani (status = 2) termini kod dermatologa*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-25 09:30:00','2021-02-25 10:00:00',1000,1,1,null,2,1);
+					values (nextval('appointments_seq'),'2021-02-09 09:30:00','2021-02-25 10:00:00',1000,1,1,null,2,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-10 11:15:00','2021-02-10 11:30:00',1000,1,1,null,2,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-13 12:45:00','2021-02-13 13:00:00',1000,1,2,null,2,1);
+					values (nextval('appointments_seq'),'2021-02-03 12:45:00','2021-02-13 13:00:00',1000,1,2,null,2,1);
 					
 /*Zavrseni (status = 3) termini kod dermatologa*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -199,7 +208,7 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-19 15:30:00','2021-02-19 16:00:00',800,2,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-03 11:30:00','2021-02-03 12:00:00',800,2,1,4,1,1);
+					values (nextval('appointments_seq'),'2021-02-27 11:30:00','2021-02-03 12:00:00',800,2,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-08 09:30:00','2021-03-08 10:00:00',800,2,1,3,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -209,11 +218,11 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 					
 /*Otkazani (status = 2) termini kod farmaceuta*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-24 09:30:00','2021-02-24 10:00:00',1000,2,1,null,2,1);
+					values (nextval('appointments_seq'),'2021-02-04 09:30:00','2021-02-24 10:00:00',1000,2,1,null,2,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-28 13:30:00','2021-02-28 14:00:00',1000,2,1,null,2,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-17 11:30:00','2021-02-17 12:00:00',1000,2,1,null,2,1);
+					values (nextval('appointments_seq'),'2021-02-07 11:30:00','2021-02-17 12:00:00',1000,2,1,null,2,1);
 					
 /*Zavrseni (status = 3) termini kod farmaceuta*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -253,7 +262,7 @@ insert into patient_allergies (patient_id,allergies_id) values (4,2);
 
 
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,1,1,false,1);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),12,2,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,2,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,3,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,4,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),66,5,1,false,1);
@@ -345,17 +354,17 @@ insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2021-01-30 12:00:00',false,3,1,2);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
-			values (nextval('reservation_seq'),'2020-01-04 12:00:00',true,3,2,1);
+			values (nextval('reservation_seq'),'2020-01-04 12:00:00',true,5,2,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2020-01-07 12:00:00',true,3,1,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
-			values (nextval('reservation_seq'),'2020-01-16 12:00:00',true,3,1,1);
+			values (nextval('reservation_seq'),'2020-01-16 12:00:00',true,4,1,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
-			values (nextval('reservation_seq'),'2020-01-31 12:00:00',true,3,1,1);
+			values (nextval('reservation_seq'),'2020-01-31 12:00:00',true,5,1,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
-			values (nextval('reservation_seq'),'2020-02-02 12:00:00',true,3,1,1);
+			values (nextval('reservation_seq'),'2020-02-02 12:00:00',true,4,1,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
-			values (nextval('reservation_seq'),'2020-02-04 12:00:00',true,3,1,1);
+			values (nextval('reservation_seq'),'2021-02-10 17:03:00',false,4,1,1);
 
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','12:00:00',1,1);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);
@@ -426,6 +435,11 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 /*Definisem zakazan pregled kod drugog farmaceuta (Petar) kako bi se moglo testirati dodavanje izvjestaja i zakazivanje novog pregleda*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 10:30:00','2021-02-25 11:00:00',600,14,1,3,1,1);
+					
+/*Definisem zakazan pregled kod dermatologa (Nada) za pacijenta Lanu*/
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-03-03 08:30:00','2021-03-03 08:45:00',600,1,1,5,1,1);
+					
 
 insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Milica','Milić', '0612007854',3,'Gavrila Principa 5','1967-04-18', 2);
@@ -433,3 +447,4 @@ insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,ad
 					   (nextval('users_seq'),'Stefan','Stefanović', '0632547854',4,'Stevana Sinđelića 15','1970-01-08', 2);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milicam@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 15,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'stefans@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);
+

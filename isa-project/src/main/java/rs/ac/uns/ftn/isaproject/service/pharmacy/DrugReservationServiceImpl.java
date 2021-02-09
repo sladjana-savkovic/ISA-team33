@@ -43,10 +43,10 @@ public class DrugReservationServiceImpl implements DrugReservationService {
 	public DrugReservation searchOne(int id, int doctorId) {
 		Collection<Pharmacy> doctorPharmacy = new ArrayList<>(doctorRepository.getOne(doctorId).getPharmacies());
 		DrugReservation drugReservation = drugReservationRepository.getOne(id);
-		if (drugReservation.getDateLimit().isAfter(LocalDateTime.now().minus(Period.ofDays(1)))
-				&& !drugReservation.isDone()) {
-			for (Pharmacy p : doctorPharmacy) {
-				if (p.getId() == drugReservation.getPharmacy().getId())
+
+		if(drugReservation.getDateLimit().isAfter(LocalDateTime.now().plus(Period.ofDays(1))) && !drugReservation.isDone()) {
+			for(Pharmacy p:doctorPharmacy) {
+				if(p.getId() == drugReservation.getPharmacy().getId())
 					return drugReservation;
 			}
 		}

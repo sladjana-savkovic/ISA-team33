@@ -32,8 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				    }
                   },
 			      contentHeight: 'auto',
-				  resourceAreaWidth: 100,
-                  aspectRation: 3,
 			      initialDate: '2021-01-01',
 			      navLinks: true, // can click day/week names to navigate views
 			      nowIndicator: true,
