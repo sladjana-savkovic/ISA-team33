@@ -66,7 +66,7 @@ public class SupplierServiceImpl implements SupplierService {
 		supplier.setTelephone(supplierDTO.telephone);	
 		supplier.setAddress(supplierDTO.address);		
 		supplier.setDateOfBirth(supplierDTO.dateOfBirth);
-		userAccountService.save(supplierDTO.email, supplierDTO.password, "ROLE_SUPPLIER", false, supplier);			
+		userAccountService.save(supplierDTO.email, supplierDTO.password, "ROLE_SUPPLIER", true, supplier);			
 	}
 
 	

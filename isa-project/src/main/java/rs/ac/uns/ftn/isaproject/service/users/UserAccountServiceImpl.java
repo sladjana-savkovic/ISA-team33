@@ -37,7 +37,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		userAccount.setUsername(username);		
 		userAccount.setPassword(passwordEncoder.encode(password)); 
 		userAccount.setEnabled(enabled);
-		
+		userAccount.setActive(false);
 		Authority auth = authService.findByname(role);
 		userAccount.setAuthority(auth);
 		userAccount = this.userRepository.save(userAccount);

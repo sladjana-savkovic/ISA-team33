@@ -1,3 +1,6 @@
+checkUserRole("ROLE_SYSTEMADMIN");
+var systemAdminId = getUserIdFromToken();
+
 $(document).ready(function () {
 	
 	var dtToday = new Date();
@@ -71,6 +74,9 @@ $(document).ready(function () {
 				
 				$.ajax({
 					url: "/api/pharmacy-admin/add",
+					headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        			},
 					type: 'POST',
 					contentType: 'application/json',
 					data: JSON.stringify(newPharmacyAdmin),
@@ -107,6 +113,9 @@ $(document).ready(function () {
 				
 				$.ajax({
 					url: "/api/doctor/add/dermatologist",
+					headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        			},
 					type: 'POST',
 					contentType: 'application/json',
 					data: JSON.stringify(newDermatologist),
@@ -143,6 +152,9 @@ $(document).ready(function () {
 					
 				$.ajax({
 					url: "/api/system-admin/add",
+					headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        			},
 					type: 'POST',
 					contentType: 'application/json',
 					data: JSON.stringify(newSystemAdmin),
@@ -179,6 +191,9 @@ $(document).ready(function () {
 				
 				$.ajax({
 					url: "/api/supplier/add",
+					headers: {
+            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        			},
 					type: 'POST',
 					contentType: 'application/json',
 					data: JSON.stringify(newSupplier),
@@ -230,6 +245,9 @@ function getAllPharmacies() {
 		if (parseInt(id) == 2) {
 			$.ajax({
 				url: "/api/pharmacy",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				type: 'GET',
 				dataType: 'json',
 				processData: false,

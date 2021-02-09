@@ -1,3 +1,6 @@
+checkUserRole("ROLE_SYSTEMADMIN");
+var systemAdminId = getUserIdFromToken();
+
 var drugIngredientsList = new Array(); 
 var substituteDrugList = new Array(); 
 
@@ -54,6 +57,9 @@ $(document).ready(function () {
 			
 			$.ajax({
 				url: "/api/drug",
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(newDrug),
@@ -82,6 +88,9 @@ function getAllIngredients() {
 	$.ajax({
 		url: "/api/ingredient",
 		type: 'GET',
+		headers: {
+        	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
 		contentType: "application/json",
 		success: function (ingredients) {			
 			for (let i = 0; i < ingredients.length; i++) {
@@ -114,7 +123,7 @@ function chooseIngredient() {
 
 function getAllDrugs() {
 	$.ajax({
-		url: "/api/drug",
+		url: "/api/drug/all",
 		type: 'GET',
 		contentType: "application/json",
 		success: function (drugs) {			

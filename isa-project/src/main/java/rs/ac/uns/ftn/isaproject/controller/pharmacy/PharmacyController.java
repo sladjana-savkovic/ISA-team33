@@ -47,7 +47,7 @@ public class PharmacyController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'PATIENT')")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'ROLE_PATIENT')")
 	public ResponseEntity<PharmacyDTO> getPharmacyById(@PathVariable int id) {
 
 		Pharmacy pharmacy = pharmacyService.findOneById(id);
@@ -64,6 +64,7 @@ public class PharmacyController {
 
 		
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody PharmacyDTO pharmacyDTO){
 		try {
 			pharmacyService.add(pharmacyDTO);
@@ -76,6 +77,7 @@ public class PharmacyController {
 	
 			
 	@GetMapping()
+	@PreAuthorize("hasAnyRole('PATIENT', 'ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
