@@ -52,6 +52,9 @@ function redirectUser(token){
 	if(role == "ROLE_SUPPLIER"){
     	 window.location.href = "../supplier/offer_search.html";
 	}
+	if(role == "ROLE_SYSTEMADMIN"){
+    	 window.location.href = "../system_admin/adding_drug.html";
+	}
 }
 
 function decodeToken(token) {
