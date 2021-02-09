@@ -13,7 +13,7 @@ $(document).ready(function () {
 				
 		$.ajax({
 			type:"GET", 
-			url: "/api/drug",
+			url: "/api/drug/all",
 			contentType: "application/json",
 			success:function(drugs){	
 				for(i = 0; i < drugs.length; i++){
@@ -44,7 +44,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type:"GET", 
-			url: "/api/drug/" + drug_id,
+			url: "/api/drug/" + drug_id + "/one",
 			contentType: "application/json",
 			success:function(drug){	
 			let item = drug_id + "-" + quantity;

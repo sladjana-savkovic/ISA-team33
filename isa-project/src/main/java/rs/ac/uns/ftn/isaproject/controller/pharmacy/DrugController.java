@@ -83,7 +83,7 @@ public class DrugController {
 		}
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("{id}/one")
 	public ResponseEntity<DrugDTO> getById(@PathVariable int id){
 		try {
 			Drug drug = drugService.getById(id);
@@ -103,6 +103,5 @@ public class DrugController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}		
 	}	
-	
-	
+		
 }

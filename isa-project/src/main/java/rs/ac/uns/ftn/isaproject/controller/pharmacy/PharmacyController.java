@@ -65,7 +65,6 @@ public class PharmacyController {
 		}
 	}
 
-		
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody PharmacyDTO pharmacyDTO){
@@ -78,7 +77,6 @@ public class PharmacyController {
 		}
 	}
 	
-			
 	@GetMapping()
 	@PreAuthorize("hasAnyRole('PATIENT', 'ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
