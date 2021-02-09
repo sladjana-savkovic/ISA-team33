@@ -33,6 +33,9 @@ public class WorkingTimeController {
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<?> add(@RequestBody WorkingTimeDTO workingTimeDTO){
 		try {
+			if(!workingTimeService.checkWhenDoctorWork(workingTimeDTO.doctorId, workingTimeDTO.startTime, workingTimeDTO.endTime)) {
+				return new ResponseEntity<>("The doctor was already working at another pharmacy at the time.", HttpStatus.BAD_REQUEST);
+			}
 			workingTimeService.add(workingTimeDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
@@ -51,6 +54,5 @@ public class WorkingTimeController {
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while getting doctor's working time.", HttpStatus.BAD_REQUEST);
 		}
-	}
-	
+	}	
 }

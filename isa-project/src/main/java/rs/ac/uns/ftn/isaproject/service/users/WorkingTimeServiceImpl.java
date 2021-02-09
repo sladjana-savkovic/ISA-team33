@@ -69,4 +69,18 @@ public class WorkingTimeServiceImpl implements WorkingTimeService {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean checkWhenDoctorWork(int doctorId, LocalTime startTime, LocalTime endTime) {
+		Collection<WorkingTime> workingTimes = workingTimeRepository.findByDoctorId(doctorId);
+		for(WorkingTime w: workingTimes) {
+			if((startTime.isAfter(w.getStartTime()) || startTime.equals(w.getStartTime())) && 
+					(endTime.isBefore(w.getEndTime()) || endTime.equals(w.getEndTime()))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	
 }
