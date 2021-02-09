@@ -6,17 +6,24 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.dto.AddSubscriptionDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Subscription;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.SubscriptionRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService{
 	
 	private SubscriptionRepository subscriptionRepository;
+	private PatientRepository patientRepository;
+	private PharmacyRepository pharmacyRepository;
 	
 	@Autowired
-	public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository) {
-		this.subscriptionRepository = subscriptionRepository;	
+	public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository, PatientRepository patientRepository, PharmacyRepository pharmacyRepository) {
+		this.subscriptionRepository = subscriptionRepository;
+		this.patientRepository = patientRepository;
+		this.pharmacyRepository = pharmacyRepository;
 	}
 
 	@Override
@@ -34,4 +41,18 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 		return idies;
 	}
 
+	@Override
+	public void add(AddSubscriptionDTO dto) throws Exception {
+		Subscription subscription = subscriptionRepository.findByPharmacyIdAndPatientId(dto.pharmacyId, dto.patientId);
+		if (subscription == null) {
+			subscription = new Subscription();
+			subscription.setPatient(patientRepository.getOne(dto.patientId));
+			subscription.setPharmacy(pharmacyRepository.getOne(dto.pharmacyId));
+			subscription.setCanceled(false);
+			subscriptionRepository.save(subscription);
+			return;
+		}
+		throw new Exception("There is already a subscription.");	  
+	}
+	
 }

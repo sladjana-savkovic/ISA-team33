@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,18 +46,22 @@ public class DrugController {
 	}
 	
 	@GetMapping(value = "/{id}/pharmacy")
-	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'ROLE_PATIENT')")
 	public ResponseEntity<Collection<DrugDTO>> getDrugsByPharmacyId(@PathVariable int id) {
+		try {
+			Collection<Drug> drugs  = drugQuantityPharmacyService.findDrugsByPharmacyId(id);
 
-		Collection<Drug> drugs  = drugQuantityPharmacyService.findDrugsByPharmacyId(id);
-
-		if (drugs == null) {
+			if (drugs == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugs);
+			
+			return new ResponseEntity<>(drugDTOs, HttpStatus.OK);			
+		}	
+		catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugs);
-		
-		return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
+		}		
 	}
 	
 	@GetMapping("/{id}/substitute")
@@ -69,7 +74,7 @@ public class DrugController {
 		}
 	}
 	
-	@GetMapping()
+	@GetMapping("/all")
 	public ResponseEntity<Collection<DrugDTO>> getAllDrugs(){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugSearchDTOs(drugService.getAllDrugs());

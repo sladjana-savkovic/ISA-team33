@@ -55,6 +55,9 @@ function redirectUser(token){
 	if(role == "ROLE_SYSTEMADMIN"){
     	 window.location.href = "../system_admin/adding_drug.html";
 	}
+	if(role == "ROLE_PATIENT"){
+    	 window.location.href = "../patient/pharmacy_profile.html";
+	}
 }
 
 function decodeToken(token) {

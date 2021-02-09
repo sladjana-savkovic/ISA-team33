@@ -47,7 +47,7 @@ public class PharmacyController {
 	}
 	
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'PATIENT')")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'ROLE_PATIENT')")
 	public ResponseEntity<PharmacyDTO> getPharmacyById(@PathVariable int id) {
 
 		Pharmacy pharmacy = pharmacyService.findOneById(id);

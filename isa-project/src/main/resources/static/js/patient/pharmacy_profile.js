@@ -1,3 +1,8 @@
+checkUserRole("ROLE_PATIENT");
+var patientId = getUserIdFromToken();
+
+var pharmacyId = null;
+
 $(document).ready(function () {
 	
 	
@@ -22,11 +27,14 @@ $(document).ready(function () {
 	$('#pharmacy_selct').submit(function(event){
 		event.preventDefault();
 		
-	let pharmacyId = $("#pharmacies option:selected").attr("id");
+	pharmacyId = $("#pharmacies option:selected").attr("id");
 			
 			$.ajax({
 				type:"GET", 
 				url: "/api/pharmacy/" + pharmacyId,
+				headers: {
+            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        		},
 				contentType: "application/json",
 				success:function(pharmacy){
 					addPharmacyInfo(pharmacy);
@@ -42,6 +50,9 @@ $(document).ready(function () {
 					$.ajax({
 						type:"GET", 
 						url: "/api/drug/" + pharmacyId + "/pharmacy",
+						headers: {
+            				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+       					},
 						contentType: "application/json",
 						success:function(drugs){	
 							$('#body_drugs').empty();
@@ -58,7 +69,7 @@ $(document).ready(function () {
 				error:function(){
 					console.log('error getting pharmacy');
 				}
-				});
+			});
 	});		
 		
 	
@@ -90,3 +101,31 @@ function addPharmacyToCombo(pharmacy) {
 	let pharmacy_option = $('<option id="' + pharmacy.id + '" value="' + pharmacy.name + '">' + pharmacy.name + '</option>');
 	$('select#pharmacies').append(pharmacy_option);
 };
+
+
+/* Subscribe to the pharmacy actions */
+function subscribe() {
+	alert(patientId + " " + pharmacyId);
+	dto = {
+		"patientId": patientId,
+		"pharmacyId": pharmacyId
+	}	
+	$.ajax({
+		type:"POST", 
+		url: "/api/subscription/add",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(dto),
+		success:function(jqXHR){	
+			alert(jqXHR);
+		},
+		error:function(jqXHR){
+			console.log('error');
+			alert("Error! " + jqXHR);
+		}
+	});	
+}
+
