@@ -74,12 +74,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
-		web.ignoring().antMatchers(HttpMethod.POST, "/api/patient");
+		web.ignoring().antMatchers(HttpMethod.POST, "/api/patient"); //registracija pacijenta
 		web.ignoring().antMatchers(HttpMethod.GET, "/api/drug");
-		//web.ignoring().antMatchers(HttpMethod.POST, "/api/drug");
 		web.ignoring().antMatchers(HttpMethod.POST, "/api/drug/search");
-		web.ignoring().antMatchers(HttpMethod.GET, "/api/ingredient");
-		web.ignoring().antMatchers(HttpMethod.GET, "/api/drug/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/drug/all");
 		web.ignoring().antMatchers(HttpMethod.GET, "/api/drug/**/substitute");
 		web.ignoring().antMatchers(HttpMethod.GET, "/api/pricelist/**/drug");
 		web.ignoring().antMatchers(HttpMethod.GET, "/api/report/**/pharmacy");

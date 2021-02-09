@@ -70,6 +70,7 @@ public class PharmacyAdministratorController {
 	}
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody AddPharmacyAdministratorDTO pharmacyAdministratorDTO){
 		try {
 			administratorService.add(pharmacyAdministratorDTO);
