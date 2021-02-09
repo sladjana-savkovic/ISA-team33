@@ -45,7 +45,6 @@ $(document).ready(function () {
         		},
 				contentType: "application/json",
 				success:function(dd){
-					
 					for(i = 0; i < dd.length; i++){
 						addDoctorInComboBox(dd[i]);
 					}			

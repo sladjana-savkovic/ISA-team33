@@ -131,8 +131,6 @@ insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,ad
 					   (nextval('users_seq'),'Darko','Darković', '0632547854',2,'Zmaj Jovina 5','1980-05-08', 2);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milosm@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 6,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'darkod@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 7,  true);
-
-
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Mitar','Mitrović', '0665458859','Braće Ribnikar 22','1995-11-11', 1);
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
@@ -428,3 +426,10 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 /*Definisem zakazan pregled kod drugog farmaceuta (Petar) kako bi se moglo testirati dodavanje izvjestaja i zakazivanje novog pregleda*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 10:30:00','2021-02-25 11:00:00',600,14,1,3,1,1);
+
+insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Milica','Milić', '0612007854',3,'Gavrila Principa 5','1967-04-18', 2);
+insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Stefan','Stefanović', '0632547854',4,'Stevana Sinđelića 15','1970-01-08', 2);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milicam@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 15,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'stefans@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);
