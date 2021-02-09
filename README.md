@@ -9,7 +9,9 @@ Student 3 - Slađana Savković, RA37/2017
 Student 4 - Jelena Zeljko, RA55/2017
 
 
-Za izradu projekta korišteni su: 
+
+
+Za izradu projekta koristili smo: 
 <ul>
   <li> Spring Boot </li>
   <li> Postgresql baza </li>
@@ -17,9 +19,10 @@ Za izradu projekta korišteni su:
 </ul>
 
 Radno okruženje: Eclipse
+
 Verzija jave: jdk15
 
-Pokretanje projekta:
+Uputstvo za pokretanje projekta:
 <ul>
   <li>Kreirati Postgresql bazu podataka sa nazivom mydb </li>  
   <li>Importovati projekat i instalirati sve dependency-je iz pom.xml </li>  
