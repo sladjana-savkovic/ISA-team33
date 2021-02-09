@@ -153,7 +153,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public boolean isPatientAvailableForChosenTime(int patientId, LocalDate date, LocalTime startTime, LocalTime endTime) {
 		logger.info("> isPatientAvailableForChosenTime");
 		Collection<Appointment> patientAppointments = appointmentRepository.getScheduledPatientAppointments(patientId);
@@ -193,15 +193,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Transactional(readOnly = false)
     public boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
 		logger.info("> isDoctorAvailableForChosenTime");
-        Collection<Appointment> doctorAppointments = getCreatedAndScheduledDoctorAppointments(doctorId);
+        Collection<Appointment> doctorAppointments = getUnavailableDoctorAppointments(doctorId);
         return !checkIfAppointmentMathces(doctorAppointments, date, startTime, endTime);
     }
 	
 	@Override
 	@Transactional(readOnly = false)
-	public Collection<Appointment> getCreatedAndScheduledDoctorAppointments(int doctorId){
+	public Collection<Appointment> getUnavailableDoctorAppointments(int doctorId){
 		logger.info("> getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
-		Collection<Appointment> doctorAppointments = appointmentRepository.getCreatedAndScheduledDoctorAppointments(doctorId);
+		Collection<Appointment> doctorAppointments = appointmentRepository.getUnavailableDoctorAppointments(doctorId);
 		logger.info("< getCreatedAndScheduledDoctorAppointments by doctorId:{}", doctorId);
 		return doctorAppointments;
 	}

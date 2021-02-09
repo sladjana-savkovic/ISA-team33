@@ -20,7 +20,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select a from Appointment a join a.doctor d where d.id = :doctorId and (a.status = 0 or a.status = 1)")
 	@QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value ="0")})
-	Collection<Appointment> getCreatedAndScheduledDoctorAppointments(@Param("doctorId")int doctorId);
+	Collection<Appointment> getUnavailableDoctorAppointments(@Param("doctorId")int doctorId);
 	
 	@Query(value = "select * from appointment a where a.pharmacy_id=?1 and a.doctor_id=?2 and a.status = 0", nativeQuery = true)
 	Collection<Appointment> findFreeAppointmentsByPharmacyAndDoctor(int pharmacyId, int doctorId);

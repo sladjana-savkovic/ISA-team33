@@ -39,7 +39,7 @@ public class ScheduleConsultationAtPharmacistTest {
 			@Override
 			public void run() {
 		        System.out.println("Startovan Thread 1");
-		        appointmentService.getCreatedAndScheduledDoctorAppointments(1);
+		        appointmentService.getUnavailableDoctorAppointments(1);
 		        appointmentService.add(new AddAppointmentDTO(1, LocalDateTime.now().toString(), LocalDateTime.now().toString(),
 						1, 1, 500, 3), AppointmentStatus.Scheduled);
 			}
@@ -51,7 +51,7 @@ public class ScheduleConsultationAtPharmacistTest {
 			public void run() {
 		        System.out.println("Startovan Thread 2");
 		        try { Thread.sleep(50); } catch (InterruptedException e) { }
-		        appointmentService.getCreatedAndScheduledDoctorAppointments(1); // baca PessimisticLockingFailureException
+		        appointmentService.getUnavailableDoctorAppointments(1); // baca PessimisticLockingFailureException
 		        appointmentService.add(new AddAppointmentDTO(1, LocalDateTime.now().toString(), LocalDateTime.now().toString(),
 		        						1, 1, 500, 3), AppointmentStatus.Scheduled);
 			}
