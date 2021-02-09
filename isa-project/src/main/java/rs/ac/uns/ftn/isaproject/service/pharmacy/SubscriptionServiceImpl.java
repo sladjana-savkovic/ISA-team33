@@ -36,7 +36,9 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 		Collection<Integer> idies = new ArrayList<Integer>();
 		Collection<Subscription> subscriptions = findByPharmacyId(pharmacyId);
 		for(Subscription s : subscriptions) {
-			idies.add(s.getPatient().getId());
+			if(s.isCanceled() == false) {
+				idies.add(s.getPatient().getId());
+			}
 		}
 		return idies;
 	}

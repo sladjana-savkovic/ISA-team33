@@ -131,8 +131,6 @@ insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,ad
 					   (nextval('users_seq'),'Darko','Darković', '0632547854',2,'Zmaj Jovina 5','1980-05-08', 2);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milosm@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 6,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'darkod@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 7,  true);
-
-
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Mitar','Mitrović', '0665458859','Braće Ribnikar 22','1995-11-11', 1);
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
@@ -147,15 +145,15 @@ insert into pharmacy_action (id, description, end_date, name, start_date, pharma
 
 /*Slobodni (status = 0) termini kod dermatologa*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-23 09:30:00','2021-02-23 10:00:00',800,1,1,null,0,1);					
+					values (nextval('appointments_seq'),'2021-02-24 09:30:00','2021-02-24 10:00:00',800,1,1,null,0,1);					
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-16 07:30:00','2021-02-16 8:00:00',1000,1,1,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-26 07:30:00','2021-02-26 8:00:00',1000,1,1,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-16 08:30:00','2021-02-16 9:00:00',1000,1,2,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-22 14:30:00','2021-02-22 15:00:00',1000,1,2,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-17 07:30:00','2021-02-17 8:00:00',1000,1,2,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-27 13:30:00','2021-02-27 14:00:00',1000,1,2,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-13 07:30:00','2021-02-13 8:00:00',1000,1,1,null,0,1);
+					values (nextval('appointments_seq'),'2021-02-27 07:30:00','2021-02-27 8:00:00',1000,1,1,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-01 09:30:00','2021-03-01 10:00:00',1000,1,1,null,0,1);
 					
@@ -329,16 +327,16 @@ insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, cr
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 890, 2, 11, '2020-01-20');
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 790, 2, 10, '2020-12-30');
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-31', 1270, 2, 9, '2020-01-31');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 770, 3, 6, '2020-12-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 6, '2020-01-31');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 7, '2020-01-31');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 10, '2020-01-31');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 770, 3, 1, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 870, 3, 6, '2020-12-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 780, 3, 6, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 740, 3, 7, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 550, 3, 10, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-03-01', 570, 3, 1, '2020-01-31');
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-01-01', '2021-01-31', 1650, 4, 2, '2020-12-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 2, '2020-01-30');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 10, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 350, 4, 2, '2020-01-30');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 270, 4, 10, '2020-01-31');
 insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 11, '2020-01-31');
-insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 150, 4, 12, '2020-01-31');
+insert into pricelist (id, start_date, end_date, price, pharmacy_id, drug_id, creation_date) values (nextval('pricelists_seq'), '2021-02-01', '2021-02-28', 450, 4, 12, '2020-01-31');
 
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2020-12-30 12:00:00',true,3,1,1);
@@ -428,3 +426,10 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 /*Definisem zakazan pregled kod drugog farmaceuta (Petar) kako bi se moglo testirati dodavanje izvjestaja i zakazivanje novog pregleda*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 10:30:00','2021-02-25 11:00:00',600,14,1,3,1,1);
+
+insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Milica','Milić', '0612007854',3,'Gavrila Principa 5','1967-04-18', 2);
+insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
+					   (nextval('users_seq'),'Stefan','Stefanović', '0632547854',4,'Stevana Sinđelića 15','1970-01-08', 2);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milicam@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 15,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'stefans@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);

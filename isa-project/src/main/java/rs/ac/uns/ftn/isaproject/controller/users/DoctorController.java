@@ -98,27 +98,37 @@ public class DoctorController {
 	
 	@PostMapping("/search/{name}/{surname}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
-		Collection<ViewSearchedDoctorDTO> searchResult = doctorService.searchByNameAndSurname(name, surname, doctorDTOs);
-		return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
-	}
+	public ResponseEntity<?> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
+		try {
+			Collection<ViewSearchedDoctorDTO> searchResult = doctorService.searchByNameAndSurname(name, surname, doctorDTOs);
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while searching doctor in the pharmacy.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@PostMapping("/filter/{type}/{grade}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> filterByGradeAndType(@PathVariable String type,@PathVariable int grade,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
-		Collection<ViewSearchedDoctorDTO> searchResult = doctorService.filterByGradeAndType(type, grade, doctorDTOs);
-		return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
-	}
+	public ResponseEntity<?> filterByGradeAndType(@PathVariable String type,@PathVariable int grade,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
+		try {
+			Collection<ViewSearchedDoctorDTO> searchResult = doctorService.filterByGradeAndType(type, grade, doctorDTOs);
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(searchResult, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while filtering doctor in the pharmacy.", HttpStatus.BAD_REQUEST);
+		}
+		}
 	
 	@RequestMapping(path = "/add/pharmacist", method = RequestMethod.POST, consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> add(@RequestBody AddDoctorDTO doctorDTO){
+	public ResponseEntity<?> add(@RequestBody AddDoctorDTO doctorDTO){
 		try {
 			doctorService.addPharmacist(doctorDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while adding pharmacist in the pharmacy.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -138,36 +148,40 @@ public class DoctorController {
 	
 	@PutMapping("/{id_doctor}/pharmacy/{id_pharmacy}/delete")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> deleteDoctor(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
-		if(appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy).isEmpty()) {
+	public ResponseEntity<?> deleteDoctor(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
+		try {
+			if(!appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy).isEmpty()) {
+				return new ResponseEntity<>("The doctor has schedule appointments in the pharmacy.", HttpStatus.BAD_REQUEST);
+			}
 			doctorService.deleteDoctor(id_doctor);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while deleting doctors without working time.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/{id}/pharmacy/without/working-time")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> findDoctorWithoutWorkingTime(@PathVariable int id) {
+	public ResponseEntity<?> findDoctorWithoutWorkingTime(@PathVariable int id) {
 		try {
 			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.getDoctorWithoutWorkingTime(id));
 			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
 		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting doctors without working time.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/{id_doctor}/pharmacy/{id_pharmacy}/add-dermatologist")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> addDermatologistInPharmacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
+	public ResponseEntity<?> addDermatologistInPharmacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
 		try {
 			doctorService.addDermatologistInPharmacy(id_doctor, id_pharmacy);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while adding doctor in the pharmacy.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	

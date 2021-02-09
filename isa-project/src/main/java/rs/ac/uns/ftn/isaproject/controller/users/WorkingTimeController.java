@@ -2,8 +2,6 @@ package rs.ac.uns.ftn.isaproject.controller.users;
 
 import java.util.Collection;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,26 +31,28 @@ public class WorkingTimeController {
 	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Void> add(@RequestBody WorkingTimeDTO workingTimeDTO){
+	public ResponseEntity<?> add(@RequestBody WorkingTimeDTO workingTimeDTO){
 		try {
+			if(!workingTimeService.checkWhenDoctorWork(workingTimeDTO.doctorId, workingTimeDTO.startTime, workingTimeDTO.endTime)) {
+				return new ResponseEntity<>("The doctor was already working at another pharmacy at the time.", HttpStatus.BAD_REQUEST);
+			}
 			workingTimeService.add(workingTimeDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("An error occurred while create doctor's working time.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/{id}/pharmacy")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<Collection<ViewWorkingTimeDTO>> findByPharmacyId(@PathVariable int id) {
+	public ResponseEntity<?> findByPharmacyId(@PathVariable int id) {
 		try {
 			Collection<ViewWorkingTimeDTO> workingTimeDTOs = ViewWorkingTimeMapper.toViewWorkingTimeDTOs(workingTimeService.findByPharmacyId(id));
 			return new ResponseEntity<Collection<ViewWorkingTimeDTO>>(workingTimeDTOs, HttpStatus.OK);
 		}
-		catch(EntityNotFoundException exception) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting doctor's working time.", HttpStatus.BAD_REQUEST);
 		}
-	}
-	
+	}	
 }
