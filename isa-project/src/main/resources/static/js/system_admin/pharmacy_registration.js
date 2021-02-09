@@ -1,3 +1,6 @@
+checkUserRole("ROLE_SYSTEMADMIN");
+var systemAdminId = getUserIdFromToken();
+
 $(document).ready(function () {
 		
 	getAllCountriesFromDatabase();	
@@ -31,6 +34,9 @@ $(document).ready(function () {
 
 		$.ajax({
 			url: "/api/pharmacy",
+			headers: {
+            	'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(newPharmacy),

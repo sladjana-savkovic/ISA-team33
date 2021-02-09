@@ -8,9 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import rs.ac.uns.ftn.isaproject.dto.AddSubscriptionDTO;
+import rs.ac.uns.ftn.isaproject.dto.SubscriptionDTO;
+import rs.ac.uns.ftn.isaproject.mapper.SubscriptionMapper;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.Subscription;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.SubscriptionService;
 
 @RestController
@@ -34,4 +41,43 @@ public class SubscriptionController {
 			return new ResponseEntity<>("An error occurred while getting subscribed patients.", HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	
+	@PostMapping(value = "/add", consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<String> add(@RequestBody AddSubscriptionDTO dto){
+		try {
+			subscriptionService.add(dto);
+			return new ResponseEntity<String>("Successful subscription!", HttpStatus.CREATED);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	@GetMapping("/{patientId}/patient")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<Collection<SubscriptionDTO>> findSubscriptionsByPatientId(@PathVariable int patientId){
+		try {
+			Collection<SubscriptionDTO> subscriptionsDTOs = SubscriptionMapper.toSubscriptionDTOs(subscriptionService.findSubscriptionsByPatientId(patientId));
+			return new ResponseEntity<Collection<SubscriptionDTO>>(subscriptionsDTOs, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping("/{subscriptionId}/cancel")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<Void> cancelSubscription(@PathVariable int subscriptionId){
+		try {
+			subscriptionService.cancelSubscription(subscriptionId);
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 }

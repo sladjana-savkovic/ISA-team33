@@ -25,6 +25,9 @@ $(document).ready(function () {
 				
 		}else if(getRoleFromToken() == "ROLE_SUPPLIER"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/supplier.js';
+		
+		}else if(getRoleFromToken() == "ROLE_SYSTEMADMIN"){
+			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/system_admin.js';
 		}
 		
         return;

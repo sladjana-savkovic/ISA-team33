@@ -134,6 +134,7 @@ public class DoctorController {
 	
 	
 	@RequestMapping(path = "/add/dermatologist", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody AddDermatologistDTO dermatologistDTO){
 		try {
 			doctorService.add(dermatologistDTO);

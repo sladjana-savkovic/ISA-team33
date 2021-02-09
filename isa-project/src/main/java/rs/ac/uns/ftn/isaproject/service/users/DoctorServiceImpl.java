@@ -164,7 +164,7 @@ public class DoctorServiceImpl implements DoctorService {
 		dermatologist.setAddress(dermatologistDTO.address);		
 		dermatologist.setDateOfBirth(dermatologistDTO.dateOfBirth);
 		dermatologist.setTypeOfDoctor(TypeOfDoctor.Dermatologist);		
-		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", false, dermatologist);	
+		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", true, dermatologist);	
 	}
 
 	@Override

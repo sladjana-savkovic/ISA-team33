@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -68,6 +67,7 @@ public class PharmacyController {
 
 		
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody PharmacyDTO pharmacyDTO){
 		try {
 			pharmacyService.add(pharmacyDTO);
@@ -80,6 +80,7 @@ public class PharmacyController {
 	
 			
 	@GetMapping()
+	@PreAuthorize("hasAnyRole('PATIENT', 'ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);

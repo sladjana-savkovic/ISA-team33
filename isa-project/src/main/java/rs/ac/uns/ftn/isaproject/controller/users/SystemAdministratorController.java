@@ -3,6 +3,7 @@ package rs.ac.uns.ftn.isaproject.controller.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,7 @@ public class SystemAdministratorController {
 		
 
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody AddSystemAdministratorDTO systemAdministratorDTO){
 		try {
 			systemAdministratorService.add(systemAdministratorDTO);

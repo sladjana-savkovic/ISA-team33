@@ -53,7 +53,7 @@ function searchDrug() {
 
 function getAllDrugs() {		
     $.ajax({
-        url: '/api/drug',
+        url: '/api/drug/all',
         type: 'GET',
         dataType: 'json',
         processData: false,
