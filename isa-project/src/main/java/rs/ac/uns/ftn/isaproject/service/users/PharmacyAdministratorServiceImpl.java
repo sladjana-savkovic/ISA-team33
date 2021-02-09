@@ -74,6 +74,6 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 		pharmacyAdministrator.setDateOfBirth(pharmacyAdministratorDTO.dateOfBirth);
 		Pharmacy pharmacy = pharmacyRepository.getOne(pharmacyAdministratorDTO.pharmacyId);
 		pharmacyAdministrator.setPharmacy(pharmacy);
-		userAccountService.save(pharmacyAdministratorDTO.email, pharmacyAdministratorDTO.password, "ROLE_PHARMACYADMIN", false, pharmacyAdministrator);					
+		userAccountService.save(pharmacyAdministratorDTO.email, pharmacyAdministratorDTO.password, "ROLE_PHARMACYADMIN", true, pharmacyAdministrator);					
 	}
 }

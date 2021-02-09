@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,7 +7,6 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rs.ac.uns.ftn.isaproject.dto.PharmacyPriceDTO;
 import rs.ac.uns.ftn.isaproject.dto.PricelistDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
@@ -59,6 +57,11 @@ public class PricelistServiceImpl implements PricelistService {
 			}			
 		}		
 		return newPricelist;
+	}
+
+	@Override
+	public Collection<Pricelist> getPricelistByPharmacy(int pharmacyId) {
+		return pricelistRepository.findByPharmacyId(pharmacyId);
 	}
 	
 	

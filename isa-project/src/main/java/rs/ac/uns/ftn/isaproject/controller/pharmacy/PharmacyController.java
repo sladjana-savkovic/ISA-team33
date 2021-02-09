@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -48,22 +47,26 @@ public class PharmacyController {
 	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'PATIENT')")
-	public ResponseEntity<PharmacyDTO> getPharmacyById(@PathVariable int id) {
+	public ResponseEntity<?> getPharmacyById(@PathVariable int id) {
+		try {
+			Pharmacy pharmacy = pharmacyService.findOneById(id);
 
-		Pharmacy pharmacy = pharmacyService.findOneById(id);
-
-		if (pharmacy == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+			if (pharmacy == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		
-		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacy(id));
-		Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
-		PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, pharmacy.getLatitude(), pharmacy.getLongitude(), pharmacy.getPharmacistPrice());
-		return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findAllCreatedByPharmacy(id));
+			Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findByPharmacyId(id));
+			PharmacyDTO pharmacyDTO = new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getAverageGrade(), pharmacy.getAddress(), pharmacy.getCity().getId(), pharmacy.getCity().getName(), pharmacy.getCity().getCountry().getName(), appointmentDTOs, doctorDTOs, pharmacy.getLatitude(), pharmacy.getLongitude(), pharmacy.getPharmacistPrice());
+			return new ResponseEntity<>(pharmacyDTO, HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>("An error occurred while getting pharmacy information.", HttpStatus.BAD_REQUEST);
+		}
 	}
 
-		
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody PharmacyDTO pharmacyDTO){
 		try {
 			pharmacyService.add(pharmacyDTO);
@@ -74,8 +77,8 @@ public class PharmacyController {
 		}
 	}
 	
-			
 	@GetMapping()
+	@PreAuthorize("hasAnyRole('PATIENT', 'ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);

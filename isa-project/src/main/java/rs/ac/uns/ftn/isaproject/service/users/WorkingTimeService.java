@@ -11,4 +11,5 @@ public interface WorkingTimeService {
 	void add(WorkingTimeDTO workingTimeDTO);
 	Collection<WorkingTime> findByPharmacyId(int id);
 	boolean checkIfDoctorWorkInPharmacy(int pharmacyId, int doctorId, LocalTime startTime, LocalTime endTime);
+	boolean checkWhenDoctorWork(int doctorId, LocalTime startTime, LocalTime endTime);
 }

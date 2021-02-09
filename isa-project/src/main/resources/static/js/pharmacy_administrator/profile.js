@@ -40,7 +40,6 @@ $(document).ready(function () {
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),
 					email: $('#email').val(),
-					password: $('#password').val(),
 					address: $('#address').val(),
 					pharmacyId : pharmacyId,
 					telephone : $('#phone').val(),
@@ -53,9 +52,9 @@ $(document).ready(function () {
 					$('#div_alert').append(alert);
 					return;
 				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing profile informations.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}
@@ -66,8 +65,10 @@ $(document).ready(function () {
 	
 	$('#edit_password').submit(function(event){
 			event.preventDefault();
-			new_pass1 = $('#new_password').val();
-			new_pass2 =  $('#new_password_repeat').val();
+			
+			let old_pass = $('#password').val();
+			let new_pass1 = $('#new_password').val();
+			let new_pass2 =  $('#new_password_repeat').val();
 			
 			if(new_pass1 != new_pass2){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Passwords do not match.'
@@ -77,31 +78,39 @@ $(document).ready(function () {
 			}
 			
 			$.ajax({
-				type:"PUT", 
-				headers: {
-            		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        		},
-				url: "/api/pharmacy-admin/" + pharmacyAdminId + "/password/" + new_pass1 ,
-				contentType: "application/json",
-				success:function(){
-					location.reload();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error changing password.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
-			});
+			type:"POST", 
+			url: "/auth/change-password",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+			data: JSON.stringify({ 
+				oldPassword:old_pass,
+				newPassword: new_pass1}),
+			contentType: "application/json",
+			success:function(){
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.Please, log in again.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				localStorage.clear();
+				window.setTimeout(function(){location.href = "../user/login.html";},1000)
+				return;
+			},
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + JSON.parse(xhr.responseText).message
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				$('#change_pass').attr("disabled",false);
+				return;
+			}
+		});
 		});
 	
 	},
-		error:function(){
-			console.log('error getting pharmacy admin');
+		error:function(xhr){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
 		}
 	});
 });
@@ -122,7 +131,6 @@ function addAdminInfo(admin){
 	$('#dateOfBirth').val(admin.dateOfBirth);
 	$('#phone').val(admin.telephone);
 	$('#email').val(admin.email);
-	$('#password').val(admin.password);
 	$('#address').val(admin.address);
 	
 	$.ajax({

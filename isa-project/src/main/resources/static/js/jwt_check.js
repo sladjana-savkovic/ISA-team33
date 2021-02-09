@@ -25,6 +25,9 @@ $(document).ready(function () {
 				
 		}else if(getRoleFromToken() == "ROLE_SUPPLIER"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/supplier.js';
+		
+		}else if(getRoleFromToken() == "ROLE_SYSTEMADMIN"){
+			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/system_admin.js';
 		}
 		
         return;
@@ -70,11 +73,12 @@ function getUserAccountIdFromToken(){
 	}
 }
 
-function getUserAccountIdFromToken(){
+
+function isActiveFromToken(){
 	try{
-		return decodeToken(localStorage.getItem("token")).userAccountId;
+		return decodeToken(localStorage.getItem("token")).isActive;
 	}
-    catch(err){
+	catch(err){
 		window.location.href = "../user/login.html";
 	}
 }

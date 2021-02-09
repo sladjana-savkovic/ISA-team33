@@ -39,7 +39,7 @@ public class SystemAdministratorServiceImpl implements SystemAdministratorServic
 		systemAdministrator.setTelephone(systemAdministratorDTO.telephone);	
 		systemAdministrator.setAddress(systemAdministratorDTO.address);		
 		systemAdministrator.setDateOfBirth(systemAdministratorDTO.dateOfBirth);
-		userAccountService.save(systemAdministratorDTO.email, systemAdministratorDTO.password, "ROLE_SYSTEMADMIN", false, systemAdministrator);					
+		userAccountService.save(systemAdministratorDTO.email, systemAdministratorDTO.password, "ROLE_SYSTEMADMIN", true, systemAdministrator);					
 	}
 	
 	

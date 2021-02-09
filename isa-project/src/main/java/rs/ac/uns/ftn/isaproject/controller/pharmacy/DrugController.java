@@ -1,6 +1,5 @@
 package rs.ac.uns.ftn.isaproject.controller.pharmacy;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +34,7 @@ public class DrugController {
 	
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Void> add(@RequestBody AddDrugDTO drugDTO) {
 		try {
 			drugService.add(drugDTO);
@@ -45,18 +45,22 @@ public class DrugController {
 	}
 	
 	@GetMapping(value = "/{id}/pharmacy")
-	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'ROLE_PATIENT')")
 	public ResponseEntity<Collection<DrugDTO>> getDrugsByPharmacyId(@PathVariable int id) {
+		try {
+			Collection<Drug> drugs  = drugQuantityPharmacyService.findDrugsByPharmacyId(id);
 
-		Collection<Drug> drugs  = drugQuantityPharmacyService.findDrugsByPharmacyId(id);
-
-		if (drugs == null) {
+			if (drugs == null) {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+			
+			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugs);
+			
+			return new ResponseEntity<>(drugDTOs, HttpStatus.OK);			
+		}	
+		catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-		
-		Collection<DrugDTO> drugDTOs = DrugMapper.toDrugDTOs(drugs);
-		
-		return new ResponseEntity<>(drugDTOs, HttpStatus.OK);
+		}		
 	}
 	
 	@GetMapping("/{id}/substitute")
@@ -69,7 +73,7 @@ public class DrugController {
 		}
 	}
 	
-	@GetMapping()
+	@GetMapping("/all")
 	public ResponseEntity<Collection<DrugDTO>> getAllDrugs(){
 		try {
 			Collection<DrugDTO> drugDTOs = DrugMapper.toDrugSearchDTOs(drugService.getAllDrugs());
@@ -79,7 +83,7 @@ public class DrugController {
 		}
 	}
 	
-	@GetMapping("{id}")
+	@GetMapping("{id}/one")
 	public ResponseEntity<DrugDTO> getById(@PathVariable int id){
 		try {
 			Drug drug = drugService.getById(id);
@@ -99,6 +103,5 @@ public class DrugController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}		
 	}	
-	
-	
+		
 }

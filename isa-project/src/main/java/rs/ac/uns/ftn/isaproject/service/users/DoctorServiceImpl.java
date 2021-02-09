@@ -18,6 +18,7 @@ import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
+import rs.ac.uns.ftn.isaproject.model.users.WorkingTime;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
@@ -139,9 +140,15 @@ public class DoctorServiceImpl implements DoctorService {
 		Collection<Doctor> allDoctors = doctorRepository.findAll();
 		Collection<Doctor> doctors = new ArrayList<Doctor>();
 		for(Doctor d: allDoctors) {
-			if(d.getPharmacies().contains(pharmacy) && d.getWorkingTimes().isEmpty()) {
-				doctors.add(d);
+			int i=0;
+			for(WorkingTime w: d.getWorkingTimes()) {
+				if(w.getPharmacy().getId() == id || !w.getDoctor().getPharmacies().contains(pharmacy)) {
+					i=1;
+				}
 			}
+			if(i==0) {
+				doctors.add(d);
+			}		
 		}
 		return doctors;
 	}
@@ -157,7 +164,7 @@ public class DoctorServiceImpl implements DoctorService {
 		dermatologist.setAddress(dermatologistDTO.address);		
 		dermatologist.setDateOfBirth(dermatologistDTO.dateOfBirth);
 		dermatologist.setTypeOfDoctor(TypeOfDoctor.Dermatologist);		
-		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", false, dermatologist);	
+		userAccountService.save(dermatologistDTO.email, dermatologistDTO.password, "ROLE_DERMATOLOGIST", true, dermatologist);	
 	}
 
 	@Override
