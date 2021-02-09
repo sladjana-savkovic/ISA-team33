@@ -21,6 +21,15 @@ insert into city (id,name,country_id) values (4,'Heceg Novi',3);
 insert into city (id,name,country_id) values (5,'Zagreb',4);
 insert into city (id,name,country_id) values (6,'Skoplje',5);
 insert into city (id,name,country_id) values (7,'Ljubljana',6);
+insert into city (id,name,country_id) values (8,'Sarajevo',2);
+insert into city (id,name,country_id) values (9,'Podgorica',3);
+insert into city (id,name,country_id) values (10,'Niš',1);
+insert into city (id,name,country_id) values (11,'Dubrovnik',4);
+insert into city (id,name,country_id) values (12,'Budva',3);
+insert into city (id,name,country_id) values (13,'Subotica',1);
+insert into city (id,name,country_id) values (14,'Kraljevo',1);
+insert into city (id,name,country_id) values (15,'Kragujevac',1);
+insert into city (id,name,country_id) values (16,'Zrenjanin',1);
 
 insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude, pharmacist_price) values (nextval('pharmacies_seq'),'Janković', 4.5, 2, 'Lasla Gala 15', 45.246101, 19.837765, 1000);
 insert into pharmacy (id, name, average_grade, city_id, address, latitude, longitude, pharmacist_price) values (nextval('pharmacies_seq'),'Betty', 5.0, 2, 'Danila Kiša 17', 45.247523, 19.836453, 900);
@@ -255,7 +264,7 @@ insert into patient_allergies (patient_id,allergies_id) values (4,2);
 
 
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),33,1,1,false,1);
-insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),12,2,1,false,1);
+insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,2,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,3,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),1,4,1,false,1);
 insert into drug_quantity_pharmacy (id, quantity, drug_id, pharmacy_id, is_deleted, version) values (nextval('quantity_pharmacy_seq'),66,5,1,false,1);
@@ -428,3 +437,8 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 /*Definisem zakazan pregled kod drugog farmaceuta (Petar) kako bi se moglo testirati dodavanje izvjestaja i zakazivanje novog pregleda*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 10:30:00','2021-02-25 11:00:00',600,14,1,3,1,1);
+					
+/*Definisem zakazan pregled kod dermatologa (Nada) za pacijenta Lanu*/
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-03-03 08:30:00','2021-03-03 08:45:00',600,1,1,5,1,1);
+					

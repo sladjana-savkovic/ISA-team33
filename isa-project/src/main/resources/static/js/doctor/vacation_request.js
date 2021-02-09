@@ -44,6 +44,8 @@ $(document).ready(function () {
 			return;
 		}
 		
+		$('#create').attr("disabled",true);
+		
 		$.ajax({
 				type:"POST", 
 				url: "/api/vacation",
@@ -68,6 +70,7 @@ $(document).ready(function () {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					$('#create').attr("disabled",false);
 					return;
 				}
 		});
