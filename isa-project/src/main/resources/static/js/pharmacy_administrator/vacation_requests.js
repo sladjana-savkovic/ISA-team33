@@ -84,6 +84,9 @@ function rejectRequest(id){
 							
 							$.ajax({
 								url: "/api/email/" + doctor.id,
+								headers: {
+            						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        						},
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
@@ -146,6 +149,9 @@ function acceptRequest(id){
 						success:function(doctor){
 							$.ajax({
 								url: "/api/email/" + doctor.id,
+								headers: {
+            						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        						},
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
