@@ -380,7 +380,8 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,2);
-
+insert into doctor_pharmacies(pharmacies_id, doctor_id) values (3,1);
+insert into doctor_pharmacies(pharmacies_id, doctor_id) values (4,1);
 
 insert into system_administrator (id, name, surname, telephone,address,date_of_birth) values 
 					   (nextval('users_seq'),'Mladen','Mladenović', '0665677653','Miloša Obilića 55','1978-09-10');
@@ -388,8 +389,6 @@ insert into system_administrator (id, name, surname, telephone,address,date_of_b
 					   (nextval('users_seq'),'Nikola','Nikolić', '0632547777','Zmaj Jovina 12','1985-05-10');
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (4, 'mladenm@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 10,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (4, 'nikolan@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 11,  true);
-
-					   
 
 insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), true, 4, 1);
 insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), false, 4, 2);
@@ -446,9 +445,6 @@ insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,ad
 					   (nextval('users_seq'),'Stefan','Stefanović', '0632547854',4,'Stevana Sinđelića 15','1970-01-08', 2);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milicam@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 15,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'stefans@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);
-
-insert into doctor_pharmacies(pharmacies_id, doctor_id) values (3,1);
-insert into doctor_pharmacies(pharmacies_id, doctor_id) values (4,1);
 
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-05 16:30:00','2021-03-01 17:00:00',1000,1,3,null,0,1);

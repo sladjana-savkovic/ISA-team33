@@ -120,16 +120,18 @@ public class ReportServiceImpl implements ReportService{
 	public Collection<Map<String, Object>> reportPharmacy(int idPharmacy) {
 		Collection<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 		Pharmacy pharmacy = pharmacyRepository.getOne(idPharmacy);
-		for(Doctor d : doctorRepository.findByPharmacyId(idPharmacy)) {
-			Map<String, Object> item = new HashMap<>();
-			item.put("id", d.getId());
-			item.put("pharmacyName", pharmacy.getName());
-			item.put("pharmacyGrade", pharmacy.getAverageGrade());
-			item.put("name", d.getName());
-			item.put("surname", d.getSurname());
-			item.put("typeOfDoctor", d.getTypeOfDoctor());
-			item.put("averageGrade", d.getAverageGrade());
-			result.add(item);
+		for(Doctor d : doctorRepository.findAll()) {
+			if(d.getPharmacies().contains(pharmacy) && d.isIsDeleted() == false) {
+				Map<String, Object> item = new HashMap<>();
+				item.put("id", d.getId());
+				item.put("pharmacyName", pharmacy.getName());
+				item.put("pharmacyGrade", pharmacy.getAverageGrade());
+				item.put("name", d.getName());
+				item.put("surname", d.getSurname());
+				item.put("typeOfDoctor", d.getTypeOfDoctor());
+				item.put("averageGrade", d.getAverageGrade());
+				result.add(item);
+			}
 		}
 		return result;
 	}
