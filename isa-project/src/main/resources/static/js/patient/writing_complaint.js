@@ -63,6 +63,7 @@ function chooseAnOption() {
 	if ($('#dermatologist').is(":checked")) {		
 		getDermatologists();
 	}		
+	
 	else if ($('#pharmacist').is(":checked")) {
 		$('select#option').empty();
 		$.ajax({
@@ -89,6 +90,7 @@ function chooseAnOption() {
 			}
 		});						
 	}		
+	
 	else if ($('#pharmacy').is(":checked")) {
 		$('select#option').empty();
 		$.ajax({
