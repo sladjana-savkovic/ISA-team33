@@ -495,3 +495,11 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
 					
+					
+/*Ubacivanje dodatnog dermatologa i definisanje 1 zavrsenog pregleda*/
+insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
+			values (nextval('users_seq'),'Marica','Maričić', '065478962', 4.5, 0, 3,'Stevana Mokranjca 15','1988-10-01', false);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'marica88@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 17,true);
+insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,17);
+insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'10:00:00','14:00:00',17,2);
+					
