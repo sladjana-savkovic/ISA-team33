@@ -123,6 +123,9 @@ $(document).ready(function () {
 								
 								$.ajax({
 									url: "/api/email/" + idies[i],
+									headers: {
+            							'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        							},
 									type: 'POST',
 									contentType: 'application/json',
 									data: JSON.stringify({  

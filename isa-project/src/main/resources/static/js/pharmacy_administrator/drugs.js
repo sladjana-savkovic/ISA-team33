@@ -454,6 +454,9 @@ function acceptOffer(id){
 						success:function(supplier){
 							$.ajax({
 								url: "/api/email/" + supplier.id,
+								headers: {
+            						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        						},
 								type: 'POST',
 								contentType: 'application/json',
 								data: JSON.stringify({ 
@@ -525,6 +528,9 @@ function acceptOffer(id){
 										success:function(supplier){
 											$.ajax({
 											url: "/api/email/" + supplier.id,
+											headers: {
+            									'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        									},
 											type: 'POST',
 											contentType: 'application/json',
 											data: JSON.stringify({ 
