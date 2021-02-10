@@ -250,7 +250,7 @@ insert into examination_report (id,diagnosis,appointment_id)
 					
 /*Izvjestaji pregleda kod farmaceuta*/						
 insert into examination_report (id,diagnosis,appointment_id) 
-					values (nextval('examinations_seq'),'Popiti jos jednu dozu lijekova',29);
+					values (nextval('examinations_seq'),'Popiti jos jednu dozu lekova',29);
 insert into examination_report (id,diagnosis,appointment_id) 
 					values (nextval('examinations_seq'),'Terapiju trositi 10 dana',30);
 insert into examination_report (id,diagnosis,appointment_id) 
@@ -311,8 +311,8 @@ insert into therapy (id, duration, drug_id,examination_id) values (nextval('ther
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 7, 2, 2);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 3);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 10, 3, 4);
-insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 5, 2, 5);
-insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 6, 1, 6);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 5, 4, 5);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 6, 5, 6);
 
 insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-01', 22000, 1, 8, 0);
 insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-01', 21000, 2, 8, 2);
