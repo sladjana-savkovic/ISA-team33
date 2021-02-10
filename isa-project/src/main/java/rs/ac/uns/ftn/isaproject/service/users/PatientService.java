@@ -8,7 +8,7 @@ public interface PatientService {
  
 	void increasePenalty(int id);
 
-	void add(AddPatientDTO addPatientDTO);
+	void add(AddPatientDTO addPatientDTO) throws Exception ;
 	
 	boolean checkAllergyOnDrug(int id, int drugId);
 

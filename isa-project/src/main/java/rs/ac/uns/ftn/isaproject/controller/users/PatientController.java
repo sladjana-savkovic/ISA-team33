@@ -64,10 +64,11 @@ public class PatientController {
 		}
 	}
 	
+	/* registracija pacijenta */
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<Void> add(@RequestBody AddPatientDTO addPatientDTO){
 		try {
-			patientService.add(addPatientDTO);
+			patientService.add(addPatientDTO);		
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {

@@ -24,12 +24,13 @@ public class PatientServiceImpl implements PatientService {
 	private CityRepository cityRepository;
 	private DrugRepository drugRepository;
 	private UserAccountService userAccountService;
+	
 	@Autowired
 	public PatientServiceImpl(PatientRepository patientRepository, CityRepository cityRepository, DrugRepository drugRepository, UserAccountService userAccountService) {
 		this.patientRepository = patientRepository;
 		this.cityRepository = cityRepository;
 		this.drugRepository = drugRepository;
-    this.userAccountService = userAccountService;
+		this.userAccountService = userAccountService;
 	}
 
 	@Override
@@ -40,20 +41,18 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public void add(AddPatientDTO addPatientDTO) {
-		Patient patient = new Patient();
-		
+	public void add(AddPatientDTO addPatientDTO) throws Exception {
+				
+		Patient patient = new Patient();		
 		City city = cityRepository.getOne(addPatientDTO.cityId);
-		patient.setCity(city);		
-		
+		patient.setCity(city);				
 		patient.setName(addPatientDTO.name);
 		patient.setSurname(addPatientDTO.surname);
 		patient.setTelephone(addPatientDTO.telephone);	
 		patient.setAddress(addPatientDTO.address);		
 		patient.setDateOfBirth(addPatientDTO.dateOfBirth);
-		patient.setPenalty(0);
-		
-		userAccountService.save(addPatientDTO.email, addPatientDTO.password, "ROLE_PATIENT", false, patient);	
+		patient.setPenalty(0);		
+		userAccountService.save(addPatientDTO.email, addPatientDTO.password, "ROLE_PATIENT", false, patient);			
 	}
 
 	@Override

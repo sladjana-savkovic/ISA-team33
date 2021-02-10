@@ -66,8 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						.antMatchers("/h2-console/**").permitAll()
 						.antMatchers("/api/country").permitAll()
 						.antMatchers("/api/city/**").permitAll()
-						.antMatchers("/register").permitAll()  //dodato
-						.antMatchers("/confirm-account").permitAll()   //dodato
+						.antMatchers("/register").permitAll()          //dodato zbog aktiviranja
+						.antMatchers("/auth/confirm-account").permitAll()   //naloga preko mejla
 						
 				
 				.anyRequest().authenticated().and()

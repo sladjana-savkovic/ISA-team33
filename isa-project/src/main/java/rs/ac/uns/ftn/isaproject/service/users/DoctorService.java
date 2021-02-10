@@ -3,6 +3,8 @@ package rs.ac.uns.ftn.isaproject.service.users;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import org.springframework.mail.MailException;
+
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
@@ -14,8 +16,8 @@ public interface DoctorService {
 
 	Doctor getOne(int id);
 	void updateInfo(DoctorDTO doctorDTO);
-	void addPharmacist(AddDoctorDTO doctorDTO);
-	void add(AddDermatologistDTO dermatologistDTO);
+	void addPharmacist(AddDoctorDTO doctorDTO) throws MailException, InterruptedException ;
+	void add(AddDermatologistDTO dermatologistDTO) throws MailException, InterruptedException ;
 	Collection<Doctor> findByPharmacyId(int id);
 	Collection<ViewSearchedDoctorDTO> searchByNameAndSurname(String name, String surname, Collection<ViewSearchedDoctorDTO> doctorDTOs);
 	Collection<ViewSearchedDoctorDTO> filterByGradeAndType(String typeOfDoctor, int grade, Collection<ViewSearchedDoctorDTO> doctorDTOs);

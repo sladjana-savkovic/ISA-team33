@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
+import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 import rs.ac.uns.ftn.isaproject.service.users.CustomUserDetailsService;
 
 @RestController
@@ -32,7 +36,12 @@ public class AuthenticationController {
 
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
+	
+	@Autowired
+	private UserAccountRepository userAccountRepository;
 		
+	@Autowired
+	private ConfirmationTokenRepository confirmationTokenRepository;
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
@@ -77,4 +86,25 @@ public class AuthenticationController {
 		public String newPassword;
 	}
 	
-}
+		
+	/* kad klikne na link iz mejla, aktivira nalog */
+	@RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token")String confirmationToken)
+	{
+		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+
+		if(token != null) {
+      	UserAccount user = userAccountRepository.findByUsername(token.getUserAccount().getUsername());
+      		user.setEnabled(true);
+      		user.setActive(true);
+      		userAccountRepository.save(user);
+      		modelAndView.setViewName("accountVerified");
+		}
+		else {
+			modelAndView.addObject("message","The link is invalid or broken!");
+			modelAndView.setViewName("error");
+		}
+		return modelAndView;
+	}
+}	
+
