@@ -171,7 +171,7 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 07:30:00','2021-02-25 8:00:00',1000,1,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status, version)
-					values (nextval('appointments_seq'),'2021-02-17 07:30:00','2021-02-17 8:00:00',1000,1,1,3,1,1);
+					values (nextval('appointments_seq'),'2021-02-20 07:30:00','2021-02-20 8:00:00',1000,1,1,3,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-21 12:30:00','2021-02-21 13:00:00',1000,1,2,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
