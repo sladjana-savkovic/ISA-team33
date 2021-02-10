@@ -11,11 +11,11 @@ public class ExaminedPatientDTO {
 	public LocalDate dateOfBirth;
 	public String address;
 	public Collection<String> allergies;
-	public LocalDate dateOfLastExamination;
+	public String dateOfLastExamination;
 	
 	public ExaminedPatientDTO() {}
 
-	public ExaminedPatientDTO(int id, String name, String surname,LocalDate dateOfBirth, String address, Collection<String> alllergies,LocalDate dateOfLastExamination) {
+	public ExaminedPatientDTO(int id, String name, String surname,LocalDate dateOfBirth, String address, Collection<String> alllergies,String dateOfLastExamination) {
 		super();
 		this.id = id;
 		this.name = name;

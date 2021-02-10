@@ -29,4 +29,6 @@ public interface AppointmentService {
 	void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime,
 												 AddAppointmentDTO appointmentDTO, AppointmentStatus status)  throws Exception;
 	boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime);
+	Collection<Appointment> getPatientsScheduledAppointmentsByDoctor(int patientId, int doctorId);
+	Collection<Appointment> getAppointmentsForUnexaminedPatientsByDoctor(int doctorId, Collection<Integer> examinedPatientIds);
 }

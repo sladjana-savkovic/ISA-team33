@@ -39,7 +39,7 @@ public class EmailController {
 	}
 	
 	@PostMapping("/{userId}")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'ROLE_PHARMACYADMIN', 'ROLE_SYSTEMADMIN', ROLE_PATIENT)")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'ROLE_PHARMACYADMIN', 'ROLE_SYSTEMADMIN', 'ROLE_PATIENT')")
 	public  ResponseEntity<?> sendEmailToUser(@PathVariable int userId, @RequestBody AddNotificationDTO notificationDTO) {
 		try {
 			UserAccount userAccount = userAccountService.findByUserId(userId);

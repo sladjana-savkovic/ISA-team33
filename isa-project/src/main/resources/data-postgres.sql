@@ -405,10 +405,10 @@ insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (
 insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 5, 3, 8);
 
 
-insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
-					values (nextval('users_seq'),'Sima','Simić', '0668989985', 0,'Kralja Petra I','1963-07-13');
-insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
-				    values (nextval('users_seq'),'Mika','Mikić', '0668989985', 0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
+					values (nextval('users_seq'),'Sima','Simić', '0668989985',1, 0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
+				    values (nextval('users_seq'),'Mika','Mikić', '0668989985',2, 0,'Kralja Petra I','1963-07-13');
 
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'mika.mikic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13,  true);
@@ -502,4 +502,8 @@ insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'marica88@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 17,true);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,17);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'10:00:00','14:00:00',17,2);
+
+/*Ubacujem zakazani pregled kod dermatologa */
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-02-27 09:00:00','2021-02-27 09:30:00',700,1,1,12,1,1);
 					

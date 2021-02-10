@@ -59,6 +59,14 @@ public class ExaminationReportController {
 		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinationReports, HttpStatus.OK);
 	}
 	
+	@PostMapping("/doctor/{id}/unexamined")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<Collection<ExaminedPatientDTO>> findUnexaminedByDoctorId(@PathVariable int id, @RequestBody ArrayList<ExaminedPatientDTO> examinedPatients){
+		Collection<Integer> patientIds = ExaminedPatientMapper.toPatientIds(examinedPatients);
+		Collection<ExaminedPatientDTO> examinationReports = ExaminedPatientMapper.toExaminedPatientDTOsFromAppointments(appointmentService.getAppointmentsForUnexaminedPatientsByDoctor(id, patientIds));
+		return new ResponseEntity<Collection<ExaminedPatientDTO>>(examinationReports, HttpStatus.OK);
+	}
+	
 	@PostMapping("/search/{name}/{surname}")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<Collection<ExaminedPatientDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ExaminedPatientDTO> examinedPatientDTOs){

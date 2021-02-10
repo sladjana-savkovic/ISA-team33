@@ -15,4 +15,5 @@ public interface PatientService {
 	Patient getOne(int id);
 	
 	void updateInfo(PatientDTO patientDTO);
+	
 }

@@ -21,37 +21,12 @@ $(document).ready(function () {
 			for (let p of patients){
 				addPatient(p);
 			}
+			loadUnexaminedPatients();
 		},
 		error:function(){
 			console.log('error getting examined patients');
 		}
 	});
-	
-	if(doctorRole == "ROLE_PHARMACIST"){
-		$('#futurePatients').attr("hidden",false);
-		
-		$.ajax({
-			type:"GET", 
-			url: "/api/examination-report/doctor/" + doctorId + "/status/1",
-			headers: {
-	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-	        },
-			contentType: "application/json",
-			success:function(patients){
-				$('#body_patients_future').empty();
-				futurePatients = patients;
-				for (let p of patients){
-					addFuturePatient(p);
-				}
-			},
-			error:function(){
-				console.log('error getting future patients');
-			}
-		});
-	}
-	else{
-		$('#futurePatients').attr("hidden",true);
-	}
 	
 	
 	$('#search').submit(function(event){
@@ -134,107 +109,116 @@ $(document).ready(function () {
 function addPatient(patient){
 	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
 			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id,0)" style="margin-left:30px;">Details</button></td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientExaminations(this.id,0)">Reports</button></td></tr>');	
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientInformation(this.id,0)" style="margin-left:30px;">Information</button></td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientAppointments(this.id)">Appointments</button></td></tr>');	
 	$('#patients').append(row);
 }
 
 function addFuturePatient(patient){
 	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
 			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientDetail(this.id,1)" style="margin-left:30px;">Details</button></td>'
-			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientExaminations(this.id,1)">Reports</button></td></tr>');	
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientInformation(this.id,1)" style="margin-left:30px;">Information</button></td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientAppointments(this.id)">Appointments</button></td></tr>');	
 	$('#patientsFuture').append(row);
 }
 
-function patientDetail(patientId, type){
-	
-	if(type == 0){
-		for(let p of examinedPatients){
-			if(p["id"] == patientId){
-				$('#pNameSurname').text(p.name + " " + p.surname);
-				$('#pBirth').text(p.dateOfBirth);
-				$('#pAddress').text(p.address);
-				$('#pAllergies').text(p.allergies);
-				$('#patientInfo').modal('toggle');
-				$('#patientInfo').modal('show');
-			}
-		}
-	}
-	else{
-		for(let p of futurePatients){
-			if(p["id"] == patientId){
-				$('#pNameSurname').text(p.name + " " + p.surname);
-				$('#pBirth').text(p.dateOfBirth);
-				$('#pAddress').text(p.address);
-				$('#pAllergies').text(p.allergies);
-				$('#patientInfo').modal('toggle');
-				$('#patientInfo').modal('show');
-			}
-		}
-	}
-	
-};
 
-function patientExaminations(patientId, type){
+function patientAppointments(patientId){
+	$.ajax({
+		type:"GET", 
+		url: "/api/appointment/patient/" + patientId + "/doctor/" + doctorId, 
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+		contentType: "application/json",
+		success:function(appointments){
+			$('#body_pAppointments').empty();
+			for (let a of appointments){
+				addAppointment(a);
+			}
+			$('#patientAppointments').modal('toggle');
+			$('#patientAppointments').modal('show');
+		},
+		error:function(){
+			console.log('error getting examined patients');
+		}
+	});
+}
+
+function patientInformation(patientId, type){
 	
 	if(type == 0){
 		for(let p of examinedPatients){
 			if(p["id"] == patientId){
-				//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
-				$.ajax({
-					type:"GET", 
-					url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, 
-					headers: {
-			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-			        },
-					contentType: "application/json",
-					success:function(reports){
-						$('#body_pExaminations').empty();
-						for (let r of reports){
-							addReport(r);
-						}
-						$('#patientExaminations').modal('toggle');
-						$('#patientExaminations').modal('show');
-					},
-					error:function(){
-						console.log('error getting examined patients');
-					}
-				});
+				$('#pNameSurname').text(p.name + " " + p.surname);
+				$('#pBirth').text(p.dateOfBirth);
+				$('#pAddress').text(p.address);
+				if(p.allergies.length > 0)
+					$('#pAllergies').text(p.allergies);
+				else
+				 	$('#pAllergies').text("No allergies");
 			}
 		}
 	}else{
 		for(let p of futurePatients){
 			if(p["id"] == patientId){
-				//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
-				$.ajax({
-					type:"GET", 
-					url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId,
-					headers: {
-			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-			        },
-					contentType: "application/json",
-					success:function(reports){
-						$('#body_pExaminations').empty();
-						for (let r of reports){
-							addReport(r);
-						}
-						$('#patientExaminations').modal('toggle');
-						$('#patientExaminations').modal('show');
-					},
-					error:function(){
-						console.log('error getting examined patients');
-					}
-				});
+				$('#pNameSurname').text(p.name + " " + p.surname);
+				$('#pBirth').text(p.dateOfBirth);
+				$('#pAddress').text(p.address);
+				if(p.allergies.length > 0)
+					$('#pAllergies').text(p.allergies);
+				else
+				 	$('#pAllergies').text("No allergies");
 			}
 		}
 	}
 	
+	//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
+	$.ajax({
+		type:"GET", 
+		url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, 
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+		contentType: "application/json",
+		success:function(reports){
+			if(reports.length == 0){
+				$('#pExaminations').attr("hidden",true);
+			}
+			else{
+				$('#pExaminations').attr("hidden",false);
+				$('#body_pExaminations').empty();
+				for (let r of reports){
+					addReport(r);
+				}
+			}
+			$('#patientInformation').modal('toggle');
+			$('#patientInformation').modal('show');
+		},
+		error:function(){
+			console.log('error getting examined patients');
+		}
+	});
+	
 	
 };
 
+function addAppointment(a){
+	let row = $('<tr><td style="vertical-align: middle;">'+ a.startTime.split('T')[0] + " " + a.startTime.split('T')[1] + '</td>'
+			+ '<td style="vertical-align: middle;">'+ a.endTime.split('T')[0] + " " + a.endTime.split('T')[1] + '</td>'
+			+ '<td style="vertical-align: middle;">' + a.pharmacyName + '</td>'
+			+ '<td style="vertical-align: middle;">' + a.price + '</td>'
+			+ '<td><button class="btn btn-info" type="button" id="' + a.id +'" onclick="performAppointment(this.id)">Perform</button></td></tr>');	
+	$('#pAppointments').append(row);
+};
+
+function performAppointment(appointmentId){
+	window.location.href = "start_examination.html"
+	localStorage.setItem("appointmentId", appointmentId);
+};
+
 function addReport(report){
-	let row = $('<tr><td style="vertical-align: middle;">'+ report.dateTime.split('T')[0] + " " + report.dateTime.split('T')[1]
+	let row = $('<tr><td style="vertical-align: middle;">'+ report.dateTime.split('T')[0] + " " + report.dateTime.split('T')[1] + '</td>'
 			+ '<td style="vertical-align: middle;">' + report.doctor + '</td>'
 			+ '<td style="vertical-align: middle;">' + report.diagnosis + '</td>'
 			+ '<td style="vertical-align: middle;">' + report.therapies + '</td></tr>');	
@@ -353,3 +337,48 @@ function clearLocalStorage(){
 	localStorage.removeItem("pharmacyId");
 	localStorage.removeItem("appointmentId");
 }
+
+function loadUnexaminedPatients(){
+	$.ajax({
+		type:"GET", 
+		url: "/api/examination-report/doctor/" + doctorId + "/status/1",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+		contentType: "application/json",
+		success:function(patients){
+			if(patients.length == 0){
+				
+				$.ajax({
+					type:"POST", 
+					url: "/api/examination-report/doctor/" + doctorId + "/unexamined",
+					headers: {
+			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			        },
+					data: JSON.stringify(examinedPatients),
+					contentType: "application/json",
+					success:function(patients){
+						$('#body_patients_future').empty();
+						futurePatients = patients;
+						for (let p of patients){
+							addFuturePatient(p);
+						}
+					},
+					error:function(){
+						console.log('error getting unexamined patients');
+					}
+				});
+				
+			}else{
+				$('#body_patients_future').empty();
+				futurePatients = patients;
+				for (let p of patients){
+					addFuturePatient(p);
+				}
+			}
+		},
+		error:function(){
+			console.log('error getting unexamined patients');
+		}
+	});
+};

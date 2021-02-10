@@ -3,10 +3,8 @@ package rs.ac.uns.ftn.isaproject.service.users;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
