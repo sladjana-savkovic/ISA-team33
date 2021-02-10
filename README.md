@@ -8,8 +8,7 @@ Student 3 - Slađana Savković, RA37/2017
 
 Student 4 - Jelena Zeljko, RA55/2017
 
-
-
+--------------------------------------------------------------------------------------
 
 Za izradu projekta koristili smo: 
 <ul>
@@ -51,4 +50,5 @@ Uputstvo za pokretanje projekta:
   <li> Uraditi maven update projekta </li>
   <li> Projekat se pokreće na portu 8080. </li>
   <li> Za ucitavanje stranice za logovanje, u browseru otkucati http://localhost:8080/html/user/login.html </li>
+  <li> Automatsko pokretanje testova je iskljuceno, a za pokretanje svakog testa pojedinacno, neohodno je ići na Run As -> JUnit test </li>
 </ul>
