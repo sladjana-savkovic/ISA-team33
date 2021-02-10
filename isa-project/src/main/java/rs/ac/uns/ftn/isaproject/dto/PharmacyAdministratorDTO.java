@@ -20,15 +20,13 @@ public class PharmacyAdministratorDTO {
 	
 	public PharmacyAdministratorDTO() {}
 
-	public PharmacyAdministratorDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
+	public PharmacyAdministratorDTO(int id, String name, String surname, LocalDate dateOfBirth,
 			String address, int cityId, String cityName, String countryName, int pharmacyId, int countryId, String telephone) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
-		this.email = email;
-		this.password = password;
 		this.address = address;
 		this.cityId = cityId;
 		this.cityName = cityName;

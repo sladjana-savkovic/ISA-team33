@@ -22,13 +22,16 @@ import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
 import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
+import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
 @RestController
 @RequestMapping(value = "api/drug-offer")
 public class DrugOfferController {
 
 	private DrugOfferService drugOfferService;
+	private UserAccountService userAccountService;
 	
 	@Autowired
 	public DrugOfferController(DrugOfferService drugOfferService) {
@@ -100,7 +103,8 @@ public class DrugOfferController {
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<?> findSupplierById(@PathVariable int id){
 		try {
-			SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
+			UserAccount account = userAccountService.findByUserId(id);
+			SupplierDTO supplierDTO = SupplierMapper.toSupplierAccountDTO(account);
 			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 		}
 		catch (Exception e) {
