@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				    }
                   },
 			      contentHeight: 'auto',
+				  slotDuration: '00:15:00',
 			      initialDate: '2021-01-01',
 			      navLinks: true, // can click day/week names to navigate views
 			      nowIndicator: true,
@@ -46,12 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
 				  },
 			      events : appointments,
 				  eventClick: function(info) {
-						info.jsEvent.preventDefault(); // don't let the browser navigate
-	
-						if(info.event.url){
-							window.location.href = "start_examination.html"
-							localStorage.setItem("appointmentId", info.event.url);
-						}
+				  	info.jsEvent.preventDefault(); // don't let the browser navigate
+
+					if(info.event.url){
+						window.location.href = "start_examination.html"
+						localStorage.setItem("appointmentId", info.event.url);
+					}
 				  }
 		      });
 		
