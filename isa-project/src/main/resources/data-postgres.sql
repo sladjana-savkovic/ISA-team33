@@ -449,13 +449,13 @@ insert into user_account (authority_id, username, password, enabled, last_passwo
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'stefans@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);
 
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-03-05 16:30:00','2021-03-01 17:00:00',1000,1,3,null,0,1);
+					values (nextval('appointments_seq'),'2021-03-05 16:30:00','2021-03-05 17:00:00',1000,1,3,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-03-06 17:30:00','2021-03-01 18:00:00',1000,1,3,null,0,1);
+					values (nextval('appointments_seq'),'2021-03-06 17:30:00','2021-03-06 18:00:00',1000,1,3,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-03-05 18:30:00','2021-03-01 19:00:00',1000,1,4,null,0,1);
+					values (nextval('appointments_seq'),'2021-03-05 18:30:00','2021-03-05 19:00:00',1000,1,4,null,0,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-03-06 19:30:00','2021-03-01 20:00:00',1000,1,4,null,0,1);
+					values (nextval('appointments_seq'),'2021-03-06 19:30:00','2021-03-06 20:00:00',1000,1,4,null,0,1);
 
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'16:00:00','18:00:00',1,3);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'18:00:00','20:00:00',1,4);
@@ -487,7 +487,7 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',0,null,1,4);
 
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-01-11 16:30:00','2021-01-21 17:00:00',1000,1,3,5,3,1);
+					values (nextval('appointments_seq'),'2021-01-11 16:30:00','2021-01-11 17:00:00',1000,1,3,5,3,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-21 19:00:00',1000,1,4,5,3,1);
+					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
 					
