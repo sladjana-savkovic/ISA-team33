@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						.antMatchers("/api/country").permitAll()
 						.antMatchers("/api/city/**").permitAll()
 						.antMatchers("/register").permitAll()  //dodato
-						.antMatchers("/confirm").permitAll()   //dodato
+						.antMatchers("/confirm-account").permitAll()   //dodato
 						
 				
 				.anyRequest().authenticated().and()
@@ -77,21 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						BasicAuthenticationFilter.class);
 		http.csrf().disable();
 	}
-	
-	
-	/*
-	public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/confirm").permitAll();
-        }
-	*/
-	
-	
-	
 
 
 	@Override
