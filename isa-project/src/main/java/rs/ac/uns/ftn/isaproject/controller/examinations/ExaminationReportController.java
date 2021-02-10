@@ -17,6 +17,7 @@ import rs.ac.uns.ftn.isaproject.dto.AddExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugQuantityPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminationReportDTO;
 import rs.ac.uns.ftn.isaproject.dto.ExaminedPatientDTO;
+import rs.ac.uns.ftn.isaproject.dto.NotificationDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.mapper.DrugQuantityPharmacyMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
@@ -27,6 +28,7 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.examinations.ExaminationReportService;
 import rs.ac.uns.ftn.isaproject.service.examinations.TherapyService;
+import rs.ac.uns.ftn.isaproject.service.notification.NotificationService;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugQuantityPharmacyService;
 
 @RestController
@@ -37,14 +39,16 @@ public class ExaminationReportController {
 	private AppointmentService appointmentService;
 	private TherapyService therapyService;
 	private DrugQuantityPharmacyService quantityPharmacyService;
+	private NotificationService notificationService;
 	
 	@Autowired
 	public ExaminationReportController(ExaminationReportService examinationReportService,AppointmentService appointmentService,TherapyService therapyService,
-									   DrugQuantityPharmacyService quantityPharmacyService) {
+									   DrugQuantityPharmacyService quantityPharmacyService, NotificationService notificationService) {
 		this.examinationReportService = examinationReportService;
 		this.appointmentService = appointmentService;
 		this.therapyService = therapyService;
 		this.quantityPharmacyService = quantityPharmacyService;
+		this.notificationService = notificationService;
 	}
 	
 	@GetMapping("/doctor/{id}/status/{status}")
@@ -75,6 +79,7 @@ public class ExaminationReportController {
 		try {
 			Collection<DrugQuantityPharmacy> missingDrugs = quantityPharmacyService.reduceDrugQuantitiesOrReturnMissingDrugs(examinationReportDTO.pharmacyId, examinationReportDTO.therapyDTOs);
 			if(missingDrugs != null) {
+				sendNotifications(missingDrugs);
 				return new ResponseEntity<Collection<DrugQuantityPharmacyDTO>>(DrugQuantityPharmacyMapper.toDrugQuantityPharmacyDTOs(missingDrugs),HttpStatus.OK);
 			}
 			ExaminationReport examinationReport = examinationReportService.add(examinationReportDTO);
@@ -102,6 +107,14 @@ public class ExaminationReportController {
 		}catch (Exception e) {
 			return new ResponseEntity<>("The patient hasn't had any examinations.",HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	private void sendNotifications(Collection<DrugQuantityPharmacy> missingDrugs) {
+		Collection<NotificationDTO> notificationDTOs = new ArrayList<>();
+		for(DrugQuantityPharmacy missingDrug:missingDrugs) {
+			notificationDTOs.add(new NotificationDTO(missingDrug.getDrug().getId(), missingDrug.getPharmacy().getId()));
+		}
+		notificationService.sendAll(notificationDTOs);
 	}
 	
 }
