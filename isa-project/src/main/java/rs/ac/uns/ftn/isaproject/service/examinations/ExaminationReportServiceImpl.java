@@ -27,19 +27,19 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 	public Collection<ExaminationReport> findAllByDoctorIdAndStatus(int doctorId, int status) {
 		
 		if(status == 1) { //Scheduled
-			Collection<ExaminationReport> myExaminationReports = examinationReportRepository.findAllFinishedByDoctor(doctorId);
+			Collection<ExaminationReport> examinationReportsByDoctor = examinationReportRepository.findAllFinishedByDoctor(doctorId);
 			Collection<Appointment> scheduledAppointment = appointmentRepository.getScheduledAppointmentsByDoctor(doctorId);
-			Collection<Integer> myExaminedPatientIds = new ArrayList<Integer>();
+			Collection<Integer> doctorExaminedPatientIds = new ArrayList<Integer>();
 			Collection<ExaminationReport> allReports = new ArrayList<ExaminationReport>();
 			
-			for(ExaminationReport report:myExaminationReports) {
-				if(!myExaminedPatientIds.contains(report.getAppointment().getPatient().getId())) {
-					myExaminedPatientIds.add(report.getAppointment().getPatient().getId());
+			for(ExaminationReport report:examinationReportsByDoctor) {
+				if(!doctorExaminedPatientIds.contains(report.getAppointment().getPatient().getId())) {
+					doctorExaminedPatientIds.add(report.getAppointment().getPatient().getId());
 				}
 			}
 			
 			for(Appointment appointment:scheduledAppointment) {
-				if(!myExaminedPatientIds.contains(appointment.getPatient().getId())) {
+				if(!doctorExaminedPatientIds.contains(appointment.getPatient().getId())) {
 					allReports.addAll(examinationReportRepository.findAllExaminationReportByPatient(appointment.getPatient().getId()));
 				}
 			}

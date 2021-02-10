@@ -103,4 +103,5 @@ public class ExaminationReportController {
 			return new ResponseEntity<>("The patient hasn't had any examinations.",HttpStatus.NOT_FOUND);
 		}
 	}
+	
 }
