@@ -36,6 +36,7 @@ $(document).ready(function () {
 		        },
 				contentType: "application/json",
 				success:function(drugs){
+					$('#drugs').empty();
 					for (let d of drugs) {
 						addDrug(d);
 					}
@@ -60,6 +61,8 @@ $(document).ready(function () {
 		}
 		else if($('#end').is(':checked')){
 			
+			$('#confirm').attr("disabled",true);
+			
 			$.ajax({
 				type:"PUT", 
 				url: "/api/appointment/" + appointment.appointmentId + "/patient/" + appointment.patientId + "/unperformed",
@@ -73,13 +76,14 @@ $(document).ready(function () {
 					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					clearLocalStorage();
-					window.setTimeout(function(){location.href = "calendar.html"},500);
+					window.setTimeout(function(){location.href = "calendar.html"},1000);
 					return;
 				},
 				error:function(xhr){
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					$('#confirm').attr("disabled",false);
 					return;
 				}
 			});
@@ -124,6 +128,7 @@ $(document).ready(function () {
 								$('#prescribeSubstitute').attr("hidden",false);
 								$('#substituteText').text("The requested drug isn't available, choose one of the substitutes.");
 								
+								$('#substituteDrugs').empty();
 								for(let d of substituteDrugs){
 								addSubstituteDrug(d);
 							}
@@ -186,11 +191,13 @@ $(document).ready(function () {
 					$('#noAllergy').attr("hidden",true);
 					$('#save_changes').attr("hidden",true);
 					$('#hasAllergy').attr("hidden",false);
+					return;
 				}else{
 					$('#noAllergy').attr("hidden",false);
 					$('#save_changes').attr("hidden",false);
 					$('#hasAllergy').attr("hidden",true);
 					$('#duration').val("");
+					return;
 				}
 			},
 			error:function(){
@@ -204,6 +211,13 @@ $(document).ready(function () {
 		
 		let substituteDrugId = $("#substituteDrugs option:selected").val();
 		
+		if(!$('#durationSubstitute').val()){
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Enter duration of therapy.'
+			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+		
 		//Prije propisivanja zamjenskog lijeka potrebno je provjeriti da li je pacijent alergican na njega
 		$.ajax({
 			type:"GET", 
@@ -215,8 +229,10 @@ $(document).ready(function () {
 			success:function(hasAllergy){				
 				if(hasAllergy){
 					$('#allergySubstitute').attr("hidden",false);
+					return;
 				}else{
 					$('#allergySubstitute').attr("hidden",true);
+					$('#durationSubstitute').val('');
 				}
 			},
 			error:function(){
