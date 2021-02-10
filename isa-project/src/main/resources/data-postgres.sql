@@ -413,7 +413,8 @@ insert into user_account (authority_id, username, password, enabled, last_passwo
 insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 1, 1, '2021-01-25 15:00:00');
 insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 3, 1, '2021-02-01 10:00:00');
 insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 2, 2, '2021-01-30 12:00:00');
-
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 10, 3, '2021-02-01 11:00:00');
+insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 12, 4, '2021-01-30 13:00:00');
 
 /*Ubacivanje dodatnog farmaceuta i definisanje 1 zavrsenog pregleda*/
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
@@ -438,7 +439,8 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 /*Definisem zakazan pregled kod dermatologa (Nada) za pacijenta Lanu*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-03 08:30:00','2021-03-03 08:45:00',600,1,1,5,1,1);
-					
+		
+/*Dodatni podaci za dva nova admina apoteka*/
 insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Milica','Milić', '0612007854',3,'Gavrila Principa 5','1967-04-18', 2);
 insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
@@ -483,3 +485,9 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',0,null,1,3);
 insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
 				values (nextval('vacation_seq'),'2021-07-01','2021-07-31',0,null,1,4);
+
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-01-11 16:30:00','2021-01-21 17:00:00',1000,1,3,5,3,1);
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-21 19:00:00',1000,1,4,5,3,1);
+					
