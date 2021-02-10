@@ -1,5 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.complaint;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +65,15 @@ class ComplaintServiceImpl implements ComplaintService {
 		complaintPharmacyRepository.save(complaintPharmacy);
 	}
 
+	@Override
+	public Collection<ComplaintDoctor> getUnansweredComplaintsDoctor() {
+		return complaintDoctorRepository.getAllByAnsweredAttribute(false);
+	}
+
+	@Override
+	public Collection<ComplaintPharmacy> getUnansweredComplaintsPharmacy() {
+		return complaintPharmacyRepository.getAllByAnsweredAttribute(false);
+	}
 	
 	
 }

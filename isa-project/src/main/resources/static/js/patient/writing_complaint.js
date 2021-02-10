@@ -36,7 +36,7 @@ $(document).ready(function () {
 		}	
 		else if ($('#pharmacy').is(":checked")) {
 			path = 'pharmacy';
-			subjectType = null;
+			subjectType = 'Pharmacy';
 		}
 		else {
 			return;
@@ -52,7 +52,7 @@ $(document).ready(function () {
 		};
 		
 		$.ajax({
-			url: "/api/complaint/add/" + path,
+			url: "/api/complaint/add",
 			type: 'POST',
 			contentType: 'application/json',
 			headers: {
