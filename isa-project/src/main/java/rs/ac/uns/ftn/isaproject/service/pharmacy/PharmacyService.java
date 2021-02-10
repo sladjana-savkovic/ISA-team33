@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.PharmacySearchDTO;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -16,5 +17,7 @@ public interface PharmacyService {
 	Collection<Pharmacy> findAll();
 
 	Collection<Pharmacy> findAvailablePharmacy(LocalDateTime date);
+
+	Collection<PharmacyDTO> searchByNameAndCityAndAddressAndGradeAndPrice(PharmacySearchDTO dto);
 
 }
