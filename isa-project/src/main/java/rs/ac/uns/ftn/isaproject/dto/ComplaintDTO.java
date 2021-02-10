@@ -8,6 +8,7 @@ public class ComplaintDTO {
 	public String patientEmail;
 	public int subjectId;
 	public String subjectName;
+	public String subjectType;
 	
 	public ComplaintDTO() { }
 }

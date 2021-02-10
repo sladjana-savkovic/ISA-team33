@@ -7,6 +7,7 @@ $(document).ready(function () {
 	
 	getDermatologists();
 
+
 	/* sending */
 	$('#add_feedback_form').submit(function (event) {
 		$('#loading').show();
@@ -22,20 +23,42 @@ $(document).ready(function () {
 			$('#add_feedback_form').find(":submit").prop('disabled', false);
 			return;
 		}
-
-		var newData = {
-			"complaint": msg,
-			"subject": subjectId,
+		
+		let path = '';
+		let subjectType = '';
+		if ($('#dermatologist').is(":checked")) {
+			path = 'doctor';	
+			subjectType = 'Dermatologist';		
+		}
+		else if ($('#pharmacist').is(":checked")) {
+			path = 'doctor';
+			subjectType = 'Pharmacist';		
+		}	
+		else if ($('#pharmacy').is(":checked")) {
+			path = 'pharmacy';
+			subjectType = null;
+		}
+		else {
+			return;
+		}
+			
+		subjectId = $("select#option option:selected").attr("id");
+		
+		var newComplaint = {
+			"content": msg,
+			"subjectId": subjectId,
 			"patientId": patientId,
+			"subjectType": subjectType
 		};
+		
 		$.ajax({
-			url: "/api/complaint",
+			url: "/api/complaint/add/" + path,
 			type: 'POST',
 			contentType: 'application/json',
 			headers: {
 				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 			},
-			data: JSON.stringify(newData),
+			data: JSON.stringify(newComplaint),
 			success: function () {
 				$('#text_area_id').val(null);
 				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully sent!'

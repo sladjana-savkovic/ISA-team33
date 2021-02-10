@@ -8,4 +8,5 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
 	
 	UserAccount findByUsername(String username);
 
+	UserAccount getOneByUserId(int user);
 }
