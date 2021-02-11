@@ -16,7 +16,7 @@ $(document).ready(function () {
         + '  <a class="nav-link" href="">Dermatologist vacation</a>'
         + '  </li>'
 		+ ' <li class="nav-item">'
-        + '  <a class="nav-link" href="">Objections</a>'
+        + '  <a class="nav-link" href="/html/system_admin/complaints.html">Complaints and suggestions</a>'
         + '  </li>'
         + ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/user/drug_search.html">Search drugs</a>'

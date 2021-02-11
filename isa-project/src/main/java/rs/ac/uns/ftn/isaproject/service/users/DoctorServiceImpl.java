@@ -204,4 +204,11 @@ public class DoctorServiceImpl implements DoctorService {
 		return doctors;
 	}
 
+	@Override
+	public Collection<Doctor> findDoctorByType(int type) {
+		if (type == 0)
+			return doctorRepository.findByTypeOfDoctor(TypeOfDoctor.Dermatologist);
+		return doctorRepository.findByTypeOfDoctor(TypeOfDoctor.Pharmacist);
+	}
+
 }
