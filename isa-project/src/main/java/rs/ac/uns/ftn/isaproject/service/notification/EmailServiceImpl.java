@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.AddNotificationDTO;
+import rs.ac.uns.ftn.isaproject.security.activation.ConfirmationToken;
+
 import org.springframework.core.env.Environment;
 
 @Service
@@ -28,5 +30,17 @@ public class EmailServiceImpl implements EmailService {
 		mail.setSubject(notificationDTO.subject);
 		mail.setText("Dear " + notificationDTO.name + ",\n\n" + notificationDTO.message + "\n\nBest regards.");
 		mailSender.send(mail);
+	}
+
+	@Async
+	public void sendActivationEmail(String email, ConfirmationToken confirmationToken) throws MailException, InterruptedException {
+		SimpleMailMessage mailMessage = new SimpleMailMessage();		
+		String port = environment.getProperty("local.server.port");
+		mailMessage.setTo(email);
+		mailMessage.setFrom(environment.getProperty("spring.mail.username"));
+		mailMessage.setSubject("Complete Registration!");
+		mailMessage.setText("To confirm your account, please click here : "
+	            +"http://localhost:" + port + "/activation/confirm-account?token="+confirmationToken.getConfirmationToken());
+		mailSender.send(mailMessage);		
 	}
 }
