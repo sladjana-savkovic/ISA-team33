@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddSystemAdministratorDTO;
@@ -30,7 +31,7 @@ public class SystemAdministratorServiceImpl implements SystemAdministratorServic
 	}	
 	
 	@Override
-	public void add(AddSystemAdministratorDTO systemAdministratorDTO) {
+	public void add(AddSystemAdministratorDTO systemAdministratorDTO) throws MailException, InterruptedException {
 		SystemAdministrator systemAdministrator = new SystemAdministrator();		
 		City city = cityRepository.getOne(systemAdministratorDTO.cityId);
 		systemAdministrator.setCity(city);				
