@@ -5,6 +5,7 @@ var orderId;
 var searchDrugs = [];
 var searchOrders = [];
 var selectedDrugs = [];
+var idOffer;
 $(document).ready(function () {
 	
 	clearLocalStorage();
@@ -509,9 +510,10 @@ function acceptOffer(id){
 					success:function(offers){	
 						for(i = 0; i < offers.length; i++){
 							if(offers[i].status != "Accepted"){
+								idOffer = offers[i].id;
 								$.ajax({
 									type:"PUT", 
-									url: "/api/drug-offer/" + offers[i].id + "/reject",
+									url: "/api/drug-offer/" + idOffer + "/reject",
 									headers: {
             							'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         							},
@@ -519,7 +521,7 @@ function acceptOffer(id){
 									success:function(){
 									$.ajax({
 										type:"GET", 
-										url: "/api/drug-offer/" + offers[i].id,
+										url: "/api/drug-offer/" + idOffer,
 										headers: {
             								'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         								},
