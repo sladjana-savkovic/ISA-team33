@@ -74,6 +74,20 @@ class ComplaintServiceImpl implements ComplaintService {
 	public Collection<ComplaintPharmacy> getUnansweredComplaintsPharmacy() {
 		return complaintPharmacyRepository.getAllByAnsweredAttribute(false);
 	}
+
+	@Override
+	public void replyToComplaintDoctor(int complaintId) {
+		ComplaintDoctor complaintDoctor = complaintDoctorRepository.getOne(complaintId);
+		complaintDoctor.setAnswered(true);
+		complaintDoctorRepository.save(complaintDoctor);
+	}
+
+	@Override
+	public void replyToComplaintPharmacy(int complaintId) {
+		ComplaintPharmacy complaintPharmacy = complaintPharmacyRepository.getOne(complaintId);
+		complaintPharmacy.setAnswered(true);
+		complaintPharmacyRepository.save(complaintPharmacy);
+	}
 	
 	
 }

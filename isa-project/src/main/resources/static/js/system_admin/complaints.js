@@ -65,21 +65,55 @@ function showContent(complaintId) {
 
 
 function replay(complaintId) {	
-/*	$.ajax({
-		type:"POST", 
-		url: "/api/complaint/"+ complaintId + "/replay",
-		headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
-		contentType: "application/json",
-		success:function(){					
-			alert('Successful');
-			location.reload();				
-		},
-		error:function(jqXHR){
-			console.log(jqXHR);
-			alert('Error! ' + jqXHR.responseText);
-		}
-	});		*/
+	$('#reply').empty();
+	
+	let textarea = '<div><textarea class="form-control rounded" id="text_area_id" rows="8" placeholder="Write the answer here"></textarea></div>';
+	
+	let button = '<button style="width:130px;" type = "button" class="btn btn-success float-right"'
+            + 'id="' + complaintId + '" onclick="sendEmail(this.id)"'
+            + '> Send </button >';
+	
+	$('#reply').append(textarea);
+	$('#reply').append('<br><p class="text-warning"> The message cannot be empty. </p>');
+	$('#reply').append(button);
+	$('#replyModal').modal('show');
+}	
+	
+	
+function sendEmail(complaintId) {		
+	
+	let message = $('textarea#text_area_id').val();
+	
+	if (!message) {
+		return;
+	}
+	else {
+		var addNotificationDTO = {
+			"email": complaintMap[complaintId].patientEmail,
+			"name": complaintMap[complaintId].patientNameAndSurname,
+			"subject": "Response to the complaint",
+			"message": message
+		}	
+		
+		let path = complaintMap[complaintId].subjectType;
+				
+		$.ajax({
+			type:"POST", 
+			url: "/api/complaint/"+ complaintId + "/" + path + "/reply",
+			headers: {
+        	    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        	},
+			contentType: "application/json",
+			data: JSON.stringify(addNotificationDTO),
+			success:function(){					
+				alert('Successful');
+				location.reload();				
+			},
+			error:function(jqXHR){
+				console.log(jqXHR);
+				alert('Error! ' + jqXHR.responseText);
+			}
+		});			
+	}
 }
 

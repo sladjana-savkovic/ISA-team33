@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
@@ -16,8 +17,8 @@ import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 public class ComplaintPharmacy {
 
 	@Id
-    @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "complaintSeqGen", sequenceName = "complaintSeq", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "complaintSeqGen")
     int id;
 	
     @Column(name="content", unique=false, nullable=false)

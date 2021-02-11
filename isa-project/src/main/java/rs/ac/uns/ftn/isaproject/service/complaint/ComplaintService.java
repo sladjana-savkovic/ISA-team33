@@ -12,5 +12,7 @@ public interface ComplaintService {
 	void addComplaintToPharmacy(ComplaintDTO complaintDTO);
 	Collection<ComplaintDoctor> getUnansweredComplaintsDoctor();
 	Collection<ComplaintPharmacy> getUnansweredComplaintsPharmacy();
+	void replyToComplaintDoctor(int complaintId);
+	void replyToComplaintPharmacy(int complaintId);
 	
 }
