@@ -82,7 +82,7 @@ public class PatientServiceImpl implements PatientService {
 		patient.setName(patientDTO.name);
 		patient.setSurname(patientDTO.surname);
 		patient.setDateOfBirth(patientDTO.dateOfBirth);
-		patient.setPassword(patientDTO.password);
+		//patient.setPassword(patientDTO.password);
 		patient.setTelephone(patientDTO.telephone);		
 		patient.setAddress(patientDTO.address);
 		patient.setCity(city);

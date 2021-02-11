@@ -17,7 +17,7 @@ Za izradu projekta koristili smo:
   <li> jQuery </li>
 </ul>
 
-Radno okruženje: Eclipse
+Radno okruženje: Eclipse IDE for Enterprise Java Developers (2020-03)
 
 Verzija jave: jdk15
 
@@ -40,15 +40,13 @@ Uputstvo za pokretanje projekta:
       spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
       spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL95Dialect
       spring.mail.host = smtp.gmail.com
-      spring.mail.username =student123ftn@gmail.com
-      spring.mail.password =student_123
+      spring.mail.username = isa.user.test@gmail.com
+      spring.mail.password = isauser55
       spring.mail.port=587
       spring.mail.properties.mail.smtp.starttls.enable = true
-      spring.mvc.view.prefix:/WEB-INF/jsp/
-      spring.mvc.view.suffix:.jsp
       spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true</pre> </li>
   <li> Uraditi maven update projekta </li>
   <li> Projekat se pokreće na portu 8080. </li>
   <li> Za ucitavanje stranice za logovanje, u browseru otkucati http://localhost:8080/html/user/login.html </li>
-  <li> Automatsko pokretanje testova je iskljuceno, a za pokretanje svakog testa pojedinacno, neohodno je ići na Run As -> JUnit test </li>
+  <li> Automatsko pokretanje testova je iskljuceno, a za pokretanje svakog testa pojedinacno, neophodno je ići na Run As -> JUnit test </li>
 </ul>
