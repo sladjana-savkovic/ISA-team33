@@ -14,5 +14,6 @@ public interface UserAccountService {
     UserAccount findByUserId(int id);
     void save(String username, String password, String role, boolean enabled, User user) throws MailException, InterruptedException;
     void updatePassword(Long id,String oldPassword, String newPassword) throws BadRequestException;
+    boolean confirmUserAccount(String confirmationToken);
 }
 

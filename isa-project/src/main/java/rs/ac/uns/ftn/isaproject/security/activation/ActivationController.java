@@ -9,20 +9,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
-import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
+import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
 @RestController
 @RequestMapping(value = "/activation", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ActivationController {
 
 	private ConfirmationTokenRepository confirmationTokenRepository;	
-	private UserAccountRepository userAccountRepository;
+	private UserAccountService userAccountService;
 	
 	@Autowired
-	public ActivationController(ConfirmationTokenRepository confirmationTokenRepository, UserAccountRepository userAccountRepository) {		
+	public ActivationController(ConfirmationTokenRepository confirmationTokenRepository, UserAccountService userAccountService) {		
 		this.confirmationTokenRepository = confirmationTokenRepository;
-		this.userAccountRepository = userAccountRepository;
+		this.userAccountService = userAccountService;
 	}
 	
 	
@@ -30,13 +29,7 @@ public class ActivationController {
 	@RequestMapping(value="/confirm-account", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView confirmUserAccount(ModelAndView modelAndView, @RequestParam("token")String confirmationToken)
 	{
-		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
-
-		if(token != null) {
-      	UserAccount user = userAccountRepository.findByUsername(token.getUserAccount().getUsername());
-      		user.setEnabled(true);
-      		user.setActive(true);
-      		userAccountRepository.save(user);
+		if(userAccountService.confirmUserAccount(confirmationToken)) {
       		modelAndView.setViewName("accountVerified");
 		}
 		else {

@@ -92,4 +92,17 @@ public class UserAccountServiceImpl implements UserAccountService {
 		return null;
 	}
 
+	@Override
+	public boolean confirmUserAccount(String confirmationToken) {
+		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+		if(token != null) {
+	      	UserAccount user = userRepository.findByUsername(token.getUserAccount().getUsername());
+	      	user.setEnabled(true);
+	      	user.setActive(true);
+	      	userRepository.save(user);
+	      	return true;
+		}		
+		return false;
+	}
+
 }
