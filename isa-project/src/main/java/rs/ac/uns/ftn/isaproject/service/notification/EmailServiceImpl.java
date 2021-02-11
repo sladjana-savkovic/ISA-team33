@@ -34,12 +34,13 @@ public class EmailServiceImpl implements EmailService {
 
 	@Async
 	public void sendActivationEmail(String email, ConfirmationToken confirmationToken) throws MailException, InterruptedException {
-		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		SimpleMailMessage mailMessage = new SimpleMailMessage();		
+		String port = environment.getProperty("local.server.port");
 		mailMessage.setTo(email);
 		mailMessage.setFrom(environment.getProperty("spring.mail.username"));
 		mailMessage.setSubject("Complete Registration!");
 		mailMessage.setText("To confirm your account, please click here : "
-	            +"http://localhost:8080/activation/confirm-account?token="+confirmationToken.getConfirmationToken());
+	            +"http://localhost:" + port + "/activation/confirm-account?token="+confirmationToken.getConfirmationToken());
 		mailSender.send(mailMessage);		
 	}
 }
