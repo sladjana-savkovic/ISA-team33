@@ -8,8 +8,8 @@ import rs.ac.uns.ftn.isaproject.model.complaint.ComplaintPharmacy;
 
 public interface ComplaintService {
 
-	void addComplaintToDoctor(ComplaintDTO complaintDTO);
-	void addComplaintToPharmacy(ComplaintDTO complaintDTO);
+	void addComplaintToDoctor(ComplaintDTO complaintDTO) throws Exception;
+	void addComplaintToPharmacy(ComplaintDTO complaintDTO) throws Exception;
 	Collection<ComplaintDoctor> getUnansweredComplaintsDoctor();
 	Collection<ComplaintPharmacy> getUnansweredComplaintsPharmacy();
 	void replyToComplaintDoctor(int complaintId);

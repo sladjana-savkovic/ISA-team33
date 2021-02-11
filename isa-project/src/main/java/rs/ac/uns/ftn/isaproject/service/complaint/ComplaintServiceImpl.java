@@ -12,6 +12,8 @@ import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.complaint.ComplaintDoctorRepository;
 import rs.ac.uns.ftn.isaproject.repository.complaint.ComplaintPharmacyRepository;
+import rs.ac.uns.ftn.isaproject.repository.examinations.AppointmentRepository;
+import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugReservationRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 
@@ -22,46 +24,54 @@ class ComplaintServiceImpl implements ComplaintService {
 	private ComplaintPharmacyRepository complaintPharmacyRepository;
 	private UserAccountRepository userAccountRepository;
 	private PharmacyRepository pharmacyRepository;
+	private AppointmentRepository appointmentRepository;
+	private DrugReservationRepository drugReservationRepository;
 	
 	
 	@Autowired
 	public ComplaintServiceImpl(ComplaintDoctorRepository complaintDoctorRepository, ComplaintPharmacyRepository complaintPharmacyRepository,
-									UserAccountRepository userAccountRepository, PharmacyRepository pharmacyRepository) {
+									UserAccountRepository userAccountRepository, PharmacyRepository pharmacyRepository, AppointmentRepository appointmentRepository,
+									DrugReservationRepository drugReservationRepository) {
 		this.complaintDoctorRepository = complaintDoctorRepository;
 		this.complaintPharmacyRepository = complaintPharmacyRepository;
 		this.userAccountRepository = userAccountRepository;
 		this.pharmacyRepository = pharmacyRepository;
+		this.appointmentRepository = appointmentRepository;
+		this.drugReservationRepository = drugReservationRepository;
 	}
 
 	@Override
-	public void addComplaintToDoctor(ComplaintDTO complaintDTO) {
+	public void addComplaintToDoctor(ComplaintDTO complaintDTO) throws Exception {
 		ComplaintDoctor complaintDoctor = new ComplaintDoctor();
 		
-		//fali uslov
+		if (appointmentRepository.getFinishedAppointmentsByPatientAndDoctor(complaintDTO.patientId, complaintDTO.subjectId) == 0) {
+			throw new Exception("You did not have an appointment with your chosen doctor.");
+		}
 		
 		UserAccount doctor = userAccountRepository.getOneByUserId(complaintDTO.subjectId);
 		UserAccount patient = userAccountRepository.getOneByUserId(complaintDTO.patientId);
 		complaintDoctor.setPatient(patient);
 		complaintDoctor.setDoctor(doctor);
 		complaintDoctor.setAnswered(false);
-		complaintDoctor.setContent(complaintDTO.content);
-		
+		complaintDoctor.setContent(complaintDTO.content);	
 		complaintDoctorRepository.save(complaintDoctor);
 	}
 
 	@Override
-	public void addComplaintToPharmacy(ComplaintDTO complaintDTO) {
+	public void addComplaintToPharmacy(ComplaintDTO complaintDTO) throws Exception {
 		ComplaintPharmacy complaintPharmacy = new ComplaintPharmacy();
 		
-		//fali uslov
-		
+		if (appointmentRepository.getNumberOfFinishedAppointmentsByPatientAndPharmacy(complaintDTO.patientId, complaintDTO.subjectId) == 0
+				&& drugReservationRepository.getNumberOfReservationByPatientAndPharmacy(complaintDTO.patientId, complaintDTO.subjectId) == 0) {
+			throw new Exception("You did not have any activities related to the selected pharmacy.");
+		}
+				
 		Pharmacy pharmacy = pharmacyRepository.getOne(complaintDTO.subjectId);
 		UserAccount patient = userAccountRepository.getOneByUserId(complaintDTO.patientId);
 		complaintPharmacy.setPatient(patient);
 		complaintPharmacy.setPharmacy(pharmacy);
 		complaintPharmacy.setAnswered(false);
-		complaintPharmacy.setContent(complaintDTO.content);
-		
+		complaintPharmacy.setContent(complaintDTO.content);		
 		complaintPharmacyRepository.save(complaintPharmacy);
 	}
 

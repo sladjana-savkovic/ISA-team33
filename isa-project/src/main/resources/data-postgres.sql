@@ -492,7 +492,7 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
 					
 					
-
+insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'bla bla', 12, 2);
 
 
 
