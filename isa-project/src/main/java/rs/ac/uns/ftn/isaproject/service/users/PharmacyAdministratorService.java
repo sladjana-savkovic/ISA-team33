@@ -9,5 +9,5 @@ public interface PharmacyAdministratorService {
 	void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO);
 	PharmacyAdministrator getOne(int id);
 	void updateInfo(PharmacyAdministratorDTO pharmacyAdministratorDTO);
-	void updatePassword(int id, String password);
+	
 }
