@@ -34,7 +34,7 @@ $(document).ready(function () {
 		}
 	
 		
-		if(!isActiveFromToken()){
+		if(!isActiveFromToken() && getRoleFromToken() != "ROLE_PATIENT"){
 			$('body').prepend($(
 				'<div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"'
 		        + 'aria-hidden="true" data-backdrop="static">'
