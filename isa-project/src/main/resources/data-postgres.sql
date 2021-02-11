@@ -408,7 +408,7 @@ insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (
 insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
 					values (nextval('users_seq'),'Sima','Simić', '0668989985',1, 0,'Kralja Petra I','1963-07-13');
 insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
-				    values (nextval('users_seq'),'Mika','Mikić', '0668989985',2, 0,'Kralja Petra I','1963-07-13');
+				    values (nextval('users_seq'),'Mika','Mikić', '063542021',2, 0,'Petra Kočića 50','1984-09-11');
 
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'mika.mikic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13,  true);

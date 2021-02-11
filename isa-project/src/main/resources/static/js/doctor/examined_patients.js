@@ -3,6 +3,7 @@ var doctorId = getUserIdFromToken();
 var doctorRole = getRoleFromToken();
 var examinedPatients = [];
 var futurePatients = [];
+var patientReports = [];
 var sortingType = "asc";
 $(document).ready(function () {
 	
@@ -133,9 +134,17 @@ function patientAppointments(patientId){
         },
 		contentType: "application/json",
 		success:function(appointments){
-			$('#body_pAppointments').empty();
-			for (let a of appointments){
-				addAppointment(a);
+			if(appointments.length == 0){
+				$('#noApp').attr("hidden",false);
+				$('#pAppointments').attr("hidden",true);
+			}
+			else{
+				$('#noApp').attr("hidden",true);
+				$('#pAppointments').attr("hidden",false);
+				$('#body_pAppointments').empty();
+				for (let a of appointments){
+					addAppointment(a);
+				}
 			}
 		},
 		error:function(){
@@ -189,69 +198,78 @@ function patientInformation(patientId, type){
 		}
 	}
 	
-	var patientReportDates = [];
-	
 	//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
 	if(getRoleFromToken() == "ROLE_DERMATOLOGIST"){
 		$('#tableCaption').text("Examination reports at dermatologists");
 	}else{
 		$('#tableCaption').text("Examination reports at pharmacists");
 	}
-	$.ajax({
-		type:"GET", 
-		url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, 
-		headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
-		contentType: "application/json",
-		success:function(reports){
-			if(reports.length == 0){
-				$('#pExaminations').attr("hidden",true);
-			}
-			else{
-				$('#pExaminations').attr("hidden",false);
-				$('#body_pExaminations').empty();
-				for (let r of reports){
-					addReport(r);
-					patientReportDates.push({"dateTime":r.dateTime, "doctor":r.doctor, "diagnosis" : r.diagnosis, "therapies" : r.therapies});
-				}
-			}
-		},
-		error:function(){
-			console.log('error getting examined patients');
-		}
-	});
 	
-	$('#sortExmDate').click(function(){
-		
+	if( (getRoleFromToken() == "ROLE_PHARMACIST" && type == 1) || type == 0){
 		$.ajax({
-			type:"POST", 
-			url: "/api/examination-report/sort/date/" + sortingType,
+			type:"GET", 
+			url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, 
 			headers: {
-		        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-		    },
-			data: JSON.stringify(patientReportDates),
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
 			contentType: "application/json",
-			success:function(sortResult){
-				$('#body_pExaminations').empty();
-				for (let r of sortResult){
-					addReport(r);
-				}
-				
-				if(sortingType == "asc"){
-					sortingType = "desc";
+			success:function(reports){
+				if(reports.length == 0){
+					$('#pExaminations').attr("hidden",true);
 				}
 				else{
-					sortingType = "asc";
+					$('#pExaminations').attr("hidden",false);
+					$('#body_pExaminations').empty();
+					patientReports = [];
+					for (let r of reports){
+						addReport(r);
+						patientReports.push({"dateTime":r.dateTime, "doctor":r.doctor, "diagnosis" : r.diagnosis, "therapies" : r.therapies});
+					}
 				}
 			},
 			error:function(){
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				return;
+				console.log('error getting examined patients');
 			}
 		});
+	}
+	else{
+		$('#pExaminations').attr("hidden",true);
+	}
+	
+	$('#sortExmDate').click(function(){
+		
+		if(patientReports.length == 0 || patientReports.length == 1)
+			return;
+		else{
+			$.ajax({
+				type:"POST", 
+				url: "/api/examination-report/sort/date/" + sortingType,
+				headers: {
+			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			    },
+				data: JSON.stringify(patientReports),
+				contentType: "application/json",
+				success:function(sortResult){
+					$('#body_pExaminations').empty();
+					for (let r of sortResult){
+						addReport(r);
+					}
+					
+					if(sortingType == "asc"){
+						sortingType = "desc";
+					}
+					else{
+						sortingType = "asc";
+					}
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+		}
 	});
 	
 };
@@ -283,8 +301,11 @@ function sortTable(n, typeOfPatients) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   if(typeOfPatients == 0)
   	table = document.getElementById("patients");
-  else
+  else if(typeOfPatients == 1)
 	table = document.getElementById("patientsFuture");
+  else
+	table = document.getElementById("pExaminations");
+	
   switching = true;
   // Set the sorting direction to ascending:
   dir = "asc";

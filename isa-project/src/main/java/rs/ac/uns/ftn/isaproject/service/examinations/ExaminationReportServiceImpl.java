@@ -23,18 +23,6 @@ public class ExaminationReportServiceImpl implements ExaminationReportService {
 		this.appointmentRepository = appointmentRepository;
 	}
 
-	
-	//@Override
-	/*public Collection<ExaminedPatientDTO> sortByDate(String sortingType, ArrayList<ExaminedPatientDTO> examinedPatientDTOs) {
-		if(sortingType.equals("asc")) {
-			examinedPatientDTOs.sort((a,b)->a.dateOfBirth.compareTo(b.dateOfBirth));
-		}else {
-			examinedPatientDTOs.sort((a,b)->b.dateOfBirth.compareTo(a.dateOfBirth));
-			
-		}
-		return examinedPatientDTOs;
-	}*/
-
 	@Override
 	public Collection<ExaminationReport> getByPatientAtDoctor(int patientId, int doctorId) {
 		return examinationReportRepository.getByPatientAtDoctor(patientId, doctorId);
