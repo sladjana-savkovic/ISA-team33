@@ -1,7 +1,8 @@
 package rs.ac.uns.ftn.isaproject.controller.users;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +86,37 @@ public class PatientController {
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping("/doctor/{doctorId}/examined")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<?> findExaminedPatientsByDoctor(@PathVariable int doctorId){
+		try {
+			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findExaminedPatientsByDoctorId(doctorId));
+			return new ResponseEntity<Collection<PatientDTO>>(patientDTOs, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/doctor/{doctorId}/unexamined")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<?> findUnexaminedPatientsByDoctor(@PathVariable int doctorId){
+		try {
+			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findUnexaminedPatientsByDoctorId(doctorId));
+			return new ResponseEntity<Collection<PatientDTO>>(patientDTOs, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PostMapping("/search/{name}/{surname}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<Collection<PatientDTO>> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<PatientDTO> patientDTOs){
+		Collection<PatientDTO> searchResult = patientService.searchByNameAndSurname(name, surname, patientDTOs);
+		return new ResponseEntity<Collection<PatientDTO>>(searchResult, HttpStatus.OK);
 	}
 	
 }

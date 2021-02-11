@@ -17,6 +17,7 @@ $(document).ready(function () {
 	
 	$('#appDate').prop("min",new Date().toISOString().split("T")[0]);
 	
+	//Dobijanje svih predefinisanih pregleda dermatologa za neku apoteku
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/pharmacy/" + pharmacyId + "/doctor/" + doctorId,
@@ -36,7 +37,7 @@ $(document).ready(function () {
 		}
 	});
 	
-
+	//Pretraga predefinisanih pregleda kod dermatologa
 	$('#searchApp').submit(function(event){
 		event.preventDefault();
 		let startTime = $('#searchDate').val();
@@ -64,7 +65,7 @@ $(document).ready(function () {
 		});
 	});
 	
-	
+	//Kreiranje novog termina kod doktora
 	$('#createApp').submit(function(event){
 		event.preventDefault();
 		let appDate = $('#appDate').val();
@@ -118,7 +119,7 @@ $(document).ready(function () {
 				clearLocalStorage();
 				window.setTimeout(function(){location.href = "calendar.html"},1000)
 				
-				let message = "You have a new scheduled examination. See a list of future appointments.";
+				let message = "You have a new scheduled appointment. See a list of future appointments.";
 					
 				$.ajax({
 					type: 'POST',
@@ -182,7 +183,7 @@ function schedulePredefinedApp(appointmentId){
 			clearLocalStorage();
 			window.setTimeout(function(){location.href = "calendar.html"},1000)
 			
-			let message = "You have a new scheduled examination. See a list of future appointments.";
+			let message = "You have a new scheduled appointment. See a list of future appointments.";
 			
 			$.ajax({
 				url: "/api/email/" + patientId,
