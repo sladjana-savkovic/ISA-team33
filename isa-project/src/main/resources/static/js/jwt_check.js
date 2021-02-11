@@ -29,9 +29,102 @@ $(document).ready(function () {
 		}else if(getRoleFromToken() == "ROLE_SYSTEMADMIN"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/system_admin.js';
 		}
+	
 		
-        return;
+		if(!isActiveFromToken()){
+			$('body').prepend($(
+				'<div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"'
+		        + 'aria-hidden="true" data-backdrop="static">'
+		        + '<div class="modal-dialog modal-notify modal-info modal-dialog-centered modal-lg" role="document">'
+		        + '<div class="modal-content">'
+		        + '    <div class="modal-header">'
+		        + '         <p class="heading lead">Change password to activate Your profile</p>'
+		        + '     </div>'
+		        + '     <div class="modal-body">'
+		        + '    	<form style="color: #757575;" id="changePassForm">'
+		        + '    	<div class="row w-100 p-3 h-50">'
+				+ '		 	<div class="col">'
+				+ '	 		<label class="text-secondary mb-0">Old password:</label><br>'
+				+ ' 	</div>'
+				+ '<div class="col">'
+				+ '<input type="password" class="form-control" id="oldPass" required>'
+				+ '	</div>'
+				+ '</div>'
+		                	
+				+ '<div class="row w-100 p-3 h-50">'
+				+ '<div class="col">'
+				+ '		<label class="text-secondary mb-0">Enter the new password:</label><br>'
+				+ ' 	</div>'
+				+ '	<div class="col">'
+				+ '	<input type="password" class="form-control" id="newPass" required>'
+				+ '	</div>'
+				+ ' </div>'
+							 
+				+ '<div class="row w-100 p-3 h-50">'
+				+ '	<div class="col">'
+				+ '	<label class="text-secondary mb-0">Re-enter the new password:</label><br>'
+				+ '	</div>'
+				+ '	<div class="col">'
+				+ '		<input type="password" class="form-control" id="newPassRepeat" required>'
+		  		+ '	</div>'
+				+ '</div>'
+						 
+				+ ' <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="changePassBtn">Save</button>'
+				+ '   </form>'
+		        + '    </div>'
+		        + '   </div>'
+		      	+ '  </div>'
+		   		+ ' </div>'
+			 ));
+			$('#changePassModal').modal('toggle');
+			$('#changePassModal').modal('show');
+		}
     }
+
+	$('#changePassForm').submit(function(event){
+	event.preventDefault();
+	
+	let newPass = $('#newPass').val();
+	let newPassRepeat = $('#newPassRepeat').val();
+	let oldPass = $('#oldPass').val();
+	
+	if(newPass != newPassRepeat){
+		let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Passwords don\'t match.'
+		+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+		$('#div_alert').append(alert);
+		return;
+	}
+	
+	$('#changePassBtn').attr("disabled",true);
+			
+	$.ajax({
+		type:"POST", 
+		url: "/auth/change-password",
+		headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+		data: JSON.stringify({ 
+			oldPassword:oldPass,
+			newPassword: newPass}),
+		contentType: "application/json",
+		success:function(){
+			let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password and activated account.Please, log in again.'
+			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			localStorage.clear();
+			window.setTimeout(function(){location.href = "../user/login.html";},1300)
+			return;
+		},
+		error:function(xhr){
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + JSON.parse(xhr.responseText).message
+			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			$('#changePassBtn').attr("disabled",false);
+			return;
+		}
+	});	
+	
+	});
 
 });
 
