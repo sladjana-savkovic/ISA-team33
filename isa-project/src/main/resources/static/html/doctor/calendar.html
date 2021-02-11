@@ -26,10 +26,10 @@
 						<div class="row"><i class="fas fa-circle" style="color:#fe0202; margin-right: 15px;margin-top: 4px;"></i><p>Scheduled appointment</p></div>
 					</div>
 					<div class="col" id="freeAppText">
-						<div class="row"><i class="fas fa-circle" style="color:#03ff11; margin-right: 15px;margin-top: 4px;"></i><p>Predefined free appointment</p></div>
+						<div class="row"><i class="fas fa-circle" style="color:#31c03e; margin-right: 15px;margin-top: 4px;"></i><p>Predefined free appointment</p></div>
 					</div>
 					<div class="col">
-						<div class="row"><i class="fas fa-circle" style="color:#f5ff00; margin-right: 15px;margin-top: 4px;"></i><p>Finished appointment</p></div>
+						<div class="row"><i class="fas fa-circle" style="color:#dece21; margin-right: 15px;margin-top: 4px;"></i><p>Finished appointment</p></div>
 					</div>
 					<div class="col">
 						<div class="row"><i class="fas fa-circle" style="color:#000000; margin-right: 15px;margin-top: 4px;"></i><p>Unperformed appointment</p></div>
@@ -37,57 +37,12 @@
 				</div>
 				<hr>
 				<div class="row" style="margin-top:30px;">
-					<p>Click on a date to see all the appointments better.<br>
-					If you want to enter a report, click on the scheduled appointment.<br>
+					<p>If you want to enter a report, click on the scheduled appointment.<br>
 					Only when you enter the report, you can choose a free appointment and schedule it.</p>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-	<div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog modal-notify modal-info modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <p class="heading lead">Change password to activate Your profile</p>
-                </div>
-                <div class="modal-body">
-                	<form style="color: #757575;" id="changePassForm">
-                	<div class="row w-100 p-3 h-50">
-					 	<div class="col">
-					 		<label class="text-secondary mb-0">Old password:</label><br>
-					 	</div>
-					 	<div class="col">
-					 		<input type="password" class="form-control" id="oldPass" required>
-					 	</div>
-					 </div>
-                	
-					 <div class="row w-100 p-3 h-50">
-					 	<div class="col">
-					 		<label class="text-secondary mb-0">Enter the new password:</label><br>
-					 	</div>
-					 	<div class="col">
-					 		<input type="password" class="form-control" id="newPass" required>
-					 	</div>
-					 </div>
-					 
-					 <div class="row w-100 p-3 h-50">
-					 	<div class="col">
-					 		<label class="text-secondary mb-0">Re-enter the new password:</label><br>
-					 	</div>
-					 	<div class="col">
-					 		<input type="password" class="form-control" id="newPassRepeat" required>
-					 	</div>
-					 </div>
-					 
-					 <button class="btn btn-outline-info btn-rounded btn-block my-4 waves-effect" type="submit" id="changePassBtn">Save</button>
-			    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 	
 	<div id='calendar'></div>
 	
@@ -98,6 +53,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../../js/jwt_check.js"></script>
     <script type="text/javascript" src="../../js/doctor/calender.js"></script>
-    <script type="text/javascript" src="../../js/doctor/change_password.js"></script>
 </body>
 </html>

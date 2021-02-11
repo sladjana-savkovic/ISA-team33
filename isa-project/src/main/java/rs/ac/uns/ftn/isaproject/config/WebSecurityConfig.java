@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,7 @@ import rs.ac.uns.ftn.isaproject.service.users.CustomUserDetailsService;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// BCrypt po defalt-u radi 10 rundi hesiranja prosledjene vrednosti.
@@ -59,8 +61,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
-				.authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().
-				antMatchers("/api/country").permitAll().antMatchers("/api/city/**").permitAll()
+				.authorizeRequests()
+					.antMatchers("/auth/**").permitAll()
+					.antMatchers("/h2-console/**").permitAll()
+					.antMatchers("/api/country").permitAll()
+					.antMatchers("/api/city/**").permitAll()
+					.antMatchers("/activation/confirm-account").permitAll()  //aktiviranje naloga preko mejla
 				
 				.anyRequest().authenticated().and()
 				.cors().and()

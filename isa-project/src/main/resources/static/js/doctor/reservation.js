@@ -68,7 +68,7 @@ $(document).ready(function () {
 				window.setTimeout(function(){
 					$('#searchResult').attr("hidden",true);
 					$('#confirmReservation').attr("disabled",false);
-				},700)
+				},1000)
 				
 				let message = "You have successfully taken the reserved drug (reservation identification number =  " + reservationId + ").";
 					

@@ -36,7 +36,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	
 	@Query(value = "select * from appointment a where a.patient_id=?1 and a.status = 1", nativeQuery = true)
 	Collection<Appointment> getScheduledPatientAppointments(int patientId);
-	
 
 	Collection<Appointment> findAllByPatientIdAndDoctorTypeOfDoctorAndStatus(int patientId,TypeOfDoctor type, AppointmentStatus status);
 
@@ -47,5 +46,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	
 	@Query(value = "select * from Appointment a where a.pharmacy_id=?1 and a.status = 3", nativeQuery = true)
 	Collection<Appointment> getPerformedAppointmentsInPharamacy(int pharmacyId);
+	
+	@Query(value = "select * from Appointment a where a.patient_id=?1 and a.doctor_id=?2 and a.status = 1", nativeQuery = true)
+	Collection<Appointment> getPatientsScheduledAppointmentsByDoctor(int patientId, int doctorId);
+
+	@Query(value = "select count(*) from appointment a where a.patient_id=?1 and a.doctor_id=?2 and a.status = 3", nativeQuery = true)
+	int getFinishedAppointmentsByPatientAndDoctor(int patientId, int doctorId);
+	
+	@Query(value = "select count(*) from appointment a where a.patient_id=?1 and a.pharmacy_id=?2 and a.status = 3", nativeQuery = true)
+	int getNumberOfFinishedAppointmentsByPatientAndPharmacy(int patientId, int pharmacyId);
 	
 }

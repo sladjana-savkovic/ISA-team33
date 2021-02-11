@@ -8,14 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 
 public interface ExaminationReportRepository extends JpaRepository<ExaminationReport, Integer> {
-
-	@Query(value = "select * from examination_report er, appointment ap where er.appointment_id = ap.id and ap.doctor_id = ?1 "
-			+ "order by ap.start_time desc", nativeQuery = true)
-	Collection<ExaminationReport> findAllFinishedByDoctor(int id);
-	
-	@Query(value = "select * from examination_report er, appointment ap where er.appointment_id = ap.id and ap.patient_id = ?1 "
-			+ "order by ap.start_time desc", nativeQuery = true)
-	Collection<ExaminationReport> findAllExaminationReportByPatient(int id);
 	
 	@Query(value = "select * from examination_report er, appointment ap, doctor d where "
 			+ "er.appointment_id = ap.id and ap.doctor_id = d.id and ap.patient_id = ?1 and d.type_of_doctor = "

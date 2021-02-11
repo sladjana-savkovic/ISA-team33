@@ -187,6 +187,9 @@ public class AppointmentController {
 			
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+		catch (PessimisticLockingFailureException e) {
+			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);
+		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while creating an appointment.", HttpStatus.BAD_REQUEST);
 		}
@@ -237,6 +240,7 @@ public class AppointmentController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
 	@PutMapping("/{id}/cancel")
 	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<?> cancelAppointment(@PathVariable int id){
@@ -247,6 +251,18 @@ public class AppointmentController {
 		catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("An error occurred while changing appointment status to cancelled.", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/patient/{patientId}/doctor/{doctorId}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public ResponseEntity<?> getPatientsScheduledAppointmentsByDoctor(@PathVariable int patientId,@PathVariable int doctorId){
+		try {
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsByDoctor(patientId, doctorId));
+			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	

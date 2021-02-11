@@ -51,6 +51,7 @@ $(document).ready(function () {
 		
 		$('#edit_profile').submit(function(event){
 			event.preventDefault();
+			$('#change').attr("disabled",true);
 			
 			$.ajax({
 				type:"PUT", 
@@ -78,6 +79,7 @@ $(document).ready(function () {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
+					$('#change').attr("disabled",false);
 					return;
 				}
 			});

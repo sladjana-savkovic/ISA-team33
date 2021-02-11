@@ -2,10 +2,6 @@ package rs.ac.uns.ftn.isaproject.dto;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import rs.ac.uns.ftn.isaproject.model.pharmacy.Drug;
 
 public class PatientDTO {
 
@@ -42,6 +38,21 @@ public class PatientDTO {
 		this.telephone = telephone;
 		this.allergies = allergies;
 	}	
+	
+	public PatientDTO(int id, String name, String surname, LocalDate dateOfBirth,String countryName,String cityName, String address, String telephone,
+					  Collection<DrugDTO> allergies) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.dateOfBirth = dateOfBirth;
+		this.countryName = countryName;
+		this.cityName = cityName;
+		this.address = address;
+		this.telephone = telephone;
+		this.allergies = allergies;
+	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}

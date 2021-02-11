@@ -77,8 +77,10 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 		Collection<VacationRequest> vacationRequests = vacationRepository.findByDoctorPharmacyId(pharmacyId, doctorId);
 		
 		for(VacationRequest r : vacationRequests) {
-			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && date.isAfter(r.getStartDate()) && date.isBefore(r.getEndDate())) {
-				return true;
+			if(r.getStatus().equals(VacationRequestStatus.Confirmed) && 
+			  (date.isAfter(r.getStartDate()) || date.equals(r.getStartDate())) && 
+			  (date.isBefore(r.getEndDate()) || date.equals(r.getEndDate()))) {
+					return true;
 			}
 		}
 		

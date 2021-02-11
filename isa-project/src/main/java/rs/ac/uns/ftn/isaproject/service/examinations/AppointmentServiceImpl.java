@@ -245,5 +245,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 		}
 		return false;
 	}
+
+	@Override
+	public Collection<Appointment> getPatientsScheduledAppointmentsByDoctor(int patientId, int doctorId) {
+		return appointmentRepository.getPatientsScheduledAppointmentsByDoctor(patientId, doctorId);
+	}
 	
 }
