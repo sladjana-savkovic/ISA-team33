@@ -49,13 +49,6 @@ public class ExaminationReportController {
 		this.notificationService = notificationService;
 	}
 	
-	/*@PostMapping("/sort/date/{sortingType}")
-	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public  ResponseEntity<Collection<ExaminedPatientDTO>> sortByDate(@PathVariable String sortingType,@RequestBody ArrayList<ExaminedPatientDTO> examinedPatientDTOs){
-		Collection<ExaminedPatientDTO> sortResult = examinationReportService.sortByDate(sortingType, examinedPatientDTOs);
-		return new ResponseEntity<Collection<ExaminedPatientDTO>>(sortResult, HttpStatus.OK);
-	}*/
-	
 	@PostMapping(consumes = "application/json")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> add(@RequestBody AddExaminationReportDTO examinationReportDTO){
@@ -90,6 +83,13 @@ public class ExaminationReportController {
 		}catch (Exception e) {
 			return new ResponseEntity<>("The patient hasn't had any examinations.",HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PostMapping("/sort/date/{sortingType}")
+	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
+	public  ResponseEntity<Collection<ExaminationReportDTO>> sortByDate(@PathVariable String sortingType,@RequestBody ArrayList<ExaminationReportDTO> examinationReportDTOs){
+		Collection<ExaminationReportDTO> sortResult = examinationReportService.sortByDate(sortingType, examinationReportDTOs);
+		return new ResponseEntity<Collection<ExaminationReportDTO>>(sortResult, HttpStatus.OK);
 	}
 	
 	private void sendNotifications(Collection<DrugQuantityPharmacy> missingDrugs) {

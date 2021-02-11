@@ -122,6 +122,9 @@ function addFuturePatient(patient){
 
 
 function patientAppointments(patientId){
+	$('#patientAppointments').modal('toggle');
+	$('#patientAppointments').modal('show');
+	
 	$.ajax({
 		type:"GET", 
 		url: "/api/appointment/patient/" + patientId + "/doctor/" + doctorId, 
@@ -134,8 +137,6 @@ function patientAppointments(patientId){
 			for (let a of appointments){
 				addAppointment(a);
 			}
-			$('#patientAppointments').modal('toggle');
-			$('#patientAppointments').modal('show');
 		},
 		error:function(){
 			console.log('error getting examined patients');
@@ -188,6 +189,8 @@ function patientInformation(patientId, type){
 		}
 	}
 	
+	var patientReportDates = [];
+	
 	//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
 	if(getRoleFromToken() == "ROLE_DERMATOLOGIST"){
 		$('#tableCaption').text("Examination reports at dermatologists");
@@ -210,12 +213,45 @@ function patientInformation(patientId, type){
 				$('#body_pExaminations').empty();
 				for (let r of reports){
 					addReport(r);
+					patientReportDates.push({"dateTime":r.dateTime, "doctor":r.doctor, "diagnosis" : r.diagnosis, "therapies" : r.therapies});
 				}
 			}
 		},
 		error:function(){
 			console.log('error getting examined patients');
 		}
+	});
+	
+	$('#sortExmDate').click(function(){
+		
+		$.ajax({
+			type:"POST", 
+			url: "/api/examination-report/sort/date/" + sortingType,
+			headers: {
+		        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		    },
+			data: JSON.stringify(patientReportDates),
+			contentType: "application/json",
+			success:function(sortResult){
+				$('#body_pExaminations').empty();
+				for (let r of sortResult){
+					addReport(r);
+				}
+				
+				if(sortingType == "asc"){
+					sortingType = "desc";
+				}
+				else{
+					sortingType = "asc";
+				}
+			},
+			error:function(){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
+					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
+			}
+		});
 	});
 	
 };
@@ -301,52 +337,6 @@ function sortTable(n, typeOfPatients) {
   }
 };
 
-//Sortiranje pacijenata po datumu poslednjeg pregleda
-function sortDates(arg){
-	data = [];
-	if(arg == 0){
-		data = examinedPatients;
-	}
-	else{
-		data = futurePatients;
-	}
-	
-	$.ajax({
-		type:"POST", 
-		url: "/api/examination-report/sort/date/" + sortingType,
-		headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
-		data: JSON.stringify(data),
-		contentType: "application/json",
-		success:function(sortResult){
-			if(arg == 0){
-				$('#body_patients').empty();
-				for (let p of sortResult){
-					addPatient(p);
-				}
-			}else{
-				$('#body_patients_future').empty();
-				for (let p of sortResult){
-					addFuturePatient(p);
-				}
-			}
-			
-			if(sortingType == "asc"){
-				sortingType = "desc";
-			}
-			else{
-				sortingType = "asc";
-			}
-		},
-		error:function(){
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
-				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('#div_alert').append(alert);
-			return;
-		}
-	});
-};
 
 $(".thHover").hover(function(){
 	$(this).attr('title', 'Click to sort items');
