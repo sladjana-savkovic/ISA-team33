@@ -192,7 +192,7 @@ function showPharmacies(drugId) {
             }
             else {
 				$('#pharmaciesTable').empty();
-				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th style="padding-left:10px;"> Price </th><th> </th></tr>');
+				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th style="padding-left:10px;"> Price(din) </th><th> </th></tr>');
 	            for (let i = 0; i < pharmacies.length; i++) {
 					pharmacy = '<tr id='+pharmacies[i].pharmacyId+' ><td>' + pharmacies[i].pharmacyName + '</td><td style="padding-left:10px;">' + pharmacies[i].price + '</td><td><button  class="btn"  onclick="redirectToDatePage(this)" >Reserve</button></td></tr>' ;
 					$('#pharmaciesTable').append(pharmacy);
