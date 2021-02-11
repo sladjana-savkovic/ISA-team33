@@ -9,6 +9,7 @@ $(document).ready(function () {
 	
 	clearLocalStorage();
 
+	//Ucitavanje pacijenata koje je doktor vec pregledao
 	$.ajax({
 		type:"GET", 
 		url: "/api/patient/doctor/" + doctorId + "/examined",
@@ -22,6 +23,7 @@ $(document).ready(function () {
 			for (let p of patients){
 				addPatient(p);
 			}
+			//Ucitavanje pacijenata koje doktor nije pregledao
 			loadUnexaminedPatients();
 		},
 		error:function(){
@@ -29,7 +31,7 @@ $(document).ready(function () {
 		}
 	});
 	
-	
+	//Pretraga pacijenata koji su pregledani
 	$('#search').submit(function(event){
 		event.preventDefault();
 		
@@ -67,7 +69,7 @@ $(document).ready(function () {
 		});
 	});
 	
-	
+	//Pretraga pacijenata koji nisu pregledani
 	$('#searchFuture').submit(function(event){
 		event.preventDefault();
 		
@@ -121,7 +123,7 @@ function addFuturePatient(patient){
 	$('#patientsFuture').append(row);
 }
 
-
+//Prikaz dijaloga sa zakazanim terminima pacijenta
 function patientAppointments(patientId){
 	$('#patientAppointments').modal('toggle');
 	$('#patientAppointments').modal('show');
@@ -148,11 +150,12 @@ function patientAppointments(patientId){
 			}
 		},
 		error:function(){
-			console.log('error getting examined patients');
+			console.log('error getting appointments');
 		}
 	});
 }
 
+//Prikaz dijaloga sa informacijama o pacijentu
 function patientInformation(patientId, type){
 	
 	$('#patientInformation').modal('toggle');
@@ -198,23 +201,25 @@ function patientInformation(patientId, type){
 		}
 	}
 	
-	//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
+	//Izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
 	if(getRoleFromToken() == "ROLE_DERMATOLOGIST"){
 		$('#tableCaption').text("Examination reports at dermatologists");
 	}else{
 		$('#tableCaption').text("Examination reports at pharmacists");
 	}
 	
+	//Izvjestaji su dostupni za sve pregledane pacijente ili za one koji nisu pregledani ako je ulogovan farmaceut
 	if( (getRoleFromToken() == "ROLE_PHARMACIST" && type == 1) || type == 0){
 		$.ajax({
 			type:"GET", 
-			url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, 
+			url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, //na osnovu doctorId traze se doktori koji su iste vrste kao ulogovani
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
 			contentType: "application/json",
 			success:function(reports){
 				if(reports.length == 0){
+					$('#tableCaption').text("The patient has no reports");
 					$('#pExaminations').attr("hidden",true);
 				}
 				else{
@@ -228,7 +233,7 @@ function patientInformation(patientId, type){
 				}
 			},
 			error:function(){
-				console.log('error getting examined patients');
+				console.log('error getting reports');
 			}
 		});
 	}
@@ -236,6 +241,7 @@ function patientInformation(patientId, type){
 		$('#pExaminations').attr("hidden",true);
 	}
 	
+	//Sortiranje izvjestaja po datumu
 	$('#sortExmDate').click(function(){
 		
 		if(patientReports.length == 0 || patientReports.length == 1)
@@ -271,7 +277,6 @@ function patientInformation(patientId, type){
 			});
 		}
 	});
-	
 };
 
 function addAppointment(a){
@@ -299,11 +304,11 @@ function addReport(report){
 //Sortiranje pacijenata po imenu ili prezimenu
 function sortTable(n, typeOfPatients) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  if(typeOfPatients == 0)
+  if(typeOfPatients == 0) //pregledani pacijenti
   	table = document.getElementById("patients");
-  else if(typeOfPatients == 1)
+  else if(typeOfPatients == 1) //nepregledani pacijenti
 	table = document.getElementById("patientsFuture");
-  else
+  else //izvjestaji pacijenta
 	table = document.getElementById("pExaminations");
 	
   switching = true;

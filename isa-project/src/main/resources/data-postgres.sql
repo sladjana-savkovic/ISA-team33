@@ -503,15 +503,18 @@ insert into user_account (authority_id, username, password, enabled, last_passwo
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,17);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'10:00:00','14:00:00',17,2);
 
-/*Ubacujem zakazani pregled kod dermatologa */
+/*Ubacujem jos zakazanih pregleda kod dermatologa Nade */
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-27 09:00:00','2021-02-27 09:30:00',700,1,1,12,1,1);
-insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-02 10:00:00','2021-02-02 10:30:00',800,17,2,13,3,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-02 09:00:00','2021-03-02 09:30:00',800,1,1,13,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
-					
+
+/*Ubacujem 1 zavrsen pregleda kod dermatologa Marice */
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-02-02 10:00:00','2021-02-02 10:30:00',800,17,2,13,3,1);
+insert into examination_report (id,diagnosis,appointment_id) 
+					values (nextval('examinations_seq'),'Izbegavati korišćenje hemijski agresivih sredstava na bolnom mestu',47);			
 					
 insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'bla bla', 12, 2);
