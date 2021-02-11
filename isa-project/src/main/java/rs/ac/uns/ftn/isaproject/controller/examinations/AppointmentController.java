@@ -187,6 +187,9 @@ public class AppointmentController {
 			
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+		catch (PessimisticLockingFailureException e) {
+			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);
+		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while creating an appointment.", HttpStatus.BAD_REQUEST);
 		}

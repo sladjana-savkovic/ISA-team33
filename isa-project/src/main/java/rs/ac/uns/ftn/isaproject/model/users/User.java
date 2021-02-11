@@ -33,12 +33,6 @@ public abstract class User {
 	@Column(unique=false, nullable=false)
 	private LocalDate dateOfBirth;
 	
-	@Column(unique=true, nullable=true)
-	private String email;
-	
-	@Column(unique=false, nullable=true)
-	private String password;
-	
 	@Column(unique=false, nullable=false)
 	private String address;
 	
@@ -71,22 +65,6 @@ public abstract class User {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public City getCity() {
