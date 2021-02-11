@@ -410,7 +410,7 @@ insert into patient(id, name, surname, telephone,city_id, penalty, address, date
 insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
 				    values (nextval('users_seq'),'Mika','Mikić', '063542021',2, 0,'Petra Kočića 50','1984-09-11');
 
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'user@example.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'jelenazeljko@live.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'mika.mikic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13,  true);
 
 
@@ -510,4 +510,8 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 					values (nextval('appointments_seq'),'2021-02-02 10:00:00','2021-02-02 10:30:00',800,17,2,13,3,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-02 09:00:00','2021-03-02 09:30:00',800,1,1,13,1,1);
-	
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
+					
+					
+insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'bla bla', 12, 2);

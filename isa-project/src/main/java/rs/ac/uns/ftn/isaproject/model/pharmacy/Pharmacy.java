@@ -20,7 +20,6 @@ import javax.persistence.SequenceGenerator;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
-import rs.ac.uns.ftn.isaproject.model.users.ObjectionPharmacy;
 
 @Entity
 public class Pharmacy {
@@ -61,9 +60,6 @@ public class Pharmacy {
 	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
-	@OneToMany(mappedBy = "pharmacy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<ObjectionPharmacy> objectionPharmacies = new HashSet<ObjectionPharmacy>();
-
 	public int getId() {
 		return id;
 	}
