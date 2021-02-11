@@ -88,7 +88,30 @@ const schedule = doctorId =>{
 				 localStorage.removeItem("doctors");
 				 localStorage.removeItem("pharmacies");
 				 $('#'+doctorId).parent().parent().remove();
-				 location.href='http://localhost:8080/html/patient/schedule_step_one.html';
+				 let message = "You have successfully scheduled an pharmacist appointment.";
+						
+				$.ajax({
+					url: "/api/email/" + patientId,
+					type: 'POST',
+					headers: {
+			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			        },
+					contentType: 'application/json',
+					data: JSON.stringify({ 
+						 subject: "Confirmation of scheduling pharmacist",
+						 message: message}),
+					success: function () {
+						location.href='http://localhost:8080/html/patient/schedule_step_one.html';
+						console.log("Successfully sent an email.");
+						return;
+					},
+					error: function () {
+						console.log("Unsuccessfully sent an email.");
+						return;
+					}
+				});	  
+				 
+				
 			},
 			error:function(xhr){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText

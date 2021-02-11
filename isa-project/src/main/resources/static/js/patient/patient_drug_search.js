@@ -54,7 +54,7 @@ function searchDrug() {
 
 function getAllDrugs() {		
     $.ajax({
-        url: '/api/drug',
+        url: '/api/drug/all',
         type: 'GET',
         dataType: 'json',
         processData: false,
@@ -234,8 +234,30 @@ function makeReservation() {
         dataType: 'json',
 		contentType: "application/json",
         data:JSON.stringify(data),
-        success: function () {        	
-        	location.href='http://localhost:8080/html/patient/patient_drug_search.html';
+        success: function (reservation) {      
+			let message = "You have successfully made a drug reservation (reservation identification number =  " + reservation.id + ").";
+						
+				$.ajax({
+					url: "/api/email/" + patientId,
+					type: 'POST',
+					headers: {
+			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			        },
+					contentType: 'application/json',
+					data: JSON.stringify({ 
+						 subject: "Confirmation of receipt of the reservation",
+						 message: message}),
+					success: function () {
+						location.href='http://localhost:8080/html/patient/patient_drug_search.html';
+						console.log("Successfully sent an email.");
+						return;
+					},
+					error: function () {
+						console.log("Unsuccessfully sent an email.");
+						return;
+					}
+				});	  	
+        	
 
         },
         error: function (jqXHR) {

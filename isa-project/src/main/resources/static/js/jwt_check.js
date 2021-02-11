@@ -5,11 +5,11 @@ $(document).ready(function () {
     if (token == null) {
 		localStorage.clear();
 		
-		if(window.location.href.indexOf("drug_search.html") > -1){			
+		if(window.location.href.indexOf("drug_search.html") > -1 || window.location.href.indexOf("pharmacy_search.html") > -1){			
 			document.body.appendChild(document.createElement('script')).src='../../js/navbars/unauthenticated_user.js';
 		}
         else if (window.location.href.indexOf("login.html") ==  -1)
-            window.location.href = "../user/login.html";
+            window.location.href = "../user/login.html"; 
 
         return;
     }
