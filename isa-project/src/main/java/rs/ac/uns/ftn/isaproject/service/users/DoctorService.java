@@ -24,4 +24,5 @@ public interface DoctorService {
 	void addDermatologistInPharmacy(int id, int idPharmacy);
 	Collection<Doctor> findDoctorNotInPharmacy(int id);
 	Collection<Doctor> findAvailableDoctor(LocalDateTime date,Long idPharmacy);
+	Collection<Doctor> findDoctorByType(int type);
 }

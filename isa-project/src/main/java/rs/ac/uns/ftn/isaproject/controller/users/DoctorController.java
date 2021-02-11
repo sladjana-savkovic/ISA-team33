@@ -214,5 +214,20 @@ public class DoctorController {
 		}
 		return new ResponseEntity<Collection<DoctorDTO>>(doctorDTOs, HttpStatus.OK);
 	}
+	
+	@GetMapping("/{type}/type-of-doctor")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<?> findDoctorByType(@PathVariable int type) {
+		try {
+			Collection<DoctorDTO> doctorDTOs = DoctorMapper.toDoctoryDTOs(doctorService.findDoctorByType(type));
+			return new ResponseEntity<Collection<DoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>("The doctor doesn't exist in the database", HttpStatus.NOT_FOUND);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
 }
 
