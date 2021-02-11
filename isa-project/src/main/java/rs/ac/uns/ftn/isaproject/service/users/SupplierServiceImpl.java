@@ -39,7 +39,7 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public void updatePassword(int id, String password) {
 		Supplier supplier = supplierRepository.getOne(id);
-		supplier.setPassword(password);
+		//supplier.setPassword(password);
 		supplierRepository.save(supplier);
 	}
 
