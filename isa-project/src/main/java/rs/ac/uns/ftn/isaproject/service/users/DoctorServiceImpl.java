@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
@@ -68,7 +69,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public void addPharmacist(AddDoctorDTO doctorDTO) {
+	public void addPharmacist(AddDoctorDTO doctorDTO) throws MailException, InterruptedException {
 		Doctor doctor = new Doctor();
 		City city = cityRepository.getOne(doctorDTO.cityId);
 		Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
@@ -154,7 +155,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 	
 	@Override
-	public void add(AddDermatologistDTO dermatologistDTO) {
+	public void add(AddDermatologistDTO dermatologistDTO) throws MailException, InterruptedException {
 		Doctor dermatologist = new Doctor();		
 		City city = cityRepository.getOne(dermatologistDTO.cityId);
 		dermatologist.setCity(city);				

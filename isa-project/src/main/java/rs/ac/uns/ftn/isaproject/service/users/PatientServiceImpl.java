@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
@@ -39,7 +40,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public void add(AddPatientDTO addPatientDTO) {
+	public void add(AddPatientDTO addPatientDTO) throws MailException, InterruptedException {
 		Patient patient = new Patient();
 		
 		City city = cityRepository.getOne(addPatientDTO.cityId);

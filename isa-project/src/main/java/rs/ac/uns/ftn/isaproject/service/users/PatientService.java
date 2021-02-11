@@ -1,5 +1,8 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
+
+import org.springframework.mail.MailException;
+
 import java.util.Collection;
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
@@ -9,7 +12,7 @@ public interface PatientService {
  
 	void increasePenalty(int id);
 
-	void add(AddPatientDTO addPatientDTO);
+	void add(AddPatientDTO addPatientDTO) throws MailException, InterruptedException;
 	
 	boolean checkAllergyOnDrug(int id, int drugId);
 
