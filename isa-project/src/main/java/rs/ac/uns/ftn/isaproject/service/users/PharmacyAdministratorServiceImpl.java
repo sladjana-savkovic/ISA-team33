@@ -42,7 +42,6 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 		
 		pharmacyAdministrator.setName(pharmacyAdministratorDTO.name);
 		pharmacyAdministrator.setSurname(pharmacyAdministratorDTO.surname);
-		pharmacyAdministrator.setEmail(pharmacyAdministratorDTO.email);
 		pharmacyAdministrator.setTelephone(pharmacyAdministratorDTO.telephone);
 		pharmacyAdministrator.setAddress(pharmacyAdministratorDTO.address);
 		pharmacyAdministrator.setCity(city);
