@@ -13,9 +13,9 @@ catch(err) {
 checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
 var doctorId = getUserIdFromToken();
 var appointment = null;
-var therapies = [];
+var therapies = []; //aktivne terapije iz tabele
 var therapyId = 1;
-var drugs = [];
+var drugs = []; //lista u kojoj cuvam lijekove kako bi prikazala specifikaciju o svakom bez slanja zahtjeva svaki put
 $(document).ready(function () {
 		
 	$.ajax({
@@ -232,7 +232,17 @@ $(document).ready(function () {
 					return;
 				}else{
 					$('#allergySubstitute').attr("hidden",true);
+					$('#btn_close_substitute').click();
+					
+					let drugId = $("#substituteDrugs option:selected").val();
+					let drugName = $("#substituteDrugs option:selected").text();
+					let duration = $('#durationSubstitute').val();
+					therapies.push({"therapyId":therapyId, "drugId": drugId,"drugName" : drugName, "duration": duration});
+					therapyId = therapyId + 1;
+					reloadTherapies();
+					
 					$('#durationSubstitute').val('');
+					return;
 				}
 			},
 			error:function(){
@@ -256,21 +266,7 @@ $(document).ready(function () {
 		therapyId = therapyId + 1;
 		reloadTherapies();
 	});
-	
-	$('#save_prescription_substitute').submit(function(event){
-		event.preventDefault();
 		
-		let substituteDrugId = $("#substituteDrugs option:selected").val();
-		let substituteDrugName = $("#substituteDrugs option:selected").text();
-		
-		$('#btn_close_substitute').click();
-		let duration = $('#durationSubstitute').val();
-		
-		therapies.push({"therapyId":therapyId, "drugId": substituteDrugId,"drugName" : substituteDrugName, "duration": duration});
-		therapyId = therapyId + 1;
-		reloadTherapies();
-	});
-	
 	
 	$("#drugs" ).change(function() {
 	  	$('#div_prescribe').attr("hidden",true);

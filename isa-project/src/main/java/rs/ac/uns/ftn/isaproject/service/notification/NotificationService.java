@@ -7,6 +7,7 @@ import rs.ac.uns.ftn.isaproject.model.notification.Notification;
 
 public interface NotificationService {
 
-	void add(NotificationDTO notificationDTO);
+	void send(NotificationDTO notificationDTO);
 	Collection<Notification> findByPharmacyId(int id);
+	void sendAll(Collection<NotificationDTO> notificationDTOs);
 }

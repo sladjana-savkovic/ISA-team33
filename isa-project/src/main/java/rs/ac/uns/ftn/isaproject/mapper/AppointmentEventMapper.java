@@ -28,7 +28,7 @@ public class AppointmentEventMapper {
 			}
 			
 			if(a.getStatus() == AppointmentStatus.Created) {
-				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#03ff11"));
+				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#31c03e"));
 			}
 			
 			if(a.getStatus() == AppointmentStatus.Scheduled) {
@@ -47,7 +47,7 @@ public class AppointmentEventMapper {
 				else 
 					title = a.getPatient().getName() + " " + a.getPatient().getSurname() + " " + title; 
 				
-				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#f5ff00"));
+				appointmentEventDTOs.add(new AppointmentEventDTO(title, a.getStartTime().toString(), a.getEndTime().toString(), url, "#dece21"));
 			}
 			
 			if(a.getStatus() == AppointmentStatus.Unperformed) {

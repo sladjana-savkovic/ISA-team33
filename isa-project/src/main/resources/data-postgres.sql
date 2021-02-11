@@ -171,9 +171,9 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-25 07:30:00','2021-02-25 8:00:00',1000,1,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status, version)
-					values (nextval('appointments_seq'),'2021-02-17 07:30:00','2021-02-10 8:00:00',1000,1,1,3,1,1);
+					values (nextval('appointments_seq'),'2021-02-20 07:30:00','2021-02-20 8:00:00',1000,1,1,3,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-21 12:30:00','2021-02-13 13:00:00',1000,1,2,4,1,1);
+					values (nextval('appointments_seq'),'2021-02-21 12:30:00','2021-02-21 13:00:00',1000,1,2,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-28 14:00:00','2021-02-28 14:15:00',600,1,2,3,1,1);
 
@@ -208,7 +208,7 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-19 15:30:00','2021-02-19 16:00:00',800,2,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-27 11:30:00','2021-02-03 12:00:00',800,2,1,4,1,1);
+					values (nextval('appointments_seq'),'2021-02-27 11:30:00','2021-02-27 12:00:00',800,2,1,4,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-08 09:30:00','2021-03-08 10:00:00',800,2,1,3,1,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -218,11 +218,11 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 					
 /*Otkazani (status = 2) termini kod farmaceuta*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-04 09:30:00','2021-02-24 10:00:00',1000,2,1,null,2,1);
+					values (nextval('appointments_seq'),'2021-02-04 09:30:00','2021-02-04 10:00:00',1000,2,1,null,2,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-28 13:30:00','2021-02-28 14:00:00',1000,2,1,null,2,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-02-07 11:30:00','2021-02-17 12:00:00',1000,2,1,null,2,1);
+					values (nextval('appointments_seq'),'2021-02-07 11:30:00','2021-02-07 12:00:00',1000,2,1,null,2,1);
 					
 /*Zavrseni (status = 3) termini kod farmaceuta*/
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -250,7 +250,7 @@ insert into examination_report (id,diagnosis,appointment_id)
 					
 /*Izvjestaji pregleda kod farmaceuta*/						
 insert into examination_report (id,diagnosis,appointment_id) 
-					values (nextval('examinations_seq'),'Popiti jos jednu dozu lijekova',29);
+					values (nextval('examinations_seq'),'Popiti jos jednu dozu lekova',29);
 insert into examination_report (id,diagnosis,appointment_id) 
 					values (nextval('examinations_seq'),'Terapiju trositi 10 dana',30);
 insert into examination_report (id,diagnosis,appointment_id) 
@@ -311,8 +311,8 @@ insert into therapy (id, duration, drug_id,examination_id) values (nextval('ther
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 7, 2, 2);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 3, 1, 3);
 insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 10, 3, 4);
-insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 5, 2, 5);
-insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 6, 1, 6);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 5, 4, 5);
+insert into therapy (id, duration, drug_id,examination_id) values (nextval('therapies_seq'), 6, 5, 6);
 
 insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-02-01', 22000, 1, 8, 0);
 insert into drug_offer (id, limit_date, total_price, pharmacy_order_id, supplier_id, status) values (nextval('offers_seq'), '2021-03-01', 21000, 2, 8, 2);
@@ -364,7 +364,7 @@ insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
 			values (nextval('reservation_seq'),'2020-02-02 12:00:00',true,4,1,1);
 insert into drug_reservation (id,date_limit,is_done,patient_id,drug_id,pharmacy_id) 
-			values (nextval('reservation_seq'),'2021-02-10 17:03:00',false,4,1,1);
+			values (nextval('reservation_seq'),'2021-02-11 18:03:00',false,4,1,1);
 
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','12:00:00',1,1);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'12:00:00','16:00:00',1,2);
@@ -376,6 +376,10 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 				values (nextval('vacation_seq'),'2021-01-25','2021-02-25',1,'Nemamo dovoljno radnog kapaciteta.',1,2);
 insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
 				values (nextval('vacation_seq'),'2021-03-01','2021-03-10',1,'U tom periodu imate zakazane termine.',2,1);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
+				values (nextval('vacation_seq'),'2021-05-10','2021-05-17',2,null,1,2);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
+				values (nextval('vacation_seq'),'2021-06-08','2021-06-13',2,null,2,1);
 				
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,1);
@@ -401,10 +405,10 @@ insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (
 insert into drug_quantity_supplier (id, quantity, drug_id, supplier_id) values (nextval('quantity_supplier_seq'), 5, 3, 8);
 
 
-insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
-					values (nextval('users_seq'),'Sima','Simić', '0668989985', 0,'Kralja Petra I','1963-07-13');
-insert into patient(id, name, surname, telephone, penalty, address, date_of_birth) 
-				    values (nextval('users_seq'),'Mika','Mikić', '0668989985', 0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
+					values (nextval('users_seq'),'Sima','Simić', '0668989985',1, 0,'Kralja Petra I','1963-07-13');
+insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
+				    values (nextval('users_seq'),'Mika','Mikić', '063542021',2, 0,'Petra Kočića 50','1984-09-11');
 
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'jelenazeljko@live.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
 insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'mika.mikic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13,  true);
@@ -489,10 +493,28 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-01-11 16:30:00','2021-01-11 17:00:00',1000,1,3,5,3,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
+					values (nextval('appointments_seq'),'2021-01-15 19:00:00','2021-01-15 19:30:00',1000,1,4,5,3,1);
 					
+					
+/*Ubacivanje dodatnog dermatologa i definisanje 1 zavrsenog pregleda*/
+insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
+			values (nextval('users_seq'),'Marica','Maričić', '065478962', 4.5, 0, 3,'Stevana Mokranjca 15','1988-10-01', false);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'marica88@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 17,true);
+insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,17);
+insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'10:00:00','14:00:00',17,2);
+
+/*Ubacujem jos zakazanih pregleda kod dermatologa Nade */
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-02-27 09:00:00','2021-02-27 09:30:00',700,1,1,12,1,1);
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-03-02 09:00:00','2021-03-02 09:30:00',800,1,1,13,1,1);
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
+
+/*Ubacujem 1 zavrsen pregleda kod dermatologa Marice */
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-02-02 10:00:00','2021-02-02 10:30:00',800,17,2,13,3,1);
+insert into examination_report (id,diagnosis,appointment_id) 
+					values (nextval('examinations_seq'),'Izbegavati korišćenje hemijski agresivih sredstava na bolnom mestu',47);			
 					
 insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'bla bla', 12, 2);
-
-
-

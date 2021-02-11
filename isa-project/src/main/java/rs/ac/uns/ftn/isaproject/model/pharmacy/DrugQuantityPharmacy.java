@@ -27,7 +27,7 @@ public class DrugQuantityPharmacy {
 	private boolean isDeleted;
 	
 	@Version
-	private Long version;
+	private int version;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	private Drug drug;
@@ -75,11 +75,11 @@ public class DrugQuantityPharmacy {
 		this.isDeleted = isDeleted;
 	}
 
-	public Long getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(Long version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 	

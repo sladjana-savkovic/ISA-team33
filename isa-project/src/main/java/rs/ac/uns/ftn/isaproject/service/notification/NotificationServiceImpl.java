@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.notification;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void add(NotificationDTO notificationDTO) {
+	public void send(NotificationDTO notificationDTO) {
 		Notification notification = new Notification();
 		Drug drug = drugRepository.getOne(notificationDTO.drugId);
 		Pharmacy pharmacy = pharmacyRepository.getOne(notificationDTO.pharmacyId);
@@ -43,6 +44,27 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public Collection<Notification> findByPharmacyId(int id) {
 		return notificationRepository.findByPharmacyId(id);
+	}
+
+	@Override
+	public void sendAll(Collection<NotificationDTO> notificationDTOs) {
+		Collection<Notification> notifications = new ArrayList<>();
+		Notification notification = new Notification();
+		Drug drug;
+		Pharmacy pharmacy;
+		
+		for(NotificationDTO notificationDTO:notificationDTOs) {
+			drug = drugRepository.getOne(notificationDTO.drugId);
+			pharmacy = pharmacyRepository.getOne(notificationDTO.pharmacyId);
+			
+			notification.setDrug(drug);
+			notification.setPharmacy(pharmacy);
+			notification.setCreationDate(LocalDateTime.now());
+			
+			notifications.add(notification);
+		}
+		
+		notificationRepository.saveAll(notifications);	
 	}
 
 }

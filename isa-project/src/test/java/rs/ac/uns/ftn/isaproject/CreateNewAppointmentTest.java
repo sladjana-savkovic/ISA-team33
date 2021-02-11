@@ -20,12 +20,12 @@ import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ScheduleConsultationAtPharmacistTest {
+public class CreateNewAppointmentTest {
 
 	private AppointmentService appointmentService;
 
 	@Autowired
-	public ScheduleConsultationAtPharmacistTest(AppointmentService appointmentService) {
+	public CreateNewAppointmentTest(AppointmentService appointmentService) {
 		this.appointmentService = appointmentService;
 	}
 	
