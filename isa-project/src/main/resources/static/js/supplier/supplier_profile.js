@@ -16,7 +16,7 @@ $(document).ready(function () {
 			getCities($("#countrySelect option:selected").val());
 		},
 		error:function(){
-			console.log('error getting supplier countries');
+			console.log('error getting countries');
 		}
 	});
 	

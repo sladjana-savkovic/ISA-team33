@@ -36,7 +36,7 @@ function getAllOffersBySupplier() {
             }
         },
         error: function (jqXHR) {
-            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseJSON + '</div>';
+            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseText + '</div>';
             $("#loading").hide();
             $("#div_offers").prepend(alert);
         }
@@ -109,7 +109,7 @@ function searchOffer() {
             }
         },
         error: function (jqXHR) {
-            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseJSON + '</div>';
+            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseText + '</div>';
             $("#loading").hide();
             $("#div_offers").prepend(alert);
         }
