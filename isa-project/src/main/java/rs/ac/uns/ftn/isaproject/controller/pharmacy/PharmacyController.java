@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
+import rs.ac.uns.ftn.isaproject.dto.DrugSearchDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.PharmacySearchDTO;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.mapper.PharmacyMapper;
@@ -78,7 +81,6 @@ public class PharmacyController {
 	}
 	
 	@GetMapping()
-	@PreAuthorize("hasAnyRole('PATIENT', 'ROLE_SYSTEMADMIN')")
 	public ResponseEntity<Collection<PharmacyDTO>> getAll() {
 		Collection<PharmacyDTO> pharmacyDTOs = PharmacyMapper.toPharmacyDTOs(pharmacyService.findAll());
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
@@ -113,5 +115,16 @@ public class PharmacyController {
 		}
 		return new ResponseEntity<Collection<PharmacyDTO>>(pharmacyDTOs, HttpStatus.OK);
 	}
+	
+	@PostMapping("/search")
+	public ResponseEntity<Collection<PharmacyDTO>> searchByNameAndGradeAndType(@RequestBody PharmacySearchDTO pharmacyDTOs){
+		try {
+			Collection<PharmacyDTO> searchResult = pharmacyService.searchByNameAndCityAndAddressAndGradeAndPrice(pharmacyDTOs);
+			return new ResponseEntity<Collection<PharmacyDTO>>(searchResult, HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+	}	
 
 }

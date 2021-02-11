@@ -1,13 +1,18 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
+import rs.ac.uns.ftn.isaproject.dto.PharmacySearchDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
@@ -66,5 +71,38 @@ public class PharmacyServiceImpl implements PharmacyService {
 		}
 		return pharmacies;
 	}
-
+	
+	@Override
+	public Collection<PharmacyDTO> searchByNameAndCityAndAddressAndGradeAndPrice(PharmacySearchDTO dto) {			
+		Collection<PharmacyDTO> searchResult = new ArrayList<>();			
+		for(PharmacyDTO pharmacy : dto.pharmacyDTOs) {
+			
+			if(!dto.name.equals("") && !pharmacy.name.toLowerCase().contains(dto.name.toLowerCase())) {
+				continue;
+			}
+			if(!dto.cityName.equals("") && !pharmacy.cityName.toLowerCase().contains(dto.cityName.toLowerCase())) {
+				continue;
+			}
+			if(!dto.address.equals("") && !pharmacy.address.toLowerCase().contains(dto.address.toLowerCase())) {
+				continue;
+			}
+			if(dto.gradeMin!=0.0 && pharmacy.averageGrade < dto.gradeMin) {
+				continue;
+			}
+			if(dto.gradeMax!=0.0 && pharmacy.averageGrade > dto.gradeMax) {
+				continue;
+			}
+			if(dto.priceMin!=0.0 && pharmacy.pharmacistPrice > dto.priceMin) {
+				continue;
+			}
+			if(dto.priceMax!=0.0 && pharmacy.pharmacistPrice > dto.priceMax) {
+				continue;
+			}
+			searchResult.add(pharmacy);
+			
+		} 
+		
+		return searchResult;
+	}
+	
 }
