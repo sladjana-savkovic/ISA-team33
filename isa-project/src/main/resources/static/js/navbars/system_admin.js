@@ -13,7 +13,7 @@ $(document).ready(function () {
         + '  <a class="nav-link" href="/html/system_admin/pharmacy_registration.html">Pharmacy registration</a>'
         + '  </li>'
 		+ ' <li class="nav-item">'
-        + '  <a class="nav-link" href="">Dermatologist vacation</a>'
+        + '  <a class="nav-link" href="/html/system_admin/vacation_requests.html">Dermatologist vacation</a>'
         + '  </li>'
 		+ ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/system_admin/complaints.html">Complaints and suggestions</a>'
