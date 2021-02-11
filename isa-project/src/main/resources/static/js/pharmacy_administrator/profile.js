@@ -39,7 +39,6 @@ $(document).ready(function () {
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),
-					email: $('#email').val(),
 					address: $('#address').val(),
 					pharmacyId : pharmacyId,
 					telephone : $('#phone').val(),

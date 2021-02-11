@@ -43,25 +43,14 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 		
 		pharmacyAdministrator.setName(pharmacyAdministratorDTO.name);
 		pharmacyAdministrator.setSurname(pharmacyAdministratorDTO.surname);
-		pharmacyAdministrator.setEmail(pharmacyAdministratorDTO.email);
 		pharmacyAdministrator.setTelephone(pharmacyAdministratorDTO.telephone);
 		pharmacyAdministrator.setAddress(pharmacyAdministratorDTO.address);
 		pharmacyAdministrator.setCity(city);
 		pharmacyAdministrator.setPharmacy(pharmacy);
-		pharmacyAdministrator.setPassword(pharmacyAdministratorDTO.password);
 		
 		administratorRepository.save(pharmacyAdministrator);
 		
 	}
-
-	@Override
-	public void updatePassword(int id, String password) {
-		PharmacyAdministrator pharmacyAdministrator = administratorRepository.getOne(id);
-		pharmacyAdministrator.setPassword(password);
-		administratorRepository.save(pharmacyAdministrator);
-		
-	}
-
 	
 	@Override
 	public void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException {
