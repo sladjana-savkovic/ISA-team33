@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 	$.ajax({
 		type:"GET", 
-		url: "/api/examination-report/doctor/" + doctorId + "/status/3",
+		url: "/api/patient/doctor/" + doctorId + "/examined",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -45,7 +45,7 @@ $(document).ready(function () {
 
 		$.ajax({
 			type:"POST", 
-			url: "/api/examination-report/search/" + name + "/" + surname,
+			url: "/api/patient/search/" + name + "/" + surname,
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
@@ -83,7 +83,7 @@ $(document).ready(function () {
 
 		$.ajax({
 			type:"POST", 
-			url: "/api/examination-report/search/" + name + "/" + surname,
+			url: "/api/patient/search/" + name + "/" + surname,
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
@@ -108,7 +108,6 @@ $(document).ready(function () {
 
 function addPatient(patient){
 	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
-			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
 			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientInformation(this.id,0)" style="margin-left:30px;">Information</button></td>'
 			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientAppointments(this.id)">Appointments</button></td></tr>');	
 	$('#patients').append(row);
@@ -116,7 +115,6 @@ function addPatient(patient){
 
 function addFuturePatient(patient){
 	 let row = $('<tr><td style="vertical-align: middle;">'+ patient.name +'</td><td style="vertical-align: middle;">' + patient.surname + '</td>'
-			+ '<td style="vertical-align: middle;">' + patient.dateOfLastExamination + '</td>'
 			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientInformation(this.id,1)" style="margin-left:30px;">Information</button></td>'
 			+ '<td><button class="btn btn-info" type="button" id="' + patient.id +'" onclick="patientAppointments(this.id)">Appointments</button></td></tr>');	
 	$('#patientsFuture').append(row);
@@ -147,16 +145,26 @@ function patientAppointments(patientId){
 
 function patientInformation(patientId, type){
 	
+	$('#patientInformation').modal('toggle');
+	$('#patientInformation').modal('show');
+	
 	if(type == 0){
 		for(let p of examinedPatients){
 			if(p["id"] == patientId){
 				$('#pNameSurname').text(p.name + " " + p.surname);
 				$('#pBirth').text(p.dateOfBirth);
-				$('#pAddress').text(p.address);
-				if(p.allergies.length > 0)
-					$('#pAllergies').text(p.allergies);
-				else
+				$('#pAddress').text(p.address + ", " + p.cityName + ", " + p.countryName);
+				$('#pPhone').text(p.telephone);
+				if(p.allergies.length > 0){
+					let allergies = [];
+					for(let a of p.allergies){
+						allergies.push(a.name);
+					}
+					$('#pAllergies').text(allergies);
+				}
+				else{
 				 	$('#pAllergies').text("No allergies");
+				}
 			}
 		}
 	}else{
@@ -164,16 +172,28 @@ function patientInformation(patientId, type){
 			if(p["id"] == patientId){
 				$('#pNameSurname').text(p.name + " " + p.surname);
 				$('#pBirth').text(p.dateOfBirth);
-				$('#pAddress').text(p.address);
-				if(p.allergies.length > 0)
-					$('#pAllergies').text(p.allergies);
-				else
+				$('#pAddress').text(p.address + ", " + p.cityName + ", " + p.countryName);
+				$('#pPhone').text(p.telephone);
+				if(p.allergies.length > 0){
+					let allergies = [];
+					for(let a of p.allergies){
+						allergies.push(a.name);
+					}
+					$('#pAllergies').text(allergies);
+				}
+				else{
 				 	$('#pAllergies').text("No allergies");
+				}
 			}
 		}
 	}
 	
 	//izvjestaji sa pregleda svih doktora koji su iste vrste kao ulogovani doktor
+	if(getRoleFromToken() == "ROLE_DERMATOLOGIST"){
+		$('#tableCaption').text("Examination reports at dermatologists");
+	}else{
+		$('#tableCaption').text("Examination reports at pharmacists");
+	}
 	$.ajax({
 		type:"GET", 
 		url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, 
@@ -192,14 +212,11 @@ function patientInformation(patientId, type){
 					addReport(r);
 				}
 			}
-			$('#patientInformation').modal('toggle');
-			$('#patientInformation').modal('show');
 		},
 		error:function(){
 			console.log('error getting examined patients');
 		}
 	});
-	
 	
 };
 
@@ -226,9 +243,12 @@ function addReport(report){
 };
 
 //Sortiranje pacijenata po imenu ili prezimenu
-function sortTable(n) {
+function sortTable(n, typeOfPatients) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-  table = document.getElementById("patients");
+  if(typeOfPatients == 0)
+  	table = document.getElementById("patients");
+  else
+	table = document.getElementById("patientsFuture");
   switching = true;
   // Set the sorting direction to ascending:
   dir = "asc";
@@ -341,40 +361,16 @@ function clearLocalStorage(){
 function loadUnexaminedPatients(){
 	$.ajax({
 		type:"GET", 
-		url: "/api/examination-report/doctor/" + doctorId + "/status/1",
+		url: "/api/patient/doctor/" + doctorId + "/unexamined",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
 		contentType: "application/json",
 		success:function(patients){
-			if(patients.length == 0){
-				
-				$.ajax({
-					type:"POST", 
-					url: "/api/examination-report/doctor/" + doctorId + "/unexamined",
-					headers: {
-			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-			        },
-					data: JSON.stringify(examinedPatients),
-					contentType: "application/json",
-					success:function(patients){
-						$('#body_patients_future').empty();
-						futurePatients = patients;
-						for (let p of patients){
-							addFuturePatient(p);
-						}
-					},
-					error:function(){
-						console.log('error getting unexamined patients');
-					}
-				});
-				
-			}else{
-				$('#body_patients_future').empty();
-				futurePatients = patients;
-				for (let p of patients){
-					addFuturePatient(p);
-				}
+			$('#body_patients_future').empty();
+			futurePatients = patients;
+			for (let p of patients){
+				addFuturePatient(p);
 			}
 		},
 		error:function(){

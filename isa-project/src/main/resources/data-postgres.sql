@@ -493,7 +493,7 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-01-11 16:30:00','2021-01-11 17:00:00',1000,1,3,5,3,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
-					values (nextval('appointments_seq'),'2021-01-15 19:30:00','2021-01-15 19:00:00',1000,1,4,5,3,1);
+					values (nextval('appointments_seq'),'2021-01-15 19:00:00','2021-01-15 19:30:00',1000,1,4,5,3,1);
 					
 					
 /*Ubacivanje dodatnog dermatologa i definisanje 1 zavrsenog pregleda*/
@@ -506,4 +506,8 @@ insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (
 /*Ubacujem zakazani pregled kod dermatologa */
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-02-27 09:00:00','2021-02-27 09:30:00',700,1,1,12,1,1);
-					
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-02-02 10:00:00','2021-02-02 10:30:00',800,17,2,13,3,1);
+insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
+					values (nextval('appointments_seq'),'2021-03-02 09:00:00','2021-03-02 09:30:00',800,1,1,13,1,1);
+	

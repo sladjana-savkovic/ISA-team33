@@ -250,20 +250,5 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Collection<Appointment> getPatientsScheduledAppointmentsByDoctor(int patientId, int doctorId) {
 		return appointmentRepository.getPatientsScheduledAppointmentsByDoctor(patientId, doctorId);
 	}
-
-	@Override
-	public Collection<Appointment> getAppointmentsForUnexaminedPatientsByDoctor(int doctorId, Collection<Integer> examinedPatientIds) {
-		Collection<Appointment> scheduledAppointments = appointmentRepository.getScheduledAppointmentsByDoctorId(doctorId);
-		Collection<Appointment> result = new ArrayList<>();
-		
-		for(Appointment appointment:scheduledAppointments) {
-			if(!examinedPatientIds.contains(appointment.getPatient().getId())) {
-				result.add(appointment);
-				examinedPatientIds.add(appointment.getPatient().getId());
-			}
-		}
-		
-		return result;
-	}
 	
 }

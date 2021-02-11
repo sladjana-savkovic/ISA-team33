@@ -41,9 +41,10 @@ document.addEventListener('DOMContentLoaded', function() {
 			      selectable: true,
 			      dayMaxEvents: true, // allow "more" link when too many events
 				  eventTimeFormat: { // like '14:30:00'
-				    hour: '2-digit',
+				    hour: 'numeric',
 				    minute: '2-digit',
-				    meridiem: 'short'
+				    meridiem: false,
+					hour12: false
 				  },
 			      events : appointments,
 				  eventClick: function(info) {

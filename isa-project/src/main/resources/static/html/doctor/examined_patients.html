@@ -18,7 +18,7 @@
 
 	<div class="container w-80 mt-5 pt-5 mb-4" id="oldPatients">
 		<div class="card">
-		<h5 class="card-header info-color white-text text-center py-4"><strong>Search examined patients</strong></h5>
+		<h5 class="card-header info-color white-text text-center py-4"><strong>Patients You have examined</strong></h5>
 			<div class="card-body px-lg-5">
 				<form id="search">
 					<div class="row w-100 p-3 h-50">
@@ -34,10 +34,8 @@
 			        <table class="table" style="margin-top:50px;" id="patients">
 			        	<thead>
 			        		<tr>
-			        			<th scope="col" style="width: 400px;" onclick="sortTable(0)" class="thHover">Name</th>
-			        			<th scope="col" style="width: 400px;" onclick="sortTable(1)" class="thHover">Surname</th>
-			        			<th scope="col" class="thHover" onclick="sortDates(0)">Date of last examination</th>
-			        			<th scope="col"></th>
+			        			<th scope="col" style="width: 400px;" onclick="sortTable(0,0)" class="thHover">Name</th>
+			        			<th scope="col" style="width: 400px;" onclick="sortTable(1,0)" class="thHover">Surname</th>
 			        		</tr>
 			        	</thead>
 			        	<tbody id="body_patients"></tbody>
@@ -50,7 +48,7 @@
     
     <div class="container w-80 mt-5 pt-5 mb-5" id="futurePatients">
 		<div class="card">
-		<h5 class="card-header info-color white-text text-center py-4"><strong>Search the patients You need to examine</strong></h5>
+		<h5 class="card-header info-color white-text text-center py-4"><strong>New patients You need to examine</strong></h5>
 			<div class="card-body px-lg-5">
 				<form id="searchFuture">
 					<div class="row w-100 p-3 h-50">
@@ -66,10 +64,8 @@
 			        <table class="table" style="margin-top:50px;" id="patientsFuture">
 			        	<thead>
 			        		<tr>
-			        			<th scope="col" style="width: 400px;" onclick="sortTable(0)" class="thHover">Name</th>
-			        			<th scope="col" style="width: 400px;" onclick="sortTable(1)" class="thHover">Surname</th>
-			        			<th scope="col" class="thHover" onclick="sortDates(1)">Date of last examination</th>
-			        			<th scope="col"></th>
+			        			<th scope="col" style="width: 400px;" onclick="sortTable(0,1)" class="thHover">Name</th>
+			        			<th scope="col" style="width: 400px;" onclick="sortTable(1,1)" class="thHover">Surname</th>
 			        		</tr>
 			        	</thead>
 			        	<tbody id="body_patients_future"></tbody>
@@ -117,6 +113,14 @@
 					 </div>
 					 <div class="row w-100 p-3 h-50">
 					 	<div class="col">
+					 		<label class="text-secondary mb-0">Phone number:</label><br>
+					 	</div>
+					 	<div class="col ">
+					 		<label class="text mb-0" id="pPhone"></label>
+					 	</div>
+					 </div>
+					 <div class="row w-100 p-3 h-50">
+					 	<div class="col">
 					 		<label class="text-secondary mb-0">Allergies:</label><br>
 					 	</div>
 					 	<div class="col ">
@@ -125,6 +129,7 @@
 					 </div>
 					 <br><br>
                 	 <table class="table" id="pExaminations">
+                	 <caption style="caption-side: top; margin-left:12px;"><b id="tableCaption"></b></caption>
 			        	<thead>
 			        		<tr>
 			        			<th scope="col">Date</th>
