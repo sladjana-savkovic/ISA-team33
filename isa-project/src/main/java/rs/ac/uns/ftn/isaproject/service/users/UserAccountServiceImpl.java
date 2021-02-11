@@ -4,6 +4,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,10 @@ import rs.ac.uns.ftn.isaproject.model.users.Authority;
 import rs.ac.uns.ftn.isaproject.model.users.User;
 import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
+import rs.ac.uns.ftn.isaproject.security.activation.ConfirmationToken;
+import rs.ac.uns.ftn.isaproject.security.activation.ConfirmationTokenRepository;
 import rs.ac.uns.ftn.isaproject.security.auth.AuthorityService;
+import rs.ac.uns.ftn.isaproject.service.notification.EmailService;
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
@@ -21,18 +25,22 @@ public class UserAccountServiceImpl implements UserAccountService {
 	private UserAccountRepository userRepository;
 	private PasswordEncoder passwordEncoder;
 	private AuthorityService authService;
+	private EmailService emailService;
+	private ConfirmationTokenRepository confirmationTokenRepository;
 	
 	@Autowired
-	public UserAccountServiceImpl(UserAccountRepository userRepository,PasswordEncoder passwordEncoder,AuthorityService authService) {
+	public UserAccountServiceImpl(UserAccountRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authService,
+								EmailService emailService, ConfirmationTokenRepository confirmationTokenRepository) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.authService = authService;
+		this.emailService = emailService;
+		this.confirmationTokenRepository = confirmationTokenRepository;
 	}
 
 	@Override
-	public void save(String username, String password, String role, boolean enabled, User user) {
-		UserAccount userAccount = new UserAccount();
-		
+	public void save(String username, String password, String role, boolean enabled, User user) throws MailException, InterruptedException {
+		UserAccount userAccount = new UserAccount();		
 		userAccount.setUser(user);		
 		userAccount.setUsername(username);		
 		userAccount.setPassword(passwordEncoder.encode(password)); 
@@ -41,6 +49,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 		Authority auth = authService.findByname(role);
 		userAccount.setAuthority(auth);
 		userAccount = this.userRepository.save(userAccount);
+		
+		if (role.equals("ROLE_PATIENT")) {
+			ConfirmationToken confirmationToken = new ConfirmationToken(userAccount);
+			confirmationTokenRepository.save(confirmationToken);
+			emailService.sendActivationEmail(username, confirmationToken);
+		}					
 	}
 
 	@Override

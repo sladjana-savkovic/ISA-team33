@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddPharmacyAdministratorDTO;
@@ -63,7 +64,7 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 
 	
 	@Override
-	public void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) {
+	public void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException {
 		PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();		
 		City city = cityRepository.getOne(pharmacyAdministratorDTO.cityId);
 		pharmacyAdministrator.setCity(city);				

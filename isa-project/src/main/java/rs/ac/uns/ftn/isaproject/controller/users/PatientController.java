@@ -31,6 +31,7 @@ public class PatientController {
 		this.patientService = patientService;
 		this.userAccountService = userAccountService;
 	}
+	
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAnyRole('PATIENT')")
 	public ResponseEntity<PatientDTO> findOneById(@PathVariable int id) {
