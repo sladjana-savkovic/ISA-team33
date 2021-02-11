@@ -107,6 +107,43 @@ $(document).ready(function () {
 		});
 	});
 	
+	//Sortiranje izvjestaja po datumu
+	$('#sortExmDate').click(function(){
+		
+		if(patientReports.length == 0 || patientReports.length == 1)
+			return;
+		else{
+			$.ajax({
+				type:"POST", 
+				url: "/api/examination-report/sort/date/" + sortingType,
+				headers: {
+			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			    },
+				data: JSON.stringify(patientReports),
+				contentType: "application/json",
+				success:function(sortResult){
+					$('#body_pExaminations').empty();
+					for (let r of sortResult){
+						addReport(r);
+					}
+					
+					if(sortingType == "asc"){
+						sortingType = "desc";
+					}
+					else{
+						sortingType = "asc";
+					}
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+		}
+	});
+	
 });
 
 function addPatient(patient){
@@ -241,42 +278,6 @@ function patientInformation(patientId, type){
 		$('#pExaminations').attr("hidden",true);
 	}
 	
-	//Sortiranje izvjestaja po datumu
-	$('#sortExmDate').click(function(){
-		
-		if(patientReports.length == 0 || patientReports.length == 1)
-			return;
-		else{
-			$.ajax({
-				type:"POST", 
-				url: "/api/examination-report/sort/date/" + sortingType,
-				headers: {
-			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-			    },
-				data: JSON.stringify(patientReports),
-				contentType: "application/json",
-				success:function(sortResult){
-					$('#body_pExaminations').empty();
-					for (let r of sortResult){
-						addReport(r);
-					}
-					
-					if(sortingType == "asc"){
-						sortingType = "desc";
-					}
-					else{
-						sortingType = "asc";
-					}
-				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
-			});
-		}
-	});
 };
 
 function addAppointment(a){
