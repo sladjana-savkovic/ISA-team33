@@ -18,9 +18,7 @@ import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
-import rs.ac.uns.ftn.isaproject.dto.SupplierDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
-import rs.ac.uns.ftn.isaproject.mapper.SupplierMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
 
@@ -88,20 +86,8 @@ public class DrugOfferController {
 	public ResponseEntity<?> findById(@PathVariable int id){
 		try {
 			DrugOffer drugOffer = drugOfferService.findById(id);
-			DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
+			DrugOfferDTO drugOfferDTO = new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId(), drugOffer.getSupplier().getId());
 			return new ResponseEntity<DrugOfferDTO>(drugOfferDTO, HttpStatus.OK);
-		}
-		catch (Exception e) {
-			return new ResponseEntity<>("An error occurred while getting offer.", HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@GetMapping("/{id}/supplier")
-	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<?> findSupplierById(@PathVariable int id){
-		try {
-			SupplierDTO supplierDTO = SupplierMapper.toSupplierDTO(drugOfferService.findSupplierById(id));
-			return new ResponseEntity<SupplierDTO>(supplierDTO, HttpStatus.OK);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while getting offer.", HttpStatus.BAD_REQUEST);
@@ -141,5 +127,4 @@ public class DrugOfferController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}		
 	}		
-	
 }

@@ -5,6 +5,7 @@ var orderId;
 var searchDrugs = [];
 var searchOrders = [];
 var selectedDrugs = [];
+var idOffer;
 $(document).ready(function () {
 	
 	clearLocalStorage();
@@ -446,14 +447,14 @@ function acceptOffer(id){
 					$('#div_alert').append(a);
 					$.ajax({
 						type:"GET", 
-						url: "/api/drug-offer/" + id + "/supplier",
+						url: "/api/drug-offer/" + id,
 						headers: {
             				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         				},
 						contentType: "application/json",
-						success:function(supplier){
+						success:function(offer){
 							$.ajax({
-								url: "/api/email/" + supplier.id,
+								url: "/api/email/" + offer.supplierId,
 								headers: {
             						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         						},
@@ -509,25 +510,25 @@ function acceptOffer(id){
 					success:function(offers){	
 						for(i = 0; i < offers.length; i++){
 							if(offers[i].status != "Accepted"){
+								idOffer = offers[i].id;
 								$.ajax({
 									type:"PUT", 
-									url: "/api/drug-offer/" + offers[i].id + "/reject",
+									url: "/api/drug-offer/" + idOffer + "/reject",
 									headers: {
             							'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         							},
 									contentType: "application/json",
 									success:function(){
-									
 									$.ajax({
 										type:"GET", 
-										url: "/api/drug-offer/" + id + "/supplier",
+										url: "/api/drug-offer/" + idOffer,
 										headers: {
             								'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         								},
 										contentType: "application/json",
-										success:function(supplier){
+										success:function(offer){
 											$.ajax({
-											url: "/api/email/" + supplier.id,
+											url: "/api/email/" + offer.supplierId,
 											headers: {
             									'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         									},

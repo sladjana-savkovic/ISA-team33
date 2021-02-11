@@ -12,13 +12,13 @@ public class DrugOfferMapper {
 	public static Collection<DrugOfferDTO> toDrugOfferDTOs(Collection<DrugOffer> drugOffers){
 		Collection<DrugOfferDTO> drugOfferDTOs = new ArrayList<>();
 		for(DrugOffer d:drugOffers) {
-			drugOfferDTOs.add(new DrugOfferDTO(d.getId(), d.getTotalPrice(), d.getStatus(), d.getLimitDate(), d.getPharmacyOrder().getId()));
+			drugOfferDTOs.add(new DrugOfferDTO(d.getId(), d.getTotalPrice(), d.getStatus(), d.getLimitDate(), d.getPharmacyOrder().getId(), d.getSupplier().getId()));
 		}
 		return drugOfferDTOs;
 	}
 	
 	public static DrugOfferDTO toDrugOfferDTO(DrugOffer drugOffer){
-		return new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId());
+		return new DrugOfferDTO(drugOffer.getId(), drugOffer.getTotalPrice(), drugOffer.getStatus(), drugOffer.getLimitDate(), drugOffer.getPharmacyOrder().getId(), drugOffer.getSupplier().getId());
 	}	
 	
 	public static Collection<DrugOfferAndOrderDTO> toDrugOfferAndOrderDTOs(Collection<DrugOffer> drugOffers){

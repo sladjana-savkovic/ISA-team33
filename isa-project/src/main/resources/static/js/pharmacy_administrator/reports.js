@@ -18,7 +18,7 @@ $(document).ready(function () {
 		success:function(admin){
 			pharmacyId = admin.pharmacyId;
 			
-			let a1 = '<a style="margin-left: 50px;" href="http://localhost:8080/api/report/' + pharmacyId + '/pharmacy" target="_blank">Report about pharmacy</a>'
+			let a1 = '<a style="margin-left: 50px;" href="http://localhost:8080/api/report/' + pharmacyId + '/pharmacy" target="_blank">Pharmacy and doctor rating report</a>'
 			$('#report_div').append(a1);
 			
 			let a2 = '<a style="margin-left: 50px;" href="http://localhost:8080/api/report/' + pharmacyId + '/appointment" target="_blank">Graphic view of report about performed appointment</a>'

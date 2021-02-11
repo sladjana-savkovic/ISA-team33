@@ -28,6 +28,9 @@ $(document).ready(function () {
 		
 		}else if(getRoleFromToken() == "ROLE_SYSTEMADMIN"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/system_admin.js';
+		
+		}else if(getRoleFromToken() == "ROLE_PHARMACYADMIN"){
+			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/pharmacy_administrator.js';
 		}
 	
 		

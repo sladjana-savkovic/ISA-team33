@@ -39,7 +39,6 @@ public class PharmacyAdministratorController {
 			PharmacyAdministratorDTO pharmacyAdministratorDTO = PharmacyAdministratorMapper.toPharmacyAdministratorDTO(administratorService.getOne(id));
 			UserAccount account = userAccountService.findByUserId(id);
 			pharmacyAdministratorDTO.setEmail(account.getUsername());
-			pharmacyAdministratorDTO.setPassword(account.getPassword());
 			return new ResponseEntity<PharmacyAdministratorDTO>(pharmacyAdministratorDTO, HttpStatus.OK);
 		}
 		catch (Exception e) {
@@ -70,6 +69,5 @@ public class PharmacyAdministratorController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 	
 }

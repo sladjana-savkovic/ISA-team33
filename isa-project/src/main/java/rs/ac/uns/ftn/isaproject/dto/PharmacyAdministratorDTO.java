@@ -9,7 +9,6 @@ public class PharmacyAdministratorDTO {
 	public String surname;
 	public LocalDate dateOfBirth;
 	public String email;
-	public String password;
 	public int countryId;
 	public String countryName;
 	public int cityId;
@@ -20,15 +19,13 @@ public class PharmacyAdministratorDTO {
 	
 	public PharmacyAdministratorDTO() {}
 
-	public PharmacyAdministratorDTO(int id, String name, String surname, LocalDate dateOfBirth, String email, String password,
+	public PharmacyAdministratorDTO(int id, String name, String surname, LocalDate dateOfBirth,
 			String address, int cityId, String cityName, String countryName, int pharmacyId, int countryId, String telephone) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
 		this.dateOfBirth = dateOfBirth;
-		this.email = email;
-		this.password = password;
 		this.address = address;
 		this.cityId = cityId;
 		this.cityName = cityName;
@@ -44,14 +41,6 @@ public class PharmacyAdministratorDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 }

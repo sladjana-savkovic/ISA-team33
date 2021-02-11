@@ -11,5 +11,5 @@ public interface PharmacyAdministratorService {
 	void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException;
 	PharmacyAdministrator getOne(int id);
 	void updateInfo(PharmacyAdministratorDTO pharmacyAdministratorDTO);
-	void updatePassword(int id, String password);
+	
 }
