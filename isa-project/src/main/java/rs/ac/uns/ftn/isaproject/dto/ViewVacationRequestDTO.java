@@ -11,11 +11,12 @@ public class ViewVacationRequestDTO {
 	public LocalDate startDate;
 	public LocalDate endDate;
 	public int pharmacyId;
+	public String pharmacyName;
 	
 	public ViewVacationRequestDTO() {}
 	
 	public ViewVacationRequestDTO(int id, int doctorId, String doctorSurname, String typeOfDoctor, LocalDate startDate,
-			LocalDate endDate, int pharmacyId) {
+			LocalDate endDate, int pharmacyId, String pharmacyName) {
 		super();
 		this.id = id;
 		this.doctorId = doctorId;
@@ -24,6 +25,7 @@ public class ViewVacationRequestDTO {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.pharmacyId = pharmacyId;
+		this.pharmacyName = pharmacyName;
 	}
 	
 }
