@@ -446,14 +446,14 @@ function acceptOffer(id){
 					$('#div_alert').append(a);
 					$.ajax({
 						type:"GET", 
-						url: "/api/drug-offer/" + id + "/supplier",
+						url: "/api/drug-offer/" + id,
 						headers: {
             				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         				},
 						contentType: "application/json",
-						success:function(supplier){
+						success:function(offer){
 							$.ajax({
-								url: "/api/email/" + supplier.id,
+								url: "/api/email/" + offer.supplierId,
 								headers: {
             						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         						},
@@ -517,17 +517,16 @@ function acceptOffer(id){
         							},
 									contentType: "application/json",
 									success:function(){
-									
 									$.ajax({
 										type:"GET", 
-										url: "/api/drug-offer/" + id + "/supplier",
+										url: "/api/drug-offer/" + offers[i].id,
 										headers: {
             								'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         								},
 										contentType: "application/json",
-										success:function(supplier){
+										success:function(offer){
 											$.ajax({
-											url: "/api/email/" + supplier.id,
+											url: "/api/email/" + offer.supplierId,
 											headers: {
             									'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         									},
