@@ -37,7 +37,7 @@ public class Appointment {
 	private double price;
 	
 	@Version
-	private Long version;
+	private int version;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	private Doctor doctor;
@@ -112,11 +112,11 @@ public class Appointment {
 		this.status = status;
 	}
 
-	public Long getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(Long version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 	

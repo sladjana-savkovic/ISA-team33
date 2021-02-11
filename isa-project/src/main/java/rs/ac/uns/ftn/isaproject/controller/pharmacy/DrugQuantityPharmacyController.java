@@ -42,7 +42,7 @@ public class DrugQuantityPharmacyController {
 		boolean availability = quantityPharmacyService.checkDrugAvailability(drugId, pharmacyId);
 
 		if(!availability) {
-			notificationService.add(new NotificationDTO(drugId, pharmacyId));
+			notificationService.send(new NotificationDTO(drugId, pharmacyId));
 		}
 		
 		return new ResponseEntity<Boolean>(availability, HttpStatus.OK);
