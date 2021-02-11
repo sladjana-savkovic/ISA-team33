@@ -115,7 +115,7 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public Collection<Patient> findUnexaminedPatientsByDoctorId(int doctorId) {
 		Collection<Patient> examinedPatients = findExaminedPatientsByDoctorId(doctorId);
-		Collection<Patient> patientsHaveAppointments = patientRepository.findPatientsHaveAppointmentByDoctorId(doctorId);
+		Collection<Patient> patientsHaveAppointments = patientRepository.findPatientsHaveScheduledAppointmentByDoctorId(doctorId);
 		Collection<Integer> examinedPatientIds = new ArrayList<Integer>();
 		Collection<Patient> unexaminedPatients = new ArrayList<Patient>();
 		
