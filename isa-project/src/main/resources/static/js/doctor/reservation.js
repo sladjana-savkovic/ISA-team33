@@ -21,7 +21,7 @@ $(document).ready(function () {
 		
 		$.ajax({
 			type:"GET", 
-			url: "/api/drug-reservation/" + reservationId + "/doctor/" + doctorId,
+			url: "/api/drug-reservation/" + reservationId + "/doctor",
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },

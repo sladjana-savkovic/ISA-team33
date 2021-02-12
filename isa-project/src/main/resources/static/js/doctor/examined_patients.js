@@ -12,7 +12,7 @@ $(document).ready(function () {
 	//Ucitavanje pacijenata koje je doktor vec pregledao
 	$.ajax({
 		type:"GET", 
-		url: "/api/patient/doctor/" + doctorId + "/examined",
+		url: "/api/patient/doctor/examined",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -378,7 +378,7 @@ function clearLocalStorage(){
 function loadUnexaminedPatients(){
 	$.ajax({
 		type:"GET", 
-		url: "/api/patient/doctor/" + doctorId + "/unexamined",
+		url: "/api/patient/doctor/unexamined",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
