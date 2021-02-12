@@ -97,7 +97,7 @@ public class DoctorController {
 	}
 	
 	@PostMapping("/search/{name}/{surname}")
-	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'ROLE_PATIENT')")
 	public ResponseEntity<?> searchByNameAndSurname(@PathVariable String name,@PathVariable String surname,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
 		try {
 			Collection<ViewSearchedDoctorDTO> searchResult = doctorService.searchByNameAndSurname(name, surname, doctorDTOs);
@@ -109,7 +109,7 @@ public class DoctorController {
 		}
 	
 	@PostMapping("/filter/{type}/{grade}")
-	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
+	@PreAuthorize("hasAnyRole('ROLE_PHARMACYADMIN', 'ROLE_PATIENT')")
 	public ResponseEntity<?> filterByGradeAndType(@PathVariable String type,@PathVariable int grade,@RequestBody ArrayList<ViewSearchedDoctorDTO> doctorDTOs){
 		try {
 			Collection<ViewSearchedDoctorDTO> searchResult = doctorService.filterByGradeAndType(type, grade, doctorDTOs);
@@ -227,6 +227,18 @@ public class DoctorController {
 		}
 		catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/all")
+	@PreAuthorize("hasRole('ROLE_PATIENT')")
+	public ResponseEntity<Collection<ViewSearchedDoctorDTO>> getAll() {
+		try {
+			Collection<ViewSearchedDoctorDTO> doctorDTOs = ViewSearchedDoctorMapper.toViewSearchedDoctorDTODrugDTOs(doctorService.getAllDoctors());
+			return new ResponseEntity<Collection<ViewSearchedDoctorDTO>>(doctorDTOs, HttpStatus.OK);
+		}
+		catch(EntityNotFoundException exception) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

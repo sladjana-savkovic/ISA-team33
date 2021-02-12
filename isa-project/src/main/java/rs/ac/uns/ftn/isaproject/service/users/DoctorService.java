@@ -26,4 +26,5 @@ public interface DoctorService {
 	Collection<Doctor> findDoctorNotInPharmacy(int id);
 	Collection<Doctor> findAvailableDoctor(LocalDateTime date,Long idPharmacy);
 	Collection<Doctor> findDoctorByType(int type);
+	Collection<Doctor> getAllDoctors();
 }
