@@ -4,6 +4,10 @@ $(document).ready(function () {
 	
 	$('#createApp').submit(function(event){
 		event.preventDefault();
+	    localStorage.removeItem("wantedTime");
+		localStorage.removeItem("wantedPharmacyId");
+	    localStorage.removeItem("doctors");
+		localStorage.removeItem("pharmacies");
 		let appDate = $('#appDate').val();
 		let appStartTime = $('#appStartTime').val();
 		

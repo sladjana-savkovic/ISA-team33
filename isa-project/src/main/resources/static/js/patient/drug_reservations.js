@@ -11,7 +11,7 @@ const getAllReservations = () => {
 	$("#apartment-cards").empty();
 	$.ajax({
 		type:"GET",
-		url:"/api/drug-reservation/patient/"+patientId,
+		url:"/api/drug-reservation/patient",
 		headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },

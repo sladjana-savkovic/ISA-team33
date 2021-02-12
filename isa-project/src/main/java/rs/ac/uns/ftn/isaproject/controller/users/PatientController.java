@@ -35,13 +35,14 @@ public class PatientController {
 		this.userAccountService = userAccountService;
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("")
 	@PreAuthorize("hasAnyRole('PATIENT')")
-	public ResponseEntity<PatientDTO> findOneById(@PathVariable int id) {
+	public ResponseEntity<PatientDTO> findOneById() {
 		try {
-			PatientDTO patientDTO = PatientMapper.toPatientDTO(patientService.getOne(id));
-			patientDTO.setEmail(userAccountService.findByUserId(id).getUsername());
-			patientDTO.setPassword(userAccountService.findByUserId(id).getPassword());
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			PatientDTO patientDTO = PatientMapper.toPatientDTO(patientService.getOne(u.getUser().getId()));
+			patientDTO.setEmail(userAccountService.findByUserId(u.getUser().getId()).getUsername());
+			patientDTO.setPassword(userAccountService.findByUserId(u.getUser().getId()).getPassword());
 			return new ResponseEntity<PatientDTO>(patientDTO, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {

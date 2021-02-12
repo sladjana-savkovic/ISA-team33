@@ -11,7 +11,7 @@ const getAllAppointments = () => {
 	$("#apartment-cards").empty();
 	$.ajax({
 		type:"GET",
-		url:"/api/appointment/patient/"+patientId+"/pharmacist/scheduled",
+		url:"/api/appointment/patient/pharmacist/scheduled",
 		headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },

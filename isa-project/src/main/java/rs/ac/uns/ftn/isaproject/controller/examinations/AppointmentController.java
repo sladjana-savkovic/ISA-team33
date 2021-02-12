@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentEventDTO;
@@ -225,12 +227,13 @@ public class AppointmentController {
 		}
 	}
 
-	@GetMapping("/patient/{id_patient}/{doctorType}/scheduled")
+	@GetMapping("/patient/{doctorType}/scheduled")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<Collection<AddAppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable int id_patient,@PathVariable String doctorType){
+	public ResponseEntity<Collection<AddAppointmentDTO>> getPatientsScheduledAppointmentsDoctor(@PathVariable String doctorType){
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			TypeOfDoctor type = doctorType.equals("dermatologists") ? TypeOfDoctor.Dermatologist : TypeOfDoctor.Pharmacist;
-			Collection<AddAppointmentDTO> appointmentDTOs = AppointmentMapper.toAddAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDoctor(id_patient, type));
+			Collection<AddAppointmentDTO> appointmentDTOs = AppointmentMapper.toAddAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsDoctor(u.getUser().getId(), type));
 			return new ResponseEntity<Collection<AddAppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
@@ -264,11 +267,12 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("/patient/finished/{id}")
+	@GetMapping("/patient/finished")
 	@PreAuthorize("hasAnyRole('PATIENT')")
-	public ResponseEntity<?> getPatientAppointments(@PathVariable int id){
+	public ResponseEntity<?> getPatientAppointments(){
 		try {
-			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientAppointments(id));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientAppointments(u.getUser().getId()));
 			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
