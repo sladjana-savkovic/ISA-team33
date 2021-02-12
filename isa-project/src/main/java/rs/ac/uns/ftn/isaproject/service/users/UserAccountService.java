@@ -12,7 +12,7 @@ public interface UserAccountService {
 	UserAccount findById(Long id) throws AccessDeniedException;
     UserAccount findByUsername(String username);
     UserAccount findByUserId(int id);
-    void save(String username, String password, String role, boolean enabled, User user) throws MailException, InterruptedException;
+    void save(String username, String password, String role, boolean enabled, User user) throws MailException, InterruptedException, Exception;
     void updatePassword(Long id,String oldPassword, String newPassword) throws BadRequestException;
     boolean confirmUserAccount(String confirmationToken);
 }

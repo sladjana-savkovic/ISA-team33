@@ -10,7 +10,7 @@ import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 
 public interface DrugOfferService {
 	
-	void acceptOffer(int id);
+	void acceptOffer(int id) throws Exception;
 	void rejectOffer(int id);
 	Collection<DrugOffer> findByPharmacyOrderId(int id);
 	Collection<DrugOffer> findByPharmacyId(int id);

@@ -9,14 +9,18 @@ import org.springframework.stereotype.Service;
 import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
+import rs.ac.uns.ftn.isaproject.mapper.DrugQuantityOrderMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityOrder;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantitySupplier;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
 import rs.ac.uns.ftn.isaproject.model.users.Supplier;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugOfferRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantitySupplierRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.SupplierRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 
 @Service
 public class DrugOfferServiceImpl implements DrugOfferService{
@@ -25,25 +29,33 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	private PharmacyOrderRepository pharmacyOrderRepository;
 	private DrugQuantitySupplierRepository drugQuantitySupplierRepository;
 	private SupplierRepository supplierRepository;
+	private UserAccountRepository userAccountRepository;
 	
 	@Autowired
 	public DrugOfferServiceImpl(DrugOfferRepository drugOfferRepository, PharmacyOrderRepository pharmacyOrderRepository, 
-								DrugQuantitySupplierRepository drugQuantitySupplierRepository, SupplierRepository supplierRepository) {
+								DrugQuantitySupplierRepository drugQuantitySupplierRepository, SupplierRepository supplierRepository,
+								UserAccountRepository userAccountRepository) {
 		this.drugOfferRepository = drugOfferRepository;
 		this.pharmacyOrderRepository = pharmacyOrderRepository;
 		this.drugQuantitySupplierRepository = drugQuantitySupplierRepository;
 		this.supplierRepository = supplierRepository;
+		this.userAccountRepository = userAccountRepository;
 	}
 
 	@Override
-	public void acceptOffer(int id) {
+	public void acceptOffer(int id) throws Exception {
 		DrugOffer drugOffer = drugOfferRepository.getOne(id);
 		PharmacyOrder pharmacyOrder = pharmacyOrderRepository.getOne(drugOffer.getPharmacyOrder().getId());
+		
+	    if (pharmacyOrder.getDrugQuantityOrders().size() > drugQuantitySupplierRepository.getNumberOfAvailableDrugs(drugOffer.getSupplier().getId(), pharmacyOrder.getId()) ) {
+	    	throw new Exception("The offer was not successfully accepted. The supplier does not have enough drugs ");	    	
+	    }	
+		
 		if(pharmacyOrder.getLimitDate().isBefore(LocalDate.now())) {
 			drugOffer.setStatus(OfferStatus.Accepted);
 			drugOfferRepository.save(drugOffer);
-		}
-		
+			updateDrugStorageSupplier(pharmacyOrder.getDrugQuantityOrders(), drugOffer.getSupplier().getId());
+		}		
 	}
 
 	@Override
@@ -123,5 +135,20 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 		return searchResult;		
 	}
 
+	
+	
+	private void updateDrugStorageSupplier(Collection<DrugQuantityOrder> drugQuantityOrders, int supplierId) {
+		Collection<DrugQuantitySupplier> drugQuantitiesSupplier = drugQuantitySupplierRepository.findBySupplierId(supplierId);
+		for (DrugQuantitySupplier drugQuantitySupplier : drugQuantitiesSupplier) {
+			for (DrugQuantityOrder drugQuantityOrder : drugQuantityOrders) {
+				if (drugQuantityOrder.getDrug().getId() == drugQuantitySupplier.getDrug().getId()) {
+					int quantity = drugQuantitySupplier.getQuantity() - drugQuantityOrder.getQuantity();
+					drugQuantitySupplier.setQuantity(quantity);
+					drugQuantitySupplierRepository.save(drugQuantitySupplier);
+				}
+			}			
+		}		
+	}
+	
 	
 }

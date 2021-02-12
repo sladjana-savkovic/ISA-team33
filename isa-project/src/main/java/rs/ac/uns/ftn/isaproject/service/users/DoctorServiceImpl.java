@@ -77,7 +77,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public void addPharmacist(AddDoctorDTO doctorDTO) throws MailException, InterruptedException {
+	public void addPharmacist(AddDoctorDTO doctorDTO) throws MailException, InterruptedException, Exception {
 		Doctor doctor = new Doctor();
 		City city = cityRepository.getOne(doctorDTO.cityId);
 		Set<Pharmacy> pharmacies = new HashSet<Pharmacy>();
@@ -163,7 +163,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 	
 	@Override
-	public void add(AddDermatologistDTO dermatologistDTO) throws MailException, InterruptedException {
+	public void add(AddDermatologistDTO dermatologistDTO) throws MailException, InterruptedException, Exception {
 		Doctor dermatologist = new Doctor();		
 		City city = cityRepository.getOne(dermatologistDTO.cityId);
 		dermatologist.setCity(city);				

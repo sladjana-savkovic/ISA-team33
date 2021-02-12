@@ -190,7 +190,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Transactional(readOnly = false,  propagation = Propagation.REQUIRES_NEW)
 	public void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime,
 			LocalTime endTime, AddAppointmentDTO appointmentDTO, AppointmentStatus status) throws Exception {
-		
+
 		UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(u.getAuthority().getName().equals("ROLE_PATIENT")) {
 			Collection<CancelledAppointment> appointments = canelledAppointmentRepository.findAllByPatientIdAndPharmacyIdAndDoctorId(appointmentDTO.idPatient, appointmentDTO.idPharmacy, doctorId);
@@ -208,6 +208,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 				}
 			}
 		}
+
+		if( (date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now())) && 
+			(startTime.isBefore(LocalTime.now()) || endTime.isBefore(LocalTime.now()) || endTime.equals(LocalTime.now()))) {
+			throw new BadRequestException("The selected time has passed.");
+		}
+		
 		if(!isDoctorAvailableForChosenTime(doctorId, date, startTime, endTime)) {
 			throw new BadRequestException("The doctor is busy for a chosen time.");
 		}

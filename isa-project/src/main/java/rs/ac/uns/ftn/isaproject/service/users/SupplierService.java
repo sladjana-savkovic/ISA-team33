@@ -14,6 +14,6 @@ public interface SupplierService {
 	Supplier getOne(int id);
 	UserAccount getOne(long id) throws AccessDeniedException;
 	void updateInfo(SupplierDTO supplierDTO);
-	void add(AddSupplierDTO supplierDTO) throws MailException, InterruptedException;
+	void add(AddSupplierDTO supplierDTO) throws MailException, InterruptedException, Exception;
 
 }

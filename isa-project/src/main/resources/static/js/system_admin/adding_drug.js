@@ -99,7 +99,7 @@ function getAllIngredients() {
 		},
 		error: function (jqXHR) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-				'Error getting ingredients! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				'Error getting ingredients! ' + jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
 		}
@@ -133,7 +133,7 @@ function getAllDrugs() {
 		},
 		error: function (jqXHR) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-				'Error getting drugs! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				'Error getting drugs! ' + jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
 		}

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import java.util.Collection;
 import rs.ac.uns.ftn.isaproject.dto.AddNotificationDTO;
 import rs.ac.uns.ftn.isaproject.dto.ComplaintDTO;
 import rs.ac.uns.ftn.isaproject.mapper.ComplaintMapper;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.complaint.ComplaintService;
 import rs.ac.uns.ftn.isaproject.service.notification.EmailService;
 
@@ -37,6 +39,8 @@ public class ComplaintController {
 	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<?> add(@RequestBody ComplaintDTO complaintDTO){
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			complaintDTO.patientId = u.getUser().getId();
 			if (complaintDTO.subjectType.equals("Dermatologist") || complaintDTO.subjectType.equals("Pharmacist")) {
 				complaintService.addComplaintToDoctor(complaintDTO);
 				return new ResponseEntity<Void>(HttpStatus.CREATED);

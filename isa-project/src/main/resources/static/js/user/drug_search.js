@@ -9,6 +9,12 @@ $(document).ready(function () {
 
 	getAllDrugs();
 	
+	
+	/*Search on submit*/
+	$('form#form_id').submit(function (event) {
+		event.preventDefault();	
+		searchDrug();
+	});
 });
 
 
@@ -45,7 +51,7 @@ function searchDrug() {
             }
         },
         error: function (jqXHR) {
-            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseJSON + '</div>';
+            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseText + '</div>';
             $("#loading").hide();
             $("#div_drugs").prepend(alert);
         }
@@ -75,7 +81,7 @@ function getAllDrugs() {
             }
         },
         error: function (jqXHR) {
-            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseJSON + '</div>';
+            let alert = '<div id="loading" class="alert alert-danger" role="alert"> Error! ' + jqXHR.responseText + '</div>';
             $("#loading").hide();
             $("#div_drugs").prepend(alert);
         }
@@ -149,7 +155,7 @@ function showSubstituteDrugs(drugId) {
         },
         error: function (jqXHR) {
 			let table = '<table style="margin-left:20px; margin-right:20px; margin-top:25px; margin-bottom:25px; width:300px;">'
-					+ '<tr><td> Error! ' + jqXHR.responseJSON + ' </td></tr>'
+					+ '<tr><td> Error! ' + jqXHR.responseText + ' </td></tr>'
 					+ '</table>';		
 				$('#substitute_content').empty();
 				$('#substitute_content').append(table);
@@ -202,7 +208,7 @@ function showPharmacies(drugId) {
         },
         error: function (jqXHR) {
 			$('#pharmaciesTable').empty();
-			$('#pharmaciesTable').append('<tr><td> Error! ' + jqXHR.responseJSON + ' </td></tr>');
+			$('#pharmaciesTable').append('<tr><td> Error! ' + jqXHR.responseText + ' </td></tr>');
 			$('#topModalSuccess').modal('show');
         }
     });		
@@ -214,3 +220,4 @@ function clearLocalStorage(){
 	localStorage.removeItem("pharmacyId");
 	localStorage.removeItem("appointmentId");
 }
+

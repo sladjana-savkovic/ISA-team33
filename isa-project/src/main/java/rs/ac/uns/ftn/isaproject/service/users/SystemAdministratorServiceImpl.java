@@ -31,7 +31,7 @@ public class SystemAdministratorServiceImpl implements SystemAdministratorServic
 	}	
 	
 	@Override
-	public void add(AddSystemAdministratorDTO systemAdministratorDTO) throws MailException, InterruptedException {
+	public void add(AddSystemAdministratorDTO systemAdministratorDTO) throws MailException, InterruptedException, Exception {
 		SystemAdministrator systemAdministrator = new SystemAdministrator();		
 		City city = cityRepository.getOne(systemAdministratorDTO.cityId);
 		systemAdministrator.setCity(city);				
