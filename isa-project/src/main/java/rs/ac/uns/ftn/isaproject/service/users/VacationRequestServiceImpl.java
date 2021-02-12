@@ -91,4 +91,16 @@ public class VacationRequestServiceImpl implements VacationRequestService {
 	public Doctor findDoctorById(int id) {
 		return vacationRepository.findDoctorById(id);
 	}
+
+	@Override
+	public Collection<VacationRequest> findAllCreatedRequest() {
+		Collection<VacationRequest> requests = vacationRepository.findAll();
+		Collection<VacationRequest> createdRequests = new ArrayList<VacationRequest>();
+		for(VacationRequest v: requests) {
+			if(v.getStatus().equals(VacationRequestStatus.Created)) {
+				createdRequests.add(v);
+			}
+		}
+		return createdRequests;
+	}
 }

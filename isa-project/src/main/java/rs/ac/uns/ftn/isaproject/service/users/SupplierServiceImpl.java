@@ -35,13 +35,6 @@ public class SupplierServiceImpl implements SupplierService {
 	public Supplier getOne(int id) {
 		return supplierRepository.getOne(id);
 	}
-	
-	@Override
-	public void updatePassword(int id, String password) {
-		Supplier supplier = supplierRepository.getOne(id);
-		//supplier.setPassword(password);
-		supplierRepository.save(supplier);
-	}
 
 	@Override
 	public void updateInfo(SupplierDTO supplierDTO) {

@@ -380,6 +380,8 @@ insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,
 				values (nextval('vacation_seq'),'2021-05-10','2021-05-17',2,null,1,2);
 insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
 				values (nextval('vacation_seq'),'2021-06-08','2021-06-13',2,null,2,1);
+insert into vacation_request(id,start_date,end_date,status,reason_for_rejection,doctor_id,pharmacy_id)
+				values (nextval('vacation_seq'),'2021-07-01','2021-07-10',0,null,2,1);
 				
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,1);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,1);
