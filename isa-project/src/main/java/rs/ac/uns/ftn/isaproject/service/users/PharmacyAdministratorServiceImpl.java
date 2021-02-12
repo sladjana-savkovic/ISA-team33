@@ -53,7 +53,7 @@ public class PharmacyAdministratorServiceImpl implements PharmacyAdministratorSe
 	}
 	
 	@Override
-	public void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException {
+	public void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException, Exception {
 		PharmacyAdministrator pharmacyAdministrator = new PharmacyAdministrator();		
 		City city = cityRepository.getOne(pharmacyAdministratorDTO.cityId);
 		pharmacyAdministrator.setCity(city);				

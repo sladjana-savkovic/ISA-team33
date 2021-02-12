@@ -63,13 +63,13 @@ public class SupplierController {
 	
 	@RequestMapping(path = "/add", method = RequestMethod.POST, consumes = "application/json")
 	@PreAuthorize("hasRole('ROLE_SYSTEMADMIN')")
-	public ResponseEntity<Void> add(@RequestBody AddSupplierDTO supplierDTO){
+	public ResponseEntity<?> add(@RequestBody AddSupplierDTO supplierDTO){
 		try {
 			supplierService.add(supplierDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	

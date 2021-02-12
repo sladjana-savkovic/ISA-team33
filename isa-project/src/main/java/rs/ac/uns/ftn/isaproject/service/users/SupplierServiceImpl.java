@@ -58,7 +58,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void add(AddSupplierDTO supplierDTO) throws MailException, InterruptedException {
+	public void add(AddSupplierDTO supplierDTO) throws MailException, InterruptedException, Exception {
 		Supplier supplier = new Supplier();		
 		City city = cityRepository.getOne(supplierDTO.cityId);
 		supplier.setCity(city);				

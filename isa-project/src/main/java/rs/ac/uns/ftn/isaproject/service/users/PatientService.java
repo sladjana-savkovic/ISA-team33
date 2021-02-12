@@ -12,7 +12,7 @@ public interface PatientService {
  
 	void increasePenalty(int id);
 
-	void add(AddPatientDTO addPatientDTO) throws MailException, InterruptedException;
+	void add(AddPatientDTO addPatientDTO) throws MailException, InterruptedException, Exception;
 	
 	boolean checkAllergyOnDrug(int id, int drugId);
 

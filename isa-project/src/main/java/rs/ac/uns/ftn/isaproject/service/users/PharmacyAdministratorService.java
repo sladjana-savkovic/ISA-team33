@@ -8,7 +8,7 @@ import rs.ac.uns.ftn.isaproject.model.users.PharmacyAdministrator;
 
 public interface PharmacyAdministratorService {
 
-	void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException;
+	void add(AddPharmacyAdministratorDTO pharmacyAdministratorDTO) throws MailException, InterruptedException, Exception;
 	PharmacyAdministrator getOne(int id);
 	void updateInfo(PharmacyAdministratorDTO pharmacyAdministratorDTO);
 	
