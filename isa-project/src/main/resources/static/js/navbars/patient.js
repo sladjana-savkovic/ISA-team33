@@ -24,7 +24,10 @@ $(document).ready(function () {
 		+ ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/patient/pharmacy_profile.html">Pharmacy profile</a>'
         + '  </li>'
-        
+         + '  <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/user/pharmacy_search.html">Pharmacy search</a>'
+        + '  </li>'
+ 
 		+ ' <li class="nav-item">'
         + '  <a class="nav-link" href="/html/patient/pharmacy_subscription.html">Pharmacy subscription</a>'
         + '  </li>'

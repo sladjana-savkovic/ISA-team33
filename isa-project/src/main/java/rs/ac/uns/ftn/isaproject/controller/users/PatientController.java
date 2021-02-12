@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.mapper.PatientMapper;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
@@ -33,13 +35,14 @@ public class PatientController {
 		this.userAccountService = userAccountService;
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("")
 	@PreAuthorize("hasAnyRole('PATIENT')")
-	public ResponseEntity<PatientDTO> findOneById(@PathVariable int id) {
+	public ResponseEntity<PatientDTO> findOneById() {
 		try {
-			PatientDTO patientDTO = PatientMapper.toPatientDTO(patientService.getOne(id));
-			patientDTO.setEmail(userAccountService.findByUserId(id).getUsername());
-			patientDTO.setPassword(userAccountService.findByUserId(id).getPassword());
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			PatientDTO patientDTO = PatientMapper.toPatientDTO(patientService.getOne(u.getUser().getId()));
+			patientDTO.setEmail(userAccountService.findByUserId(u.getUser().getId()).getUsername());
+			patientDTO.setPassword(userAccountService.findByUserId(u.getUser().getId()).getPassword());
 			return new ResponseEntity<PatientDTO>(patientDTO, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {

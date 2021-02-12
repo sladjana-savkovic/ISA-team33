@@ -26,7 +26,7 @@ $(document).ready(function () {
 			
 			$.ajax({
 				type:"GET", 
-				url: "/api/appointment/patient/finished/" + patientId,
+				url: "/api/appointment/patient/finished",
 				headers: {
             		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         		},
