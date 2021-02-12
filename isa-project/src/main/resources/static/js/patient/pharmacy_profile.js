@@ -37,6 +37,7 @@ $(document).ready(function () {
         		},
 				contentType: "application/json",
 				success:function(pharmacy){
+					localStorage.setItem("pharmacyProfileId",pharmacy.id);
 					addPharmacyInfo(pharmacy);
 					$('#body_doctors').empty();
 					for(i = 0; i < pharmacy.doctors.length; i++){

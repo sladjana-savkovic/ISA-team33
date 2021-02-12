@@ -266,4 +266,16 @@ public class AppointmentController {
 		}
 	}
 	
+	@GetMapping("/patient/finished/{id}")
+	@PreAuthorize("hasAnyRole('PATIENT')")
+	public ResponseEntity<?> getPatientAppointments(@PathVariable int id){
+		try {
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientAppointments(id));
+			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("Patient doesn't exist.", HttpStatus.NOT_FOUND);
+		}
+	}
+	
 }

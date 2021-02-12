@@ -2,6 +2,7 @@ package rs.ac.uns.ftn.isaproject.mapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
@@ -10,13 +11,12 @@ public class PatientMapper {
 
 	public static PatientDTO toPatientDTO(Patient patient) {
 		Collection<DrugDTO> allergies = DrugMapper.toDrugDTOs(patient.getAllergies());
-		
 		return new PatientDTO(
 				patient.getId(), 
 				patient.getName(), 
 				patient.getSurname(), 
 				patient.getDateOfBirth(), 
-				null, 
+				null,
 				null,
 				patient.getCity().getCountry().getId(), 
 				patient.getCity().getCountry().getName(),
