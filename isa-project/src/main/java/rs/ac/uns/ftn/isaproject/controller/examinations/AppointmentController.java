@@ -179,8 +179,7 @@ public class AppointmentController {
 					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
 			}
 		
-			appointmentService.checkDoctorAvailabilityAndAddAppointment(appointmentDTO.idDoctor, date, startTime, endTime, 
-					appointmentDTO, AppointmentStatus.Created);
+			appointmentService.checkDoctorAvailabilityAndAddAppointment(date, startTime, endTime, appointmentDTO, AppointmentStatus.Created);
 			
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -201,13 +200,16 @@ public class AppointmentController {
 	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
 		try {
 			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if(!u.getAuthority().getName().equals("ROLE_PATIENT")) {
-				appointmentDTO.idDoctor = u.getUser().getId();
-			}
-			
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
 			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
 			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
+			
+			if(!u.getAuthority().getName().equals("ROLE_PATIENT")) {
+				appointmentDTO.idDoctor = u.getUser().getId();
+			}
+			if(u.getAuthority().getName().equals("ROLE_PATIENT")) {
+				appointmentService.checkIfPatientHasCanceledExamination(appointmentDTO, date, startTime, endTime);
+			}
 			
 			if(!appointmentService.isPatientAvailableForChosenTime(appointmentDTO.idPatient, date, startTime, endTime)) {
 				return new ResponseEntity<>("The patient is busy for a chosen time.", HttpStatus.BAD_REQUEST);
@@ -220,8 +222,7 @@ public class AppointmentController {
 					return new ResponseEntity<>("The doctor doesn't work in the pharmacy for the chosen time.",HttpStatus.BAD_REQUEST);
 			}
 		
-			appointmentService.checkDoctorAvailabilityAndAddAppointment(appointmentDTO.idDoctor, date, startTime, endTime, 
-																		appointmentDTO, AppointmentStatus.Scheduled);
+			appointmentService.checkDoctorAvailabilityAndAddAppointment(date, startTime, endTime, appointmentDTO, AppointmentStatus.Scheduled);
 			
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

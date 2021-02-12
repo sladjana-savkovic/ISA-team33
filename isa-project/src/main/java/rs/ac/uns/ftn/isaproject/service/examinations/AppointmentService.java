@@ -26,9 +26,10 @@ public interface AppointmentService {
 	void cancelAppointment(int id) throws Exception;
 	void save(Appointment appointment);
 	public Collection<Appointment> getUnavailableDoctorAppointments(int doctorId);
-	void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime,
+	void checkDoctorAvailabilityAndAddAppointment(LocalDate date, LocalTime startTime, LocalTime endTime,
 												 AddAppointmentDTO appointmentDTO, AppointmentStatus status)  throws Exception;
 	boolean isDoctorAvailableForChosenTime(int doctorId, LocalDate date, LocalTime startTime, LocalTime endTime);
 	Collection<Appointment> getPatientsScheduledAppointmentsByDoctor(int patientId, int doctorId);
 	Collection<Appointment> getPatientAppointments(int id);
+	void checkIfPatientHasCanceledExamination(AddAppointmentDTO appointmentDTO, LocalDate date, LocalTime startTime, LocalTime endTime) throws Exception;
 }

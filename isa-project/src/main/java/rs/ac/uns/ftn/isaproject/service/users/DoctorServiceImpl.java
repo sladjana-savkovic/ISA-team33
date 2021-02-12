@@ -1,6 +1,7 @@
 package rs.ac.uns.ftn.isaproject.service.users;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,17 +10,22 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDermatologistDTO;
 import rs.ac.uns.ftn.isaproject.dto.AddDoctorDTO;
 import rs.ac.uns.ftn.isaproject.dto.DoctorDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
+import rs.ac.uns.ftn.isaproject.model.examinations.CancelledAppointment;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
+import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.model.users.WorkingTime;
+import rs.ac.uns.ftn.isaproject.repository.examinations.CanelledAppointmentRepository;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
@@ -35,10 +41,11 @@ public class DoctorServiceImpl implements DoctorService {
 	private VacationRequestService vacationRequestService;
 	private WorkingTimeService workingTimeService;
 	private AppointmentService appointmentService;
+	private CanelledAppointmentRepository canelledAppointmentRepository;
 	
 	@Autowired
 	public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository, PharmacyRepository pharmacyRepository, UserAccountService userAccountService,
-			VacationRequestService vacationRequestService, WorkingTimeService workingTimeService, AppointmentService appointmentService) {
+			VacationRequestService vacationRequestService, WorkingTimeService workingTimeService, AppointmentService appointmentService,CanelledAppointmentRepository canelledAppointmentRepository) {
 		this.doctorRepository = doctorRepository;
 		this.cityRepository = cityRepository;
 		this.pharmacyRepository = pharmacyRepository;
@@ -46,6 +53,7 @@ public class DoctorServiceImpl implements DoctorService {
 		this.vacationRequestService = vacationRequestService;
 		this.workingTimeService = workingTimeService;
 		this.appointmentService = appointmentService;
+		this.canelledAppointmentRepository = canelledAppointmentRepository;
 	}
 
 	@Override
@@ -197,14 +205,40 @@ public class DoctorServiceImpl implements DoctorService {
 		Collection<Doctor> doctors= doctorRepository.findByTypeOfDoctor(TypeOfDoctor.Pharmacist);
 		doctors = doctors.stream().filter(d-> !vacationRequestService.isDoctorOnVacation(d.getId(), d.getPharmacies().stream().findFirst().get().getId(), date.toLocalDate()))
 		.filter(d->workingTimeService.checkIfDoctorWorkInPharmacy(d.getPharmacies().stream().findFirst().get().getId(),d.getId(), date.toLocalTime(), date.toLocalTime().plusMinutes(30)))
-		.filter(d->appointmentService.isDoctorAvailableForChosenTime(d.getId(),date.toLocalDate(), date.toLocalTime(), date.toLocalTime().plusMinutes(30))).collect(Collectors.toList());
+		.filter(d->appointmentService.isDoctorAvailableForChosenTime(d.getId(),date.toLocalDate(), date.toLocalTime(), date.toLocalTime().plusMinutes(30))).filter(d-> isCancelled(date, d)).collect(Collectors.toList());
 		
 		if(idPharmacy != null) {
 			doctors = doctors.stream().filter(d-> d.getPharmacies().stream().findFirst().get().getId() == idPharmacy).collect(Collectors.toList());
 		}
+		
 		return doctors;
 	}
 
+	private boolean isCancelled(LocalDateTime date, Doctor doctor) {
+		LocalTime startTime = date.toLocalTime();
+		LocalTime endTime = date.toLocalTime().plusMinutes(30);
+		UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(u.getAuthority().getName().equals("ROLE_PATIENT")) {
+			for(Pharmacy p: doctor.getPharmacies()) {
+				Collection<CancelledAppointment> appointments = canelledAppointmentRepository.findAllByPatientIdAndPharmacyIdAndDoctorId(u.getUser().getId(), p.getId(), doctor.getId());
+				for(CancelledAppointment c: appointments) {
+					if(date.toLocalDate().equals(c.getStartTime().toLocalDate())) {
+						if(c.getStartTime().toLocalTime().isBefore(startTime) && c.getEndTime().toLocalTime().isAfter(startTime)) {
+							return false;
+						}
+						if(c.getStartTime().toLocalTime().isBefore(endTime) && c.getEndTime().toLocalTime().isAfter(endTime)) {
+							return false;
+						}
+						if(c.getStartTime().toLocalTime().equals(startTime) && c.getEndTime().toLocalTime().equals(endTime)) {
+							return false;
+						}
+					}
+				}
+				}
+			}
+			return true;
+	}
+	
 	@Override
 	public Collection<Doctor> findDoctorByType(int type) {
 		if (type == 0)
