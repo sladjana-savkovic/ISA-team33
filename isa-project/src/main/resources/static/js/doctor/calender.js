@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/appointment/doctor/" + doctorId,
+		url: "/api/appointment/doctor",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },

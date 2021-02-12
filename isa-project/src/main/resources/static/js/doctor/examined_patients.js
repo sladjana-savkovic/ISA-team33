@@ -167,7 +167,7 @@ function patientAppointments(patientId){
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/appointment/patient/" + patientId + "/doctor/" + doctorId, 
+		url: "/api/appointment/patient/" + patientId + "/doctor", 
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -249,7 +249,7 @@ function patientInformation(patientId, type){
 	if( (getRoleFromToken() == "ROLE_PHARMACIST" && type == 1) || type == 0){
 		$.ajax({
 			type:"GET", 
-			url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, //na osnovu doctorId traze se doktori koji su iste vrste kao ulogovani
+			url: "/api/examination-report/patient/" + patientId + "/doctor", //traze se doktori koji su iste vrste kao ulogovani
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
