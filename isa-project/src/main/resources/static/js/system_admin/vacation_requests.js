@@ -1,30 +1,18 @@
-checkUserRole("ROLE_PHARMACYADMIN");
-var pharmacyAdminId = getUserIdFromToken();
-var pharmacyId;
+checkUserRole("ROLE_SYSTEMADMIN");
+var systemAdminId = getUserIdFromToken();
+
 $(document).ready(function () {
 	
-	clearLocalStorage();
-	
-	$.ajax({
-		type:"GET", 
-		url: "/api/pharmacy-admin/" + pharmacyAdminId,
-		headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
-		contentType: "application/json",
-		success:function(admin){
-			pharmacyId = admin.pharmacyId;
-			
 			$.ajax({
 				type:"GET", 
-				url: "/api/vacation/pharmacy/" + pharmacyId,
+				url: "/api/vacation/all",
 				headers: {
             		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         		},
 				contentType: "application/json",
 				success:function(vacations){
 					for(i = 0; i < vacations.length; i++){
-						if(vacations[i].typeOfDoctor == "Pharmacist"){
+						if(vacations[i].typeOfDoctor == "Dermatologist"){
 							addVacationRequest(vacations[i]);
 						}
 					}
@@ -38,19 +26,11 @@ $(document).ready(function () {
 				}
 				});
 			
-		},
-		error:function(xhr){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-		}
-	});
 	
 });
 
 function addVacationRequest(vacation){
-	 let row = $('<tr><td>'+ vacation.doctorSurname +'</td><td>' + vacation.typeOfDoctor + '</td><td>' + vacation.startDate + '</td><td>' + vacation.endDate + '</td><td>' + '<button name="rejectButton" type = "button" class="btn btn-success float-right" id="' + vacation.id + '" onclick="acceptRequest(this.id)">Accept</button>' + '</td><td>' + '<button name="rejectButton" type = "button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalConfirmReject" id="' + vacation.id + '" onclick="rejectRequest(this.id)">Reject</button>' + '</td></tr>');	
+	 let row = $('<tr><td>'+ vacation.doctorSurname +'</td><td>' + vacation.typeOfDoctor + '</td><td>' + vacation.startDate + '</td><td>' + vacation.endDate + '</td><td>' + vacation.pharmacyName + '</td><td>' + '<button name="rejectButton" type = "button" class="btn btn-success float-right" id="' + vacation.id + '" onclick="acceptRequest(this.id)">Accept</button>' + '</td><td>' + '<button name="rejectButton" type = "button" class="btn btn-danger float-right" data-toggle="modal" data-target="#modalConfirmReject" id="' + vacation.id + '" onclick="rejectRequest(this.id)">Reject</button>' + '</td></tr>');	
 	$('#vacations').append(row);
 };
 
@@ -188,7 +168,3 @@ function acceptRequest(id){
 			});
 					
 };
-
-function clearLocalStorage(){
-	localStorage.removeItem("pharmacyId");
-}

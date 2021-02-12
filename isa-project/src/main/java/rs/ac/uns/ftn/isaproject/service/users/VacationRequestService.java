@@ -14,4 +14,5 @@ public interface VacationRequestService {
 	Collection<VacationRequest> findCreatedByPharmacyId(int id);
 	boolean isDoctorOnVacation(int doctorId, int pharmacyId, LocalDate date);
 	Doctor findDoctorById(int id);
+	Collection<VacationRequest> findAllCreatedRequest();
 }
