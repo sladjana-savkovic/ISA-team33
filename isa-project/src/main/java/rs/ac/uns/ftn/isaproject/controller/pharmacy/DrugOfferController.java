@@ -53,7 +53,7 @@ public class DrugOfferController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>("An error occurred while accepting offer.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
