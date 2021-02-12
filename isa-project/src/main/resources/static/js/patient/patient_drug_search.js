@@ -54,7 +54,7 @@ function searchDrug() {
 
 function getAllDrugs() {		
     $.ajax({
-        url: '/api/drug',
+        url: '/api/drug/all',
         type: 'GET',
         dataType: 'json',
         processData: false,
@@ -192,7 +192,7 @@ function showPharmacies(drugId) {
             }
             else {
 				$('#pharmaciesTable').empty();
-				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th style="padding-left:10px;"> Price </th><th> </th></tr>');
+				$('#pharmaciesTable').append('<tr><th> Pharmacy </th><th style="padding-left:10px;"> Price(din) </th><th> </th></tr>');
 	            for (let i = 0; i < pharmacies.length; i++) {
 					pharmacy = '<tr id='+pharmacies[i].pharmacyId+' ><td>' + pharmacies[i].pharmacyName + '</td><td style="padding-left:10px;">' + pharmacies[i].price + '</td><td><button  class="btn"  onclick="redirectToDatePage(this)" >Reserve</button></td></tr>' ;
 					$('#pharmaciesTable').append(pharmacy);
@@ -234,8 +234,30 @@ function makeReservation() {
         dataType: 'json',
 		contentType: "application/json",
         data:JSON.stringify(data),
-        success: function () {        	
-        	location.href='http://localhost:8080/html/patient/patient_drug_search.html';
+        success: function (reservation) {      
+			let message = "You have successfully made a drug reservation (reservation identification number =  " + reservation.id + ").";
+						
+				$.ajax({
+					url: "/api/email/" + patientId,
+					type: 'POST',
+					headers: {
+			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			        },
+					contentType: 'application/json',
+					data: JSON.stringify({ 
+						 subject: "Confirmation of receipt of the reservation",
+						 message: message}),
+					success: function () {
+						location.href='http://localhost:8080/html/patient/patient_drug_search.html';
+						console.log("Successfully sent an email.");
+						return;
+					},
+					error: function () {
+						console.log("Unsuccessfully sent an email.");
+						return;
+					}
+				});	  	
+        	
 
         },
         error: function (jqXHR) {
