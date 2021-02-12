@@ -253,7 +253,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public Collection<Appointment> getPatientAppointments(int id) {
-		return appointmentRepository.findAllByPatientId(id);
+		return appointmentRepository.findAllByPatientIdAndStatus(id, AppointmentStatus.Finished);
 	}
 	
 }
