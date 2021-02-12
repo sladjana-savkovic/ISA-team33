@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import rs.ac.uns.ftn.isaproject.mapper.ExaminationReportMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.examinations.ExaminationReport;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugQuantityPharmacy;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.examinations.ExaminationReportService;
 import rs.ac.uns.ftn.isaproject.service.examinations.TherapyService;
@@ -74,11 +76,12 @@ public class ExaminationReportController {
 		}
 	}
 	
-	@GetMapping("/patient/{patientId}/doctor/{doctorId}")
+	@GetMapping("/patient/{patientId}/doctor")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> getByPatientAtDoctor(@PathVariable int patientId, @PathVariable int doctorId){
+	public ResponseEntity<?> getByPatientAtDoctor(@PathVariable int patientId){
 		try {
-			Collection<ExaminationReportDTO> examinationReportDTOs = ExaminationReportMapper.toExaminationReportDTO(examinationReportService.getByPatientAtDoctor(patientId, doctorId));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<ExaminationReportDTO> examinationReportDTOs = ExaminationReportMapper.toExaminationReportDTO(examinationReportService.getByPatientAtDoctor(patientId, u.getUser().getId()));
 			return new ResponseEntity<Collection<ExaminationReportDTO>>(examinationReportDTOs, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>("The patient hasn't had any examinations.",HttpStatus.NOT_FOUND);

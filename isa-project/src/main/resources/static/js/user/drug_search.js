@@ -4,6 +4,8 @@ var drugMap = {};
 var drugList = null;
 
 $(document).ready(function () {
+	
+	clearLocalStorage();
 
 	getAllDrugs();
 	
@@ -207,3 +209,8 @@ function showPharmacies(drugId) {
 };
 
 
+function clearLocalStorage(){
+	localStorage.removeItem("patientId");
+	localStorage.removeItem("pharmacyId");
+	localStorage.removeItem("appointmentId");
+}
