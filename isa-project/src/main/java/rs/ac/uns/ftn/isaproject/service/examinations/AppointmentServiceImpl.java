@@ -181,6 +181,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime,
 			LocalTime endTime, AddAppointmentDTO appointmentDTO, AppointmentStatus status) throws Exception {
 		
+		if( (date.isBefore(LocalDate.now()) || date.isEqual(LocalDate.now())) && 
+			(startTime.isBefore(LocalTime.now()) || endTime.isBefore(LocalTime.now()) || endTime.equals(LocalTime.now()))) {
+			throw new BadRequestException("The selected time has passed.");
+		}
+		
 		if(!isDoctorAvailableForChosenTime(doctorId, date, startTime, endTime)) {
 			throw new BadRequestException("The doctor is busy for a chosen time.");
 		}

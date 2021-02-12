@@ -184,6 +184,9 @@ public class AppointmentController {
 		catch (PessimisticLockingFailureException e) {
 			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);
 		}
+		catch (BadRequestException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while creating an appointment.", HttpStatus.BAD_REQUEST);
 		}
@@ -221,6 +224,9 @@ public class AppointmentController {
 		}
 		catch (PessimisticLockingFailureException e) {
 			return new ResponseEntity<>("The execution of another user's request is in progress. Please try again.", HttpStatus.BAD_REQUEST);
+		}
+		catch (BadRequestException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while scheduling an appointment.", HttpStatus.BAD_REQUEST);
