@@ -7,6 +7,12 @@ $(document).ready(function () {
 
 	getAllDrugs();
 	
+	
+	/*Search on submit*/
+	$('form#form_id').submit(function (event) {
+		event.preventDefault();	
+		searchDrug();
+	});
 });
 
 
@@ -205,5 +211,4 @@ function showPharmacies(drugId) {
         }
     });		
 };
-
 
