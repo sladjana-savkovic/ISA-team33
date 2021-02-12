@@ -26,11 +26,13 @@ import rs.ac.uns.ftn.isaproject.dto.DoctorPharmacyDTO;
 import rs.ac.uns.ftn.isaproject.dto.ViewSearchedDoctorDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DoctorMapper;
 import rs.ac.uns.ftn.isaproject.mapper.ViewSearchedDoctorMapper;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.model.utils.GradePharmacistComparator;
 import rs.ac.uns.ftn.isaproject.model.utils.Order;
 import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
 import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping(value = "api/doctor")
@@ -64,6 +66,8 @@ public class DoctorController {
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
 	public ResponseEntity<?> updateInfo(@RequestBody DoctorDTO doctorDTO){
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			doctorDTO.id = u.getUser().getId();
 			doctorService.updateInfo(doctorDTO);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -72,11 +76,12 @@ public class DoctorController {
 		}
 	}
 	
-	@GetMapping("/{id}/pharmacies")
+	@GetMapping("/pharmacies")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> doctorPharmacies(@PathVariable int id){
+	public ResponseEntity<?> doctorPharmacies(){
 		try {
-			Collection<DoctorPharmacyDTO> doctorPharmacyDTOs = DoctorMapper.toDoctorPharmacyDTOs(doctorService.getOne(id));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<DoctorPharmacyDTO> doctorPharmacyDTOs = DoctorMapper.toDoctorPharmacyDTOs(doctorService.getOne(u.getUser().getId()));
 			return new ResponseEntity<Collection<DoctorPharmacyDTO>>(doctorPharmacyDTOs, HttpStatus.OK);
 		}
 		catch(EntityNotFoundException exception) {

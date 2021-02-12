@@ -10,7 +10,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/doctor/" + doctorId + "/pharmacies",
+		url: "/api/doctor/pharmacies",
 		headers: {
 	        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	    },
