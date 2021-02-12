@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+<!-- Google Fonts Roboto -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+
+
+<!-- Bootstrap core CSS -->
+<link
+	href=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css
+	rel=stylesheet>
+<link
+	href=https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/css/dataTables.bootstrap4.min.css
+	rel=stylesheet>
+
+
+
+<link href="../../lib/mdb/css/mdb.min.css" rel="stylesheet">
+<title>Homepage</title>
+</head>
+<body>
+
+
+	<div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header white-text text-center py-4" style="background-color: #00ACC1;">
+				<strong>Pharmacies</strong>
+			</h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+					<table class="table" style="margin-top: 50px;" id="pharmacies">
+						<thead>
+							<tr>
+								<th scope="col" style="width: 400px;">Name</th>
+								<th scope="col" style="width: 400px;">Average grade</th>
+								<th scope="col" style="width: 400px;">Address</th>
+								<th scope="col" style="width: 400px;">City</th>
+								<th scope="col">Pharmacist price</th>
+							</tr>
+						</thead>
+						<tbody id="body_pharmacies"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container w-80 mt-5 pt-5 mb-4">
+		<div class="card">
+			<h5 class="card-header white-text text-center py-4" style="background-color: #00ACC1;">
+				<strong>Appointments history</strong>
+			</h5>
+			<div class="card-body px-lg-5">
+				<div class="row w-100 p-3 h-50">
+					<table class="table" style="margin-top: 50px;" id="appointments">
+						<thead>
+							<tr>
+								<th scope="col" style="width: 400px;">Start time</th>
+								<th scope="col" style="width: 400px;">Medical staff</th>
+								<th scope="col" style="width: 400px;">Doctor</th>
+								<th scope="col" style="width: 400px;">Pharmacy name</th>
+								<th scope="col">Price</th>
+							</tr>
+						</thead>
+						<tbody id="body_appointments"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js></script>
+	<script
+		src=https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js></script>
+	<script
+		src=https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/dataTables.bootstrap4.min.js></script>
+	<script type="text/javascript" src="../../js/jwt_check.js"></script>
+	<script type="text/javascript"
+		src="../../js/patient/homepage.js"></script>
+	<script type="text/javascript" src="../../js/navbars/patient.js"></script>
+   
+</body>
+</html>

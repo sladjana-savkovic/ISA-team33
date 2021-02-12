@@ -21,7 +21,7 @@ $(document).ready(function () {
 	 
 	$.ajax({
 		type:"GET",
-		url:"/api/drug",
+		url:"/api/drug/all",
 		contentType:"application/json",
 		success:function(drugs){
 			for(let drug of drugs){
@@ -79,7 +79,6 @@ $(document).ready(function () {
 					telephone: $('#phone').val(),
 					dateOfBirth: $('#dateOfBirth').val(),
 					email: $('#email').val(),
-					password: $('#password').val(),
 					address: $('#address').val(),
 					allergies: amenities,
 					cityId: $("#citySelect option:selected").val()}),
@@ -99,6 +98,50 @@ $(document).ready(function () {
 			});
 		});
 	});
+	
+	$('#edit_password').submit(function(event){
+		event.preventDefault();
+		
+		let oldPass = $('#oldPass').val();
+		let newPass = $('#newPass').val();
+		let newPassRepeat = $('#newPassRepeat').val();
+		
+		if(newPass != newPassRepeat){
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Passwords don\'t match.'
+			+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
+		}
+		
+		$('#change_pass').attr("disabled",true);
+		
+		$.ajax({
+			type:"POST", 
+			url: "/auth/change-password",
+			headers: {
+	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+	        },
+			data: JSON.stringify({ 
+				oldPassword:oldPass,
+				newPassword: newPass}),
+			contentType: "application/json",
+			success:function(){
+				let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully changed password.Please, log in again.'
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				localStorage.clear();
+				window.setTimeout(function(){location.href = "../user/login.html";},1000)
+				return;
+			},
+			error:function(xhr){
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + JSON.parse(xhr.responseText).message
+				+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				$('#change_pass').attr("disabled",false);
+				return;
+			}
+		});
+	});
 });
 
 function enableFields(){
@@ -106,8 +149,6 @@ function enableFields(){
 	$('#surname').attr("disabled",false);
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	//$('#email').attr("disabled",false);
-	//$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -124,7 +165,6 @@ function addPatientInfo(patient){
 	$('#dateOfBirth').val(patient.dateOfBirth);
 	$('#phone').val(patient.telephone);
 	$('#email').val(patient.email);
-	$('#password').val(patient.password);
 	$('#address').val(patient.address);
 	
 	changeInputFiledsStatus(false);
