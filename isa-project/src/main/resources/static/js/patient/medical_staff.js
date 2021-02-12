@@ -1,25 +1,12 @@
-checkUserRole("ROLE_PHARMACYADMIN");
-var pharmacyAdminId = getUserIdFromToken();
-var pharmacyId;
+checkUserRole("ROLE_PATIENT");
+var patientId = getUserIdFromToken();
 var doctorPharmacies = '';
 var forFilter = [];
-$(document).ready(function () {
-	
-	clearLocalStorage();
+$(document).ready(function(){
 	
 	$.ajax({
-		type:"GET", 
-		url: "/api/pharmacy-admin/",
-		headers: {
-            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        },
-		contentType: "application/json",
-		success:function(admin){
-			pharmacyId = admin.pharmacyId;
-			
-			$.ajax({
 				type:"GET", 
-				url: "/api/doctor/" + pharmacyId + "/pharmacy",
+				url: "/api/doctor/all",
 				headers: {
             			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         		},
@@ -115,50 +102,11 @@ $(document).ready(function () {
 					return;
 				}
 				});
-			
-		},
-		error:function(xhr){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-		}
-	});
 	
 });
 
-
 function addDoctor(doctor){
-	 let row = $('<tr><td>'+ doctor.name +'</td><td>' + doctor.surname + '</td><td>' + doctor.typeOfDoctor + '</td><td>' + doctor.grade + '</td><td>' + doctorPharmacies + '</td><td>'+ '<button name="deleteButton" type = "button" class="btn btn-danger float-right" id="' + doctor.id + '" onclick="deleteDoctor(this.id)">Delete</button>' + '</td></tr>');	
+	 let row = $('<tr><td>'+ doctor.name +'</td><td>' + doctor.surname + '</td><td>' + doctor.typeOfDoctor + '</td><td>' + doctor.grade + '</td><td>' + doctorPharmacies + '</td></tr>');	
 	$('#medicals').append(row);
 	doctorPharmacies='';
 };
-
-function deleteDoctor(id){
-	
-			$.ajax({
-				type:"PUT", 
-				url: "/api/doctor/" + id + "/pharmacy/" + pharmacyId + "/delete",
-				headers: {
-            			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-        		},
-				contentType: "application/json",
-				success:function(){
-					location.reload();
-					let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Successfully delete doctor.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				},
-				error:function(xhr){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
-					+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
-			});
-};
-
-function clearLocalStorage(){
-	localStorage.removeItem("pharmacyId");
-}

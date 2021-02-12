@@ -7,7 +7,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		url: "/api/pharmacy-admin/",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -35,7 +35,6 @@ $(document).ready(function () {
             		'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         		},
 				data: JSON.stringify({ 
-					id: pharmacyAdminId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),
