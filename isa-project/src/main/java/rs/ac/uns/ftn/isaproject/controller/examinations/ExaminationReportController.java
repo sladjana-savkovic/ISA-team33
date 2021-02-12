@@ -69,7 +69,7 @@ public class ExaminationReportController {
 			return new ResponseEntity<>("A report already exists for the selected appointment.",HttpStatus.BAD_REQUEST);
 		}
 		catch (ObjectOptimisticLockingFailureException e) {
-			return new ResponseEntity<>("Someone has reduced the amount of drug you have chosen. Please try saving your report again.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Someone has reduced the amount of drug You have chosen. Please try saving your report again.", HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
 			return new ResponseEntity<>("An error occurred while saving the examination report.",HttpStatus.BAD_REQUEST);

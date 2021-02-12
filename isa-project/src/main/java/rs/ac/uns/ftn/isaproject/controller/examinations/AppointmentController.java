@@ -66,6 +66,9 @@ public class AppointmentController {
 			patientService.increasePenalty(patientId);
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
+		catch (BadRequestException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		catch(Exception e) {
 			return new ResponseEntity<>("An error occurred while changing appointment status to unperformed.", HttpStatus.BAD_REQUEST);
 		}
