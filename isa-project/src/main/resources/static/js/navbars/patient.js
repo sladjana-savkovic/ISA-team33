@@ -1,0 +1,43 @@
+$(document).ready(function () {
+    $('body').prepend($(
+        '<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">'
+        + '<div class="collapse navbar-collapse" id="navbarNav">'
+        + ' <ul class="navbar-nav">'
+        + '  <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/appointments_dermatologist.html">Appointments dermatologist</a>'
+        + '  </li>'
+		+ '  <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/appointments_pharmacist.html">Appointments pharmacist</a>'
+        + '  </li>'
+		+ ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/drug_reservations.html">Drug reservations</a>'
+        + '  </li>'
+        + ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/patient_drug_search.html">Search drugs</a>'
+        + '  </li>'
+		+ ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/schedule_step_one.html">Schedule pharmacist</a>'
+        + '  </li>'
+		+ ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/pharmacy_profile.html">Pharmacy profile</a>'
+        + '  </li>'
+        
+		+ ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/pharmacy_subscription.html">Pharmacy subscription</a>'
+        + '  </li>'
+        
+        + ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/writing_complaint.html">Complaints</a>'
+        + '  </li>'
+        
+        + ' <li class="nav-item">'
+        + '  <a class="nav-link" href="/html/patient/patient_profile.html">Profile</a>'
+        + '  </li>'
+        + ' <li class="nav-item">'
+        + '  <a href="javascript:logOut();" class="nav-link">Log out</a>'
+        + '  </li>'
+        + ' </ul>'
+        + ' </div>'
+        + ' </nav>'
+    ));
+});

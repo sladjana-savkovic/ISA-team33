@@ -31,6 +31,9 @@ $(document).ready(function () {
 		
 		}else if(getRoleFromToken() == "ROLE_PHARMACYADMIN"){
 			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/pharmacy_administrator.js';
+		
+		}else if(getRoleFromToken() == "ROLE_PATIENT"){
+			 document.body.appendChild(document.createElement('script')).src='../../js/navbars/patient.js';
 		}
 	
 		
@@ -189,7 +192,7 @@ function checkUserRole(trueRole) {
             window.location.href = "../doctor/calendar.html";
         }
 		else if(role == "ROLE_PATIENT"){
-			window.location.href = "../patient/patient_profile.html";
+			window.location.href = "../patient/homepage.html";
 		}
 		else if(role == "ROLE_SYSTEMADMIN"){
 			window.location.href = "../system_admin/user_registration.html";
