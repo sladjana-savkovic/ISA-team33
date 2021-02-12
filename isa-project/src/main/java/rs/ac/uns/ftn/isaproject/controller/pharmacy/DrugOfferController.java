@@ -21,6 +21,7 @@ import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
 
 @RestController
@@ -111,8 +112,9 @@ public class DrugOfferController {
 	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplier() {
 		try {
-			String username = SecurityContextHolder.getContext().getAuthentication().getName();		
-			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierUsername(username));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			int id = u.getUser().getId();
+			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierId(id));
 			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(drugOfferAndOrderDTOs, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

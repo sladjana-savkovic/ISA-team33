@@ -110,8 +110,7 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	}
 
 	@Override
-	public Collection<DrugOffer> findAllBySupplierUsername(String username) {
-		int id = userAccountRepository.findByUsername(username).getUser().getId();
+	public Collection<DrugOffer> findAllBySupplierId(int id) {
 		return drugOfferRepository.findAllBySupplierId(id);
 	}
 

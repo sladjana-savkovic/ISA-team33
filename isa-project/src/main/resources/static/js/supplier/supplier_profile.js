@@ -22,7 +22,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/supplier/account/" + supplierAccountId,
+		url: "/api/supplier/account",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
