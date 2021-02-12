@@ -100,6 +100,8 @@ public class DrugOfferController {
 	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<String> add(@RequestBody AddDrugOfferDTO offerDTO) {
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			offerDTO.supplierId = u.getUser().getId();
 			drugOfferService.add(offerDTO);
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		}
