@@ -250,5 +250,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Collection<Appointment> getPatientsScheduledAppointmentsByDoctor(int patientId, int doctorId) {
 		return appointmentRepository.getPatientsScheduledAppointmentsByDoctor(patientId, doctorId);
 	}
+
+	@Override
+	public Collection<Appointment> getPatientAppointments(int id) {
+		return appointmentRepository.findAllByPatientId(id);
+	}
 	
 }

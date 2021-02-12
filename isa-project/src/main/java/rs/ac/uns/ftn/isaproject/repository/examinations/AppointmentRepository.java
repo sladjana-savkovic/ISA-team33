@@ -56,4 +56,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 	@Query(value = "select count(*) from appointment a where a.patient_id=?1 and a.pharmacy_id=?2 and a.status = 3", nativeQuery = true)
 	int getNumberOfFinishedAppointmentsByPatientAndPharmacy(int patientId, int pharmacyId);
 	
+	Collection<Appointment> findAllByPatientId(int id);
+	
 }

@@ -79,7 +79,6 @@ $(document).ready(function () {
 					telephone: $('#phone').val(),
 					dateOfBirth: $('#dateOfBirth').val(),
 					email: $('#email').val(),
-					password: $('#password').val(),
 					address: $('#address').val(),
 					allergies: amenities,
 					cityId: $("#citySelect option:selected").val()}),
@@ -150,8 +149,6 @@ function enableFields(){
 	$('#surname').attr("disabled",false);
 	$('#dateOfBirth').attr("disabled",false);
 	$('#phone').attr("disabled",false);
-	//$('#email').attr("disabled",false);
-	//$('#password').attr("disabled",false);
 	$('#address').attr("disabled",false);
 	$('#country').attr("disabled",false);
 	$('#city').attr("disabled",false);
@@ -168,7 +165,6 @@ function addPatientInfo(patient){
 	$('#dateOfBirth').val(patient.dateOfBirth);
 	$('#phone').val(patient.telephone);
 	$('#email').val(patient.email);
-	$('#password').val(patient.password);
 	$('#address').val(patient.address);
 	
 	changeInputFiledsStatus(false);
