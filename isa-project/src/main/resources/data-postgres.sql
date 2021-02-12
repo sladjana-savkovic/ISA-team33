@@ -520,3 +520,11 @@ insert into examination_report (id,diagnosis,appointment_id)
 					values (nextval('examinations_seq'),'Izbegavati korišćenje hemijski agresivih sredstava na bolnom mestu',47);			
 					
 insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'bla bla', 12, 2);
+
+/*Ubacujem 1 farmaceuta da radi u apoteci Betty */
+insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
+			values (nextval('users_seq'),'Jelena','Jovic', '065478962', 2.5, 1, 3,'Branislava Nusica 15','1988-10-01', false);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'jelena98@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 18,true);
+insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,18);
+insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','16:00:00',18,2);
+
