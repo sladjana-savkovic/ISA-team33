@@ -13,7 +13,10 @@ $(document).ready(function(){
 				}),
 			contentType: "application/json",
 			success:function(pharmacies){
-				pharmacies.forEach(a => appendPharmacy(a));
+				if(pharmacies.length > 0)
+					pharmacies.forEach(a => appendPharmacy(a));
+				else
+					$('#div_alert').append("There are no available pharmacies or patient already has an appointment at this time.");
 			},
 			error:function(xhr){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText
@@ -42,7 +45,10 @@ $(document).ready(function(){
 				}),
 			contentType: "application/json",
 			success:function(pharmacies){
-				pharmacies.forEach(a => appendPharmacy(a));
+				if(pharmacies.length > 0)
+					pharmacies.forEach(a => appendPharmacy(a));
+				else
+					$('#div_alert').append("There are no available pharmacies or patient already has an appointment at this time.");
 			},
 			error:function(xhr){
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + xhr.responseText

@@ -1,23 +1,25 @@
 package rs.ac.uns.ftn.isaproject.service.pharmacy;
 
-import static org.hamcrest.CoreMatchers.containsString;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacyDTO;
 import rs.ac.uns.ftn.isaproject.dto.PharmacySearchDTO;
 import rs.ac.uns.ftn.isaproject.model.geographical.City;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
+import rs.ac.uns.ftn.isaproject.service.examinations.AppointmentService;
 import rs.ac.uns.ftn.isaproject.service.users.DoctorService;
 
 @Service
@@ -26,12 +28,14 @@ public class PharmacyServiceImpl implements PharmacyService {
 	private PharmacyRepository pharmacyRepository;
 	private CityRepository cityRepository;
 	private DoctorService doctorService;
+	private AppointmentService appointmentService;
 	
 	@Autowired
-	public PharmacyServiceImpl(PharmacyRepository pharmacyRepository, CityRepository cityRepository,DoctorService doctorService) {
+	public PharmacyServiceImpl(PharmacyRepository pharmacyRepository, CityRepository cityRepository,DoctorService doctorService,  AppointmentService appointmentService) {
 		this.pharmacyRepository = pharmacyRepository;
 		this.cityRepository = cityRepository;
 		this.doctorService = doctorService;
+		this.appointmentService = appointmentService;
 	}
 
 	@Override
@@ -63,6 +67,11 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	@Override
 	public Collection<Pharmacy> findAvailablePharmacy(LocalDateTime date) {
+		UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if(!appointmentService.isPatientAvailableForChosenTime(u.getUser().getId(), date.toLocalDate(), date.toLocalTime(), date.toLocalTime().plusMinutes(30))) {
+			return new HashSet<Pharmacy>();
+		}
 		Collection<Doctor> doctors = doctorService.findAvailableDoctor(date, null);
 		HashSet<Pharmacy> pharmacies = new HashSet<Pharmacy>();
 		for(Doctor d: doctors) {

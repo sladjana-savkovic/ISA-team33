@@ -6,22 +6,29 @@ import java.time.LocalTime;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import rs.ac.uns.ftn.isaproject.dto.AddAppointmentDTO;
 import rs.ac.uns.ftn.isaproject.dto.AppointmentDTO;
 import rs.ac.uns.ftn.isaproject.exceptions.BadRequestException;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
 import rs.ac.uns.ftn.isaproject.model.examinations.Appointment;
+import rs.ac.uns.ftn.isaproject.model.examinations.CancelledAppointment;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Pharmacy;
 import rs.ac.uns.ftn.isaproject.model.users.Doctor;
 import rs.ac.uns.ftn.isaproject.model.users.Patient;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.examinations.AppointmentRepository;
+import rs.ac.uns.ftn.isaproject.repository.examinations.CanelledAppointmentRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.DoctorRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
@@ -35,14 +42,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 	private PatientRepository patientRepository;
 	private DoctorRepository doctorRepository;
 	private PharmacyRepository pharmacyRepository;
-	
+	private CanelledAppointmentRepository canelledAppointmentRepository;
 	
 	@Autowired
-	public AppointmentServiceImpl(AppointmentRepository appointmentRepository,PatientRepository patientRepository,DoctorRepository doctorRepository,PharmacyRepository pharmacyRepository) {
+	public AppointmentServiceImpl(AppointmentRepository appointmentRepository,PatientRepository patientRepository,DoctorRepository doctorRepository,PharmacyRepository pharmacyRepository, CanelledAppointmentRepository canelledAppointmentRepository) {
 		this.appointmentRepository = appointmentRepository;
 		this.patientRepository = patientRepository;
 		this.doctorRepository = doctorRepository;
 		this.pharmacyRepository = pharmacyRepository;
+		this.canelledAppointmentRepository = canelledAppointmentRepository;
 	}
 
 	@Override
@@ -124,6 +132,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		if(appointment.getStatus() != AppointmentStatus.Scheduled || !appointment.getStartTime().isAfter(LocalDateTime.now().plus(Period.ofDays(1))))
 			throw new BadRequestException("The appointment cannot be cancelled.");
 		
+		CancelledAppointment ca = new CancelledAppointment(appointment.getStartTime(),appointment.getEndTime(),appointment.getDoctor(),appointment.getPharmacy(),appointment.getPatient());
+		canelledAppointmentRepository.save(ca);
 		appointment.setStatus(AppointmentStatus.Canceled);
 		appointment.setPatient(null);
 		appointmentRepository.save(appointment);
@@ -181,6 +191,23 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public void checkDoctorAvailabilityAndAddAppointment(int doctorId, LocalDate date, LocalTime startTime,
 			LocalTime endTime, AddAppointmentDTO appointmentDTO, AppointmentStatus status) throws Exception {
 		
+		UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(u.getAuthority().getName().equals("ROLE_PATIENT")) {
+			Collection<CancelledAppointment> appointments = canelledAppointmentRepository.findAllByPatientIdAndPharmacyIdAndDoctorId(appointmentDTO.idPatient, appointmentDTO.idPharmacy, doctorId);
+			for(CancelledAppointment c: appointments) {
+				if(date.equals(c.getStartTime().toLocalDate())) {
+					if(c.getStartTime().toLocalTime().isBefore(startTime) && c.getEndTime().toLocalTime().isAfter(startTime)) {
+						throw new BadRequestException("You already had this appointment.");
+					}
+					if(c.getStartTime().toLocalTime().isBefore(endTime) && c.getEndTime().toLocalTime().isAfter(endTime)) {
+						throw new BadRequestException("You already had this appointment.");
+					}
+					if(c.getStartTime().toLocalTime().equals(startTime) && c.getEndTime().toLocalTime().equals(endTime)) {
+						throw new BadRequestException("You already had this appointment.");
+					}
+				}
+			}
+		}
 		if(!isDoctorAvailableForChosenTime(doctorId, date, startTime, endTime)) {
 			throw new BadRequestException("The doctor is busy for a chosen time.");
 		}
