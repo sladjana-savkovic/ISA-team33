@@ -53,6 +53,11 @@ public class DoctorController {
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PATIENT', 'PHARMACIST')")
 	public ResponseEntity<?> findOneById(@PathVariable int id) {
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(!u.getAuthority().getName().equals("ROLE_PATIENT")) {
+				id = u.getUser().getId();
+			}
+			
 			DoctorDTO doctorDTO = DoctorMapper.toDoctorDTO(doctorService.getOne(id));
 			doctorDTO.setEmail(userAccountService.findByUserId(id).getUsername());
 			return new ResponseEntity<DoctorDTO>(doctorDTO, HttpStatus.OK);

@@ -192,6 +192,11 @@ public class AppointmentController {
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'PATIENT')")
 	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(!u.getAuthority().getName().equals("ROLE_PATIENT")) {
+				appointmentDTO.idDoctor = u.getUser().getId();
+			}
+			
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
 			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
 			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
