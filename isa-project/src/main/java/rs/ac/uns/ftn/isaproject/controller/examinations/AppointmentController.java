@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import rs.ac.uns.ftn.isaproject.mapper.AppointmentEventMapper;
 import rs.ac.uns.ftn.isaproject.mapper.AppointmentMapper;
 import rs.ac.uns.ftn.isaproject.model.enums.AppointmentStatus;
 import rs.ac.uns.ftn.isaproject.model.enums.TypeOfDoctor;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.model.utils.GradeDermatologistComparator;
 import rs.ac.uns.ftn.isaproject.model.utils.Order;
 import rs.ac.uns.ftn.isaproject.model.utils.PriceDermatologistComparator;
@@ -79,11 +81,12 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("/doctor/{id}")
+	@GetMapping("/doctor")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> getDoctorAppointments(@PathVariable int id){
+	public ResponseEntity<?> getDoctorAppointments(){
 		try {
-			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(id));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventMapper.toAppointmentEventDTOs(appointmentService.getDoctorAppointments(u.getUser().getId()));
 			return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
@@ -91,10 +94,11 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("pharmacy/{pharmacyId}/doctor/{doctorId}")
+	@GetMapping("pharmacy/{pharmacyId}/doctor")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<Collection<AppointmentDTO>> findFreeAppointmentsByPharmacyAndDoctor(@PathVariable int pharmacyId, @PathVariable int doctorId){
-		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, doctorId));
+	public ResponseEntity<Collection<AppointmentDTO>> findFreeAppointmentsByPharmacyAndDoctor(@PathVariable int pharmacyId){
+		UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.findFreeAppointmentsByPharmacyAndDoctor(pharmacyId, u.getUser().getId()));
 		return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 	}
 	
@@ -122,18 +126,6 @@ public class AppointmentController {
 		Collection<AppointmentDTO> searchResult = appointmentService.searchByStartTime(startTime, appointmentDTOs);
 		return new ResponseEntity<Collection<AppointmentDTO>>(searchResult, HttpStatus.OK);
 	}
-	
-	@GetMapping("/doctor/{id_doctor}/pharmacy/{id_pharmacy}/scheduled")
-	public ResponseEntity<Collection<AppointmentEventDTO>> getDoctorScheduledAppointmentsInPharamacy(@PathVariable int id_doctor, @PathVariable int id_pharmacy){
-		try {
-			Collection<AppointmentEventDTO> appointmentEventDTOs = AppointmentEventMapper.toAppointmentEventDTOs(appointmentService.getDoctorScheduledAppointmentsInPharamacy(id_doctor, id_pharmacy));
-			return new ResponseEntity<Collection<AppointmentEventDTO>>(appointmentEventDTOs,HttpStatus.OK);
-		}
-		catch(Exception e) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-	
 
 	@GetMapping("/pharmacy/{pharmacyId}/created/{sort}")
 	@PreAuthorize("hasRole('PATIENT')")
@@ -200,6 +192,11 @@ public class AppointmentController {
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST', 'PATIENT')")
 	public ResponseEntity<?> createAndScheduleAppointment(@RequestBody AddAppointmentDTO appointmentDTO){
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(!u.getAuthority().getName().equals("ROLE_PATIENT")) {
+				appointmentDTO.idDoctor = u.getUser().getId();
+			}
+			
 			LocalDate date = LocalDateTime.parse(appointmentDTO.startTime).toLocalDate();
 			LocalTime startTime = LocalDateTime.parse(appointmentDTO.startTime).toLocalTime();
 			LocalTime endTime = LocalDateTime.parse(appointmentDTO.endTime).toLocalTime();
@@ -254,15 +251,28 @@ public class AppointmentController {
 		}
 	}
 	
-	@GetMapping("/patient/{patientId}/doctor/{doctorId}")
+	@GetMapping("/patient/{patientId}/doctor")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> getPatientsScheduledAppointmentsByDoctor(@PathVariable int patientId,@PathVariable int doctorId){
+	public ResponseEntity<?> getPatientsScheduledAppointmentsByDoctor(@PathVariable int patientId){
 		try {
-			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsByDoctor(patientId, doctorId));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientsScheduledAppointmentsByDoctor(patientId, u.getUser().getId()));
 			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
 		}
 		catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/patient/finished/{id}")
+	@PreAuthorize("hasAnyRole('PATIENT')")
+	public ResponseEntity<?> getPatientAppointments(@PathVariable int id){
+		try {
+			Collection<AppointmentDTO> appointmentDTOs = AppointmentMapper.toAppointmentDTOs(appointmentService.getPatientAppointments(id));
+			return new ResponseEntity<Collection<AppointmentDTO>>(appointmentDTOs,HttpStatus.OK);
+		}
+		catch(Exception e) {
+			return new ResponseEntity<>("Patient doesn't exist.", HttpStatus.NOT_FOUND);
 		}
 	}
 	

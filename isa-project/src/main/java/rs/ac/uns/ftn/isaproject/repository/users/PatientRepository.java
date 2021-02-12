@@ -13,6 +13,6 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
 				 + "p.id = a.patient_id and a.doctor_id = ?1 and a.id = er.appointment_id", nativeQuery = true)
 	Collection<Patient> findExaminedPatientsByDoctorId(int doctorId);
 	
-	@Query(value = "select * from patient p, appointment a where p.id = a.patient_id and a.doctor_id = ?1", nativeQuery = true)
-	Collection<Patient> findPatientsHaveAppointmentByDoctorId(int doctorId);
+	@Query(value = "select * from patient p, appointment a where p.id = a.patient_id and a.doctor_id = ?1 and a.status = 1", nativeQuery = true)
+	Collection<Patient> findPatientsHaveScheduledAppointmentByDoctorId(int doctorId);
 }

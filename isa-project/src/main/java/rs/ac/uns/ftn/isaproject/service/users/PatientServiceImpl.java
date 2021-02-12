@@ -16,6 +16,7 @@ import rs.ac.uns.ftn.isaproject.model.users.Patient;
 import rs.ac.uns.ftn.isaproject.repository.geographical.CityRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -24,12 +25,14 @@ public class PatientServiceImpl implements PatientService {
 	private CityRepository cityRepository;
 	private DrugRepository drugRepository;
 	private UserAccountService userAccountService;
+	private UserAccountRepository userAccountRepository;
 	@Autowired
-	public PatientServiceImpl(PatientRepository patientRepository, CityRepository cityRepository, DrugRepository drugRepository, UserAccountService userAccountService) {
+	public PatientServiceImpl(PatientRepository patientRepository, CityRepository cityRepository, DrugRepository drugRepository, UserAccountService userAccountService, UserAccountRepository userAccountRepository) {
 		this.patientRepository = patientRepository;
 		this.cityRepository = cityRepository;
 		this.drugRepository = drugRepository;
-    this.userAccountService = userAccountService;
+		this.userAccountService = userAccountService;
+		this.userAccountRepository = userAccountRepository;
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class PatientServiceImpl implements PatientService {
 		patient.setName(patientDTO.name);
 		patient.setSurname(patientDTO.surname);
 		patient.setDateOfBirth(patientDTO.dateOfBirth);
-		//patient.setPassword(patientDTO.password);
+		userAccountRepository.getOneByUserId(patientDTO.id).getUsername();
 		patient.setTelephone(patientDTO.telephone);		
 		patient.setAddress(patientDTO.address);
 		patient.setCity(city);
@@ -115,7 +118,7 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public Collection<Patient> findUnexaminedPatientsByDoctorId(int doctorId) {
 		Collection<Patient> examinedPatients = findExaminedPatientsByDoctorId(doctorId);
-		Collection<Patient> patientsHaveAppointments = patientRepository.findPatientsHaveAppointmentByDoctorId(doctorId);
+		Collection<Patient> patientsHaveAppointments = patientRepository.findPatientsHaveScheduledAppointmentByDoctorId(doctorId);
 		Collection<Integer> examinedPatientIds = new ArrayList<Integer>();
 		Collection<Patient> unexaminedPatients = new ArrayList<Patient>();
 		

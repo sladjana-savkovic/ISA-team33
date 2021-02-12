@@ -1,6 +1,6 @@
 checkUserRole("ROLE_PATIENT");
 var patientId = getUserIdFromToken();
-var pharmacyId = 1;
+var pharmacyId = localStorage.getItem('pharmacyProfileId');
 $(document).ready(function(){
 	
 	getAllAppointments();
@@ -46,8 +46,8 @@ const getAllAppointments = () => {
 		},
 		error: function (jqXHR) {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-						 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
+						 'ERROR! No chosen pharmacy.'  + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#search').append(alert);
 					return;
 		}
 	})
@@ -112,12 +112,35 @@ const scheduleAppointment = apartmentId =>{
 	        },
 		contentType: "application/json",
 		success:function(){
-			window.location.reload()
+			let message = "You have successfully scheduled an dermatologist appointment.";
+						
+				$.ajax({
+					url: "/api/email/" + patientId,
+					type: 'POST',
+					headers: {
+			            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			        },
+					contentType: 'application/json',
+					data: JSON.stringify({ 
+						 subject: "Confirmation of scheduling dermatologist",
+						 message: message}),
+					success: function () {
+						window.location.reload()
+						console.log("Successfully sent an email.");
+						return;
+					},
+					error: function () {
+						console.log("Unsuccessfully sent an email.");
+						return;
+					}
+				});	  	
+		
+			
 		},
 		error: function (jqXHR) {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
 						 'ERROR! ' +jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
+					$('#search').append(alert);
 					return;
 		}
 	})
