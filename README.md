@@ -26,27 +26,13 @@ Uputstvo za pokretanje projekta:
   <li>Kreirati Postgresql bazu podataka sa nazivom mydb </li>  
   <li>Importovati projekat i instalirati sve dependency-je iz pom.xml </li>  
   <li>Ukoliko se crvene klase u kojima su pisani testovi, odabrati opciju Add JUnit 4 library to the build path (ponuđeni import je dostupan prilikom prelaska preko anotacije @RunWith)</li>  
-  <li>U application.properties treba da budu podešeni:
+  <li>U application.properties potrebno je podesiti:
     <pre>
-      spring.datasource.driverClassName=org.postgresql.Driver
-      spring.datasource.platform=postgres
       spring.datasource.username = username
-      spring.datasource.password = sifra
-      spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
-      spring.jpa.hibernate.ddl-auto = create-drop
-      spring.jpa.show-sql = true
-      spring.jpa.properties.hibernate.format_sql=true
-      spring.datasource.initialization-mode=always
-      spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
-      spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL95Dialect
-      spring.mail.host = smtp.gmail.com
-      spring.mail.username = isa.user.test@gmail.com
-      spring.mail.password = isauser55
-      spring.mail.port=587
-      spring.mail.properties.mail.smtp.starttls.enable = true
-      spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true</pre> </li>
+      spring.datasource.password = sifra </pre> </li>
   <li> Uraditi maven update projekta </li>
-  <li> Projekat se pokreće na portu 8080. </li>
+  <li> Prilikom razvoja, projekat je pokretan na portu 8080. </li>
   <li> Za ucitavanje stranice za logovanje, u browseru otkucati http://localhost:8080/html/user/login.html </li>
   <li> Automatsko pokretanje testova je iskljuceno, a za pokretanje svakog testa pojedinacno, neophodno je ići na Run As -> JUnit test </li>
+  <li> U slučaju da je slanje mejla onemogućeno, uraditi disable antivirusnog softvera na računaru. </li>
 </ul>

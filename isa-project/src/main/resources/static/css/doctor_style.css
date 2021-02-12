@@ -16,4 +16,4 @@ display: block;
 	cursor: pointer;
 }
 
-
+th.thHover:hover { background:#dbeefe; }

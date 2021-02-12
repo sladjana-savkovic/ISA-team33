@@ -91,11 +91,12 @@ public class PatientController {
 		}
 	}
 	
-	@GetMapping("/doctor/{doctorId}/examined")
+	@GetMapping("/doctor/examined")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> findExaminedPatientsByDoctor(@PathVariable int doctorId){
+	public ResponseEntity<?> findExaminedPatientsByDoctor(){
 		try {
-			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findExaminedPatientsByDoctorId(doctorId));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findExaminedPatientsByDoctorId(u.getUser().getId()));
 			return new ResponseEntity<Collection<PatientDTO>>(patientDTOs, HttpStatus.OK);
 		}
 		catch(Exception e) {
@@ -103,11 +104,12 @@ public class PatientController {
 		}
 	}
 	
-	@GetMapping("/doctor/{doctorId}/unexamined")
+	@GetMapping("/doctor/unexamined")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> findUnexaminedPatientsByDoctor(@PathVariable int doctorId){
+	public ResponseEntity<?> findUnexaminedPatientsByDoctor(){
 		try {
-			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findUnexaminedPatientsByDoctorId(doctorId));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findUnexaminedPatientsByDoctorId(u.getUser().getId()));
 			return new ResponseEntity<Collection<PatientDTO>>(patientDTOs, HttpStatus.OK);
 		}
 		catch(Exception e) {
