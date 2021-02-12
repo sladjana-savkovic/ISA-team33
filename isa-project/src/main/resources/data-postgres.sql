@@ -39,11 +39,11 @@ insert into pharmacy (id, name, average_grade, city_id, address, latitude, longi
 
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted) 
 					values (nextval('users_seq'),'Nada','Nadić', '065585230', 4.8, 0,1,'Tolstojeva 12','1970-12-12', false);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id, active) VALUES (2, 'nada.nadic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',true, '2017-10-01 21:58:58.508-07', 1,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id, active) VALUES (2, 'student123ftn+derm_nada@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',true, '2017-10-01 21:58:58.508-07', 1,true);
 
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
 					values (nextval('users_seq'),'Marija','Marić', '066598620', 3.9, 1,2,'Balzakova 23','1982-01-10', false);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id, active) VALUES (3, 'marija.maric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',true, '2017-10-01 18:57:58.508-07', 2,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id, active) VALUES (3, 'student123ftn+farm_marija@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',true, '2017-10-01 18:57:58.508-07', 2,true);
 
 					   
 insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
@@ -52,9 +52,9 @@ insert into patient(id, name, surname, telephone, city_id, penalty, address, dat
 					values (nextval('users_seq'),'Ana','Anić', '0632145214', 1,1,'Maksima Gorkog 4','1957-03-05');
 insert into patient(id, name, surname, telephone, city_id, penalty, address, date_of_birth) 
 					values (nextval('users_seq'),'Lana','Ilić', '0632145555', 1,0,'Maksima Gorkog 15','1988-03-10');
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'pera.peric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 3,true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'ana.anic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 4,true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'lana.ilic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 5,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'student123ftn+pac_pera@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 3,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'student123ftn+pac_ana@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 4,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'student123ftn+pac_lana@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 5,true);
 
 
 insert into drug (id, code, name, type_of_drug, type_of_drugs_form, producer, daily_dose, contraindication, is_allowed_on_prescription, grade) values (nextval('drugs_seq'), 'sifra1', 'Amoksicilin', 1, 1, 'Hemofarm', 3, 'Amoksicilin se ne smije primijeniti u slučaju preosjetljivosti na penicilin te u bolesnika s infektivnom mononukleozom i limfatičkom leukemijom zbog učestale pojave osipa.', false, 1);
@@ -138,14 +138,14 @@ insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,ad
 					   (nextval('users_seq'),'Miloš','Milošević', '0665656653',1,'Miloša Obilića 13','1973-05-10', 3);
 insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Darko','Darković', '0632547854',2,'Zmaj Jovina 5','1980-05-08', 2);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milosm@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 6,  true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'darkod@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 7,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'student123ftn+fadmin_milos@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 6,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'student123ftn+fadmin_darko@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 7,  true);
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Mitar','Mitrović', '0665458859','Braće Ribnikar 22','1995-11-11', 1);
 insert into supplier (id, name, surname, telephone, address, date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Slavko','Ilić', '0632595258','Jevrejska 1','1994-12-12', 1);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (5, 'mitarm@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 8,  true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (5, 'slavkoi@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 9,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (5, 'student123ftn+nab_mitar@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 8,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (5, 'student123ftn+nab_slavko@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 9,  true);
 					   
 					   
 insert into pharmacy_action (id, description, end_date, name, start_date, pharmacy_id) values (nextval('actions_seq'), 'Vitamni C,D,B na popustu 30%', '2021-02-20', 'Popust na pensionere', '2021-01-31', 1);
@@ -393,8 +393,8 @@ insert into system_administrator (id, name, surname, telephone,address,date_of_b
 					   (nextval('users_seq'),'Mladen','Mladenović', '0665677653','Miloša Obilića 55','1978-09-10');
 insert into system_administrator (id, name, surname, telephone,address,date_of_birth) values 
 					   (nextval('users_seq'),'Nikola','Nikolić', '0632547777','Zmaj Jovina 12','1985-05-10');
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (4, 'mladenm@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 10,  true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (4, 'nikolan@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 11,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (4, 'student123ftn+sadmin_mladen@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 10,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (4, 'student123ftn+sadmin_nikola@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 11,  true);
 
 insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), true, 4, 1);
 insert into subscription (id, is_canceled, patient_id, pharmacy_id) values (nextval('subscriptions_seq'), false, 4, 2);
@@ -424,8 +424,8 @@ insert into patient(id, name, surname, telephone,city_id, penalty, address, date
 insert into patient(id, name, surname, telephone,city_id, penalty, address, date_of_birth) 
 				    values (nextval('users_seq'),'Mika','Mikić', '063542021',2, 0,'Petra Kočića 50','1984-09-11');
 
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'jelenazeljko@live.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'mika.mikic@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'student123ftn+pac_sima@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 12,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (1, 'student123ftn+pac_mika@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 13,  true);
 
 
 insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextval('notification_seq'), 1, 1, '2021-01-25 15:00:00');
@@ -437,7 +437,7 @@ insert into notification (id, drug_id, pharmacy_id, creation_date) values (nextv
 /*Ubacivanje dodatnog farmaceuta i definisanje 1 zavrsenog pregleda*/
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
 					values (nextval('users_seq'),'Petar','Petrić', '063752014', 4.2, 1, 2,'Šekspirova 40','1978-10-13', false);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'petar.petric@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 14,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'student123ftn+farm_petar@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 14,true);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (1,14);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','16:00:00',14,1);
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
@@ -463,8 +463,8 @@ insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,ad
 					   (nextval('users_seq'),'Milica','Milić', '0612007854',3,'Gavrila Principa 5','1967-04-18', 2);
 insert into pharmacy_administrator (id, name, surname, telephone, pharmacy_id,address,date_of_birth, city_id) values 
 					   (nextval('users_seq'),'Stefan','Stefanović', '0632547854',4,'Stevana Sinđelića 15','1970-01-08', 2);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'milicam@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 15,  true);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'stefans@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'student123ftn+fadmin_milica@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 21:58:58.508-07', 15,  true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (6, 'student123ftn+fadmin_stefan@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 16,  true);
 
 insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,patient_id,status,version)
 					values (nextval('appointments_seq'),'2021-03-05 16:30:00','2021-03-05 17:00:00',1000,1,3,null,0,1);
@@ -510,7 +510,7 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 /*Ubacivanje dodatnog dermatologa i definisanje 1 zavrsenog pregleda*/
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
 			values (nextval('users_seq'),'Marica','Maričić', '065478962', 4.5, 0, 3,'Stevana Mokranjca 15','1988-10-01', false);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'marica88@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 17,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'student123ftn+derm_marica@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 17,true);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,17);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'10:00:00','14:00:00',17,2);
 
@@ -534,7 +534,7 @@ insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) 
 /*Ubacujem 1 farmaceuta da radi u apoteci Betty */
 insert into doctor (id, name, surname, telephone, average_grade, type_of_doctor,city_id,address,date_of_birth, is_deleted)
 			values (nextval('users_seq'),'Jelena','Jovic', '065478962', 2.5, 1, 3,'Branislava Nusica 15','1988-10-01', false);
-insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'jelena98@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 18,true);
+insert into user_account (authority_id, username, password, enabled, last_password_reset_date, user_id,active) VALUES (3, 'student123ftn+farm_jelena@gmail.com', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra',  true, '2017-10-01 18:57:58.508-07', 18,true);
 insert into doctor_pharmacies(pharmacies_id, doctor_id) values (2,18);
 insert into working_time (id,start_time,end_time,doctor_id,pharmacy_id) values (nextval('work_time_seq'),'08:00:00','16:00:00',18,2);
 
