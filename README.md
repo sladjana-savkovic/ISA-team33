@@ -28,11 +28,12 @@ Uputstvo za pokretanje projekta:
   <li>Ukoliko se crvene klase u kojima su pisani testovi, odabrati opciju Add JUnit 4 library to the build path (ponuđeni import je dostupan prilikom prelaska preko anotacije @RunWith)</li>  
   <li>U application.properties potrebno je podesiti:
     <pre>
-      spring.datasource.username = username
+      spring.datasource.username = korisnicko_ime
       spring.datasource.password = sifra </pre> </li>
   <li> Uraditi maven update projekta </li>
   <li> Prilikom razvoja, projekat je pokretan na portu 8080. </li>
   <li> Za ucitavanje stranice za logovanje, u browseru otkucati http://localhost:8080/html/user/login.html </li>
   <li> Automatsko pokretanje testova je iskljuceno, a za pokretanje svakog testa pojedinacno, neophodno je ići na Run As -> JUnit test </li>
   <li> U slučaju da je slanje mejla onemogućeno, uraditi disable antivirusnog softvera na računaru. </li>
+  <li> Za provjeru da li je korisniku stigao mejl, potrebno je se prijaviti na Gmail sa kredencijalima: student123ftn@gmail.com ; student_123 </li>
 </ul>
