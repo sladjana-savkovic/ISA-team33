@@ -16,13 +16,13 @@ $(document).ready(function () {
 			getCities($("#countrySelect option:selected").val());
 		},
 		error:function(){
-			console.log('error getting supplier countries');
+			console.log('error getting countries');
 		}
 	});
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/supplier/account/" + supplierAccountId,
+		url: "/api/supplier/account",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },

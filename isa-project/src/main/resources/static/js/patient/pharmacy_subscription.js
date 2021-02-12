@@ -12,7 +12,7 @@ $(document).ready(function () {
 function getSubscriptionsByPatient() {
 	$.ajax({
 		type:"GET", 
-		url: "/api/subscription/"+ patientId + "/patient",
+		url: "/api/subscription/patient",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -31,7 +31,7 @@ function getSubscriptionsByPatient() {
 
 
 function addSubscriptionRow(subscription) {	
-	let button = '<button style="width:130px;" type = "button" class="btn btn-outline-primary float-left"'
+	let button = '<button style="width:130px;" type = "button" class="btn btn-outline-danger float-left"'
             + 'id="' + subscription.subscriptionId + '" onclick="cancel(this.id)"'
             + '> cancel </button >';
 	let row = $('<tr><td style="text-align:center; vertical-align: middle;">'+ subscription.pharmacyName +'</td><td>' + button + '</td></tr>');	

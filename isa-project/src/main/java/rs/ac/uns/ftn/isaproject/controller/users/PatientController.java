@@ -70,13 +70,13 @@ public class PatientController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<Void> add(@RequestBody AddPatientDTO addPatientDTO){
+	public ResponseEntity<?> add(@RequestBody AddPatientDTO addPatientDTO){
 		try {
 			patientService.add(addPatientDTO);
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}
 		catch (Exception e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	

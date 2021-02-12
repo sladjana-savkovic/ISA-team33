@@ -15,8 +15,8 @@ public interface DoctorService {
 
 	Doctor getOne(int id);
 	void updateInfo(DoctorDTO doctorDTO);
-	void addPharmacist(AddDoctorDTO doctorDTO) throws MailException, InterruptedException;
-	void add(AddDermatologistDTO dermatologistDTO) throws MailException, InterruptedException;
+	void addPharmacist(AddDoctorDTO doctorDTO) throws MailException, InterruptedException, Exception;
+	void add(AddDermatologistDTO dermatologistDTO) throws MailException, InterruptedException, Exception;
 	Collection<Doctor> findByPharmacyId(int id);
 	Collection<ViewSearchedDoctorDTO> searchByNameAndSurname(String name, String surname, Collection<ViewSearchedDoctorDTO> doctorDTOs);
 	Collection<ViewSearchedDoctorDTO> filterByGradeAndType(String typeOfDoctor, int grade, Collection<ViewSearchedDoctorDTO> doctorDTOs);

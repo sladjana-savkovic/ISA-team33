@@ -39,7 +39,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 	}
 
 	@Override
-	public void save(String username, String password, String role, boolean enabled, User user) throws MailException, InterruptedException {
+	public void save(String username, String password, String role, boolean enabled, User user) throws MailException, InterruptedException, Exception {
+		if (userRepository.findByUsername(username) != null) {
+			throw new Exception("Username already exists!");
+		}
+		
 		UserAccount userAccount = new UserAccount();		
 		userAccount.setUser(user);		
 		userAccount.setUsername(username);		

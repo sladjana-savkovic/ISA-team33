@@ -4,6 +4,7 @@ import java.nio.file.AccessDeniedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddSupplierDTO;
@@ -37,7 +38,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void updateInfo(SupplierDTO supplierDTO) {
+	public void updateInfo(SupplierDTO supplierDTO) {				
 		Supplier supplier = supplierRepository.getOne(supplierDTO.id);
 		City city = cityRepository.getOne(supplierDTO.cityId);
 		
@@ -51,7 +52,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void add(AddSupplierDTO supplierDTO) throws MailException, InterruptedException {
+	public void add(AddSupplierDTO supplierDTO) throws MailException, InterruptedException, Exception {
 		Supplier supplier = new Supplier();		
 		City city = cityRepository.getOne(supplierDTO.cityId);
 		supplier.setCity(city);				

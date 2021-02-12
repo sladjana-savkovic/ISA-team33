@@ -46,7 +46,7 @@ $(document).ready(function () {
 function getDrugQuantityBySupplier() {
 	$.ajax({
 		type:"GET", 
-		url: "/api/drug-quantity-supplier/" + supplierId + "/supplier",
+		url: "/api/drug-quantity-supplier/supplier",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
