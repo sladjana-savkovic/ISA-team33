@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddDrugOfferDTO;
-import rs.ac.uns.ftn.isaproject.dto.DrugDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferAndOrderDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
 import rs.ac.uns.ftn.isaproject.model.enums.OfferStatus;
@@ -18,6 +17,7 @@ import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugOfferRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.DrugQuantitySupplierRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyOrderRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.SupplierRepository;
+import rs.ac.uns.ftn.isaproject.repository.users.UserAccountRepository;
 
 @Service
 public class DrugOfferServiceImpl implements DrugOfferService{
@@ -26,14 +26,17 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	private PharmacyOrderRepository pharmacyOrderRepository;
 	private DrugQuantitySupplierRepository drugQuantitySupplierRepository;
 	private SupplierRepository supplierRepository;
+	private UserAccountRepository userAccountRepository;
 	
 	@Autowired
 	public DrugOfferServiceImpl(DrugOfferRepository drugOfferRepository, PharmacyOrderRepository pharmacyOrderRepository, 
-								DrugQuantitySupplierRepository drugQuantitySupplierRepository, SupplierRepository supplierRepository) {
+								DrugQuantitySupplierRepository drugQuantitySupplierRepository, SupplierRepository supplierRepository,
+								UserAccountRepository userAccountRepository) {
 		this.drugOfferRepository = drugOfferRepository;
 		this.pharmacyOrderRepository = pharmacyOrderRepository;
 		this.drugQuantitySupplierRepository = drugQuantitySupplierRepository;
 		this.supplierRepository = supplierRepository;
+		this.userAccountRepository = userAccountRepository;
 	}
 
 	@Override
@@ -107,7 +110,8 @@ public class DrugOfferServiceImpl implements DrugOfferService{
 	}
 
 	@Override
-	public Collection<DrugOffer> findAllBySupplierId(int id) {
+	public Collection<DrugOffer> findAllBySupplierUsername(String username) {
+		int id = userAccountRepository.findByUsername(username).getUser().getId();
 		return drugOfferRepository.findAllBySupplierId(id);
 	}
 

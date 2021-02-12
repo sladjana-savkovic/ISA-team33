@@ -526,4 +526,4 @@ insert into appointment (id,start_time,end_time,price,doctor_id,pharmacy_id,pati
 insert into examination_report (id,diagnosis,appointment_id) 
 					values (nextval('examinations_seq'),'Izbegavati korišćenje hemijski agresivih sredstava na bolnom mestu',47);			
 					
-insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'bla bla', 12, 2);
+insert into complaint_pharmacy (id, answered, content, patient_id, pharmacy_id) values (nextval('complaint_seq'), false, 'Osoblje nije ljubazno...', 12, 2);

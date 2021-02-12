@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 function getAllOffersBySupplier() {		
     $.ajax({
-        url: '/api/drug-offer/all/' + supplierId + '/supplier',
+        url: '/api/drug-offer/all/supplier',
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
