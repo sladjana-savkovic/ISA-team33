@@ -21,24 +21,34 @@ import rs.ac.uns.ftn.isaproject.dto.DrugOfferDTO;
 import rs.ac.uns.ftn.isaproject.dto.DrugOfferSearchDTO;
 import rs.ac.uns.ftn.isaproject.mapper.DrugOfferMapper;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.DrugOffer;
+import rs.ac.uns.ftn.isaproject.model.pharmacy.PharmacyOrder;
 import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.pharmacy.DrugOfferService;
+import rs.ac.uns.ftn.isaproject.service.pharmacy.PharmacyOrderService;
 
 @RestController
 @RequestMapping(value = "api/drug-offer")
 public class DrugOfferController {
 
 	private DrugOfferService drugOfferService;
+	private PharmacyOrderService orderService;
 	
 	@Autowired
-	public DrugOfferController(DrugOfferService drugOfferService) {
+	public DrugOfferController(DrugOfferService drugOfferService, PharmacyOrderService orderService) {
 		this.drugOfferService = drugOfferService;
+		this.orderService = orderService;
 	}
 	
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<?> acceptOffer(@PathVariable int id){
 		try {
+			DrugOffer drugOffer = drugOfferService.findById(id);
+			PharmacyOrder order = orderService.findById(drugOffer.getPharmacyOrder().getId());
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if(u.getUser().getId() != order.getPharmacyAdministrator().getId()) {
+				return new ResponseEntity<>("Pharmacy administrator cannot accept offer for the order that he did not create.", HttpStatus.BAD_REQUEST);
+			}
 			drugOfferService.acceptOffer(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 		}

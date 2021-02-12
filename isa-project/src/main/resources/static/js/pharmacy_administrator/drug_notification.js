@@ -7,7 +7,7 @@ $(document).ready(function () {
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/pharmacy-admin/" + pharmacyAdminId,
+		url: "/api/pharmacy-admin/",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },

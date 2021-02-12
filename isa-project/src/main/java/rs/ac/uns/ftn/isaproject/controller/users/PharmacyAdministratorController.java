@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +32,13 @@ public class PharmacyAdministratorController {
 		this.userAccountService = userAccountService;
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping()
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
-	public ResponseEntity<?> findOneById(@PathVariable int id) {
+	public ResponseEntity<?> findOneById() {
 		try {
-			PharmacyAdministratorDTO pharmacyAdministratorDTO = PharmacyAdministratorMapper.toPharmacyAdministratorDTO(administratorService.getOne(id));
-			UserAccount account = userAccountService.findByUserId(id);
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			PharmacyAdministratorDTO pharmacyAdministratorDTO = PharmacyAdministratorMapper.toPharmacyAdministratorDTO(administratorService.getOne(u.getUser().getId()));
+			UserAccount account = userAccountService.findByUserId(u.getUser().getId());
 			pharmacyAdministratorDTO.setEmail(account.getUsername());
 			return new ResponseEntity<PharmacyAdministratorDTO>(pharmacyAdministratorDTO, HttpStatus.OK);
 		}
@@ -50,6 +51,8 @@ public class PharmacyAdministratorController {
 	@PreAuthorize("hasRole('ROLE_PHARMACYADMIN')")
 	public ResponseEntity<?> updateInfo(@RequestBody PharmacyAdministratorDTO pharmacyAdministratorDTO){
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			pharmacyAdministratorDTO.id = u.getUser().getId();
 			administratorService.updateInfo(pharmacyAdministratorDTO);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -69,5 +72,4 @@ public class PharmacyAdministratorController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
 }
