@@ -38,6 +38,9 @@ public class DrugQuantitySupplierServiceImpl implements DrugQuantitySupplierServ
 			drugQuantitySupplier.setDrug(drugRepository.getOne(drugQuantityDTO.drugId));
 			drugQuantitySupplier.setSupplier(supplierRepository.getOne(drugQuantityDTO.supplierId));
 		}		
+		else if (drugQuantitySupplier.getQuantity() > drugQuantityDTO.quantity) {
+			return;
+		}
 		drugQuantitySupplier.setQuantity(drugQuantityDTO.quantity);
 		quantitySupplierRepository.save(drugQuantitySupplier);		
 	}

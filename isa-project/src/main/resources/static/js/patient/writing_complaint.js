@@ -107,7 +107,7 @@ function chooseAnOption() {
 			},
 			error: function (jqXHR) {
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-					'ERROR! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					'ERROR! ' + jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
 			}
@@ -134,7 +134,7 @@ function chooseAnOption() {
 			},
 			error: function (jqXHR) {
 				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-					'ERROR! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					'ERROR! ' + jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#div_alert').append(alert);
 				return;
 			}
@@ -162,7 +162,7 @@ function getDermatologists() {
 		},
 		error: function (jqXHR) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' +
-				'ERROR! ' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				'ERROR! ' + jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
 		}

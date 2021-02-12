@@ -43,7 +43,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public void add(AddPatientDTO addPatientDTO) throws MailException, InterruptedException {
+	public void add(AddPatientDTO addPatientDTO) throws MailException, InterruptedException, Exception {
 		Patient patient = new Patient();
 		
 		City city = cityRepository.getOne(addPatientDTO.cityId);

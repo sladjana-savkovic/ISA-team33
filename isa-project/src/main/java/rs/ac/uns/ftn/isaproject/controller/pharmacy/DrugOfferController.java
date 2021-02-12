@@ -53,7 +53,7 @@ public class DrugOfferController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);	
 		}
 		catch (Exception e) {
-			return new ResponseEntity<>("An error occurred while accepting offer.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -110,6 +110,8 @@ public class DrugOfferController {
 	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
 	public ResponseEntity<String> add(@RequestBody AddDrugOfferDTO offerDTO) {
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			offerDTO.supplierId = u.getUser().getId();
 			drugOfferService.add(offerDTO);
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		}
@@ -118,10 +120,12 @@ public class DrugOfferController {
 		}
 	}
 		
-	@GetMapping("/all/{id}/supplier")
+	@GetMapping("/all/supplier")
 	@PreAuthorize("hasRole('ROLE_SUPPLIER')")
-	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplierId(@PathVariable int id){
+	public ResponseEntity<Collection<DrugOfferAndOrderDTO>> findAllBySupplier() {
 		try {
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			int id = u.getUser().getId();
 			Collection<DrugOfferAndOrderDTO> drugOfferAndOrderDTOs = DrugOfferMapper.toDrugOfferAndOrderDTOs(drugOfferService.findAllBySupplierId(id));
 			return new ResponseEntity<Collection<DrugOfferAndOrderDTO>>(drugOfferAndOrderDTOs, HttpStatus.OK);
 		}catch (Exception e) {
