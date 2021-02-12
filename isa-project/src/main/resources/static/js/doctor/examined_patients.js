@@ -1,5 +1,4 @@
 checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
-var doctorId = getUserIdFromToken();
 var doctorRole = getRoleFromToken();
 var examinedPatients = [];
 var futurePatients = [];
@@ -12,7 +11,7 @@ $(document).ready(function () {
 	//Ucitavanje pacijenata koje je doktor vec pregledao
 	$.ajax({
 		type:"GET", 
-		url: "/api/patient/doctor/" + doctorId + "/examined",
+		url: "/api/patient/doctor/examined",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -107,6 +106,43 @@ $(document).ready(function () {
 		});
 	});
 	
+	//Sortiranje izvjestaja po datumu
+	$('#sortExmDate').click(function(){
+		
+		if(patientReports.length == 0 || patientReports.length == 1)
+			return;
+		else{
+			$.ajax({
+				type:"POST", 
+				url: "/api/examination-report/sort/date/" + sortingType,
+				headers: {
+			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			    },
+				data: JSON.stringify(patientReports),
+				contentType: "application/json",
+				success:function(sortResult){
+					$('#body_pExaminations').empty();
+					for (let r of sortResult){
+						addReport(r);
+					}
+					
+					if(sortingType == "asc"){
+						sortingType = "desc";
+					}
+					else{
+						sortingType = "asc";
+					}
+				},
+				error:function(){
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+		}
+	});
+	
 });
 
 function addPatient(patient){
@@ -130,7 +166,7 @@ function patientAppointments(patientId){
 	
 	$.ajax({
 		type:"GET", 
-		url: "/api/appointment/patient/" + patientId + "/doctor/" + doctorId, 
+		url: "/api/appointment/patient/" + patientId + "/doctor", 
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
@@ -212,7 +248,7 @@ function patientInformation(patientId, type){
 	if( (getRoleFromToken() == "ROLE_PHARMACIST" && type == 1) || type == 0){
 		$.ajax({
 			type:"GET", 
-			url: "/api/examination-report/patient/" + patientId + "/doctor/" + doctorId, //na osnovu doctorId traze se doktori koji su iste vrste kao ulogovani
+			url: "/api/examination-report/patient/" + patientId + "/doctor", //traze se doktori koji su iste vrste kao ulogovani
 			headers: {
 	            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 	        },
@@ -241,42 +277,6 @@ function patientInformation(patientId, type){
 		$('#pExaminations').attr("hidden",true);
 	}
 	
-	//Sortiranje izvjestaja po datumu
-	$('#sortExmDate').click(function(){
-		
-		if(patientReports.length == 0 || patientReports.length == 1)
-			return;
-		else{
-			$.ajax({
-				type:"POST", 
-				url: "/api/examination-report/sort/date/" + sortingType,
-				headers: {
-			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-			    },
-				data: JSON.stringify(patientReports),
-				contentType: "application/json",
-				success:function(sortResult){
-					$('#body_pExaminations').empty();
-					for (let r of sortResult){
-						addReport(r);
-					}
-					
-					if(sortingType == "asc"){
-						sortingType = "desc";
-					}
-					else{
-						sortingType = "asc";
-					}
-				},
-				error:function(){
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error searching patients.'
-						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-					$('#div_alert').append(alert);
-					return;
-				}
-			});
-		}
-	});
 };
 
 function addAppointment(a){
@@ -377,7 +377,7 @@ function clearLocalStorage(){
 function loadUnexaminedPatients(){
 	$.ajax({
 		type:"GET", 
-		url: "/api/patient/doctor/" + doctorId + "/unexamined",
+		url: "/api/patient/doctor/unexamined",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },

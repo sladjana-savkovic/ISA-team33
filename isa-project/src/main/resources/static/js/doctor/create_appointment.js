@@ -20,7 +20,7 @@ $(document).ready(function () {
 	//Dobijanje svih predefinisanih pregleda dermatologa za neku apoteku
 	$.ajax({
 		type:"GET", 
-		url: "/api/appointment/pharmacy/" + pharmacyId + "/doctor/" + doctorId,
+		url: "/api/appointment/pharmacy/" + pharmacyId + "/doctor",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },

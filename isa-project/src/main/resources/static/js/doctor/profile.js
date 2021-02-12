@@ -60,7 +60,6 @@ $(document).ready(function () {
 		            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 		        },
 				data: JSON.stringify({ 
-					id:doctorId,
 					name: $('#name').val(), 
 					surname: $('#surname').val(), 
 					dateOfBirth: $('#dateOfBirth').val(),

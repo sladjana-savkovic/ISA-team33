@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import rs.ac.uns.ftn.isaproject.dto.AddPatientDTO;
 import rs.ac.uns.ftn.isaproject.dto.PatientDTO;
 import rs.ac.uns.ftn.isaproject.mapper.PatientMapper;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.service.users.PatientService;
 import rs.ac.uns.ftn.isaproject.service.users.UserAccountService;
 
@@ -88,11 +90,12 @@ public class PatientController {
 		}
 	}
 	
-	@GetMapping("/doctor/{doctorId}/examined")
+	@GetMapping("/doctor/examined")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> findExaminedPatientsByDoctor(@PathVariable int doctorId){
+	public ResponseEntity<?> findExaminedPatientsByDoctor(){
 		try {
-			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findExaminedPatientsByDoctorId(doctorId));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findExaminedPatientsByDoctorId(u.getUser().getId()));
 			return new ResponseEntity<Collection<PatientDTO>>(patientDTOs, HttpStatus.OK);
 		}
 		catch(Exception e) {
@@ -100,11 +103,12 @@ public class PatientController {
 		}
 	}
 	
-	@GetMapping("/doctor/{doctorId}/unexamined")
+	@GetMapping("/doctor/unexamined")
 	@PreAuthorize("hasAnyRole('DERMATOLOGIST', 'PHARMACIST')")
-	public ResponseEntity<?> findUnexaminedPatientsByDoctor(@PathVariable int doctorId){
+	public ResponseEntity<?> findUnexaminedPatientsByDoctor(){
 		try {
-			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findUnexaminedPatientsByDoctorId(doctorId));
+			UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Collection<PatientDTO> patientDTOs = PatientMapper.toPatientDTOs(patientService.findUnexaminedPatientsByDoctorId(u.getUser().getId()));
 			return new ResponseEntity<Collection<PatientDTO>>(patientDTOs, HttpStatus.OK);
 		}
 		catch(Exception e) {
