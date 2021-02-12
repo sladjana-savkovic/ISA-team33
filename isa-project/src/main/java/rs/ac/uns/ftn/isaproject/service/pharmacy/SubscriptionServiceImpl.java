@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.isaproject.dto.AddSubscriptionDTO;
 import rs.ac.uns.ftn.isaproject.model.pharmacy.Subscription;
+import rs.ac.uns.ftn.isaproject.model.users.UserAccount;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.PharmacyRepository;
 import rs.ac.uns.ftn.isaproject.repository.pharmacy.SubscriptionRepository;
 import rs.ac.uns.ftn.isaproject.repository.users.PatientRepository;
@@ -65,7 +67,11 @@ public class SubscriptionServiceImpl implements SubscriptionService{
 
 	@Override
 	public void cancelSubscription(int id) {
-		Subscription subscription = subscriptionRepository.getOne(id);
+		Subscription subscription = subscriptionRepository.getOne(id);		
+		UserAccount u = (UserAccount)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(u.getUser().getId() != subscription.getPatient().getId()) {
+			return;
+		}		
 		subscription.setCanceled(true);
 		subscriptionRepository.save(subscription);
 	}

@@ -12,7 +12,7 @@ $(document).ready(function () {
 function getSubscriptionsByPatient() {
 	$.ajax({
 		type:"GET", 
-		url: "/api/subscription/"+ patientId + "/patient",
+		url: "/api/subscription/patient",
 		headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
