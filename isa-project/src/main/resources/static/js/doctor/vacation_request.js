@@ -1,5 +1,4 @@
 checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
-var doctorId = getUserIdFromToken();
 
 $(document).ready(function () {
 	
@@ -53,7 +52,6 @@ $(document).ready(function () {
 			        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 			    },
 				data: JSON.stringify({ 
-					doctorId: doctorId, 
 					startDate: startDate, 
 					endDate: endDate,
 					pharmacyId: $('#doctorPharmacies').val()}),

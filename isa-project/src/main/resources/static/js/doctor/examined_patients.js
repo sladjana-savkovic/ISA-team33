@@ -1,5 +1,4 @@
 checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
-var doctorId = getUserIdFromToken();
 var doctorRole = getRoleFromToken();
 var examinedPatients = [];
 var futurePatients = [];

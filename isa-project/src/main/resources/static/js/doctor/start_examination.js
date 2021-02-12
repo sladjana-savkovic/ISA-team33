@@ -11,7 +11,6 @@ catch(err) {
 }
 
 checkUserRole("ROLE_DERMATOLOGIST_PHARMACIST");
-var doctorId = getUserIdFromToken();
 var appointment = null;
 var therapies = []; //aktivne terapije iz tabele
 var therapyId = 1;

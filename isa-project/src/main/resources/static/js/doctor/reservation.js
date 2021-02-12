@@ -1,5 +1,4 @@
 checkUserRole("ROLE_PHARMACIST");
-var doctorId = getUserIdFromToken();
 var reservationId;
 $(document).ready(function () {
 	
